@@ -5,6 +5,7 @@ function App() {
   return (
     <div className="App">
       <a href="/">SuperGrid9ky</a>
+
       <GridEditor />
     </div>
   );

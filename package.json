@@ -16,6 +16,7 @@
     "react-error-boundary": "^2.3.1",
     "react-scripts": "3.4.1",
     "recoil": "^0.0.10",
+    "shortid": "^2.2.15",
     "styled-components": "^5.1.1",
     "styled-system": "^5.1.5",
     "typescript": "^3.9.7"
@@ -42,6 +43,7 @@
     ]
   },
   "devDependencies": {
+    "@types/shortid": "^0.0.29",
     "@types/styled-components": "^5.1.1",
     "@types/styled-system": "^5.1.9",
     "react-dev-utils": "^10.2.1"

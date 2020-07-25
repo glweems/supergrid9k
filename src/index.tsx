@@ -7,17 +7,21 @@ import { RecoilRoot } from "recoil";
 import { ThemeProvider } from "styled-components";
 import theme from "./lib/theme";
 import { ErrorBoundary } from "react-error-boundary";
-
+const ContextProvider: React.FC = ({ children }) => {
+  return (
+    <ThemeProvider theme={theme}>
+      <RecoilRoot>{children}</RecoilRoot>
+    </ThemeProvider>
+  );
+};
 ReactDOM.render(
-  // <React.StrictMode>
-  <ThemeProvider theme={theme}>
-    <ErrorBoundary fallbackRender={() => <div>whoops</div>}>
-      <RecoilRoot>
+  <React.StrictMode>
+    <ContextProvider>
+      <ErrorBoundary fallbackRender={() => <div>whoops</div>}>
         <App />
-      </RecoilRoot>
-    </ErrorBoundary>
-  </ThemeProvider>,
-  // </React.StrictMode>,
+      </ErrorBoundary>
+    </ContextProvider>
+  </React.StrictMode>,
   document.getElementById("root")
 );
 
