@@ -3,12 +3,21 @@ import { render } from "@testing-library/react";
 import App from "./App";
 import { RecoilRoot } from "recoil";
 
-test("renders learn react link", () => {
+test("renders gridTemplateRows", () => {
   const { getByText } = render(
     <RecoilRoot>
       <App />
     </RecoilRoot>
   );
-  const linkElement = getByText(/SuperGrid9k/i);
-  expect(linkElement).toBeInTheDocument();
+  const gridTemplateRows = getByText(/gridTemplateRows/i);
+  expect(gridTemplateRows).toBeInTheDocument();
+});
+test("renders gridTemplateColumns", () => {
+  const { getByText } = render(
+    <RecoilRoot>
+      <App />
+    </RecoilRoot>
+  );
+  const gridTemplateColumns = getByText(/gridTemplateColumns/i);
+  expect(gridTemplateColumns).toBeInTheDocument();
 });

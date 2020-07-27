@@ -1,21 +1,73 @@
 import { atom, selector } from "recoil";
+import shortid from "shortid";
 
-export type GridItem = [number, string];
+export const availableUnits = [
+  "fr",
+  "%",
+  "px",
+  "vw",
+  "vh",
+  "em",
+  "rem",
+  "auto",
+];
+
+export type GridTemplateEntry = {
+  id: string;
+  amount: number;
+  unit: string;
+};
 
 export interface GridState {
-  gridTemplateRows: string;
-  gridTemplateColumns: string;
+  gridTemplateRows: GridTemplateEntry[];
+  gridTemplateColumns: GridTemplateEntry[];
 }
 
 export const grid = atom<GridState>({
   key: "grid",
   default: {
-    gridTemplateRows: "1fr 1fr 1fr",
-    gridTemplateColumns: "1fr 1fr 1fr",
+    gridTemplateRows: [
+      { id: shortid(), amount: 1, unit: "fr" },
+      { id: shortid(), amount: 1, unit: "fr" },
+      { id: shortid(), amount: 1, unit: "fr" },
+    ],
+    gridTemplateColumns: [
+      { id: shortid(), amount: 1, unit: "fr" },
+      { id: shortid(), amount: 1, unit: "fr" },
+      { id: shortid(), amount: 1, unit: "fr" },
+    ],
   },
 });
 
-export const gridValues = selector({
+export const gridCss = selector({
+  key: "gridCss",
+  get: ({ get }) => {
+    const state = get(grid);
+    const obj = {
+      gridTemplateRows: state.gridTemplateRows
+        .map(({ amount, unit }) => `${amount}${unit}`)
+        .toString()
+        .split(",")
+        .join(" "),
+      gridTemplateColumns: state.gridTemplateColumns
+        .map(({ amount, unit }) => `${amount}${unit}`)
+        .toString()
+        .split(",")
+        .join(" "),
+    };
+    return obj;
+  },
+});
+
+export const gridSquares = selector({
+  key: "gridSquares",
+  get: ({ get }) => {
+    const state = get(grid);
+    return state.gridTemplateColumns.length * state.gridTemplateRows.length;
+  },
+});
+
+/* export const gridValues = selector({
   key: "gridValues",
   get: ({ get }) => {
     const state = get(grid);
@@ -38,4 +90,4 @@ export const gridValues = selector({
         state.gridTemplateColumns.split(" ").length,
     };
   },
-});
+}); */

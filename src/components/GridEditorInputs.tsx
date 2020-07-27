@@ -1,23 +1,73 @@
+import { useFormik } from "formik";
 import React, { FC } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { grid, gridValues } from "../store/grid";
-import Box from "../ui/Box";
-
+import { useRecoilState } from "recoil";
+import {
+  availableUnits,
+  grid,
+  GridState,
+  GridTemplateEntry,
+} from "../store/grid";
 const GridEditorInputs: FC = () => {
-  const [gridState, setGridState] = useRecoilState(grid);
-  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    console.log("name", event.target.name);
+  const [gridState, setGridState] = useRecoilState<GridState>(grid);
+  const formik = useFormik({
+    initialValues: gridState,
+    onSubmit: (values, helpers) => {
+      console.log("helpers: ", helpers);
+      setGridState(values);
+    },
+  });
+
+  const handleChange: React.ChangeEventHandler<
+    HTMLInputElement | HTMLSelectElement
+  > = (event) => {
+    formik.handleChange(event);
+    formik.submitForm();
   };
 
-  const { numGridSquares, ...values } = useRecoilValue(gridValues);
   return (
     <div>
-      <Box>
-        {Object.keys(values).map((key) => {
-          let entries: [string, string] = (values as any)[key] as any;
-          console.log("entries: ", entries);
+      <form onSubmit={formik.handleSubmit}>
+        {Object.entries(formik.values).map(
+          ([key, entries]: [string, GridTemplateEntry[]]) => {
+            return (
+              <div key={key}>
+                <div>{key}</div>
 
-          return (
+                {entries.map(({ id, amount, unit }, index) => (
+                  <div key={id}>
+                    <input
+                      value={amount}
+                      onChange={handleChange}
+                      type="number"
+                      name={[key, `[${index}]`, "amount"].join(".")}
+                    />
+
+                    <select
+                      value={unit}
+                      name={[key, `[${index}]`, "unit"].join(".")}
+                      onChange={handleChange}
+                      onBlur={formik.handleBlur}
+                    >
+                      {availableUnits.map((option) => (
+                        <option key={[key, `[${index}]`, option].join(".")}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                ))}
+              </div>
+            );
+          }
+        )}
+        <button type="submit">submit</button>
+      </form>
+    </div>
+  );
+};
+
+export default GridEditorInputs;
+/* (
             <Box key={key} display="flex" flexDirection="column">
               {key}
               {entries.map(([amt, unit]) => (
@@ -33,11 +83,4 @@ const GridEditorInputs: FC = () => {
                 </Box>
               ))}
             </Box>
-          );
-        })}
-      </Box>
-    </div>
-  );
-};
-
-export default GridEditorInputs;
+          ) */
