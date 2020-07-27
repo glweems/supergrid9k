@@ -21,27 +21,21 @@ export const gridValues = selector({
     const state = get(grid);
 
     let values = {};
-    console.log(values);
+
     Object.entries(state).forEach(([key, val]) => {
       (values as any)[key] = val
         .split(" ")
         .map((str: string) => [
-          str.replace(/[^a-z]/g, ""),
           str.replace(/[^1-9]/g, ""),
+          str.replace(/[^a-z]/g, ""),
         ]);
     });
 
     return {
-      values,
-      numGridSquares: values.gridTemplateRows.length * columns.length,
+      ...values,
+      numGridSquares:
+        state.gridTemplateRows.split(" ").length *
+        state.gridTemplateColumns.split(" ").length,
     };
-    // const rows = state.gridTemplateRows.split(" ");
-    // const columns = state.gridTemplateColumns
-    //   .split(" ")
-    //   .map((str) => [str.replace(/[^a-z]/g, ""), str.replace(/[^1-9]/g, "")]);
-    // return {
-    //   rows,
-    //   columns,
-    // };
   },
 });
