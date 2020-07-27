@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import { capitalize, snakeCase } from "lodash";
-import React, { FC } from "react";
+import React, { FC, ChangeEventHandler, MouseEventHandler } from "react";
 import { useRecoilState } from "recoil";
 import {
   availableGridGapUnits,
@@ -10,29 +10,42 @@ import {
   GridTemplateEntry,
 } from "../store/grid";
 import Box from "../ui/Box";
+import Select from "./Select";
 
 const GridEditorInputs: FC = () => {
   const [gridState, setGridState] = useRecoilState<GridState>(grid);
+
   const formik = useFormik({
     initialValues: gridState,
-    onSubmit: (values, helpers) => {
+    onSubmit: (values) => {
       setGridState(values);
     },
   });
 
   const { gridTemplateRows, gridTemplateColumns, gridGap } = formik.values;
 
-  const handleChange: React.ChangeEventHandler<
+  const handleChange: ChangeEventHandler<
     HTMLInputElement | HTMLSelectElement
   > = (event) => {
     formik.handleChange(event);
     formik.submitForm();
   };
 
+  const handleDelete: MouseEventHandler<HTMLButtonElement> = (event) => {
+    const [key, index] = event.currentTarget.name.split(".");
+    console.log(key, index);
+    let newGrid = gridState;
+
+    delete (newGrid as any)[key][Number(index)];
+    console.log(newGrid);
+    setGridState(newGrid);
+  };
+
   return (
     <Box
       as="form"
       onSubmit={formik.handleSubmit}
+      onReset={formik.handleReset}
       display="flex"
       flexDirection="column"
       bg="platinum"
@@ -48,7 +61,7 @@ const GridEditorInputs: FC = () => {
                 <Box key={id} marginBottom={1}>
                   <Box
                     display="grid"
-                    gridTemplateColumns="2fr 1fr"
+                    gridTemplateColumns="2fr 1fr auto"
                     gridGap={1}
                     padding={1}
                   >
@@ -60,18 +73,20 @@ const GridEditorInputs: FC = () => {
                       {...props}
                     />
 
-                    <select
+                    <Select
                       value={unit}
                       name={[key, `[${index}]`, "unit"].join(".")}
                       onChange={handleChange}
                       onBlur={formik.handleBlur}
+                      options={availableUnits}
+                    />
+
+                    <button
+                      name={[key, index].join(".")}
+                      onClick={handleDelete}
                     >
-                      {availableUnits.map((option) => (
-                        <option key={[key, `[${index}]`, option].join(".")}>
-                          {option}
-                        </option>
-                      ))}
-                    </select>
+                      X
+                    </button>
                   </Box>
                 </Box>
               ))}
@@ -79,6 +94,7 @@ const GridEditorInputs: FC = () => {
           );
         }
       )}
+
       <h3>Grid Gap</h3>
       <Box display="grid" gridTemplateColumns="2fr 1fr" gridGap={1} padding={1}>
         <input
@@ -88,37 +104,27 @@ const GridEditorInputs: FC = () => {
           onChange={handleChange}
         />
 
-        <select
+        <Select
           value={gridGap.unit}
           name="gridGap.unit"
           onChange={handleChange}
-        >
-          {availableGridGapUnits.map((option, index) => (
-            <option key={option}>{option}</option>
-          ))}
-        </select>
+          options={availableGridGapUnits}
+        />
       </Box>
 
       <button type="submit">submit</button>
+
+      <button type="reset">reset</button>
     </Box>
   );
 };
 
+export interface GridSelectInputProps
+  extends React.DetailedHTMLProps<
+    React.SelectHTMLAttributes<HTMLSelectElement>,
+    HTMLSelectElement
+  > {
+  options: string[];
+}
+
 export default GridEditorInputs;
-/* (
-            <Box key={key} display="flex" flexDirection="column">
-              {key}
-              {entries.map(([amt, unit]) => (
-                <Box>
-                  <input type="number" value={amt} />
-                  <select value={unit}>
-                    {["fr", "em", "rem", "px", "%"].map((val) => (
-                      <option key={val} value={val}>
-                        {val}
-                      </option>
-                    ))}
-                  </select>
-                </Box>
-              ))}
-            </Box>
-          ) */
