@@ -15,7 +15,7 @@ import Select from "./Select";
 const GridEditorInputs: FC = () => {
   const [gridState, setGridState] = useRecoilState<GridState>(grid);
 
-  const formik = useFormik({
+  const { setValues, ...formik } = useFormik({
     initialValues: gridState,
     onSubmit: (values) => {
       setGridState(values);
@@ -32,13 +32,15 @@ const GridEditorInputs: FC = () => {
   };
 
   const handleDelete: MouseEventHandler<HTMLButtonElement> = (event) => {
-    const [key, index] = event.currentTarget.name.split(".");
-    console.log(key, index);
-    let newGrid = gridState;
-
-    delete (newGrid as any)[key][Number(index)];
-    console.log(newGrid);
-    setGridState(newGrid);
+    console.log(event.currentTarget.id, event.currentTarget.name);
+    const obj = {
+      ...gridState,
+      [event.currentTarget.name]: (gridState as any)[
+        event.currentTarget.name as any
+      ].filter((obj: GridTemplateEntry) => obj.id !== event.currentTarget.id),
+    };
+    setValues(obj);
+    formik.submitForm();
   };
 
   return (
@@ -57,39 +59,40 @@ const GridEditorInputs: FC = () => {
             <React.Fragment key={key}>
               <h3>{snakeCase(key).split("_").map(capitalize).join(" ")}</h3>
 
-              {entries.map(({ id, amount, unit, props }, index) => (
-                <Box key={id} marginBottom={1}>
-                  <Box
-                    display="grid"
-                    gridTemplateColumns="2fr 1fr auto"
-                    gridGap={1}
-                    padding={1}
-                  >
-                    <input
-                      value={amount}
-                      onChange={handleChange}
-                      type="number"
-                      name={[key, `[${index}]`, "amount"].join(".")}
-                      {...props}
-                    />
-
-                    <Select
-                      value={unit}
-                      name={[key, `[${index}]`, "unit"].join(".")}
-                      onChange={handleChange}
-                      onBlur={formik.handleBlur}
-                      options={availableUnits}
-                    />
-
-                    <button
-                      name={[key, index].join(".")}
-                      onClick={handleDelete}
+              {entries.map((entry, index) => {
+                if (entry === null) return entry;
+                const { id, amount, unit, props } = entry;
+                return (
+                  <Box key={id} marginBottom={1}>
+                    <Box
+                      display="grid"
+                      gridTemplateColumns="2fr 1fr auto"
+                      gridGap={1}
+                      padding={1}
                     >
-                      X
-                    </button>
+                      <input
+                        value={amount}
+                        onChange={handleChange}
+                        type="number"
+                        name={[key, `[${index}]`, "amount"].join(".")}
+                        {...props}
+                      />
+
+                      <Select
+                        value={unit}
+                        name={[key, `[${index}]`, "unit"].join(".")}
+                        onChange={handleChange}
+                        onBlur={formik.handleBlur}
+                        options={availableUnits}
+                      />
+
+                      <button id={id} name={key} onClick={handleDelete}>
+                        X
+                      </button>
+                    </Box>
                   </Box>
-                </Box>
-              ))}
+                );
+              })}
             </React.Fragment>
           );
         }
