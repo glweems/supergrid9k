@@ -1,30 +1,105 @@
 import { atom, selector } from "recoil";
+import shortid from "shortid";
+import { GridProps } from "styled-system";
 
-export type GridItem = [number, string];
+export const availableUnits = [
+  "fr",
+  "%",
+  "px",
+  "vw",
+  "vh",
+  "em",
+  "rem",
+  "auto",
+];
+export const availableGridGapUnits = ["px", "em", "vh", "vw"];
+const defaultInputProps = {
+  min: 0,
+  max: 100,
+  step: 1,
+  disabled: false,
+  type: "number",
+};
+
+export type GridTemplateEntry = {
+  id: string;
+  amount: number;
+  unit: string;
+  props?: React.InputHTMLAttributes<HTMLInputElement>;
+};
 
 export interface GridState {
-  gridTemplateRows: string;
-  gridTemplateColumns: string;
+  gridTemplateRows: GridTemplateEntry[];
+  gridTemplateColumns: GridTemplateEntry[];
+  gridGap: GridTemplateEntry;
 }
 
 export const grid = atom<GridState>({
   key: "grid",
   default: {
-    gridTemplateRows: "1fr 1fr 1fr",
-    gridTemplateColumns: "1fr 1fr 1fr",
+    gridTemplateRows: [
+      { id: shortid(), amount: 1, unit: "fr", props: defaultInputProps },
+      { id: shortid(), amount: 1, unit: "fr", props: defaultInputProps },
+      { id: shortid(), amount: 1, unit: "fr", props: defaultInputProps },
+    ],
+    gridTemplateColumns: [
+      { id: shortid(), amount: 1, unit: "fr", props: defaultInputProps },
+      { id: shortid(), amount: 1, unit: "fr", props: defaultInputProps },
+      { id: shortid(), amount: 1, unit: "fr", props: defaultInputProps },
+    ],
+    gridGap: { id: shortid(), amount: 1, unit: "rem" },
   },
 });
 
-export const gridValues = selector({
+export const gridCss = selector<GridProps>({
+  key: "gridCss",
+  get: ({ get }) => {
+    const {
+      gridTemplateRows,
+      gridTemplateColumns,
+      gridGap: { amount, unit },
+    } = get(grid);
+
+    let cssObj: Record<string, string> = {
+      display: "grid",
+      gridGap: `${amount}${unit}`,
+    };
+
+    Object.entries({ gridTemplateRows, gridTemplateColumns }).forEach(
+      ([key, value]: [string, GridTemplateEntry[]]) => {
+        cssObj[key] = value
+          .map(({ amount, unit }) => `${amount}${unit}`)
+          .toString()
+          .split(",")
+          .join(" ");
+      }
+    );
+
+    return cssObj;
+  },
+});
+
+/* export const gridValues = selector({
   key: "gridValues",
   get: ({ get }) => {
     const state = get(grid);
-    const rows = state.gridTemplateRows.split(" ");
-    const columns = state.gridTemplateColumns.split(" ");
+
+    let values = {};
+
+    Object.entries(state).forEach(([key, val]) => {
+      (values as any)[key] = val
+        .split(" ")
+        .map((str: string) => [
+          str.replace(/[^1-9]/g, ""),
+          str.replace(/[^a-z]/g, ""),
+        ]);
+    });
+
     return {
-      rows,
-      columns,
-      numGridSquares: rows.length * columns.length,
+      ...values,
+      numGridSquares:
+        state.gridTemplateRows.split(" ").length *
+        state.gridTemplateColumns.split(" ").length,
     };
   },
-});
+}); */

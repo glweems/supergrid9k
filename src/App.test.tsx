@@ -1,14 +1,24 @@
-import React from "react";
 import { render } from "@testing-library/react";
-import App from "./App";
+import React from "react";
 import { RecoilRoot } from "recoil";
+import App from "./App";
 
-test("renders learn react link", () => {
+test("renders gridTemplateRows", () => {
   const { getByText } = render(
     <RecoilRoot>
       <App />
     </RecoilRoot>
   );
-  const linkElement = getByText(/SuperGrid9k/i);
-  expect(linkElement).toBeInTheDocument();
+  const gridTemplateRows = getByText(/Grid Template Rows/i);
+  expect(gridTemplateRows).toBeInTheDocument();
+});
+
+test("renders gridTemplateColumns", () => {
+  const { getByText } = render(
+    <RecoilRoot>
+      <App />
+    </RecoilRoot>
+  );
+  const gridTemplateColumns = getByText(/Grid Template Rows/i);
+  expect(gridTemplateColumns).toBeInTheDocument();
 });

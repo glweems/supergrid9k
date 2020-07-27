@@ -1,12 +1,13 @@
 import React from "react";
 import GridEditor from "./components/GridEditor";
+import Layout from "./components/Layout";
 
 function App() {
   return (
     <div className="App">
-      <a href="/">SuperGrid9ky</a>
-
-      <GridEditor />
+      <Layout>
+        <GridEditor />
+      </Layout>
     </div>
   );
 }
