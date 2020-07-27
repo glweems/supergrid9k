@@ -1,7 +1,7 @@
-import React from "react";
 import { render } from "@testing-library/react";
-import App from "./App";
+import React from "react";
 import { RecoilRoot } from "recoil";
+import App from "./App";
 
 test("renders gridTemplateRows", () => {
   const { getByText } = render(
@@ -9,15 +9,16 @@ test("renders gridTemplateRows", () => {
       <App />
     </RecoilRoot>
   );
-  const gridTemplateRows = getByText(/gridTemplateRows/i);
+  const gridTemplateRows = getByText(/Grid Template Rows/i);
   expect(gridTemplateRows).toBeInTheDocument();
 });
+
 test("renders gridTemplateColumns", () => {
   const { getByText } = render(
     <RecoilRoot>
       <App />
     </RecoilRoot>
   );
-  const gridTemplateColumns = getByText(/gridTemplateColumns/i);
+  const gridTemplateColumns = getByText(/Grid Template Rows/i);
   expect(gridTemplateColumns).toBeInTheDocument();
 });

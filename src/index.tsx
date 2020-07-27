@@ -7,21 +7,22 @@ import { RecoilRoot } from "recoil";
 import { ThemeProvider } from "styled-components";
 import theme from "./lib/theme";
 import { ErrorBoundary } from "react-error-boundary";
-const ContextProvider: React.FC = ({ children }) => {
+import ErrorFallback from "./components/ErrorFallback";
+
+export const ContextProvider: React.FC = ({ children }) => {
   return (
-    <ThemeProvider theme={theme}>
-      <RecoilRoot>{children}</RecoilRoot>
-    </ThemeProvider>
+    <ErrorBoundary fallbackRender={ErrorFallback}>
+      <ThemeProvider theme={theme}>
+        <RecoilRoot>{children}</RecoilRoot>
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 };
+
 ReactDOM.render(
-  <React.StrictMode>
-    <ContextProvider>
-      <ErrorBoundary fallbackRender={() => <div>whoops</div>}>
-        <App />
-      </ErrorBoundary>
-    </ContextProvider>
-  </React.StrictMode>,
+  <ContextProvider>
+    <App />
+  </ContextProvider>,
   document.getElementById("root")
 );
 
