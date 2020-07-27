@@ -12,7 +12,9 @@ export const availableUnits = [
   "rem",
   "auto",
 ];
+
 export const availableGridGapUnits = ["px", "em", "vh", "vw"];
+
 const defaultInputProps = {
   min: 0,
   max: 100,
@@ -78,28 +80,3 @@ export const gridCss = selector<GridProps>({
     return cssObj;
   },
 });
-
-/* export const gridValues = selector({
-  key: "gridValues",
-  get: ({ get }) => {
-    const state = get(grid);
-
-    let values = {};
-
-    Object.entries(state).forEach(([key, val]) => {
-      (values as any)[key] = val
-        .split(" ")
-        .map((str: string) => [
-          str.replace(/[^1-9]/g, ""),
-          str.replace(/[^a-z]/g, ""),
-        ]);
-    });
-
-    return {
-      ...values,
-      numGridSquares:
-        state.gridTemplateRows.split(" ").length *
-        state.gridTemplateColumns.split(" ").length,
-    };
-  },
-}); */

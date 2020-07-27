@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import { capitalize, snakeCase } from "lodash";
-import React, { FC } from "react";
+import React, { FC, ChangeEventHandler, MouseEventHandler } from "react";
 import { useRecoilState } from "recoil";
 import {
   availableGridGapUnits,
@@ -10,22 +10,36 @@ import {
   GridTemplateEntry,
 } from "../store/grid";
 import Box from "../ui/Box";
+import Select from "./Select";
 
 const GridEditorInputs: FC = () => {
   const [gridState, setGridState] = useRecoilState<GridState>(grid);
-  const formik = useFormik({
+
+  const { setValues, ...formik } = useFormik({
     initialValues: gridState,
-    onSubmit: (values, helpers) => {
+    onSubmit: (values) => {
       setGridState(values);
     },
   });
 
   const { gridTemplateRows, gridTemplateColumns, gridGap } = formik.values;
 
-  const handleChange: React.ChangeEventHandler<
+  const handleChange: ChangeEventHandler<
     HTMLInputElement | HTMLSelectElement
   > = (event) => {
     formik.handleChange(event);
+    formik.submitForm();
+  };
+
+  const handleDelete: MouseEventHandler<HTMLButtonElement> = (event) => {
+    console.log(event.currentTarget.id, event.currentTarget.name);
+    const obj = {
+      ...gridState,
+      [event.currentTarget.name]: (gridState as any)[
+        event.currentTarget.name as any
+      ].filter((obj: GridTemplateEntry) => obj.id !== event.currentTarget.id),
+    };
+    setValues(obj);
     formik.submitForm();
   };
 
@@ -33,6 +47,7 @@ const GridEditorInputs: FC = () => {
     <Box
       as="form"
       onSubmit={formik.handleSubmit}
+      onReset={formik.handleReset}
       display="flex"
       flexDirection="column"
       bg="platinum"
@@ -44,41 +59,45 @@ const GridEditorInputs: FC = () => {
             <React.Fragment key={key}>
               <h3>{snakeCase(key).split("_").map(capitalize).join(" ")}</h3>
 
-              {entries.map(({ id, amount, unit, props }, index) => (
-                <Box key={id} marginBottom={1}>
-                  <Box
-                    display="grid"
-                    gridTemplateColumns="2fr 1fr"
-                    gridGap={1}
-                    padding={1}
-                  >
-                    <input
-                      value={amount}
-                      onChange={handleChange}
-                      type="number"
-                      name={[key, `[${index}]`, "amount"].join(".")}
-                      {...props}
-                    />
-
-                    <select
-                      value={unit}
-                      name={[key, `[${index}]`, "unit"].join(".")}
-                      onChange={handleChange}
-                      onBlur={formik.handleBlur}
+              {entries.map((entry, index) => {
+                if (entry === null) return entry;
+                const { id, amount, unit, props } = entry;
+                return (
+                  <Box key={id} marginBottom={1}>
+                    <Box
+                      display="grid"
+                      gridTemplateColumns="2fr 1fr auto"
+                      gridGap={1}
+                      padding={1}
                     >
-                      {availableUnits.map((option) => (
-                        <option key={[key, `[${index}]`, option].join(".")}>
-                          {option}
-                        </option>
-                      ))}
-                    </select>
+                      <input
+                        value={amount}
+                        onChange={handleChange}
+                        type="number"
+                        name={[key, `[${index}]`, "amount"].join(".")}
+                        {...props}
+                      />
+
+                      <Select
+                        value={unit}
+                        name={[key, `[${index}]`, "unit"].join(".")}
+                        onChange={handleChange}
+                        onBlur={formik.handleBlur}
+                        options={availableUnits}
+                      />
+
+                      <button id={id} name={key} onClick={handleDelete}>
+                        X
+                      </button>
+                    </Box>
                   </Box>
-                </Box>
-              ))}
+                );
+              })}
             </React.Fragment>
           );
         }
       )}
+
       <h3>Grid Gap</h3>
       <Box display="grid" gridTemplateColumns="2fr 1fr" gridGap={1} padding={1}>
         <input
@@ -88,37 +107,27 @@ const GridEditorInputs: FC = () => {
           onChange={handleChange}
         />
 
-        <select
+        <Select
           value={gridGap.unit}
           name="gridGap.unit"
           onChange={handleChange}
-        >
-          {availableGridGapUnits.map((option, index) => (
-            <option key={option}>{option}</option>
-          ))}
-        </select>
+          options={availableGridGapUnits}
+        />
       </Box>
 
       <button type="submit">submit</button>
+
+      <button type="reset">reset</button>
     </Box>
   );
 };
 
+export interface GridSelectInputProps
+  extends React.DetailedHTMLProps<
+    React.SelectHTMLAttributes<HTMLSelectElement>,
+    HTMLSelectElement
+  > {
+  options: string[];
+}
+
 export default GridEditorInputs;
-/* (
-            <Box key={key} display="flex" flexDirection="column">
-              {key}
-              {entries.map(([amt, unit]) => (
-                <Box>
-                  <input type="number" value={amt} />
-                  <select value={unit}>
-                    {["fr", "em", "rem", "px", "%"].map((val) => (
-                      <option key={val} value={val}>
-                        {val}
-                      </option>
-                    ))}
-                  </select>
-                </Box>
-              ))}
-            </Box>
-          ) */
