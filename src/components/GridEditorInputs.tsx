@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import { capitalize, snakeCase } from "lodash";
 import React, { FC, ChangeEventHandler, MouseEventHandler } from "react";
 import { useRecoilState } from "recoil";
+import shortid from "shortid";
 import {
   availableGridGapUnits,
   availableUnits,
@@ -32,12 +33,28 @@ const GridEditorInputs: FC = () => {
   };
 
   const handleDelete: MouseEventHandler<HTMLButtonElement> = (event) => {
-    console.log(event.currentTarget.id, event.currentTarget.name);
     const obj = {
       ...gridState,
       [event.currentTarget.name]: (gridState as any)[
         event.currentTarget.name as any
       ].filter((obj: GridTemplateEntry) => obj.id !== event.currentTarget.id),
+    };
+    setValues(obj);
+    formik.submitForm();
+  };
+
+  const handleAdd: MouseEventHandler<HTMLButtonElement> = (event) => {
+    const obj = {
+      ...gridState,
+      [event.currentTarget.name]: [
+        ...(gridState as any)[event.currentTarget.name],
+        {
+          id: shortid(),
+          amount: 1,
+          unit: "fr",
+          props: { min: 0, max: 100, step: 1, disabled: false, type: "number" },
+        },
+      ],
     };
     setValues(obj);
     formik.submitForm();
@@ -93,6 +110,9 @@ const GridEditorInputs: FC = () => {
                   </Box>
                 );
               })}
+              <button name={key} onClick={handleAdd}>
+                +
+              </button>
             </React.Fragment>
           );
         }
