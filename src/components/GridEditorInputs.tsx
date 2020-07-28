@@ -11,6 +11,7 @@ import {
   GridTemplateEntry,
 } from "../store/grid";
 import Box from "../ui/Box";
+import Button from "../ui/Button";
 import Select from "./Select";
 
 const GridEditorInputs: FC = () => {
@@ -69,6 +70,7 @@ const GridEditorInputs: FC = () => {
       flexDirection="column"
       bg="platinum"
       padding={2}
+      // alignItems="center"
     >
       {Object.entries({ gridTemplateRows, gridTemplateColumns }).map(
         ([key, entries]: [string, GridTemplateEntry[]]) => {
@@ -81,13 +83,9 @@ const GridEditorInputs: FC = () => {
                 const { id, amount, unit, props } = entry;
                 return (
                   <Box key={id} marginBottom={1}>
-                    <Box
-                      display="grid"
-                      gridTemplateColumns="2fr 1fr auto"
-                      gridGap={1}
-                      padding={1}
-                    >
+                    <div className="input-group input-group-sm">
                       <input
+                        className="form-control"
                         value={amount}
                         onChange={handleChange}
                         type="number"
@@ -96,6 +94,7 @@ const GridEditorInputs: FC = () => {
                       />
 
                       <Select
+                        className="form-select"
                         value={unit}
                         name={[key, `[${index}]`, "unit"].join(".")}
                         onChange={handleChange}
@@ -103,14 +102,24 @@ const GridEditorInputs: FC = () => {
                         options={availableUnits}
                       />
 
-                      <button id={id} name={key} onClick={handleDelete}>
-                        X
+                      <button
+                        className="btn btn-outline-secondary text-primary"
+                        type="button"
+                        id={id}
+                        name={key}
+                        onClick={handleDelete}
+                      >
+                        <span> x </span>
                       </button>
-                    </Box>
+                    </div>
                   </Box>
                 );
               })}
-              <button name={key} onClick={handleAdd}>
+              <button
+                className="btn btn-sm btn-primary"
+                name={key}
+                onClick={handleAdd}
+              >
                 +
               </button>
             </React.Fragment>
@@ -135,9 +144,9 @@ const GridEditorInputs: FC = () => {
         />
       </Box>
 
-      <button type="submit">submit</button>
+      <Button type="submit">submit</Button>
 
-      <button type="reset">reset</button>
+      <Button type="reset">reset</Button>
     </Box>
   );
 };

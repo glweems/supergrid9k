@@ -1,13 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
-import "./index.css";
+
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-icons/bootstrap-icons.svg";
 import App from "./App";
 import { RecoilRoot } from "recoil";
 import { ThemeProvider } from "styled-components";
 import theme from "./lib/theme";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "./components/ErrorFallback";
+import GlobalCss from "./lib/GlobalCss";
 
 export const ContextProvider: React.FC = ({ children }) => {
   return (
@@ -21,6 +24,7 @@ export const ContextProvider: React.FC = ({ children }) => {
 
 ReactDOM.render(
   <ContextProvider>
+    <GlobalCss />
     <App />
   </ContextProvider>,
   document.getElementById("root")

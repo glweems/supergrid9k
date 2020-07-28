@@ -13,4 +13,8 @@ const Select: FC<GridSelectInputProps> = ({ options, ...props }) => {
   );
 };
 
+Select.defaultProps = {
+  className: "form-select",
+};
+
 export default Select;
