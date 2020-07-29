@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import IndexPage from "./pages";
-import CodePage from "./pages/code";
+import AboutPage from "./pages/about";
 
 function App() {
   return (
@@ -9,10 +9,11 @@ function App() {
       <Router>
         <Switch>
           <Route exact path="/">
-            <IndexPage />
+              <IndexPage />
           </Route>
-          <Route exact path="/code">
-            <CodePage />
+
+          <Route exact path="/about">
+            <AboutPage />
           </Route>
         </Switch>
       </Router>
