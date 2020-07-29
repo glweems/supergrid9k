@@ -1,13 +1,14 @@
+import "normalize-css";
 import React from "react";
 import ReactDOM from "react-dom";
-import * as serviceWorker from "./serviceWorker";
-import "./index.css";
-import App from "./App";
+import { ErrorBoundary } from "react-error-boundary";
 import { RecoilRoot } from "recoil";
 import { ThemeProvider } from "styled-components";
-import theme from "./lib/theme";
-import { ErrorBoundary } from "react-error-boundary";
+import App from "./App";
 import ErrorFallback from "./components/ErrorFallback";
+import "./index.css";
+import theme from "./lib/theme";
+import * as serviceWorker from "./serviceWorker";
 
 export const ContextProvider: React.FC = ({ children }) => {
   return (

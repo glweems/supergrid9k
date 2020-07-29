@@ -1,6 +1,5 @@
 import { atom, selector } from "recoil";
 import shortid from "shortid";
-import { GridProps } from "styled-system";
 
 export const availableUnits = [
   "fr",
@@ -53,29 +52,31 @@ export const grid = atom<GridState>({
   },
 });
 
-export const gridCss = selector<GridProps>({
+export type CssGridProps = Record<
+  "display" | "gridTemplateRows" | "gridTemplateColumns" | "gridGap",
+  string
+>;
+
+export function dataToCss(entries: GridTemplateEntry[]) {
+  return entries
+    .map(({ amount, unit }) => `${amount}${unit}`)
+    .toString()
+    .split(",")
+    .join(" ");
+}
+
+export const gridCss = selector({
   key: "gridCss",
   get: ({ get }) => {
-    const {
-      gridTemplateRows,
-      gridTemplateColumns,
-      gridGap: { amount, unit },
-    } = get(grid);
+    const state = get(grid);
+    const { amount, unit } = state.gridGap;
 
-    let cssObj: Record<string, string> = {
+    const cssObj: CssGridProps = {
       display: "grid",
       gridGap: `${amount}${unit}`,
+      gridTemplateRows: dataToCss(state.gridTemplateRows),
+      gridTemplateColumns: dataToCss(state.gridTemplateColumns),
     };
-
-    Object.entries({ gridTemplateRows, gridTemplateColumns }).forEach(
-      ([key, value]: [string, GridTemplateEntry[]]) => {
-        cssObj[key] = value
-          .map(({ amount, unit }) => `${amount}${unit}`)
-          .toString()
-          .split(",")
-          .join(" ");
-      }
-    );
 
     return cssObj;
   },

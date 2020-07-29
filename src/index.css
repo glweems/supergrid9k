@@ -30,3 +30,9 @@ button {
   border: 3px solid #d5d7de;
   border-radius: 3px;
 }
+
+select {
+  -moz-appearance: none;
+  text-indent: 0.01px;
+  text-overflow: "";
+}
