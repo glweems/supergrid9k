@@ -122,10 +122,19 @@ export interface SuperGrid9kTheme {
     dark: string;
     darks: string[];
   };
+  space: SuperGrid9kSpace;
 }
+
+interface SuperGrid9kSpace<T = number | string> extends Array<T> {
+  common?: T;
+}
+
+const space: SuperGrid9kSpace = [0, 4, 8, 16, 32, 64];
+space.common = `${space[2]}px`;
 
 const theme: SuperGrid9kTheme = {
   colors: themeColors,
+  space,
 };
 
 export default theme;

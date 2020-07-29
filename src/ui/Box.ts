@@ -18,7 +18,7 @@ import {
 import { SuperGrid9kTheme } from "../lib/theme";
 
 export interface BoxProps
-  extends SpaceProps,
+  extends SpaceProps<SuperGrid9kTheme>,
     BorderProps,
     LayoutProps,
     PositionProps,

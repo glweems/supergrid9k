@@ -29,9 +29,9 @@ const Layout = styled(Box)`
     "grid-controls grid-entries grid-entries grid-entries"
     "grid-controls grid-entries grid-entries grid-entries"
     "grid-controls code-viewer code-viewer code-viewer";
-  grid-template-rows: repeat(3, 33vh);
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1px 1px;
+  grid-template-rows: repeat(2, 1fr) auto;
+  grid-template-columns: 270px repeat(3, 1fr);
+  gap: ${({ theme }) => theme.space.common};
   height: 100vh;
 
   .grid-controls {

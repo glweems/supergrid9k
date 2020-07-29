@@ -15,7 +15,9 @@
     "noEmit": true,
     "jsx": "react",
     "downlevelIteration": true,
-    "pretty": true
+    "pretty": true,
+    // "strictNullChecks": false,
+    "strictBindCallApply": false
   },
   "include": ["src"]
 }
