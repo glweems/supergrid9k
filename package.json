@@ -13,6 +13,7 @@
     "formik": "^2.1.5",
     "framer-motion": "^2.3.0",
     "lodash": "^4.17.19",
+    "normalize-css": "^2.3.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-error-boundary": "^2.3.1",

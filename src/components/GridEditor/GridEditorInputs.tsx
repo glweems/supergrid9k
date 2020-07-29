@@ -9,11 +9,11 @@ import {
   grid,
   GridState,
   GridTemplateEntry,
-} from "../store/grid";
-import Box from "../ui/Box";
-import Select from "./Select";
+} from "../../store/grid";
+import Box, { BoxProps } from "../../ui/Box";
+import Select from "../Select";
 
-const GridEditorInputs: FC = () => {
+const GridEditorInputs: FC<BoxProps> = (props) => {
   const [gridState, setGridState] = useRecoilState<GridState>(grid);
 
   const { setValues, ...formik } = useFormik({
@@ -61,15 +61,7 @@ const GridEditorInputs: FC = () => {
   };
 
   return (
-    <Box
-      as="form"
-      onSubmit={formik.handleSubmit}
-      onReset={formik.handleReset}
-      display="flex"
-      flexDirection="column"
-      bg="platinum"
-      padding={2}
-    >
+    <Box {...(props as any)}>
       {Object.entries({ gridTemplateRows, gridTemplateColumns }).map(
         ([key, entries]: [string, GridTemplateEntry[]]) => {
           return (

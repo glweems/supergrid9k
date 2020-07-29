@@ -1,13 +1,6 @@
-import { atom, selector } from "recoil";
+import { selector } from "recoil";
 import templateGenerator from "../lib/templateGenerator";
-import { CssGridProps } from "./grid";
-
-const example: CssGridProps = {
-  display: "grid",
-  gridTemplateRows: "1fr 1fr 1fr",
-  gridTemplateColumns: "1fr 1fr 1fr",
-  gridGap: "1rem",
-};
+import { CssGridProps, dataToCss, grid } from "./grid";
 
 const cssTemplate = templateGenerator<CssGridProps>`
   .grid-container {
@@ -18,6 +11,21 @@ const cssTemplate = templateGenerator<CssGridProps>`
   }
 `;
 
-const johnsTemplate = cssTemplate(example);
+export const codeBlocks = selector({
+  key: "codeBlocks",
+  get: ({ get }) => {
+    const state = get(grid);
+    const { amount, unit } = state.gridGap;
 
-console.log(johnsTemplate);
+    const cssObj: CssGridProps = {
+      display: "grid",
+      gridGap: `${amount}${unit}`,
+      gridTemplateRows: dataToCss(state.gridTemplateRows),
+      gridTemplateColumns: dataToCss(state.gridTemplateColumns),
+    };
+
+    const blocks = { vanilla: cssTemplate(cssObj) };
+
+    return blocks;
+  },
+});

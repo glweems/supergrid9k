@@ -57,7 +57,7 @@ export type CssGridProps = Record<
   string
 >;
 
-function dataToCss(entries: GridTemplateEntry[]) {
+export function dataToCss(entries: GridTemplateEntry[]) {
   return entries
     .map(({ amount, unit }) => `${amount}${unit}`)
     .toString()

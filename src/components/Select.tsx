@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { GridSelectInputProps } from "./GridEditorInputs";
+import { GridSelectInputProps } from "./GridEditor/GridEditorInputs";
 
 const Select: FC<GridSelectInputProps> = ({ options, ...props }) => {
   return (
