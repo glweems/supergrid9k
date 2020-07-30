@@ -1,7 +1,7 @@
 import Prism from "prismjs";
 import React, { FC, useEffect } from "react";
 import "../prism.css";
-export type PrismSyntaxLanguage = "css" | "html" | "javascript";
+export type PrismSyntaxLanguage = "css" | "html" | "javascript" | "jsx" | "js";
 
 export interface CodeProps {
   lang: PrismSyntaxLanguage;

@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import { capitalize, snakeCase } from "lodash";
-import React, { FC, ChangeEventHandler, MouseEventHandler } from "react";
+import React, { ChangeEventHandler, FC, MouseEventHandler } from "react";
 import { useRecoilState } from "recoil";
 import shortid from "shortid";
 import {
@@ -59,6 +59,7 @@ const GridEditorInputs: FC<BoxProps> = (props) => {
     setValues(obj);
     formik.submitForm();
   };
+  return null;
 
   return (
     <Box {...(props as any)}>

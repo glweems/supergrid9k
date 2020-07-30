@@ -1,46 +1,50 @@
 import { atom, selector } from "recoil";
-import { CodeProps } from "../components/Code";
-import templateGenerator from "../lib/templateGenerator";
+import { PrismCodeProps } from "../components/PrismCode";
+import {
+  cssTemplateString,
+  htmlTemplateString,
+  styledComponentsTemplateString,
+  styleObjHTMLTemplateString,
+  styleObjTemplateString,
+} from "../lib/templateStrings";
 import { toType } from "../lib/toType";
-import { CssGridProps, gridCss } from "./grid";
+import { gridCss } from "./grid";
 
-type TemplateStringFn = (data: CssGridProps) => string;
-
-const cssTemplateString: TemplateStringFn = templateGenerator`
-  .grid-container {
-    display: ${"display"};
-    grid-template-rows: ${"gridTemplateRows"};
-    grid-template-columns: ${"gridTemplateColumns"};
-    grid-gap: ${"gridGap"};
-  }
-`;
-
-const htmlTemplateString: TemplateStringFn = templateGenerator`<div class="grid-container">
-// ...
-</div>
-`;
-
-const styledComponentsTemplateString = templateGenerator`
-const GridContainer = styled.div
-`;
-
-interface Snippet extends CodeProps {
-  templateString: TemplateStringFn;
+interface Snippet extends Omit<PrismCodeProps, "code"> {
+  templateString: (
+    data: Record<
+      "display" | "gridTemplateRows" | "gridTemplateColumns" | "gridGap",
+      string
+    >
+  ) => string;
 }
-type Snippets = Record<"css" | "styled-components", Snippet | Snippet[]>;
+type Snippets = Record<
+  "css" | "styled-components" | "json",
+  Snippet | Snippet[]
+>;
 
 const snippets: Snippets = {
   css: [
     {
-      lang: "css",
+      language: "css",
       templateString: cssTemplateString,
     },
-    { lang: "html", templateString: htmlTemplateString },
+    { language: "html", templateString: htmlTemplateString },
   ],
   "styled-components": {
-    lang: "javascript",
+    language: "javascript",
     templateString: styledComponentsTemplateString,
   },
+  json: [
+    {
+      language: "javascript",
+      templateString: styleObjTemplateString,
+    },
+    {
+      language: "html",
+      templateString: styleObjHTMLTemplateString,
+    },
+  ],
 };
 
 export interface CodeState {
@@ -49,35 +53,35 @@ export interface CodeState {
   snippet: keyof Snippets;
 }
 
-const codeState = atom<CodeState>({
+const code = atom<CodeState>({
   key: "codeState",
   default: {
     gridContainerClassName: "grid-container",
     applyCssRepeat: true,
-    snippet: "styled-components",
+    snippet: "css",
   },
 });
 
-export interface CodeBlock extends CodeProps {
-  code: string;
-}
+export default code;
 
 export const codeBlock = selector({
   key: "codeBlocks",
   get: ({ get }) => {
     const cssObj = get(gridCss);
-    const { snippet } = get(codeState);
+    const { snippet } = get(code);
 
-    const codeObj: CodeBlock | CodeBlock[] =
+    const codeObj: PrismCodeProps | PrismCodeProps[] =
       toType(snippets[snippet]) === "object"
         ? {
-            lang: (snippets[snippet] as Snippet).lang,
+            language: (snippets[snippet] as Snippet).language,
             code: (snippets[snippet] as Snippet).templateString(cssObj),
           }
-        : (snippets[snippet] as Snippet[]).map(({ lang, templateString }) => ({
-            lang,
-            code: templateString(cssObj),
-          }));
+        : (snippets[snippet] as Snippet[]).map(
+            ({ language, templateString }) => ({
+              language,
+              code: templateString(cssObj),
+            })
+          );
 
     return codeObj;
   },

@@ -9,11 +9,11 @@ import theme from "./lib/theme";
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
-  <RecoilRoot>
-    <ThemeProvider theme={theme}>
+  <ThemeProvider theme={theme}>
+    <RecoilRoot>
       <App />
-    </ThemeProvider>
-  </RecoilRoot>,
+    </RecoilRoot>
+  </ThemeProvider>,
   document.getElementById("root")
 );
 
