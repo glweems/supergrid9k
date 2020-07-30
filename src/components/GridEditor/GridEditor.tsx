@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Box from "../../ui/Box";
 import CodeViewer from "../CodeViewer";
+import CodeViewerControls from "../CodeViewerControls";
 import GridEditorInputs from "./GridEditorInputs";
 import GridEntries from "./GridEntries";
 
@@ -16,6 +17,10 @@ const GridEditor: React.FC = () => {
         <GridEntries height="100%" />
       </Box>
 
+      <div className="code-viewer-controls">
+        <CodeViewerControls />
+      </div>
+
       <div className="code-viewer">
         <CodeViewer />
       </div>
@@ -28,7 +33,7 @@ const Layout = styled(Box)`
   grid-template-areas:
     "grid-controls grid-entries grid-entries grid-entries"
     "grid-controls grid-entries grid-entries grid-entries"
-    "grid-controls code-viewer code-viewer code-viewer";
+    "code-viewer-controls code-viewer code-viewer code-viewer";
   grid-template-rows: repeat(2, 1fr) auto;
   grid-template-columns: 270px repeat(3, 1fr);
   gap: ${({ theme }) => theme.space.common};
@@ -42,6 +47,10 @@ const Layout = styled(Box)`
   .grid-entries {
     grid-area: grid-entries;
     height: 100%;
+  }
+
+  .code-viewer-controls {
+    grid-area: code-viewer-controls;
   }
 
   .code-viewer {

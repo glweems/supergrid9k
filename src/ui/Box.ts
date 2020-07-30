@@ -26,7 +26,14 @@ export interface BoxProps
     ColorProps<SuperGrid9kTheme>,
     GridProps {}
 
-const boxComposition = compose(grid, color, layout, space, flexbox, border);
+export const boxComposition = compose(
+  grid,
+  color,
+  layout,
+  space,
+  flexbox,
+  border
+);
 
 const Box = styled.div<BoxProps>`
   ${boxComposition}

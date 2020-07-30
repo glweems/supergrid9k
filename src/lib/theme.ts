@@ -88,7 +88,7 @@ export const themeColors = {
     "#f8f8f8CC",
     "#f8f8f8E6",
   ],
-  dark: "#0f121b",
+  dark: "#272822",
   darks: [
     "#0f121bFF",
     "#0f121b1A",
@@ -123,6 +123,7 @@ export interface SuperGrid9kTheme {
     darks: string[];
   };
   space: SuperGrid9kSpace;
+  navbarHeight: string;
 }
 
 interface SuperGrid9kSpace<T = number | string> extends Array<T> {
@@ -135,6 +136,7 @@ space.common = `${space[2]}px`;
 const theme: SuperGrid9kTheme = {
   colors: themeColors,
   space,
+  navbarHeight: `${space[4]}px`,
 };
 
 export default theme;
