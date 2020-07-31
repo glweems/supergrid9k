@@ -1,31 +1,100 @@
-import { selector } from "recoil";
-import templateGenerator from "../lib/templateGenerator";
-import { CssGridProps, dataToCss, grid } from "./grid";
+import { Language } from "prism-react-renderer";
+import { atom, selector } from "recoil";
+import { CodeBlockProps } from "../components/CodeBlock";
+import {
+  cssTemplateString,
+  htmlTemplateString,
+  styledComponentsTemplateString,
+  styleObjHTMLTemplateString,
+  styleObjTemplateString,
+} from "../lib/templateStrings";
+import { toType } from "../lib/toType";
+import { gridCss } from "./grid";
 
-const cssTemplate = templateGenerator<CssGridProps>`
-  .grid-container {
-    display: ${"display"};
-    grid-template-rows: ${"gridTemplateRows"};
-    grid-template-columns: ${"gridTemplateColumns"};
-    grid-gap: ${"gridGap"};
-  }
-`;
+interface Snippet {
+  language: Language | string;
+  templateString: (
+    data: Record<
+      | "display"
+      | "gridTemplateRows"
+      | "gridTemplateColumns"
+      | "gridGap"
+      | "class",
+      string
+    >
+  ) => string;
+}
+type Snippets = Record<
+  "css" | "styled-components" | "json",
+  Snippet | Snippet[]
+>;
 
-export const codeBlocks = selector({
+const snippets: Snippets = {
+  css: [
+    {
+      language: "css",
+      templateString: cssTemplateString,
+    },
+    { language: "html", templateString: htmlTemplateString },
+  ],
+  "styled-components": {
+    language: "javascript",
+    templateString: styledComponentsTemplateString,
+  },
+  json: [
+    {
+      language: "javascript",
+      templateString: styleObjTemplateString,
+    },
+    {
+      language: "html",
+      templateString: styleObjHTMLTemplateString,
+    },
+  ],
+};
+
+export interface CodeState {
+  applyCssRepeat: boolean;
+  gridContainerClassName: string;
+  snippet: keyof Snippets;
+}
+
+const code = atom<CodeState>({
+  key: "codeState",
+  default: {
+    gridContainerClassName: "grid-container",
+    applyCssRepeat: true,
+    snippet: "css",
+  },
+});
+
+export default code;
+
+export const codeBlock = selector({
   key: "codeBlocks",
   get: ({ get }) => {
-    const state = get(grid);
-    const { amount, unit } = state.gridGap;
+    const cssObj = get(gridCss);
+    const { snippet, gridContainerClassName } = get(code);
 
-    const cssObj: CssGridProps = {
-      display: "grid",
-      gridGap: `${amount}${unit}`,
-      gridTemplateRows: dataToCss(state.gridTemplateRows),
-      gridTemplateColumns: dataToCss(state.gridTemplateColumns),
-    };
+    const codeObj: any =
+      toType(snippets[snippet]) === "object"
+        ? {
+            language: (snippets[snippet] as Snippet).language,
+            code: (snippets[snippet] as Snippet).templateString({
+              ...cssObj,
+              class: gridContainerClassName,
+            }),
+          }
+        : (snippets[snippet] as Snippet[]).map(
+            ({ language, templateString }) => ({
+              language,
+              code: templateString({
+                ...cssObj,
+                class: gridContainerClassName,
+              }),
+            })
+          );
 
-    const blocks = { vanilla: cssTemplate(cssObj) };
-
-    return blocks;
+    return codeObj as CodeBlockProps | CodeBlockProps[];
   },
 });

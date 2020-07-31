@@ -1,15 +1,26 @@
-import React from "react";
+import React, { FC } from "react";
 import { useRecoilValue } from "recoil";
-import { codeBlocks } from "../store/code";
+import { toType } from "../lib/toType";
+import { codeBlock } from "../store/code";
+import Box from "../ui/Box";
+import CodeBlock, { CodeBlockProps } from "./CodeBlock";
 
-interface Props {}
+const CodeViewer: FC = ({ children }) => {
+  const state = useRecoilValue(codeBlock);
+  if (toType(state) === "array")
+    return (
+      <Box display="flex">
+        {(state as CodeBlockProps[]).map((snip) => (
+          <CodeBlock {...snip} />
+        ))}
+      </Box>
+    );
 
-const CodeViewer = (props: Props) => {
-  const code = useRecoilValue(codeBlocks);
   return (
-    <pre>
-      <code>{code.vanilla}</code>
-    </pre>
+    <CodeBlock
+      language={(state as CodeBlockProps).language}
+      code={(state as CodeBlockProps).code}
+    />
   );
 };
 

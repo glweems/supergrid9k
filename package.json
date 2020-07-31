@@ -3,17 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.11.1",
+    "@testing-library/jest-dom": "^5.11.2",
     "@testing-library/react": "^10.4.7",
-    "@testing-library/user-event": "^12.0.15",
-    "@types/jest": "^26.0.7",
-    "@types/node": "^14.0.26",
+    "@testing-library/user-event": "^12.0.17",
+    "@types/jest": "^26.0.8",
+    "@types/node": "^14.0.27",
     "@types/react": "^16.9.43",
     "@types/react-dom": "^16.9.8",
     "formik": "^2.1.5",
     "framer-motion": "^2.3.0",
     "lodash": "^4.17.19",
     "normalize-css": "^2.3.1",
+    "prism-react-renderer": "^1.1.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-error-boundary": "^2.3.1",
@@ -32,7 +33,10 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "style-lint"
+    ]
   },
   "husky": {
     "hooks": {
@@ -52,6 +56,8 @@
     ]
   },
   "devDependencies": {
+    "eslint": "^7.5.0",
+    "@babel/register": "^7.10.5",
     "@types/lodash": "^4.14.158",
     "@types/react-router-dom": "^5.1.5",
     "@types/shortid": "^0.0.29",

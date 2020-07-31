@@ -18,7 +18,7 @@ import {
 import { SuperGrid9kTheme } from "../lib/theme";
 
 export interface BoxProps
-  extends SpaceProps,
+  extends SpaceProps<SuperGrid9kTheme>,
     BorderProps,
     LayoutProps,
     PositionProps,
@@ -26,7 +26,14 @@ export interface BoxProps
     ColorProps<SuperGrid9kTheme>,
     GridProps {}
 
-const boxComposition = compose(grid, color, layout, space, flexbox, border);
+export const boxComposition = compose(
+  grid,
+  color,
+  layout,
+  space,
+  flexbox,
+  border
+);
 
 const Box = styled.div<BoxProps>`
   ${boxComposition}
