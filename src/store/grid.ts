@@ -20,6 +20,7 @@ const defaultInputProps = {
   step: 1,
   disabled: false,
   type: "number",
+  style: { width: "90px" },
 };
 
 export type GridTemplateEntry = {
