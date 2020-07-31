@@ -12,7 +12,7 @@ import { toType } from "../lib/toType";
 import { gridCss } from "./grid";
 
 interface Snippet {
-  language: Language;
+  language: Language | string;
   templateString: (
     data: Record<
       | "display"
