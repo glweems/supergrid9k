@@ -16,8 +16,8 @@
     "jsx": "react",
     "downlevelIteration": true,
     "pretty": true,
-    // "strictNullChecks": false,
+    // "strictNullChecks": falzse,
     "strictBindCallApply": false
   },
-  "include": ["src"]
+  "include": ["src", "react-app-env.d.ts"]
 }

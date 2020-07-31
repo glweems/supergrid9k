@@ -12,6 +12,7 @@
     "@types/react-dom": "^16.9.8",
     "formik": "^2.1.5",
     "framer-motion": "^2.3.0",
+    "jest-styled-components": "^7.0.2",
     "lodash": "^4.17.19",
     "normalize-css": "^2.3.1",
     "prism-react-renderer": "^1.1.1",
@@ -34,8 +35,7 @@
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "style-lint"
+      "react-app"
     ]
   },
   "husky": {
@@ -56,13 +56,25 @@
     ]
   },
   "devDependencies": {
-    "eslint": "^7.5.0",
     "@babel/register": "^7.10.5",
     "@types/lodash": "^4.14.158",
     "@types/react-router-dom": "^5.1.5",
     "@types/shortid": "^0.0.29",
     "@types/styled-components": "^5.1.1",
     "@types/styled-system": "^5.1.9",
+    "@typescript-eslint/eslint-plugin": "3.7.1",
+    "@typescript-eslint/parser": "3.7.1",
+    "babel-eslint": "10.1.0",
+    "babel-plugin-styled-components": "^1.11.1",
+    "eslint": "7.5.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-config-react-app": "5.2.1",
+    "eslint-config-stylelint": "^12.0.0",
+    "eslint-plugin-flowtype": "5.2.0",
+    "eslint-plugin-import": "2.22.0",
+    "eslint-plugin-jsx-a11y": "6.3.1",
+    "eslint-plugin-react": "7.20.5",
+    "eslint-plugin-react-hooks": "4.0.8",
     "husky": "^4.2.5",
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",

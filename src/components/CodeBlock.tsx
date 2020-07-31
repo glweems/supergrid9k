@@ -30,13 +30,15 @@ const CodeBlock: FC<CodeBlockProps> = ({ code, language, theme }) => {
           margin={1}
           borderRadius={3}
         >
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
+          <code className={className}>
+            {tokens.map((line, i) => (
+              <div {...getLineProps({ line, key: i })}>
+                {line.map((token, key) => (
+                  <span {...getTokenProps({ token, key })} />
+                ))}
+              </div>
+            ))}
+          </code>
         </Box>
       )}
     </Highlight>

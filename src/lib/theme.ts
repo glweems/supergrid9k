@@ -104,24 +104,7 @@ export const themeColors = {
 };
 
 export interface SuperGrid9kTheme {
-  colors: {
-    blue: string;
-    blues: string[];
-    green: string;
-    greens: string[];
-    mint: string;
-    mints: string[];
-    purple: string;
-    purples: string[];
-    red: string;
-    reds: string[];
-    yellow: string;
-    yellows: string[];
-    light: string;
-    lights: string[];
-    dark: string;
-    darks: string[];
-  };
+  colors: typeof themeColors;
   space: SuperGrid9kSpace;
   navbarHeight: string;
 }
