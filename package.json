@@ -1,5 +1,6 @@
 {
   "name": "supergrid9k",
+  "description": "css grid generator that is super and 9k",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
