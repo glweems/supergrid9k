@@ -18,7 +18,7 @@ const CodeViewerControls: React.FC = () => {
   };
 
   return (
-    <Box display="flex" flexDirection="column">
+    <Box display="flex" flexDirection="column" marginBottom={3}>
       <label style={{ width: "100%" }}>
         grid container class name
         <input

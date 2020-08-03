@@ -8,24 +8,21 @@ import GridEntries from "./GridEntries";
 
 const GridEditor: React.FC = () => {
   return (
-    <Layout>
-      <Box as="aside" className="grid-sidebar" bg="dark" color="light">
-        <Box padding={2}>
-          <h1>SuperGrid9K</h1>
-          <GridEditorInputs />
-          <CodeViewerControls />
-          <CodeViewer />
-        </Box>
-      </Box>
+    <Layout bg="dark" color="light">
+      <aside className="grid-sidebar">
+        <h1>SuperGrid9K</h1>
+        <GridEditorInputs />
+      </aside>
 
       <Box className="grid-entries">
         <GridEntries height="100%" />
       </Box>
 
-      <div className="code-viewer">
+      <aside className="code-viewer">
+        <h2>Generated Code</h2>
         <CodeViewerControls />
         <CodeViewer />
-      </div>
+      </aside>
     </Layout>
   );
 };
@@ -35,16 +32,13 @@ const Layout = styled(Box)`
   grid-template-areas:
     "grid-sidebar grid-entries code-viewer"
     "grid-sidebar grid-entries code-viewer";
-  grid-template-rows: 1fr auto;
-  grid-template-columns: auto 1fr auto;
+  grid-template-rows: 100vh;
+  grid-template-columns: 250px 1fr 330px;
   max-height: 100vh;
   overflow: hidden;
 
   .grid-sidebar {
     grid-area: grid-sidebar;
-    width: 330px;
-    height: 100vh;
-    max-height: 100vh;
   }
 
   .grid-entries {
@@ -53,14 +47,10 @@ const Layout = styled(Box)`
 
   .code-viewer {
     grid-area: code-viewer;
-    width: 0;
-    pre {
-      overflow-x: auto;
-      text-overflow: scroll;
-    }
-    code {
-      white-space: nowrap;
-    }
+  }
+
+  aside {
+    padding: ${({ theme }) => theme.space.common};
   }
 `;
 

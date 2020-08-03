@@ -12,8 +12,7 @@ export const cssTemplateString = templateGenerator<
     grid-template-rows: ${"gridTemplateRows"};
     grid-template-columns: ${"gridTemplateColumns"};
     grid-gap: ${"gridGap"};
-  }
-`;
+  }`;
 
 export const htmlTemplateString = templateGenerator<
   TemplateStringObject
@@ -21,11 +20,10 @@ export const htmlTemplateString = templateGenerator<
 
 export const styledComponentsTemplateString = templateGenerator<
   TemplateStringObject
->`const ${"class"} = styled.div\`\n  display: ${"display"};
-  grid-template-rows: ${"gridTemplateRows"};
-  grid-template-columns: ${"gridTemplateColumns"};
-  grid-gap: ${"gridGap"};\n\`;
-`;
+>`const ${"class"} = styled.div\`\n   display: ${"display"};
+    grid-template-rows: ${"gridTemplateRows"};
+    grid-template-columns: ${"gridTemplateColumns"};
+    grid-gap: ${"gridGap"};\n\`;`;
 
 export const styleObjTemplateString = templateGenerator<
   TemplateStringObject
