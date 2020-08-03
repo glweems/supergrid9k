@@ -1,6 +1,6 @@
 import React from "react";
 import { useRecoilState } from "recoil";
-import code from "../store/code";
+import code, { snippets } from "../store/code";
 import Box from "../ui/Box";
 import Select from "./Select";
 
@@ -18,26 +18,27 @@ const CodeViewerControls: React.FC = () => {
   };
 
   return (
-    <Box color="light">
-      <Box>
-        <label>
-          <div>{gridContainerClassName}</div>
-          <input
-            name="gridContainerClassName"
-            value={gridContainerClassName}
-            onChange={handleChange}
-          />
-        </label>
-      </Box>
+    <Box display="flex" flexDirection="column">
+      <label style={{ width: "100%" }}>
+        grid container class name
+        <input
+          name="gridContainerClassName"
+          value={gridContainerClassName}
+          onChange={handleChange}
+          style={{ width: "94%" }}
+        />
+      </label>
 
-      <Box>
+      <label>
+        <div>codeblock type</div>
         <Select
           name="snippet"
           value={snippet}
           onChange={handleChange}
-          options={["css", "styled-components", "json"]}
+          options={Object.keys(snippets)}
+          style={{ width: "100%" }}
         />
-      </Box>
+      </label>
     </Box>
   );
 };

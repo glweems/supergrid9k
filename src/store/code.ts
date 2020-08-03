@@ -29,7 +29,7 @@ type Snippets = Record<
   Snippet | Snippet[]
 >;
 
-const snippets: Snippets = {
+export const snippets: Snippets = {
   css: [
     {
       language: "css",

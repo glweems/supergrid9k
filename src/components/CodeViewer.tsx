@@ -10,7 +10,7 @@ const CodeViewer: FC = () => {
     return (
       <React.Fragment>
         {(state as CodeBlockProps[]).map((snip) => (
-          <CodeBlock {...snip} />
+          <CodeBlock key={snip.language} {...snip} />
         ))}
       </React.Fragment>
     );
