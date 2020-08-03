@@ -1,12 +1,20 @@
 import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
-color: ${({ theme }) => theme.colors.blues[1]};
+  color: ${({ theme }) => theme.colors.blues[1]};
   body {
     font-family: "Lato", "Lucida Grande", "Lucida Sans Unicode", Tahoma,
       Sans-Serif;
   }
 
+  pre {
+    overflow-x: auto;
+    text-overflow: scroll;
+  }
+  code {
+    font-size: 80%;
+    white-space: nowrap;
+  }
 
   input {
     display: inline-block;
@@ -23,7 +31,7 @@ color: ${({ theme }) => theme.colors.blues[1]};
 
   select {
     display: inline-block;
-    order:logical;
+    order: logical;
     box-sizing: border-box;
     overflow: visible !important;
     writing-mode: horizontal-tb;
@@ -45,11 +53,14 @@ color: ${({ theme }) => theme.colors.blues[1]};
     text-transform: uppercase;
   }
 
-  input, select {
+  input,
+  select {
     text-indent: 4px;
   }
 
-  input, select, button {
+  input,
+  select,
+  button {
     padding: ${({ theme }) => theme.space.common};
     font-size: 16px;
     background-color: ${({ theme }) => theme.colors.lights[9]};

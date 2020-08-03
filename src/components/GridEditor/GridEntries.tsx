@@ -2,6 +2,7 @@ import React from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { grid, gridCss } from "../../store/grid";
 import Box, { BoxProps } from "../../ui/Box";
+import styled from "styled-components/macro";
 
 export type GridEntriesProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -18,17 +19,19 @@ const GridEntries: React.FC<GridEntriesProps> = (props) => {
       {gridTemplateRows.map(({ id: rowId }) => (
         <React.Fragment key={rowId}>
           {gridTemplateColumns.map(({ id: columnId }) => (
-            <Box
-              key={columnId}
-              bg="blue"
-              borderRadius={5}
-              className="GridEntry"
-            />
+            <GridEntry key={columnId} className="GridEntry" />
           ))}
         </React.Fragment>
       ))}
     </Box>
   );
 };
+
+const GridEntry = styled.div`
+  background-color: ${({ theme }) => theme.colors.blues[5]};
+  border-color: ${({ theme }) => theme.colors.blue};
+  border-style: solid;
+  border-width: 3px;
+`;
 
 export default GridEntries;

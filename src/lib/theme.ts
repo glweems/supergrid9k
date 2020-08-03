@@ -122,7 +122,7 @@ interface SuperGrid9kSpace<T = number> extends Array<T> {
 }
 
 const space: SuperGrid9kSpace = [0, 4, 8, 16, 32, 64];
-space.common = `${space[2]}px`;
+space.common = `0.375em`;
 
 const theme: SuperGrid9kTheme = {
   colors: themeColors,

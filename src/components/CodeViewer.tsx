@@ -6,7 +6,8 @@ import CodeBlock, { CodeBlockProps } from "./CodeBlock";
 
 const CodeViewer: FC = () => {
   const state = useRecoilValue(codeBlock);
-  if (toType(state) === "array")
+
+  if (state && toType(state) === "array")
     return (
       <React.Fragment>
         {(state as CodeBlockProps[]).map((snip) => (
