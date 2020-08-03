@@ -54,9 +54,16 @@ color: ${({ theme }) => theme.colors.blues[1]};
     font-size: 16px;
     background-color: ${({ theme }) => theme.colors.lights[9]};
     border-color: ${({ theme }) => theme.colors.darks[7]};
-    border-style: inset;
+    border-style: solid;
     border-width: 2px;
-    border-radius: ${({ theme }) => theme.space.common};
+    border-radius: 0.375em;
+    &:hover {
+      background-color: ${({ theme }) => theme.colors.light};
+    }
+    &:focus {
+      border-radius: 0.375em;
+      outline: 2px solid ${({ theme }) => theme.colors.yellow};
+    }
   }
 
   button.icon {

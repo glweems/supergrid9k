@@ -3,7 +3,7 @@ import { capitalize, snakeCase } from "lodash";
 import React, { ChangeEventHandler, FC, MouseEventHandler } from "react";
 import { useRecoilState } from "recoil";
 import shortid from "shortid";
-import { Icon } from "../../lib/Icons";
+import { PlusIcon } from "../../lib/Icons";
 import {
   availableGridGapUnits,
   defaultInputProps,
@@ -12,6 +12,7 @@ import {
   GridTemplateEntry,
 } from "../../store/grid";
 import { BoxProps } from "../../ui/Box";
+import Button from "../../ui/Button";
 import Select from "../Select";
 import GridEditorControl, {
   GridEditorControlStyles,
@@ -85,18 +86,15 @@ const GridEditorInputs: FC<BoxProps> = (props) => {
                     onDelete={handleDelete}
                   />
                 ))}
-                <button name={key} className="icon" onClick={handleAdd}>
-                  <Icon color="light">
-                    <path
-                      fillRule="evenodd"
-                      d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"
-                    />
-                    <path
-                      fillRule="evenodd"
-                      d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"
-                    />
-                  </Icon>
-                </button>
+                <Button
+                  fullWidth
+                  bg="green"
+                  name={key}
+                  className="icon"
+                  onClick={handleAdd}
+                >
+                  <PlusIcon />
+                </Button>
               </div>
             </React.Fragment>
           );
