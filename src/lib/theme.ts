@@ -1,3 +1,5 @@
+import { createGlobalStyle } from "styled-components";
+
 export const themeColors = {
   blue: "#1769ff",
   blues: [
@@ -105,12 +107,18 @@ export const themeColors = {
 
 export interface SuperGrid9kTheme {
   colors: typeof themeColors;
+  /**
+   * Space
+   *
+   * @interface SuperGrid9kSpace
+   * @extends {Array<T>}
+   * @description [0, 4, 8, 16, 32, 64]
+   */
   space: SuperGrid9kSpace;
-  navbarHeight: string;
 }
 
-interface SuperGrid9kSpace<T = number | string> extends Array<T> {
-  common?: T;
+interface SuperGrid9kSpace<T = number> extends Array<T> {
+  common?: string;
 }
 
 const space: SuperGrid9kSpace = [0, 4, 8, 16, 32, 64];
@@ -119,7 +127,7 @@ space.common = `${space[2]}px`;
 const theme: SuperGrid9kTheme = {
   colors: themeColors,
   space,
-  navbarHeight: `${space[4]}px`,
 };
 
+export const createGlobalCss = createGlobalStyle<SuperGrid9kTheme>``;
 export default theme;

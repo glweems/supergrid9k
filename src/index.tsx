@@ -4,14 +4,15 @@ import ReactDOM from "react-dom";
 import { RecoilRoot } from "recoil";
 import { ThemeProvider } from "styled-components";
 import App from "./App";
-import "./index.css";
 import theme from "./lib/theme";
 import * as serviceWorker from "./serviceWorker";
+import GlobalStyle from "./lib/GlobalStyle";
 
 ReactDOM.render(
   <RecoilRoot>
     <ThemeProvider theme={theme}>
       <App />
+      <GlobalStyle />
     </ThemeProvider>
   </RecoilRoot>,
   document.getElementById("root")

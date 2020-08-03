@@ -21,7 +21,7 @@ export const htmlTemplateString = templateGenerator<
 
 export const styledComponentsTemplateString = templateGenerator<
   TemplateStringObject
->`const GridContainer = styled.div\`\n  display: ${"display"};
+>`const ${"class"} = styled.div\`\n  display: ${"display"};
   grid-template-rows: ${"gridTemplateRows"};
   grid-template-columns: ${"gridTemplateColumns"};
   grid-gap: ${"gridGap"};\n\`;
@@ -29,7 +29,7 @@ export const styledComponentsTemplateString = templateGenerator<
 
 export const styleObjTemplateString = templateGenerator<
   TemplateStringObject
->`const style = {
+>`const ${"class"} = {
   display: "${"display"}",
   gridTemplateRows: "${"gridTemplateRows"}",
   gridTemplateColumns: "${"gridTemplateColumns"}",
@@ -39,4 +39,4 @@ export const styleObjTemplateString = templateGenerator<
 
 export const styleObjHTMLTemplateString = templateGenerator<
   TemplateStringObject
->`<div style={styleObj}></div>`;
+>`<div style={${"class"}}></div>`;

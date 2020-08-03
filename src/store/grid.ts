@@ -14,20 +14,20 @@ export const availableUnits = [
 
 export const availableGridGapUnits = ["px", "em", "vh", "vw"];
 
-const defaultInputProps = {
+export const defaultInputProps = {
   min: 0,
   max: 100,
   step: 1,
   disabled: false,
   type: "number",
-  style: { width: "90px" },
 };
+export type GridInputElement = "input" | "select" | "button";
 
 export type GridTemplateEntry = {
   id: string;
   amount: number;
   unit: string;
-  props?: React.InputHTMLAttributes<HTMLInputElement>;
+  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 };
 
 export interface GridState {
@@ -40,14 +40,14 @@ export const grid = atom<GridState>({
   key: "grid",
   default: {
     gridTemplateRows: [
-      { id: shortid(), amount: 1, unit: "fr", props: defaultInputProps },
-      { id: shortid(), amount: 1, unit: "fr", props: defaultInputProps },
-      { id: shortid(), amount: 1, unit: "fr", props: defaultInputProps },
+      { id: shortid(), amount: 1, unit: "fr", inputProps: defaultInputProps },
+      { id: shortid(), amount: 1, unit: "fr", inputProps: defaultInputProps },
+      { id: shortid(), amount: 1, unit: "fr", inputProps: defaultInputProps },
     ],
     gridTemplateColumns: [
-      { id: shortid(), amount: 1, unit: "fr", props: defaultInputProps },
-      { id: shortid(), amount: 1, unit: "fr", props: defaultInputProps },
-      { id: shortid(), amount: 1, unit: "fr", props: defaultInputProps },
+      { id: shortid(), amount: 1, unit: "fr", inputProps: defaultInputProps },
+      { id: shortid(), amount: 1, unit: "fr", inputProps: defaultInputProps },
+      { id: shortid(), amount: 1, unit: "fr", inputProps: defaultInputProps },
     ],
     gridGap: { id: shortid(), amount: 1, unit: "rem" },
   },
