@@ -1,68 +1,56 @@
 import React from "react";
-import styled from "styled-components";
+import { useRecoilState } from "recoil";
 import { CloseIcon } from "../../lib/Icons";
-import { availableUnits, GridTemplateEntry } from "../../store/grid";
-import Select from "../Select";
+import { removeItemAtIndex, replaceItemAtIndex } from "../../lib/utils";
+import { grid, GridState, GridTemplateEntry } from "../../store/grid";
 import Button from "../../ui/Button";
-
-interface GridEditorControlProps extends GridTemplateEntry {
-  onChange: React.ChangeEventHandler<HTMLInputElement | HTMLSelectElement>;
-  onDelete: React.MouseEventHandler<HTMLButtonElement>;
-  name: string;
-  index: number;
+import Select from "../Select";
+export interface GridEditorControlProps {
+  entry: GridTemplateEntry;
+  name: keyof Omit<GridState, "gridGap">;
 }
 
-function generatorControlName(key: string, index: number, unit: string) {
-  return [key, `[${index}]`, unit].join(".");
-}
+export function GridEditorControl({
+  name: objkey,
+  entry,
+}: GridEditorControlProps) {
+  const [gridState, setGridState] = useRecoilState(grid);
+  const index = gridState[objkey].findIndex((listItem) => listItem === entry);
 
-const GridEditorControl = ({
-  id,
-  name,
-  index,
-  amount,
-  unit,
-  inputProps,
-  onChange,
-  onDelete,
-}: GridEditorControlProps) => {
+  const handleChange: React.ChangeEventHandler<
+    HTMLInputElement | HTMLSelectElement
+  > = ({ target: { name, value } }) => {
+    const newEntry = replaceItemAtIndex<GridTemplateEntry>(
+      gridState[objkey],
+      index,
+      {
+        ...entry,
+        [name]: value,
+      }
+    );
+
+    setGridState((prev) => ({ ...prev, [objkey]: newEntry }));
+  };
+
+  const handleDelete: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+    const newEntries = removeItemAtIndex(gridState[objkey], index);
+
+    setGridState((prev) => ({ ...prev, [objkey]: newEntries }));
+  };
+
   return (
-    <GridEditorControlStyles>
+    <React.Fragment>
       <input
-        value={amount}
-        onChange={onChange}
-        type="number"
-        name={generatorControlName(name, index, "amount")}
-        {...inputProps}
+        name="amount"
+        value={entry.amount}
+        onChange={handleChange}
+        {...entry.inputProps}
       />
 
-      <Select
-        value={unit}
-        name={generatorControlName(name, index, "unit")}
-        onChange={onChange}
-        options={availableUnits}
-      />
-
-      <Button
-        fullWidth
-        bg="red"
-        color="light"
-        id={id}
-        name={name}
-        onClick={onDelete}
-        className="icon"
-      >
-        <CloseIcon />
+      <Select name="unit" onChange={handleChange} {...entry.selectProps} />
+      <Button onClick={handleDelete}>
+        <CloseIcon size={20} />
       </Button>
-    </GridEditorControlStyles>
+    </React.Fragment>
   );
-};
-
-export default GridEditorControl;
-
-export const GridEditorControlStyles = styled.div`
-  display: grid;
-  grid-column-gap: ${({ theme }) => theme.space.common};
-  grid-template-columns: 70px auto 32px;
-  margin-bottom: 6px;
-`;
+}

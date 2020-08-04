@@ -1,9 +1,12 @@
 import React, { FC } from "react";
-import { GridSelectInputProps } from "./GridEditor/GridEditorInputs";
+export interface SelectProps
+  extends React.SelectHTMLAttributes<HTMLSelectElement> {
+  options: string[];
+}
 
-const Select: FC<GridSelectInputProps> = ({ options, ...props }) => {
+const Select: FC<SelectProps> = ({ options, ...props }) => {
   return (
-    <select {...(props as any)}>
+    <select {...props}>
       {options.map((option, index) => (
         <option key={`${props.name}-${option}-${index}`} value={option}>
           {option}

@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "formik": "^2.1.5",
     "framer-motion": "^2.3.0",
     "lodash": "^4.17.19",
     "normalize-css": "^2.3.1",

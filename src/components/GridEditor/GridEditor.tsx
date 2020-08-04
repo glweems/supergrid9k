@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Box from "../../ui/Box";
 import CodeViewer from "../CodeViewer";
 import CodeViewerControls from "../CodeViewerControls";
-import GridEditorInputs from "./GridEditorInputs";
+import GridEditorControls from "./GridEditorControls";
 import GridEntries from "./GridEntries";
 
 const GridEditor: React.FC = () => {
@@ -11,7 +11,7 @@ const GridEditor: React.FC = () => {
     <Layout bg="dark" color="light">
       <aside className="grid-sidebar">
         <h1>SuperGrid9K</h1>
-        <GridEditorInputs />
+        <GridEditorControls />
       </aside>
 
       <Box className="grid-entries">

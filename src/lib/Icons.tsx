@@ -1,10 +1,23 @@
 import React, { createElement } from "react";
 import styled from "styled-components";
-import { color, ColorProps, compose, layout, LayoutProps } from "styled-system";
+import {
+  color,
+  ColorProps,
+  compose,
+  layout,
+  LayoutProps,
+  space,
+  SpaceProps,
+} from "styled-system";
 import { SuperGrid9kTheme } from "./theme";
 
-interface IconProps extends ColorProps<SuperGrid9kTheme>, LayoutProps {}
-const iconComposition = compose(color, layout);
+interface IconProps
+  extends ColorProps<SuperGrid9kTheme>,
+    LayoutProps,
+    SpaceProps<SuperGrid9kTheme> {}
+
+const iconComposition = compose(color, layout, space);
+
 export const Icon = styled.svg<IconProps>`
   ${iconComposition};
   vertical-align: middle;
@@ -13,8 +26,11 @@ export const Icon = styled.svg<IconProps>`
 Icon.defaultProps = {
   viewBox: "0 0 16 16",
   xmlns: "http://www.w3.org/2000/svg",
-  size: "30px",
+  size: 20,
   fill: "currentColor",
+  paddingX: 1,
+  paddingY: 0,
+  margin: 0,
 };
 
 export const PlusIcon: React.FC<IconProps> = (props) =>
