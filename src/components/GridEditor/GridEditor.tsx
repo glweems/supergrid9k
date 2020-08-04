@@ -33,8 +33,9 @@ const Layout = styled(Box)`
     "grid-sidebar grid-entries code-viewer"
     "grid-sidebar grid-entries code-viewer";
   grid-template-rows: 100vh;
-  grid-template-columns: 250px 1fr 330px;
+  grid-template-columns: 275px 1fr 330px;
   max-height: 100vh;
+  overscroll-behavior-y: none;
   overflow: hidden;
 
   .grid-sidebar {
@@ -43,6 +44,7 @@ const Layout = styled(Box)`
 
   .grid-entries {
     grid-area: grid-entries;
+    padding: ${({ theme }) => theme.space.common};
   }
 
   .code-viewer {
@@ -50,7 +52,7 @@ const Layout = styled(Box)`
   }
 
   aside {
-    padding: ${({ theme }) => theme.space.common};
+    padding: ${({ theme }) => theme.space[3]}px;
   }
 `;
 

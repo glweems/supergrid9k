@@ -13,11 +13,12 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react",
+    "jsx": "preserve",
     "downlevelIteration": true,
     "pretty": true,
     // "strictNullChecks": falzse,
     "strictBindCallApply": false
   },
-  "include": ["src", "react-app-env.d.ts"]
+  "include": ["src", "react-app-env.d.ts"],
+  "exclude": ["node_modules"]
 }

@@ -3,13 +3,17 @@ import { createGlobalStyle } from "styled-components";
 export default createGlobalStyle`
   color: ${({ theme }) => theme.colors.blues[1]};
   html {
+    overscroll-behavior-y: none;
     color: ${({ theme }) => theme.colors.light};
     background-color: ${({ theme }) => theme.colors.dark};
   }
 
   body {
+    height: 100vh;
+    overflow: hidden;
     font-family: "Lato", "Lucida Grande", "Lucida Sans Unicode", Tahoma,
       Sans-Serif;
+    overscroll-behavior-y: none;
   }
 
   pre {

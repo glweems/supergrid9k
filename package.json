@@ -5,6 +5,7 @@
   "dependencies": {
     "framer-motion": "^2.3.0",
     "lodash": "^4.17.19",
+    "next": "^9.5.1",
     "normalize-css": "^2.3.1",
     "prism-react-renderer": "^1.1.1",
     "react": "^16.13.1",
@@ -21,8 +22,9 @@
     "typescript": "^3.9.7"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "dev": "next",
+    "start": "next start",
+    "build": "next build",
     "format": "prettier --ignore-path .gitignore --write \"src/**/*.{ts,tsx,json,yml,md}\"",
     "lint:js": "eslint --ignore-path .gitignore \"src/**/*.{ts,tsx}\"",
     "lint:style": "stylelint --ignore-path .gitignore \"src/**/*.{ts,tsx}\"",
@@ -56,6 +58,7 @@
     ]
   },
   "devDependencies": {
+    "babel-plugin-macros": "^2.8.0",
     "@babel/register": "^7.10.5",
     "@testing-library/dom": "^7.21.7",
     "@testing-library/jest-dom": "^5.11.2",
