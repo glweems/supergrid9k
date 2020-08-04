@@ -55,9 +55,10 @@ function GridEditorControls() {
               ))}
 
               <Button
-                className="add-entry"
                 name={key}
+                className="add-entry"
                 onClick={handleAdd}
+                color="green"
                 fullWidth
               >
                 <PlusIcon />

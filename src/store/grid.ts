@@ -33,7 +33,7 @@ export type GridInputElement = "input" | "select" | "button";
 
 export type GridTemplateEntry = {
   id: string;
-  amount: number;
+  amount: number | "";
   unit: string;
   inputProps: React.InputHTMLAttributes<HTMLInputElement>;
   selectProps: SelectProps;
