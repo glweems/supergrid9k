@@ -2,6 +2,11 @@ import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
   color: ${({ theme }) => theme.colors.blues[1]};
+  html {
+    color: ${({ theme }) => theme.colors.light};
+    background-color: ${({ theme }) => theme.colors.dark};
+  }
+
   body {
     font-family: "Lato", "Lucida Grande", "Lucida Sans Unicode", Tahoma,
       Sans-Serif;
