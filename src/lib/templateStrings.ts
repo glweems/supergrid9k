@@ -1,5 +1,5 @@
 import { CssGridProps } from "../store/grid";
-import templateGenerator from "./templateGenerator";
+import { templateGenerator } from "./utils";
 
 export interface TemplateStringObject extends CssGridProps {
   class: string;

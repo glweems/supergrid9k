@@ -1,5 +1,6 @@
 import { atom, selector } from "recoil";
 import shortid from "shortid";
+import { SelectProps } from "../components/Select";
 
 export const availableUnits = [
   "fr",
@@ -15,19 +16,27 @@ export const availableUnits = [
 export const availableGridGapUnits = ["px", "em", "vh", "vw"];
 
 export const defaultInputProps = {
+  name: "amount",
   min: 0,
   max: 100,
   step: 1,
   disabled: false,
   type: "number",
 };
+
+export const defaultSelectProps: SelectProps = {
+  name: "unit",
+  disabled: false,
+  options: availableUnits,
+};
 export type GridInputElement = "input" | "select" | "button";
 
 export type GridTemplateEntry = {
   id: string;
-  amount: number;
+  amount: number | "";
   unit: string;
-  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
+  inputProps: React.InputHTMLAttributes<HTMLInputElement>;
+  selectProps: SelectProps;
 };
 
 export interface GridState {
@@ -39,18 +48,39 @@ export interface GridState {
 export const grid = atom<GridState>({
   key: "grid",
   default: {
-    gridTemplateRows: [
-      { id: shortid(), amount: 1, unit: "fr", inputProps: defaultInputProps },
-      { id: shortid(), amount: 1, unit: "fr", inputProps: defaultInputProps },
-      { id: shortid(), amount: 1, unit: "fr", inputProps: defaultInputProps },
-    ],
-    gridTemplateColumns: [
-      { id: shortid(), amount: 1, unit: "fr", inputProps: defaultInputProps },
-      { id: shortid(), amount: 1, unit: "fr", inputProps: defaultInputProps },
-      { id: shortid(), amount: 1, unit: "fr", inputProps: defaultInputProps },
-    ],
-    gridGap: { id: shortid(), amount: 1, unit: "rem" },
+    gridTemplateRows: new Array(3).fill(null).map((_, index) => ({
+      id: `row-${index}`,
+      amount: 1,
+      unit: "fr",
+      inputProps: defaultInputProps,
+      selectProps: defaultSelectProps,
+    })),
+    gridTemplateColumns: new Array(3).fill(null).map((_, index) => ({
+      id: `column-${index}`,
+      amount: 1,
+      unit: "fr",
+      inputProps: defaultInputProps,
+      selectProps: defaultSelectProps,
+    })),
+
+    gridGap: {
+      id: shortid(),
+      amount: 1,
+      unit: "rem",
+      inputProps: defaultInputProps,
+      selectProps: { ...defaultSelectProps, options: availableGridGapUnits },
+    },
   },
+});
+
+export const gridTemplateRowsState = selector<GridTemplateEntry[]>({
+  key: "gridTemplateRows",
+  get: ({ get }) => get(grid)["gridTemplateRows"],
+});
+
+export const gridTemplateColumnsState = selector<GridTemplateEntry[]>({
+  key: "gridTemplateColumns",
+  get: ({ get }) => get(grid)["gridTemplateColumns"],
 });
 
 export type CssGridProps = Record<
