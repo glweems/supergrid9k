@@ -1,3 +1,5 @@
+import { GridTemplateEntry } from "../store/grid";
+
 export function replaceItemAtIndex<T = object>(
   arr: T[],
   index: number,
@@ -39,4 +41,45 @@ export function templateGenerator<T extends object>(
 
     return template.join("");
   };
+}
+
+export function getAllowedEntry(
+  name: string,
+  value: "fr" | "%" | "px" | "vw" | "vh" | "em" | "rem" | "auto",
+  entry: GridTemplateEntry
+): GridTemplateEntry {
+  switch (value) {
+    case "%":
+      return { ...entry, amount: 10, [name]: value };
+    case "px":
+      return {
+        ...entry,
+        amount: 100,
+        [name]: value,
+        inputProps: { ...entry.inputProps, max: 1000 },
+      };
+    case "vw":
+      return { ...entry, amount: 10, [name]: value };
+    case "vh":
+      return { ...entry, amount: 10, [name]: value };
+    case "em":
+      return { ...entry, amount: 5, [name]: value };
+    case "rem":
+      return { ...entry, amount: 5, [name]: value };
+    case "auto":
+      return {
+        ...entry,
+        amount: "",
+        [name]: value,
+        inputProps: {
+          ...entry.inputProps,
+          disabled: true,
+          style: { display: "none" },
+        },
+        selectProps: { ...entry.selectProps, style: { gridColumn: "1/3" } },
+      };
+
+    default:
+      return { ...entry, [name]: value };
+  }
 }
