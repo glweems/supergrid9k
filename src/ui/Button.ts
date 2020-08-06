@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components/macro";
+import styled, { css } from "styled-components";
 import { ColorProps, compose, color, border, BorderProps } from "styled-system";
 import { SuperGrid9kTheme } from "../lib/theme";
 

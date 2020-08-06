@@ -73,16 +73,6 @@ export const grid = atom<GridState>({
   },
 });
 
-export const gridTemplateRowsState = selector<GridTemplateEntry[]>({
-  key: "gridTemplateRows",
-  get: ({ get }) => get(grid)["gridTemplateRows"],
-});
-
-export const gridTemplateColumnsState = selector<GridTemplateEntry[]>({
-  key: "gridTemplateColumns",
-  get: ({ get }) => get(grid)["gridTemplateColumns"],
-});
-
 export type CssGridProps = Record<
   "display" | "gridTemplateRows" | "gridTemplateColumns" | "gridGap",
   string

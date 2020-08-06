@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import media from "styled-media-query";
 
 export default createGlobalStyle`
   color: ${({ theme }) => theme.colors.blues[1]};
@@ -8,8 +9,17 @@ export default createGlobalStyle`
   }
 
   body {
+    height: 100vh;
+    overflow: hidden;
     font-family: "Lato", "Lucida Grande", "Lucida Sans Unicode", Tahoma,
       Sans-Serif;
+    overscroll-behavior-y: none;
+
+
+    ${media.lessThan("medium")`
+    height: unset;
+    overflow: auto;
+    `}
   }
 
   pre {
