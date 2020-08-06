@@ -1,5 +1,5 @@
 // _app.js
-import App, { AppContext, AppProps, Container } from "next/app";
+import App, { AppContext, AppProps } from "next/app";
 import dynamic from "next/dynamic";
 import React from "react";
 import { RecoilRoot } from "recoil";
@@ -23,14 +23,12 @@ export default class MyApp extends App<AppProps> {
   render() {
     const { Component, pageProps } = this.props;
     return (
-      <Container>
-        <RecoilRoot>
-          <ThemeProvider theme={theme}>
-            <GlobalStyle />
-            <Component {...pageProps} />
-          </ThemeProvider>
-        </RecoilRoot>
-      </Container>
+      <RecoilRoot>
+        <ThemeProvider theme={theme}>
+          <GlobalStyle />
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </RecoilRoot>
     );
   }
 }
