@@ -5,7 +5,7 @@ import CodeViewer from "../CodeViewer";
 import CodeViewerControls from "../CodeViewerControls";
 import GridEditorControls from "./GridEditorControls";
 import GridEntries from "./GridEntries";
-
+import media from "styled-media-query";
 const GridEditor: React.FC = () => {
   return (
     <Layout bg="dark" color="light">
@@ -34,7 +34,6 @@ const Layout = styled(Box)`
     "grid-sidebar grid-entries code-viewer";
   grid-template-rows: 100vh;
   grid-template-columns: 275px 1fr 330px;
-  max-height: 100vh;
   overscroll-behavior-y: none;
   overflow: hidden;
 
@@ -44,7 +43,6 @@ const Layout = styled(Box)`
 
   .grid-entries {
     grid-area: grid-entries;
-    padding: ${({ theme }) => theme.space.common};
   }
 
   .code-viewer {
@@ -52,8 +50,18 @@ const Layout = styled(Box)`
   }
 
   aside {
-    padding: ${({ theme }) => theme.space[3]}px;
+    padding-right: ${({ theme }) => theme.space[3]}px;
+    padding-left: ${({ theme }) => theme.space[3]}px;
   }
+
+  ${media.lessThan("medium")`
+  grid-template-areas:
+    "grid-sidebar" "grid-entries" "code-viewer";
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 100vh auto;
+  max-height: unset;
+  overflow: unset;
+  `};
 `;
 
 export default GridEditor;

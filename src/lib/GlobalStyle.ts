@@ -1,9 +1,9 @@
 import { createGlobalStyle } from "styled-components";
+import media from "styled-media-query";
 
 export default createGlobalStyle`
   color: ${({ theme }) => theme.colors.blues[1]};
   html {
-    overscroll-behavior-y: none;
     color: ${({ theme }) => theme.colors.light};
     background-color: ${({ theme }) => theme.colors.dark};
   }
@@ -14,6 +14,12 @@ export default createGlobalStyle`
     font-family: "Lato", "Lucida Grande", "Lucida Sans Unicode", Tahoma,
       Sans-Serif;
     overscroll-behavior-y: none;
+
+
+    ${media.lessThan("medium")`
+    height: unset;
+    overflow: auto;
+    `}
   }
 
   pre {
