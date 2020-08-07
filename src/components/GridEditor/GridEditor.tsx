@@ -1,16 +1,19 @@
 import React from "react";
 import styled from "styled-components";
+import media from "styled-media-query";
 import Box from "../../ui/Box";
 import CodeViewer from "../CodeViewer";
 import CodeViewerControls from "../CodeViewerControls";
 import GridEditorControls from "./GridEditorControls";
 import GridEntries from "./GridEntries";
-import media from "styled-media-query";
+import GithubButton from "../../ui/GithubButton";
+
 const GridEditor: React.FC = () => {
   return (
     <Layout bg="dark" color="light">
       <aside className="grid-sidebar">
         <h1>SuperGrid9K</h1>
+        <GithubButton title="View On Github">View On Github</GithubButton>
         <GridEditorControls />
       </aside>
 

@@ -15,7 +15,7 @@ import {
   space,
   SpaceProps,
 } from "styled-system";
-import { SuperGrid9kTheme } from "../lib/theme";
+import theme, { SuperGrid9kTheme } from "../lib/theme";
 
 export interface BoxProps
   extends SpaceProps<SuperGrid9kTheme>,
@@ -40,6 +40,9 @@ const Box = styled.div<BoxProps>`
 `;
 
 Box.displayName = "Box";
-Box.defaultProps = {};
+
+Box.defaultProps = {
+  theme,
+};
 
 export default Box;

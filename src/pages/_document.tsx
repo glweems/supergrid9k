@@ -2,9 +2,10 @@ import {
   DocumentContext,
   DocumentProps,
 } from "next/dist/next-server/lib/utils";
-import Document, { Head, Main, NextScript } from "next/document";
+import Document, { Main, NextScript } from "next/document";
 import React from "react";
 import { ServerStyleSheet } from "styled-components/macro";
+import SEO from "../components/SEO";
 
 interface MyDocumentProps extends DocumentProps {
   styleTags: string;
@@ -43,12 +44,17 @@ export default class MyDocument extends Document<MyDocumentProps> {
   render() {
     return (
       <html lang="en">
-        <Head>
+        <SEO>
           {this.props.styleTags /* rendering the actually stylesheet */}
-        </Head>
+          <link
+            rel="stylesheet"
+            href="../../node_modules/normalize-css/normalize.css"
+          />
+        </SEO>
         <body>
           <Main />
           <NextScript />
+          <script async src="https://buttons.github.io/buttons.js" />
         </body>
       </html>
     );
