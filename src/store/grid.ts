@@ -45,7 +45,7 @@ export interface GridState {
   gridGap: GridTemplateEntry;
 }
 
-export const grid = atom<GridState>({
+const grid = atom<GridState>({
   key: "grid",
   default: {
     gridTemplateRows: new Array(3).fill(null).map((_, index) => ({
@@ -72,6 +72,8 @@ export const grid = atom<GridState>({
     },
   },
 });
+
+export default grid;
 
 export type CssGridProps = Record<
   "display" | "gridTemplateRows" | "gridTemplateColumns" | "gridGap",

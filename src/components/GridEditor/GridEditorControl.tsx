@@ -6,7 +6,7 @@ import {
   removeItemAtIndex,
   replaceItemAtIndex,
 } from "../../lib/utils";
-import { grid, GridState, GridTemplateEntry } from "../../store/grid";
+import grid, { GridState, GridTemplateEntry } from "../../store/grid";
 import Button from "../../ui/Button";
 import Select from "../Select";
 export interface GridEditorControlProps {

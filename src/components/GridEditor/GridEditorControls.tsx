@@ -1,10 +1,9 @@
 import React from "react";
 import { useRecoilState } from "recoil";
 import { PlusIcon } from "../../lib/Icons";
-import {
+import grid, {
   defaultInputProps,
   defaultSelectProps,
-  grid,
   GridState,
 } from "../../store/grid";
 import Button from "../../ui/Button";

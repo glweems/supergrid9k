@@ -1,6 +1,6 @@
 import React from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { grid, gridCss } from "../../store/grid";
+import grid, { gridCss } from "../../store/grid";
 import Box, { BoxProps } from "../../ui/Box";
 import styled from "styled-components";
 
