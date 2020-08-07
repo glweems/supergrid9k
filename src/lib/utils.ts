@@ -1,4 +1,8 @@
-import { GridTemplateEntry } from "../store/grid";
+import {
+  GridTemplateEntry,
+  defaultInputProps,
+  defaultSelectProps,
+} from "../store/grid";
 
 export function replaceItemAtIndex<T = object>(
   arr: T[],
@@ -50,22 +54,53 @@ export function getAllowedEntry(
 ): GridTemplateEntry {
   switch (value) {
     case "%":
-      return { ...entry, amount: 10, [name]: value };
+      return {
+        ...entry,
+        amount: 10,
+        [name]: value,
+        inputProps: defaultInputProps,
+        selectProps: defaultSelectProps,
+      };
     case "px":
       return {
         ...entry,
         amount: 100,
         [name]: value,
-        inputProps: { ...entry.inputProps, max: 1000 },
+        inputProps: { ...defaultInputProps, max: 1000 },
+        selectProps: defaultSelectProps,
       };
     case "vw":
-      return { ...entry, amount: 10, [name]: value };
+      return {
+        ...entry,
+        amount: 10,
+        [name]: value,
+        inputProps: defaultInputProps,
+        selectProps: defaultSelectProps,
+      };
     case "vh":
-      return { ...entry, amount: 10, [name]: value };
+      return {
+        ...entry,
+        amount: 10,
+        [name]: value,
+        inputProps: defaultInputProps,
+        selectProps: defaultSelectProps,
+      };
     case "em":
-      return { ...entry, amount: 5, [name]: value };
+      return {
+        ...entry,
+        amount: 5,
+        [name]: value,
+        inputProps: defaultInputProps,
+        selectProps: defaultSelectProps,
+      };
     case "rem":
-      return { ...entry, amount: 5, [name]: value };
+      return {
+        ...entry,
+        amount: 5,
+        [name]: value,
+        inputProps: defaultInputProps,
+        selectProps: defaultSelectProps,
+      };
     case "auto":
       return {
         ...entry,
@@ -80,6 +115,11 @@ export function getAllowedEntry(
       };
 
     default:
-      return { ...entry, [name]: value };
+      return {
+        ...entry,
+        [name]: value,
+        inputProps: defaultInputProps,
+        selectProps: defaultSelectProps,
+      };
   }
 }

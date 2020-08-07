@@ -6,7 +6,7 @@ import { Control } from "./Control";
 
 const GridGapControls = () => {
   const [{ gridGap }, setGridState] = useRecoilState(grid);
-  console.log("gridGap: ", gridGap);
+
   const handleChange: React.ChangeEventHandler<
     HTMLInputElement | HTMLSelectElement
   > = ({ target: { name, value } }) => {
