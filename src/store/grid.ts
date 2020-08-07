@@ -13,7 +13,7 @@ export const availableUnits = [
   "auto",
 ];
 
-export const availableGridGapUnits = ["px", "em", "vh", "vw"];
+export const availableGridGapUnits = ["px", "rem", "em", "vh", "vw"];
 
 export const defaultInputProps = {
   name: "amount",
