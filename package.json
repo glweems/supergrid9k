@@ -23,13 +23,16 @@
     "react-is": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
+    "react-typography": "^0.16.19",
     "reakit": "^1.2.0",
     "recoil": "^0.0.10",
     "shortid": "^2.2.15",
     "styled-components": "^5.1.1",
     "styled-media-query": "^2.1.2",
     "styled-system": "^5.1.5",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "typography": "^0.16.19",
+    "typography-theme-sutro": "^0.16.19"
   },
   "scripts": {
     "dev": "next",
@@ -82,6 +85,7 @@
     "@types/shortid": "^0.0.29",
     "@types/styled-components": "^5.1.2",
     "@types/styled-system": "^5.1.10",
+    "@types/typography": "^0.16.3",
     "@typescript-eslint/eslint-plugin": "3.8.0",
     "@typescript-eslint/parser": "3.8.0",
     "babel-eslint": "10.1.0",

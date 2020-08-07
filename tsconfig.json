@@ -18,8 +18,9 @@
     "downlevelIteration": true,
     "pretty": true,
     // "strictNullChecks": falzse,
-    "strictBindCallApply": false
+    "strictBindCallApply": false,
+    "typeRoots": ["src/index.d.ts"]
   },
-  "include": ["src", "react-app-env.d.ts"],
+  "include": ["src", "react-app-env.d.ts", "src/types/"],
   "exclude": ["node_modules"]
 }

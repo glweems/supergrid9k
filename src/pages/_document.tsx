@@ -6,7 +6,8 @@ import Document, { Main, NextScript } from "next/document";
 import React from "react";
 import { ServerStyleSheet } from "styled-components/macro";
 import SEO from "../components/SEO";
-
+import { TypographyStyle, GoogleFont } from "react-typography";
+import typography from "../lib/typography";
 interface MyDocumentProps extends DocumentProps {
   styleTags: string;
 }
@@ -46,6 +47,8 @@ export default class MyDocument extends Document<MyDocumentProps> {
       <html lang="en">
         <SEO>
           {this.props.styleTags /* rendering the actually stylesheet */}
+          <TypographyStyle typography={typography} />
+          <GoogleFont typography={typography} />
         </SEO>
         <body>
           <Main />

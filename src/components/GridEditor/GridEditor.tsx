@@ -1,14 +1,22 @@
 import React from "react";
+import { useRecoilValue, RecoilValueReadOnly } from "recoil";
 import styled from "styled-components";
 import media from "styled-media-query";
+import { codeBlock } from "../../store/code";
 import Box from "../../ui/Box";
+import GithubButton from "../../ui/GithubButton";
+import CodePenButton from "../CodePenButton";
 import CodeViewer from "../CodeViewer";
 import CodeViewerControls from "../CodeViewerControls";
 import GridEditorControls from "./GridEditorControls";
 import GridEntries from "./GridEntries";
-import GithubButton from "../../ui/GithubButton";
+import { CodeBlockProps } from "../CodeBlock";
 
 const GridEditor: React.FC = () => {
+  const [{ code: css }, { code: html }] = useRecoilValue(
+    codeBlock as RecoilValueReadOnly<CodeBlockProps[]>
+  );
+
   return (
     <Layout bg="dark" color="light">
       <aside className="grid-sidebar">
@@ -25,6 +33,7 @@ const GridEditor: React.FC = () => {
         <h2>Generated Code</h2>
         <CodeViewerControls />
         <CodeViewer />
+        <CodePenButton data={{ title: "cssGrid", css, html }} />
       </aside>
     </Layout>
   );
@@ -55,6 +64,9 @@ const Layout = styled(Box)`
   aside {
     padding-right: ${({ theme }) => theme.space[3]}px;
     padding-left: ${({ theme }) => theme.space[3]}px;
+    overflow-y: auto;
+    height: 100vh;
+    padding-bottom: ${({ theme }) => theme.space[4]}px;
   }
 
   ${media.lessThan("medium")`
@@ -64,6 +76,11 @@ const Layout = styled(Box)`
   grid-template-rows: auto 100vh auto;
   max-height: unset;
   overflow: unset;
+
+  aside {
+    overflow-y: unset;
+    height: unset;
+  }
   `};
 `;
 
