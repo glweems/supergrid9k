@@ -1,16 +1,11 @@
 // _app.js
 import App, { AppContext, AppProps } from "next/app";
-import dynamic from "next/dynamic";
+import Head from "next/head";
 import React from "react";
-import { RecoilRoot } from "recoil";
-import { ThemeProvider } from "styled-components";
-import GlobalStyle from "../lib/GlobalStyle";
-import theme from "../lib/theme";
-
-dynamic(() => import("normalize-css/normalize.css" as any));
+import ContextProvider from "../components/ContextProvider";
 
 export default class MyApp extends App<AppProps> {
-  static async origGetInitialProps({ Component, router, ctx }: AppContext) {
+  static async getInitialProps({ Component, router, ctx }: AppContext) {
     let pageProps = {};
 
     if (Component.getInitialProps) {
@@ -23,12 +18,14 @@ export default class MyApp extends App<AppProps> {
   render() {
     const { Component, pageProps } = this.props;
     return (
-      <RecoilRoot>
-        <ThemeProvider theme={theme}>
-          <GlobalStyle />
+      <React.Fragment>
+        <Head>
+          <title>Super Grid 9K</title>
+        </Head>
+        <ContextProvider>
           <Component {...pageProps} />
-        </ThemeProvider>
-      </RecoilRoot>
+        </ContextProvider>
+      </React.Fragment>
     );
   }
 }
