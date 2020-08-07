@@ -46,15 +46,11 @@ export default class MyDocument extends Document<MyDocumentProps> {
       <html lang="en">
         <SEO>
           {this.props.styleTags /* rendering the actually stylesheet */}
-          <link
-            rel="stylesheet"
-            href="../../node_modules/normalize-css/normalize.css"
-          />
         </SEO>
         <body>
           <Main />
           <NextScript />
-          <script async src="https://buttons.github.io/buttons.js" />
+          <script async defer src="https://buttons.github.io/buttons.js" />
         </body>
       </html>
     );
