@@ -15,7 +15,7 @@ const GridEntries: React.FC<GridEntriesProps> = (props) => {
   const gridCssState = useRecoilValue(gridCss);
 
   return (
-    <Box {...gridCssState} {...(props as any)}>
+    <Box display="grid" {...gridCssState} {...(props as any)}>
       {gridTemplateRows.map(({ id: rowId }) => (
         <React.Fragment key={rowId}>
           {gridTemplateColumns.map(({ id: columnId }) => (
@@ -33,5 +33,7 @@ const GridEntry = styled.div`
   border-style: solid;
   border-width: 3px;
 `;
+
+GridEntries.defaultProps = { className: "GridEntries" };
 
 export default GridEntries;

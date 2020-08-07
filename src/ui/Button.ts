@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 import { ColorProps, compose, color, border, BorderProps } from "styled-system";
 import { SuperGrid9kTheme } from "../lib/theme";
-
+import theme from "../lib/theme";
 export interface ButtonProps extends ColorProps<SuperGrid9kTheme>, BorderProps {
   outlined?: boolean;
   fullWidth?: boolean;
@@ -40,6 +40,7 @@ Button.defaultProps = {
   borderWidth: "1px",
   borderColor: "darks.3",
   color: "light",
+  theme,
 };
 
 export default Button;

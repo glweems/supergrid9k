@@ -52,6 +52,7 @@ export function getAllowedEntry(
   value: "fr" | "%" | "px" | "vw" | "vh" | "em" | "rem" | "auto",
   entry: GridTemplateEntry
 ): GridTemplateEntry {
+  console.log("value: ", value);
   switch (value) {
     case "%":
       return {
@@ -66,7 +67,7 @@ export function getAllowedEntry(
         ...entry,
         amount: 100,
         [name]: value,
-        inputProps: { ...defaultInputProps, max: 1000 },
+        inputProps: { ...entry.inputProps, max: 1000 },
         selectProps: defaultSelectProps,
       };
     case "vw":
@@ -118,8 +119,6 @@ export function getAllowedEntry(
       return {
         ...entry,
         [name]: value,
-        inputProps: defaultInputProps,
-        selectProps: defaultSelectProps,
       };
   }
 }

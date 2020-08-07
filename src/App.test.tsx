@@ -2,7 +2,6 @@ import { render } from "@testing-library/react";
 import React from "react";
 import ContextProvider from "./components/ContextProvider";
 import GridEditor from "./components/GridEditor/GridEditor";
-
 test("renders Grid Rows", () => {
   const { getByText } = render(
     <ContextProvider>

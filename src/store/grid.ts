@@ -1,6 +1,7 @@
 import { atom, selector } from "recoil";
 import shortid from "shortid";
 import { SelectProps } from "../components/Select";
+import { TemplateStringObject } from "../lib/templateStrings";
 
 export const availableUnits = [
   "fr",
@@ -75,11 +76,6 @@ const grid = atom<GridState>({
 
 export default grid;
 
-export type CssGridProps = Record<
-  "display" | "gridTemplateRows" | "gridTemplateColumns" | "gridGap",
-  string
->;
-
 export function dataToCss(entries: GridTemplateEntry[]) {
   return entries
     .map(({ amount, unit }) => `${amount}${unit}`)
@@ -94,8 +90,8 @@ export const gridCss = selector({
     const state = get(grid);
     const { amount, unit } = state.gridGap;
 
-    const cssObj: CssGridProps = {
-      display: "grid",
+    const cssObj: TemplateStringObject = {
+      className: "grid-container",
       gridGap: `${amount}${unit}`,
       gridTemplateRows: dataToCss(state.gridTemplateRows),
       gridTemplateColumns: dataToCss(state.gridTemplateColumns),

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import theme from "../../lib/theme";
 
 export const Control = styled.div`
   display: grid;
@@ -16,3 +17,5 @@ export const Control = styled.div`
     font-size: 90%;
   }
 `;
+
+Control.defaultProps = { theme };

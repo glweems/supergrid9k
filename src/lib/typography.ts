@@ -1,5 +1,8 @@
 import Typography from "typography";
 import sutro from "typography-theme-sutro";
+import CodePlugin from "typography-plugin-code";
+
+sutro.plugins = [new CodePlugin()];
 // customize defaults
 // fairyGates.baseFontSize = "42px"; // was 20px.
 const typography = new Typography(sutro);
