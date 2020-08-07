@@ -1,36 +1,23 @@
 import { createGlobalStyle } from "styled-components";
-import media from "styled-media-query";
 import normalize from "./normalize";
 
 export default createGlobalStyle`
   ${normalize};
   color: ${({ theme }) => theme.colors.blues[1]};
   html {
+    overflow-y: unset;
     color: ${({ theme }) => theme.colors.light};
     background-color: ${({ theme }) => theme.colors.dark};
   }
 
   body {
-    height: 100vh;
-    overflow: hidden;
     font-family: "Lato", "Lucida Grande", "Lucida Sans Unicode", Tahoma,
       Sans-Serif;
-    overscroll-behavior-y: none;
-
-
-    ${media.lessThan("medium")`
-    height: unset;
-    overflow: auto;
-    `}
   }
 
   pre {
     overflow-x: auto;
     text-overflow: scroll;
-  }
-  code {
-    font-size: 80%;
-    white-space: nowrap;
   }
 
   select,

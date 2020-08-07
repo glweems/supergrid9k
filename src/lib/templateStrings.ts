@@ -1,9 +1,10 @@
 import { templateGenerator } from "./utils";
 import { GridProps } from "styled-system";
 
-export interface TemplateStringObject extends GridProps {
-  className?: string;
-}
+export type TemplateStringObject<T = {}> = GridProps &
+  T & {
+    className?: string;
+  };
 
 export const cssTemplateString = templateGenerator<
   TemplateStringObject
@@ -15,8 +16,9 @@ export const cssTemplateString = templateGenerator<
   }`;
 
 export const htmlTemplateString = templateGenerator<
-  TemplateStringObject
->`<div className="${"className"}"></div>`;
+  TemplateStringObject<{ gridItems: string }>
+>`<div className="${"className"}">
+${"gridItems"}</div>`;
 
 export const styledComponentsTemplateString = templateGenerator<
   TemplateStringObject

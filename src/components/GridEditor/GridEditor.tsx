@@ -5,6 +5,7 @@ import Box from "../../ui/Box";
 import GithubButton from "../../ui/GithubButton";
 import GridEditorControls from "./GridEditorControls";
 import GridEntries from "./GridEntries";
+import CodeSnippets from "../CodeSnippets/CodeSnippets";
 
 const GridEditor: React.FC = () => {
   return (
@@ -15,9 +16,13 @@ const GridEditor: React.FC = () => {
         <GridEditorControls />
       </aside>
 
-      <Box className="grid-entries">
+      <Box as="main" className="grid-entries" padding={5}>
         <GridEntries height="100%" />
       </Box>
+
+      <section className="code-viewer">
+        <CodeSnippets />
+      </section>
     </Layout>
   );
 };
@@ -26,12 +31,12 @@ const Layout = styled(Box)`
   display: grid;
   grid-template-areas:
     "grid-sidebar grid-entries"
-    "grid-sidebar grid-entries";
-  grid-template-rows: 100vh;
+    "grid-sidebar code-viewer";
+  grid-template-rows: 1fr 200px;
   grid-template-columns: 300px 1fr;
-  overscroll-behavior-y: none;
+  width: 100vw;
+  height: 100vh;
   overflow: hidden;
-
   .grid-sidebar {
     grid-area: grid-sidebar;
   }

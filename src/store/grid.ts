@@ -49,14 +49,14 @@ export interface GridState {
 const grid = atom<GridState>({
   key: "grid",
   default: {
-    gridTemplateRows: new Array(3).fill(null).map((_, index) => ({
+    gridTemplateRows: new Array(2).fill(null).map((_, index) => ({
       id: `row-${index}`,
       amount: 1,
       unit: "fr",
       inputProps: defaultInputProps,
       selectProps: defaultSelectProps,
     })),
-    gridTemplateColumns: new Array(3).fill(null).map((_, index) => ({
+    gridTemplateColumns: new Array(2).fill(null).map((_, index) => ({
       id: `column-${index}`,
       amount: 1,
       unit: "fr",
