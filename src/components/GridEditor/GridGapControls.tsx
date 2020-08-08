@@ -6,6 +6,7 @@ import { Control } from "./Control";
 
 const GridGapControls = () => {
   const [{ gridGap }, setGridState] = useRecoilState(grid);
+
   const handleChange: React.ChangeEventHandler<
     HTMLInputElement | HTMLSelectElement
   > = ({ target: { name, value } }) => {
@@ -18,11 +19,17 @@ const GridGapControls = () => {
     <Control>
       <h3 className="control-label">Grid Gap</h3>
       <input
+        name="amount"
         value={gridGap.amount}
         onChange={handleChange}
         {...gridGap.inputProps}
       />
-      <Select onChange={handleChange} {...gridGap.selectProps} />
+      <Select
+        name="unit"
+        value={gridGap.unit}
+        onChange={handleChange}
+        {...gridGap.selectProps}
+      />
     </Control>
   );
 };

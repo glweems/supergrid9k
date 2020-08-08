@@ -1,7 +1,9 @@
 import { createGlobalStyle } from "styled-components";
 import media from "styled-media-query";
+import normalize from "./normalize";
 
 export default createGlobalStyle`
+  ${normalize};
   color: ${({ theme }) => theme.colors.blues[1]};
   html {
     color: ${({ theme }) => theme.colors.light};
