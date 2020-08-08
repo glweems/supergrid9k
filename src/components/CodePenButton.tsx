@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "../ui/Button";
+import { Button } from "rebass/styled-components";
 export interface CodePenData {
   title?: string;
   description?: string;
@@ -75,7 +75,6 @@ const CodePenButton: React.FC<CodePenButtonProps> = ({
     >
       <input type="hidden" name="data" value={values} />
       <Button
-        fullWidth
         css={`
           text-align: center;
           font-family: Avenir, Helvetica, Arial, sans-serif;

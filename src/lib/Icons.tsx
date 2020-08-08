@@ -9,12 +9,8 @@ import {
   space,
   SpaceProps,
 } from "styled-system";
-import { SuperGrid9kTheme } from "./theme";
 
-interface IconProps
-  extends ColorProps<SuperGrid9kTheme>,
-    LayoutProps,
-    SpaceProps<SuperGrid9kTheme> {}
+interface IconProps extends ColorProps, LayoutProps, SpaceProps {}
 
 const iconComposition = compose(color, layout, space);
 
