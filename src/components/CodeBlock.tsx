@@ -29,7 +29,6 @@ const CodeBlock: FC<CodeBlockProps> = ({ code, language, theme }) => {
           padding={2}
           margin={1}
           borderRadius={3}
-          bg="dark"
         >
           <code className={className}>
             {tokens.map((line, i) => (

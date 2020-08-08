@@ -1,19 +1,20 @@
 import { selector } from "recoil";
-import grid, { gridCss } from "./grid";
 import { cssTemplateString, htmlTemplateString } from "../lib/templateStrings";
+import { gridAreas, gridCss } from "./grid";
 
 export const snippets = selector({
   key: "snippets",
   get: ({ get }) => {
-    const { gridTemplateRows, gridTemplateColumns } = get(grid);
+    const areas = get(gridAreas);
     const css = get(gridCss);
+    let num = 1;
     let gridItems = ``;
-    gridTemplateRows.forEach((row, rowIndex) => {
-      gridTemplateColumns.forEach((col, colIndex) => {
-        gridItems += `  <div class="grid-item">${colIndex + rowIndex}</div>${
-          colIndex === gridTemplateColumns.length ? "" : "\n"
-        }`;
-      });
+
+    areas.forEach((item, index) => {
+      gridItems += `  <div class="grid-item">${num}</div>${
+        index === areas.length ? "" : "\n"
+      }`;
+      num += 1;
     });
 
     const state = {

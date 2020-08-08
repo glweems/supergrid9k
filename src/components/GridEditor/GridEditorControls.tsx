@@ -6,10 +6,10 @@ import grid, {
   defaultSelectProps,
   GridState,
 } from "../../store/grid";
-import Button from "../../ui/Button";
 import { Control } from "./Control";
 import { GridEditorControl } from "./GridEditorControl";
 import GridGapControls from "./GridGapControls";
+import { Button, Text } from "rebass/styled-components";
 
 function GridEditorControls() {
   const [{ gridGap, ...gridState }, setGridState] = useRecoilState(grid);
@@ -41,14 +41,10 @@ function GridEditorControls() {
         return (
           <React.Fragment key={key}>
             <Control>
-              <h3 className="control-label">
-                {name
-                  .split("Template")
-                  .join(" ")
-                  .replace(/(?:^|\s)\S/g, function (a) {
-                    return a.toUpperCase();
-                  })}
-              </h3>
+              <Text as="h3" className="control-label" mb={3}>
+                {prettyName(name)}
+              </Text>
+
               {gridState[name].map((entry) => (
                 <GridEditorControl key={entry.id} entry={entry} name={name} />
               ))}
@@ -57,10 +53,11 @@ function GridEditorControls() {
                 name={key}
                 className="add-entry"
                 onClick={handleAdd}
-                color="green"
-                fullWidth
+                variant="primary"
+                bg="green"
+                color="text"
               >
-                <PlusIcon />
+                <PlusIcon size={28} padding={0} />
               </Button>
             </Control>
           </React.Fragment>
@@ -70,6 +67,20 @@ function GridEditorControls() {
       <GridGapControls />
     </React.Fragment>
   );
+}
+
+/**
+ * @param {string} name
+ * @returns string
+ * @example prettyName("gridTemplateRows") // returns "Grid Rows"
+ */
+function prettyName(name: string): string {
+  return name
+    .split("Template")
+    .join(" ")
+    .replace(/(?:^|\s)\S/g, function (a) {
+      return a.toUpperCase();
+    });
 }
 
 let id = 0;

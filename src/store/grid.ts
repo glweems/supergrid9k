@@ -100,3 +100,34 @@ export const gridCss = selector({
     return cssObj;
   },
 });
+
+export interface GridArea {
+  gridTemplateArea: string;
+  name?: string;
+  number: number;
+  id: string;
+}
+
+export const gridAreas = selector<GridArea[]>({
+  key: "areas",
+  get: ({ get }) => {
+    const { gridTemplateRows, gridTemplateColumns } = get(grid);
+    let temp: Omit<GridArea, "number">[] = [];
+
+    gridTemplateRows.forEach((row, rowIndex) => {
+      gridTemplateColumns.forEach((col, colIndex) => {
+        temp.push({
+          id: `${row.id}.${col.id}`,
+          gridTemplateArea: ".",
+        });
+      });
+    });
+
+    const areas: GridArea[] = temp.map((item, index) => ({
+      ...item,
+      number: index + 1,
+    }));
+
+    return areas;
+  },
+});

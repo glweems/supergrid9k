@@ -7,8 +7,9 @@ import {
   replaceItemAtIndex,
 } from "../../lib/utils";
 import grid, { GridState, GridTemplateEntry } from "../../store/grid";
-import Button from "../../ui/Button";
 import Select from "../Select";
+import { Input } from "@rebass/forms/styled-components";
+import { Button } from "rebass/styled-components";
 export interface GridEditorControlProps {
   entry: GridTemplateEntry;
   name: keyof Omit<GridState, "gridGap">;
@@ -41,15 +42,24 @@ export function GridEditorControl({
 
   return (
     <React.Fragment>
-      <input
+      <Input
+        color="text"
+        bg="lights.1"
         name="amount"
         value={entry.amount}
         onChange={handleChange}
         {...entry.inputProps}
       />
 
-      <Select name="unit" onChange={handleChange} {...entry.selectProps} />
-      <Button onClick={handleDelete} color="red" icon>
+      <Select
+        color="text"
+        bg="lights.1"
+        name="unit"
+        onChange={handleChange}
+        {...entry.selectProps}
+      />
+
+      <Button className="remove-entry" onClick={handleDelete} variant="close">
         <CloseIcon size={25} />
       </Button>
     </React.Fragment>

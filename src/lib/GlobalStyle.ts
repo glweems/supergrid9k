@@ -3,52 +3,18 @@ import normalize from "./normalize";
 
 export default createGlobalStyle`
   ${normalize};
-  color: ${({ theme }) => theme.colors.blues[1]};
-  html {
-    overflow-y: unset;
-    color: ${({ theme }) => theme.colors.light};
-    background-color: ${({ theme }) => theme.colors.dark};
+  input ,select{
+    border-radius: ${({ theme }) => theme.space[1]}px;
   }
 
-  body {
-    font-family: "Lato", "Lucida Grande", "Lucida Sans Unicode", Tahoma,
-      Sans-Serif;
+  html {
+    overflow-y: unset;
+    color: ${({ theme }) => theme.colors.text};
+    background-color: ${({ theme }) => theme.colors.background};
   }
 
   pre {
     overflow-x: auto;
     text-overflow: scroll;
-  }
-
-  select,
-  button,
-  input {
-    padding: ${({ theme }) => theme.space.common};
-    font-size: 16px;
-    background-color: ${({ theme }) => theme.colors.lights[9]};
-    border-color: ${({ theme }) => theme.colors.darks[7]};
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 0.375em;
-  }
-
-  input, select {
-    text-indent: 3px;
-  }
-
-  select {
-    cursor: pointer;
-  }
-
-  button {
-    text-align: center;
-    text-transform: uppercase;
-      &:hover {
-      background-color: ${({ theme }) => theme.colors.darks[1]};
-    }
-    &:focus {
-      border-radius: 0.375em;
-      outline: 2px solid ${({ theme }) => theme.colors.yellow};
-    }
   }
 `;

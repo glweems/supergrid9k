@@ -1,22 +1,21 @@
 import React from "react";
 import styled from "styled-components";
-import media from "styled-media-query";
 import Box from "../../ui/Box";
 import GithubButton from "../../ui/GithubButton";
+import CodeSnippets from "../CodeSnippets/CodeSnippets";
 import GridEditorControls from "./GridEditorControls";
 import GridEntries from "./GridEntries";
-import CodeSnippets from "../CodeSnippets/CodeSnippets";
-
+import { Text } from "rebass/styled-components";
 const GridEditor: React.FC = () => {
   return (
-    <Layout bg="dark" color="light">
+    <Layout>
       <aside className="grid-sidebar">
-        <h1>SuperGrid9K</h1>
+        <Text as="h1">SuperGrid9K</Text>
         <GithubButton title="View On Github">View On Github</GithubButton>
         <GridEditorControls />
       </aside>
 
-      <Box as="main" className="grid-entries" padding={5}>
+      <Box as="main" className="grid-entries">
         <GridEntries height="100%" />
       </Box>
 
@@ -32,13 +31,17 @@ const Layout = styled(Box)`
   grid-template-areas:
     "grid-sidebar grid-entries"
     "grid-sidebar code-viewer";
-  grid-template-rows: 1fr 200px;
+  grid-template-rows: 1fr 30%;
   grid-template-columns: 300px 1fr;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+
   .grid-sidebar {
     grid-area: grid-sidebar;
+    color: ${({ theme }) => theme.colors.text};
+    background-color: ${({ theme }) => theme.colors.darks[3]};
+    border-right: 2px solid ${({ theme }) => theme.colors.lights[1]};
   }
 
   .grid-entries {
@@ -54,20 +57,6 @@ const Layout = styled(Box)`
     padding-bottom: ${({ theme }) => theme.space[4]}px;
     padding-left: ${({ theme }) => theme.space[3]}px;
   }
-
-  ${media.lessThan("medium")`
-  grid-template-areas:
-    "grid-sidebar" "grid-entries" "code-viewer";
-  grid-template-columns: 1fr;
-  grid-template-rows: auto 100vh auto;
-  max-height: unset;
-  overflow: unset;
-
-  aside {
-    overflow-y: unset;
-    height: unset;
-  }
-  `};
 `;
 
 export default GridEditor;

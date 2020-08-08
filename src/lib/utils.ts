@@ -112,7 +112,7 @@ export function getAllowedEntry(
           disabled: true,
           style: { display: "none" },
         },
-        selectProps: { ...entry.selectProps, style: { gridColumn: "1/3" } },
+        selectProps: { ...entry.selectProps, className: "auto" },
       };
 
     default:

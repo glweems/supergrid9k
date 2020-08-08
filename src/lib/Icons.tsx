@@ -26,11 +26,8 @@ export const Icon = styled.svg<IconProps>`
 Icon.defaultProps = {
   viewBox: "0 0 16 16",
   xmlns: "http://www.w3.org/2000/svg",
-  size: 20,
+  size: 35,
   fill: "currentColor",
-  paddingX: 1,
-  paddingY: 0,
-  margin: 0,
 };
 
 export const PlusIcon: React.FC<IconProps> = (props) =>

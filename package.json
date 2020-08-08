@@ -13,6 +13,9 @@
     "create"
   ],
   "dependencies": {
+    "@rebass/forms": "^4.0.6",
+    "@rebass/preset": "^4.0.5",
+    "@types/rebass": "^4.0.6",
     "framer-motion": "^2.3.0",
     "lodash": "^4.17.19",
     "next": "^9.5.1",
@@ -25,6 +28,7 @@
     "react-scripts": "3.4.1",
     "react-typography": "^0.16.19",
     "reakit": "^1.2.0",
+    "rebass": "^4.0.7",
     "recoil": "^0.0.10",
     "shortid": "^2.2.15",
     "styled-components": "^5.1.1",
@@ -83,6 +87,7 @@
     "@types/react": "^16.9.44",
     "@types/react-dom": "^16.9.8",
     "@types/react-router-dom": "^5.1.5",
+    "@types/rebass__forms": "^4.0.2",
     "@types/shortid": "^0.0.29",
     "@types/styled-components": "^5.1.2",
     "@types/styled-system": "^5.1.10",
