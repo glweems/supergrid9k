@@ -122,3 +122,17 @@ export function getAllowedEntry(
       };
   }
 }
+
+/**
+ * @param {string} name
+ * @returns string
+ * @example prettyName("gridTemplateRows") // returns "Grid Rows"
+ */
+export function prettyName(name: string): string {
+  return name
+    .split("Template")
+    .join(" ")
+    .replace(/(?:^|\s)\S/g, function (a) {
+      return a.toUpperCase();
+    });
+}

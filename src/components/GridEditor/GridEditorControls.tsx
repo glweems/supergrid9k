@@ -10,6 +10,7 @@ import { Control } from "./Control";
 import { GridEditorControl } from "./GridEditorControl";
 import GridGapControls from "./GridGapControls";
 import { Button, Text } from "rebass/styled-components";
+import { prettyName } from "../../lib/utils";
 
 function GridEditorControls() {
   const [{ gridGap, ...gridState }, setGridState] = useRecoilState(grid);
@@ -67,20 +68,6 @@ function GridEditorControls() {
       <GridGapControls />
     </React.Fragment>
   );
-}
-
-/**
- * @param {string} name
- * @returns string
- * @example prettyName("gridTemplateRows") // returns "Grid Rows"
- */
-function prettyName(name: string): string {
-  return name
-    .split("Template")
-    .join(" ")
-    .replace(/(?:^|\s)\S/g, function (a) {
-      return a.toUpperCase();
-    });
 }
 
 let id = 0;
