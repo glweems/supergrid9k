@@ -1,8 +1,5 @@
-import {
-  defaultInputProps,
-  defaultSelectProps,
-  GridTemplateEntry,
-} from "../store/grid";
+import { SelectProps } from "../components/Select";
+import { GridTemplateEntry } from "../store/grid";
 
 export function replaceItemAtIndex<T = object>(
   arr: T[],
@@ -49,7 +46,7 @@ export function templateGenerator<T extends object>(
 
 export function getAllowedEntry(
   name: string,
-  value: "fr" | "%" | "px" | "vw" | "vh" | "em" | "rem" | "auto",
+  value: GridUnit,
   entry: GridTemplateEntry
 ): GridTemplateEntry {
   switch (value) {
@@ -177,4 +174,80 @@ export function repeatStr(
   entries: Pick<GridTemplateEntry, "amount" | "unit">[]
 ) {
   return createRepetition(groupRepeatedUnits(entries));
+}
+
+export type GridUnit = "fr" | "%" | "px" | "vw" | "vh" | "em" | "rem" | "auto";
+
+export const gridUnits: GridUnit[] = [
+  "fr",
+  "%",
+  "px",
+  "vw",
+  "vh",
+  "em",
+  "rem",
+  "auto",
+];
+
+export type GridGapUnit = "px" | "rem" | "em" | "vh" | "vw";
+
+export const gridGapUnits: GridGapUnit[] = ["px", "rem", "em", "vh", "vw"];
+
+export const defaultInputProps = {
+  name: "amount",
+  min: 0,
+  max: 100,
+  step: 1,
+  disabled: false,
+  type: "number",
+};
+
+export const defaultSelectProps: SelectProps = {
+  name: "unit",
+  disabled: false,
+  options: gridUnits,
+};
+
+export const initialGridTemplateRows: GridTemplateEntry[] = [
+  {
+    id: "row-1",
+    amount: 1,
+    unit: "fr",
+    inputProps: defaultInputProps,
+    selectProps: defaultSelectProps,
+  },
+  {
+    id: "row-2",
+    amount: 1,
+    unit: "fr",
+    inputProps: defaultInputProps,
+    selectProps: defaultSelectProps,
+  },
+];
+
+export const initialGridTemplateColumns: GridTemplateEntry[] = [
+  {
+    id: "column-1",
+    amount: 1,
+    unit: "fr",
+    inputProps: defaultInputProps,
+    selectProps: defaultSelectProps,
+  },
+  {
+    id: "column-2",
+    amount: 1,
+    unit: "fr",
+    inputProps: defaultInputProps,
+    selectProps: defaultSelectProps,
+  },
+];
+
+export function dataToCss(
+  entries: Pick<GridTemplateEntry, "amount" | "unit">[]
+) {
+  return entries
+    .map(({ amount, unit }) => `${amount}${unit}`)
+    .toString()
+    .split(",")
+    .join(" ");
 }

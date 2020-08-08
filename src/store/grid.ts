@@ -1,42 +1,27 @@
+import { InputProps } from "@rebass/forms/styled-components";
 import { atom, selector } from "recoil";
 import shortid from "shortid";
 import { SelectProps } from "../components/Select";
-import { TemplateStringObject } from "../lib/templateStrings";
-
-export const availableUnits = [
-  "fr",
-  "%",
-  "px",
-  "vw",
-  "vh",
-  "em",
-  "rem",
-  "auto",
-];
-
-export const availableGridGapUnits = ["px", "rem", "em", "vh", "vw"];
-
-export const defaultInputProps = {
-  name: "amount",
-  min: 0,
-  max: 100,
-  step: 1,
-  disabled: false,
-  type: "number",
-};
-
-export const defaultSelectProps: SelectProps = {
-  name: "unit",
-  disabled: false,
-  options: availableUnits,
-};
-export type GridInputElement = "input" | "select" | "button";
+import {
+  cssTemplateString,
+  htmlTemplateString,
+  TemplateStringObject,
+} from "../lib/templateStrings";
+import {
+  defaultInputProps,
+  defaultSelectProps,
+  gridGapUnits,
+  initialGridTemplateColumns,
+  initialGridTemplateRows,
+  dataToCss,
+  GridUnit,
+} from "../lib/utils";
 
 export type GridTemplateEntry = {
   id: string;
   amount: number | "";
-  unit: string;
-  inputProps: React.InputHTMLAttributes<HTMLInputElement>;
+  unit: GridUnit;
+  inputProps: InputProps;
   selectProps: SelectProps;
 };
 
@@ -46,43 +31,21 @@ export interface GridState {
   gridGap: GridTemplateEntry;
 }
 
-const grid = atom<GridState>({
+export const grid = atom<GridState>({
   key: "grid",
   default: {
-    gridTemplateRows: new Array(2).fill(null).map((_, index) => ({
-      id: `row-${index}`,
-      amount: 1,
-      unit: "fr",
-      inputProps: defaultInputProps,
-      selectProps: defaultSelectProps,
-    })),
-    gridTemplateColumns: new Array(2).fill(null).map((_, index) => ({
-      id: `column-${index}`,
-      amount: 1,
-      unit: "fr",
-      inputProps: defaultInputProps,
-      selectProps: defaultSelectProps,
-    })),
+    gridTemplateRows: initialGridTemplateRows,
+    gridTemplateColumns: initialGridTemplateColumns,
 
     gridGap: {
       id: shortid(),
       amount: 1,
       unit: "rem",
       inputProps: defaultInputProps,
-      selectProps: { ...defaultSelectProps, options: availableGridGapUnits },
+      selectProps: { ...defaultSelectProps, options: gridGapUnits },
     },
   },
 });
-
-export default grid;
-
-export function dataToCss(entries: GridTemplateEntry[]) {
-  return entries
-    .map(({ amount, unit }) => `${amount}${unit}`)
-    .toString()
-    .split(",")
-    .join(" ");
-}
 
 export const gridCss = selector<TemplateStringObject>({
   key: "gridCss",
@@ -129,5 +92,28 @@ export const gridAreas = selector<GridArea[]>({
     }));
 
     return areas;
+  },
+});
+
+export const snippets = selector({
+  key: "snippets",
+  get: ({ get }) => {
+    const areas = get(gridAreas);
+    const css = get(gridCss);
+    let num = 1;
+    let gridItems = ``;
+
+    areas.forEach((item, index) => {
+      gridItems += `  <div class="grid-item">${num}</div>${
+        index === areas.length ? "" : "\n"
+      }`;
+      num += 1;
+    });
+
+    const state = {
+      css: cssTemplateString(css),
+      html: htmlTemplateString({ ...css, gridItems }),
+    };
+    return state;
   },
 });

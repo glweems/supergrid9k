@@ -1,11 +1,8 @@
 import React from "react";
 import { useRecoilState } from "recoil";
 import { PlusIcon } from "../../lib/Icons";
-import grid, {
-  defaultInputProps,
-  defaultSelectProps,
-  GridState,
-} from "../../store/grid";
+import { grid, GridState } from "../../store/grid";
+import { defaultInputProps, defaultSelectProps } from "../../lib/utils";
 import { Control } from "./Control";
 import { GridEditorControl } from "./GridEditorControl";
 import GridGapControls from "./GridGapControls";

@@ -1,6 +1,6 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
-import { snippets } from "../../store/codeBlock";
+import { snippets } from "../../store/grid";
 import CodeBlock from "../CodeBlock";
 import Box from "../../ui/Box";
 

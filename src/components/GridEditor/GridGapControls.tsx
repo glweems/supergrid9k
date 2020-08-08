@@ -1,6 +1,6 @@
 import React from "react";
 import { useRecoilState } from "recoil";
-import grid from "../../store/grid";
+import { grid } from "../../store/grid";
 import Select from "../Select";
 import { Control } from "./Control";
 import { Input } from "@rebass/forms/styled-components";
