@@ -85,20 +85,12 @@ const CodePenButton: React.FC<CodePenButtonProps> = ({
         `}
         type="submit"
       >
-        <div
-          css={`
-            margin: auto;
-          `}
-        >
+        <div>
           <svg
             data-v-5ac57822=""
             width="20"
             height="20"
             viewBox="0 0 1792 1792"
-            css={`
-              vertical-align: text-bottom;
-              margin-right: 10px;
-            `}
           >
             <path
               data-v-5ac57822=""

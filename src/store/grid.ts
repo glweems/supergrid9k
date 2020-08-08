@@ -84,7 +84,7 @@ export function dataToCss(entries: GridTemplateEntry[]) {
     .join(" ");
 }
 
-export const gridCss = selector({
+export const gridCss = selector<TemplateStringObject>({
   key: "gridCss",
   get: ({ get }) => {
     const state = get(grid);

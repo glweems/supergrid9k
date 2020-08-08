@@ -41,10 +41,6 @@ export const Control = styled.div<ControlProps>`
     }
   }
 
-  .auto {
-    grid-column: 1 / 3;
-  }
-
   input {
     grid-column: 1 / 2;
     border-right-color: ${({ theme }) => theme.colors.background};
