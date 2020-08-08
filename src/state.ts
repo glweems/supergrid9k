@@ -1,21 +1,20 @@
 import { InputProps } from "@rebass/forms/styled-components";
 import { atom, selector } from "recoil";
-import shortid from "shortid";
-import { SelectProps } from "../components/Select";
+import { SelectProps } from "./components/Select";
 import {
   cssTemplateString,
   htmlTemplateString,
   TemplateStringObject,
-} from "../lib/templateStrings";
+} from "./lib/templateStrings";
 import {
+  dataToCss,
   defaultInputProps,
   defaultSelectProps,
   gridGapUnits,
+  GridUnit,
   initialGridTemplateColumns,
   initialGridTemplateRows,
-  dataToCss,
-  GridUnit,
-} from "../lib/utils";
+} from "./lib/utils";
 
 export type GridTemplateEntry = {
   id: string;
@@ -38,7 +37,7 @@ export const grid = atom<GridState>({
     gridTemplateColumns: initialGridTemplateColumns,
 
     gridGap: {
-      id: shortid(),
+      id: "grid-gap",
       amount: 1,
       unit: "rem",
       inputProps: defaultInputProps,

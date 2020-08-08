@@ -6,7 +6,7 @@ import {
   removeItemAtIndex,
   replaceItemAtIndex,
 } from "../../lib/utils";
-import { grid, GridState, GridTemplateEntry } from "../../store/grid";
+import { grid, GridState, GridTemplateEntry } from "../../state";
 import Select from "../Select";
 import { Input } from "@rebass/forms/styled-components";
 import { Button } from "rebass/styled-components";

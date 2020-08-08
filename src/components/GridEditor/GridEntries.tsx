@@ -1,7 +1,7 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { gridAreas, gridCss, GridArea } from "../../store/grid";
+import { gridAreas, gridCss, GridArea } from "../../state";
 import Box, { BoxProps } from "../../ui/Box";
 
 export type GridEntriesProps = React.DetailedHTMLProps<

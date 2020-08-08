@@ -1,5 +1,5 @@
 import { SelectProps } from "../components/Select";
-import { GridTemplateEntry } from "../store/grid";
+import { GridTemplateEntry } from "../state";
 
 export function replaceItemAtIndex<T = object>(
   arr: T[],
