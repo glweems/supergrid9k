@@ -2,15 +2,22 @@
 
 ![img](./public/supergrid9k.PNG)
 
-<p>
-  <img alt="Version" src="https://img.shields.io/badge/version-0.1.0-blue.svg?cacheSeconds=2592000" />
-  <a href="#" target="_blank">
-    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
-  </a>
-  <a href="https://twitter.com/garrettlweems" target="_blank">
-    <img alt="Twitter: garrettlweems" src="https://img.shields.io/twitter/follow/garrettlweems.svg?style=social" />
-  </a>
-</p>
+<div style="width: 100%;
+    margin: 0 auto;
+    padding: 0 0;
+    text-align: center;
+    background-image: radial-gradient(#D7D7D7 1px, transparent 1px), radial-gradient(#d7d7d7 1px, transparent 1px);
+    background-position: 0 0, 25px 25px;
+    background-size: 50px 50px;">
+  <p>
+    <img alt="Version" src="https://img.shields.io/badge/version-0.1.0-blue.svg?cacheSeconds=2592000" />
+    <a href="#" target="_blank">
+      <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
+    </a>
+    <a href="https://twitter.com/garrettlweems" target="_blank">
+      <img alt="Twitter: garrettlweems" src="https://img.shields.io/twitter/follow/garrettlweems.svg?style=social" />
+    </a>
+  </p>
 
 > css grid generator that is super and 9k
 
@@ -52,3 +59,5 @@ Give a ⭐️ if this project helped you!
 ---
 
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
+
+</div>

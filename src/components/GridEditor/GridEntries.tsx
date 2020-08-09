@@ -1,8 +1,8 @@
 import React from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { grid, gridCss } from "../../store/grid";
-import Box, { BoxProps } from "../../ui/Box";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
+import { gridAreas, gridCss, GridArea } from "../../state";
+import Box, { BoxProps } from "../../ui/Box";
 
 export type GridEntriesProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -11,27 +11,50 @@ export type GridEntriesProps = React.DetailedHTMLProps<
   BoxProps;
 
 const GridEntries: React.FC<GridEntriesProps> = (props) => {
-  const [{ gridTemplateRows, gridTemplateColumns }] = useRecoilState(grid);
-  const gridCssState = useRecoilValue(gridCss);
+  const gridProps = useRecoilValue(gridCss);
+  const items = useRecoilValue(gridAreas);
 
   return (
-    <Box {...gridCssState} {...(props as any)}>
-      {gridTemplateRows.map(({ id: rowId }) => (
-        <React.Fragment key={rowId}>
-          {gridTemplateColumns.map(({ id: columnId }) => (
-            <GridEntry key={columnId} className="GridEntry" />
-          ))}
-        </React.Fragment>
+    <Box display="grid" {...gridProps} {...(props as any)}>
+      {items.map((item, index) => (
+        <GridItem
+          key={item.id}
+          {...item}
+          css={`
+            background-repeat: no-repeat;
+          `}
+        >
+          <GridSubItem></GridSubItem>
+        </GridItem>
       ))}
     </Box>
   );
 };
 
-const GridEntry = styled.div`
-  background-color: ${({ theme }) => theme.colors.blues[5]};
-  border-color: ${({ theme }) => theme.colors.blue};
+const GridItem = styled(Box)<GridArea>`
+  background: ${({ theme }) => theme.colors.primary};
+  background-image: ${(props) => `url("data:image/svg+xml;utf8,
+  <svg xmlns='http://www.w3.org/2000/svg' version='1.1'
+       height='100' width='30'>
+<text x='0' y='30' fill='black' font-size='30' >${props.number}</text>
+  </svg>")`};
+  background-repeat: no-repeat;
+  background-position: center;
+  border-color: ${({ theme }) => theme.colors.primary};
   border-style: solid;
   border-width: 3px;
+  border-radius: ${({ theme }) => theme.space[1]}px;
 `;
+
+const GridSubItem = styled(Box)`
+  align-self: center;
+  justify-self: center;
+  height: 100%;
+  font-weight: 900;
+  font-size: 5rem;
+  text-align: center;
+`;
+
+GridEntries.defaultProps = { className: "GridEntries" };
 
 export default GridEntries;

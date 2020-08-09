@@ -9,12 +9,8 @@ import {
   space,
   SpaceProps,
 } from "styled-system";
-import { SuperGrid9kTheme } from "./theme";
 
-interface IconProps
-  extends ColorProps<SuperGrid9kTheme>,
-    LayoutProps,
-    SpaceProps<SuperGrid9kTheme> {}
+interface IconProps extends ColorProps, LayoutProps, SpaceProps {}
 
 const iconComposition = compose(color, layout, space);
 
@@ -26,11 +22,8 @@ export const Icon = styled.svg<IconProps>`
 Icon.defaultProps = {
   viewBox: "0 0 16 16",
   xmlns: "http://www.w3.org/2000/svg",
-  size: 20,
+  size: 35,
   fill: "currentColor",
-  paddingX: 1,
-  paddingY: 0,
-  margin: 0,
 };
 
 export const PlusIcon: React.FC<IconProps> = (props) =>

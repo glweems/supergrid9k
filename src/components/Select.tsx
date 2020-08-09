@@ -1,18 +1,24 @@
 import React, { FC } from "react";
-export interface SelectProps
-  extends React.SelectHTMLAttributes<HTMLSelectElement> {
+
+import {
+  Select as RebassSelect,
+  SelectProps as RebassSelectProps,
+} from "@rebass/forms/styled-components";
+export interface SelectProps extends RebassSelectProps {
   options: string[];
 }
 
-const Select: FC<SelectProps> = ({ options, ...props }) => {
+const Select: FC<SelectProps> = ({ options, style, ...props }) => {
   return (
-    <select {...props}>
-      {options.map((option, index) => (
-        <option key={`${props.name}-${option}-${index}`} value={option}>
-          {option}
-        </option>
-      ))}
-    </select>
+    <div className={`select ${props.className}`} style={style}>
+      <RebassSelect {...props}>
+        {options.map((option, index) => (
+          <option key={`${props.name}-${option}-${index}`} value={option}>
+            {option}
+          </option>
+        ))}
+      </RebassSelect>
+    </div>
   );
 };
 

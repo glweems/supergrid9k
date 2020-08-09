@@ -6,9 +6,10 @@ import {
   removeItemAtIndex,
   replaceItemAtIndex,
 } from "../../lib/utils";
-import { grid, GridState, GridTemplateEntry } from "../../store/grid";
-import Button from "../../ui/Button";
+import { grid, GridState, GridTemplateEntry } from "../../state";
 import Select from "../Select";
+import { Input } from "@rebass/forms/styled-components";
+import { Button } from "rebass/styled-components";
 export interface GridEditorControlProps {
   entry: GridTemplateEntry;
   name: keyof Omit<GridState, "gridGap">;
@@ -39,17 +40,33 @@ export function GridEditorControl({
     setGridState((prev) => ({ ...prev, [objkey]: newEntries }));
   };
 
+  const disableDelete = gridState[objkey].length < 2;
+
   return (
     <React.Fragment>
-      <input
+      <Input
+        color="text"
+        bg="lights.1"
         name="amount"
         value={entry.amount}
         onChange={handleChange}
         {...entry.inputProps}
       />
 
-      <Select name="unit" onChange={handleChange} {...entry.selectProps} />
-      <Button onClick={handleDelete} color="red" icon>
+      <Select
+        color="text"
+        bg="lights.1"
+        name="unit"
+        onChange={handleChange}
+        {...entry.selectProps}
+      />
+
+      <Button
+        className="remove-entry"
+        onClick={handleDelete}
+        variant="close"
+        disabled={disableDelete}
+      >
         <CloseIcon size={25} />
       </Button>
     </React.Fragment>

@@ -1,34 +1,36 @@
-import { CssGridProps } from "../store/grid";
 import { templateGenerator } from "./utils";
+import { GridProps } from "styled-system";
 
-export interface TemplateStringObject extends CssGridProps {
-  class: string;
-}
+export type TemplateStringObject<T = {}> = GridProps &
+  T & {
+    className?: string;
+  };
 
 export const cssTemplateString = templateGenerator<
   TemplateStringObject
->`.${"class"} {
-    display: ${"display"};
+>`.${"className"} {
+    display: grid;
     grid-template-rows: ${"gridTemplateRows"};
     grid-template-columns: ${"gridTemplateColumns"};
     grid-gap: ${"gridGap"};
   }`;
 
 export const htmlTemplateString = templateGenerator<
-  TemplateStringObject
->`<div class="${"class"}"></div>`;
+  TemplateStringObject<{ gridItems: string }>
+>`<div className="${"className"}">
+${"gridItems"}</div>`;
 
 export const styledComponentsTemplateString = templateGenerator<
   TemplateStringObject
->`const ${"class"} = styled.div\`\n   display: ${"display"};
+>`const ${"className"} = styled.div\`\n   display: grid;
     grid-template-rows: ${"gridTemplateRows"};
     grid-template-columns: ${"gridTemplateColumns"};
     grid-gap: ${"gridGap"};\n\`;`;
 
 export const styleObjTemplateString = templateGenerator<
   TemplateStringObject
->`const ${"class"} = {
-  display: "${"display"}",
+>`const ${"className"} = {
+  display: grid;
   gridTemplateRows: "${"gridTemplateRows"}",
   gridTemplateColumns: "${"gridTemplateColumns"}",
   gridGap: "${"gridGap"}"
@@ -37,4 +39,4 @@ export const styleObjTemplateString = templateGenerator<
 
 export const styleObjHTMLTemplateString = templateGenerator<
   TemplateStringObject
->`<div style={${"class"}}></div>`;
+>`<div style={${"className"}}></div>`;
