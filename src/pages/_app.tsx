@@ -3,6 +3,7 @@ import App, { AppContext, AppProps } from "next/app";
 import Head from "next/head";
 import React from "react";
 import ContextProvider from "../components/ContextProvider";
+import GlobalStyle from "../lib/GlobalStyle";
 
 export default class MyApp extends App<AppProps> {
   static async getInitialProps({ Component, router, ctx }: AppContext) {
@@ -23,6 +24,7 @@ export default class MyApp extends App<AppProps> {
           <title>Super Grid 9K</title>
         </Head>
         <ContextProvider>
+          <GlobalStyle />
           <Component {...pageProps} />
         </ContextProvider>
       </React.Fragment>

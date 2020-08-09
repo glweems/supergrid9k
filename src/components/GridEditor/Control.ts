@@ -30,12 +30,17 @@ export const Control = styled.div<ControlProps>`
 
   .remove-entry {
     grid-column: 3 / 4;
-    background-color: ${({ theme }) => theme.colors.darks[2]};
     border-color: ${({ theme }) => theme.colors.secondary};
     border-style: solid;
     border-width: 1px;
     border-radius: 0 4px 4px 0;
-    &:hover {
+
+    &:disabled {
+      color: ${({ theme }) => theme.colors.light};
+      cursor: none;
+    }
+
+    &:not(:disabled):hover {
       color: ${({ theme }) => theme.colors.text};
       background-color: ${({ theme }) => theme.colors.red};
     }

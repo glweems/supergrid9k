@@ -1751,11 +1751,6 @@
     style-value-types "^3.1.7"
     tslib "^1.10.0"
 
-"@popperjs/core@^2.4.4":
-  version "2.4.4"
-  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.4.4.tgz#11d5db19bd178936ec89cd84519c4de439574398"
-  integrity sha512-1oO6+dN5kdIA3sKPZhRGJTfGVP4SWV6KqlMOwry4J3HfyD68sl/3KmG7DeYUzvN+RbhXDnv/D8vNNB8168tAMg==
-
 "@rebass/forms@^4.0.6":
   version "4.0.6"
   resolved "https://registry.yarnpkg.com/@rebass/forms/-/forms-4.0.6.tgz#19a3af64f855baa65dec65aecadda5cd95a09dd7"
@@ -2065,6 +2060,11 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
+"@types/clipboard@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@types/clipboard/-/clipboard-2.0.1.tgz#75a74086c293d75b12bc93ff13bc7797fef05a40"
+  integrity sha512-gJJX9Jjdt3bIAePQRRjYWG20dIhAgEqonguyHxXuqALxsoDsDLimihqrSg8fXgVTJ4KZCzkfglKtwsh/8dLfbA==
+
 "@types/color-name@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@types/color-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
@@ -2182,9 +2182,9 @@
     "@types/react" "*"
 
 "@types/react-native@*":
-  version "0.63.4"
-  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.63.4.tgz#4610b0df0e5f0db4c68d495754ad9f8bc3b8893f"
-  integrity sha512-IkQax0q5z5P4ttScELhrfrXtnFuADs/SP9kNwx2rfEuVjwF5xqhGjcY/YkiH2mSx+9QjI5S4zhxXOi3+kcnOkw==
+  version "0.63.5"
+  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.63.5.tgz#7e49aeef7097b55a395d44b3274a9bd71df0d7d2"
+  integrity sha512-5HRFo4/PqItW7PHACwpC156URtLFqCr3LJfLrdKvGPVd1miHiZdxfumMA1aFErUTBSxeYWBpfezpe4z20XKS2g==
   dependencies:
     "@types/react" "*"
 
@@ -2205,15 +2205,7 @@
     "@types/history" "*"
     "@types/react" "*"
 
-"@types/react@*":
-  version "16.9.44"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.44.tgz#da84b179c031aef67dc92c33bd3401f1da2fa3bc"
-  integrity sha512-BtLoJrXdW8DVZauKP+bY4Kmiq7ubcJq+H/aCpRfvPF7RAT3RwR73Sg8szdc2YasbAlWBDrQ6Q+AFM0KwtQY+WQ==
-  dependencies:
-    "@types/prop-types" "*"
-    csstype "^3.0.2"
-
-"@types/react@^16.9.45":
+"@types/react@*", "@types/react@^16.9.45":
   version "16.9.45"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.45.tgz#b43ccf3d8a3d2020e6a48c8c8492e5a4bc10f097"
   integrity sha512-vv950slTF5UZ5eDOf13b8qC1SD4rTvkqg3HfaUKzr17U97oeJZAa+dUaIHn0QoOJflNTIt6Pem9MmapULs9dkA==
@@ -3462,11 +3454,6 @@ body-parser@1.19.0:
     raw-body "2.4.0"
     type-is "~1.6.17"
 
-body-scroll-lock@^3.0.2:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/body-scroll-lock/-/body-scroll-lock-3.0.3.tgz#221d87435bcfb50e27ab5d4508735f622aed11a2"
-  integrity sha512-EUryImgD6Gv87HOjJB/yB2WIGECiZMhmcUK+DrqVRFDDa64xR+FsK0LgvLPnBxZDTxIl+W80/KJ8i6gp2IwOHQ==
-
 bonjour@^3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/bonjour/-/bonjour-3.5.0.tgz#8e890a183d8ee9a2393b3844c691a42bcf7bc9f5"
@@ -4026,7 +4013,7 @@ cli-width@^3.0.0:
   resolved "https://registry.yarnpkg.com/cli-width/-/cli-width-3.0.0.tgz#a2f48437a2caa9a22436e794bf071ec9e61cedf6"
   integrity sha512-FxqpkPPwu1HjuN93Omfm4h8uIanXofW0RxVEW3k5RKx+mJJYSthzNhp32Kzxxy3YAEZ/Dc/EWN1vZRY0+kOhbw==
 
-clipboard@^2.0.6:
+clipboard@^2.0.0, clipboard@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/clipboard/-/clipboard-2.0.6.tgz#52921296eec0fdf77ead1749421b21c968647376"
   integrity sha512-g5zbiixBRk/wyKakSwCKd7vQXDjFnAMGHoEyBogG/bw9kTD9GvdAvaoRR1ALcEzt3pVKxZR0pViekPMIS0QyGg==
@@ -5190,9 +5177,9 @@ ee-first@1.1.1:
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
 electron-to-chromium@^1.3.378, electron-to-chromium@^1.3.488, electron-to-chromium@^1.3.523:
-  version "1.3.524"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.524.tgz#dd49646594466192de35956a5369bb20d616aa78"
-  integrity sha512-ZUvklIBkfXQyA6IeiEss1nfKRICcdB5afAGZAaPGaExdfrkpUu/WWVO+X7QpNnphaVMllXnAcvKnVPdyM+DCPQ==
+  version "1.3.526"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.526.tgz#0e004899edf75afc172cce1b8189aac5dca646aa"
+  integrity sha512-HiroW5ZbGwgT8kCnoEO8qnGjoTPzJxduvV/Vv/wH63eo2N6Zj3xT5fmmaSPAPUM05iN9/5fIEkIg3owTtV6QZg==
 
 elliptic@^6.5.3:
   version "6.5.3"
@@ -9023,11 +9010,6 @@ nan@^2.12.1:
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.1.tgz#d7be34dfa3105b91494c3147089315eff8874b01"
   integrity sha512-isWHgVjnFjh2x2yuJ/tj3JbwoHu3UC2dX5G/88Cm24yB6YopVgxvBObDY7n5xW6ExmFhJpSEQqFPvq9zaXc8Jw==
 
-nanoid@^2.1.0:
-  version "2.1.11"
-  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-2.1.11.tgz#ec24b8a758d591561531b4176a01e3ab4f0f0280"
-  integrity sha512-s/snB+WGm6uwi0WjsZdaVcuf3KJXlfGl2LcxgwkEwJF0D/BWzVWAZW/XY4bFaiR7s0Jk3FPvlnepg1H1b1UwlA==
-
 nanomatch@^1.2.9:
   version "1.2.13"
   resolved "https://registry.yarnpkg.com/nanomatch/-/nanomatch-1.2.13.tgz#b87a8aa4fc0de8fe6be88895b38983ff265bd119"
@@ -10845,7 +10827,7 @@ prop-types-exact@1.2.0:
     object.assign "^4.1.0"
     reflect.ownkeys "^0.2.0"
 
-prop-types@15.7.2, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@15.7.2, prop-types@^15.5.0, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -11020,6 +11002,15 @@ react-app-polyfill@^1.0.6:
     raf "^3.4.1"
     regenerator-runtime "^0.13.3"
     whatwg-fetch "^3.0.0"
+
+react-clipboard.js@^2.0.16:
+  version "2.0.16"
+  resolved "https://registry.yarnpkg.com/react-clipboard.js/-/react-clipboard.js-2.0.16.tgz#45a60684dd6a36ff97e40c53069a27e97a4b6c9c"
+  integrity sha512-COwmnbrRbl8y4f/SjtonnJTeBRD03YzsHBL5on8iL/uyjERsMkKC7djtfmns7iRAbzadn/84MdpaqaQ3ITP47g==
+  dependencies:
+    "@types/clipboard" "^2.0.1"
+    clipboard "^2.0.0"
+    prop-types "^15.5.0"
 
 react-dev-utils@^10.2.1:
   version "10.2.1"
@@ -11284,36 +11275,6 @@ readdirp@~3.4.0:
   integrity sha512-0xe001vZBnJEK+uKcj8qOhyAKPzIT+gStxWr3LCB0DwcXR5NZJ3IaC+yGnHCYzB/S7ov3m3EEbZI2zeNvX+hGQ==
   dependencies:
     picomatch "^2.2.1"
-
-reakit-system@^0.14.0:
-  version "0.14.0"
-  resolved "https://registry.yarnpkg.com/reakit-system/-/reakit-system-0.14.0.tgz#ddc6045eee209f0835f9b64078258535c0ea6344"
-  integrity sha512-DqCL9IzhTm5swdvOLGZh/Ht948hXF/7v8aqnSL2pUv5pYkYZIjzkIthCimBVLzxS1jDgV5jE0IGOH3I5LDuo6g==
-  dependencies:
-    reakit-utils "^0.14.0"
-
-reakit-utils@^0.14.0:
-  version "0.14.0"
-  resolved "https://registry.yarnpkg.com/reakit-utils/-/reakit-utils-0.14.0.tgz#b5cf633b3f12eaa060ccccf374ec3a633850f0af"
-  integrity sha512-c3WWhWtvtP9umb3lq0CcRsZ3JTXAgP0RzQL+EYQjsx0GmJNmXdXSJ6bI44mrwfG815ibjvrg1hPX2nMEyyKXLQ==
-
-reakit-warning@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/reakit-warning/-/reakit-warning-0.5.0.tgz#a8fa44de6a832f7d20ebf038630fdd92962c82e0"
-  integrity sha512-Bd2Fp5It8U3c41ks04qSII2Dttr8XIn0vM2wKAmzEJ317U3dKqh4N+JaYCYWd2sa0W5HG1hdsKNb0sSREYn1Wg==
-  dependencies:
-    reakit-utils "^0.14.0"
-
-reakit@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/reakit/-/reakit-1.2.0.tgz#be23a2fd76faff7d0c33845a60de362f269e671c"
-  integrity sha512-SNUoOkC2pPrjqjfbzYU+AoKDGedqns4i8v/cAJ7te1VU4Z3o35lTANAgIowEdlnghw61xnqWnEc5aE0f0v8S9g==
-  dependencies:
-    "@popperjs/core" "^2.4.4"
-    body-scroll-lock "^3.0.2"
-    reakit-system "^0.14.0"
-    reakit-utils "^0.14.0"
-    reakit-warning "^0.5.0"
 
 realpath-native@^1.1.0:
   version "1.1.0"
@@ -12113,13 +12074,6 @@ shellwords@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
   integrity sha512-vFwSUfQvqybiICwZY5+DAWIPLKsWO31Q91JSKl3UYv+K5c2QRPzn0qzec6QPu1Qc9eHYItiP3NdJqNVqetYAww==
-
-shortid@^2.2.15:
-  version "2.2.15"
-  resolved "https://registry.yarnpkg.com/shortid/-/shortid-2.2.15.tgz#2b902eaa93a69b11120373cd42a1f1fe4437c122"
-  integrity sha512-5EaCy2mx2Jgc/Fdn9uuDuNIIfWBpzY4XIlhoqtXF6qsf+/+SGZ+FxDdX/ZsMZiWupIWNqAEmiNY4RC+LSmCeOw==
-  dependencies:
-    nanoid "^2.1.0"
 
 side-channel@^1.0.2:
   version "1.0.2"
@@ -13983,9 +13937,9 @@ whatwg-encoding@^1.0.1, whatwg-encoding@^1.0.3, whatwg-encoding@^1.0.5:
     iconv-lite "0.4.24"
 
 whatwg-fetch@^3.0.0:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.3.1.tgz#6c1acf37dec176b0fd6bc9a74b616bec2f612935"
-  integrity sha512-faXTmGDcLuEPBpJwb5LQfyxvubKiE+RlbmmweFGKjvIPFj4uHTTfdtTIkdTRhC6OSH9S9eyYbx8kZ0UEaQqYTA==
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.4.0.tgz#e11de14f4878f773fbebcde8871b2c0699af8b30"
+  integrity sha512-rsum2ulz2iuZH08mJkT0Yi6JnKhwdw4oeyMjokgxd+mmqYSd9cPpOQf01TIWgjxG/U4+QR+AwKq6lSbXVxkyoQ==
 
 whatwg-mimetype@^2.1.0, whatwg-mimetype@^2.2.0, whatwg-mimetype@^2.3.0:
   version "2.3.0"

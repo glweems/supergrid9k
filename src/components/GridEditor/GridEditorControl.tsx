@@ -40,6 +40,8 @@ export function GridEditorControl({
     setGridState((prev) => ({ ...prev, [objkey]: newEntries }));
   };
 
+  const disableDelete = gridState[objkey].length < 2;
+
   return (
     <React.Fragment>
       <Input
@@ -59,7 +61,12 @@ export function GridEditorControl({
         {...entry.selectProps}
       />
 
-      <Button className="remove-entry" onClick={handleDelete} variant="close">
+      <Button
+        className="remove-entry"
+        onClick={handleDelete}
+        variant="close"
+        disabled={disableDelete}
+      >
         <CloseIcon size={25} />
       </Button>
     </React.Fragment>

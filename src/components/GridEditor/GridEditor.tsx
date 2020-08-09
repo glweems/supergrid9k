@@ -1,17 +1,18 @@
 import React from "react";
 import styled from "styled-components";
 import Box from "../../ui/Box";
-import GithubButton from "../../ui/GithubButton";
 import CodeSnippets from "../CodeSnippets/CodeSnippets";
 import GridEditorControls from "./GridEditorControls";
 import GridEntries from "./GridEntries";
 import { Text } from "rebass/styled-components";
+import GithubButton from "../../ui/GithubButton";
+
 const GridEditor: React.FC = () => {
   return (
     <Layout>
       <aside className="grid-sidebar">
         <Text as="h1">SuperGrid9K</Text>
-        <GithubButton title="View On Github">View On Github</GithubButton>
+        <GithubButton>View Code</GithubButton>
         <GridEditorControls />
       </aside>
 
@@ -40,8 +41,7 @@ const Layout = styled(Box)`
   .grid-sidebar {
     grid-area: grid-sidebar;
     color: ${({ theme }) => theme.colors.text};
-    background-color: ${({ theme }) => theme.colors.darks[3]};
-    border-right: 2px solid ${({ theme }) => theme.colors.lights[1]};
+    border-right: 2px solid ${({ theme }) => theme.colors.light};
   }
 
   .grid-entries {

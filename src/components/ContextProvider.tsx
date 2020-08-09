@@ -8,8 +8,8 @@ const ContextProvider: React.FC = ({ children }) => {
   return (
     <RecoilRoot>
       <ThemeProvider theme={theme}>
-        <GlobalStyle />
         {children}
+        <GlobalStyle />
       </ThemeProvider>
     </RecoilRoot>
   );

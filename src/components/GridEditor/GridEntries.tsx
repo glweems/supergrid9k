@@ -32,7 +32,7 @@ const GridEntries: React.FC<GridEntriesProps> = (props) => {
 };
 
 const GridItem = styled(Box)<GridArea>`
-  background: ${({ theme }) => theme.colors.blues[5]};
+  background: ${({ theme }) => theme.colors.primary};
   background-image: ${(props) => `url("data:image/svg+xml;utf8,
   <svg xmlns='http://www.w3.org/2000/svg' version='1.1'
        height='100' width='30'>
@@ -40,7 +40,7 @@ const GridItem = styled(Box)<GridArea>`
   </svg>")`};
   background-repeat: no-repeat;
   background-position: center;
-  border-color: ${({ theme }) => theme.colors.blue};
+  border-color: ${({ theme }) => theme.colors.primary};
   border-style: solid;
   border-width: 3px;
   border-radius: ${({ theme }) => theme.space[1]}px;

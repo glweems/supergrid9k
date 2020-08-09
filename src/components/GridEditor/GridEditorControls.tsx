@@ -34,33 +34,35 @@ function GridEditorControls() {
 
   return (
     <React.Fragment>
-      {Object.keys(gridState).map((key) => {
-        const name: keyof typeof gridState = key as any;
-        return (
-          <React.Fragment key={key}>
-            <Control>
-              <Text as="h3" className="control-label" mb={3}>
-                {prettyName(name)}
-              </Text>
+      {Object.keys(gridState)
+        .reverse()
+        .map((key) => {
+          const name: keyof typeof gridState = key as any;
+          return (
+            <React.Fragment key={key}>
+              <Control>
+                <Text as="h3" className="control-label" mb={3}>
+                  {prettyName(name)}
+                </Text>
 
-              {gridState[name].map((entry) => (
-                <GridEditorControl key={entry.id} entry={entry} name={name} />
-              ))}
+                {gridState[name].map((entry) => (
+                  <GridEditorControl key={entry.id} entry={entry} name={name} />
+                ))}
 
-              <Button
-                name={key}
-                className="add-entry"
-                onClick={handleAdd}
-                variant="primary"
-                bg="green"
-                color="text"
-              >
-                <PlusIcon size={28} padding={0} />
-              </Button>
-            </Control>
-          </React.Fragment>
-        );
-      })}
+                <Button
+                  name={key}
+                  className="add-entry"
+                  onClick={handleAdd}
+                  variant="primary"
+                  bg="green"
+                  color="text"
+                >
+                  <PlusIcon size={28} padding={0} />
+                </Button>
+              </Control>
+            </React.Fragment>
+          );
+        })}
 
       <GridGapControls />
     </React.Fragment>
