@@ -1,14 +1,13 @@
 import { createGlobalStyle, css } from "styled-components";
 
-export const themeColors = {
+const themeColors: Record<string, string> = {
   primary: "#3578e5",
   secondary: "##444950",
-
   background: "#18191a",
   code: "#292c3d",
   text: "#fff",
   muted: "#f6f6f9",
-  gray: "#dddddf",
+  grey: "#dddddf",
   highlight: "hsla(205, 100%, 40%, 0.125)",
   green: "#4caf50",
   purple: "#d0c1fa",
@@ -17,6 +16,8 @@ export const themeColors = {
   light: "#f8f8f8",
   dark: "#272822",
 };
+
+themeColors.control = themeColors.code;
 
 const space: SuperGrid9kSpace = [0, 4, 8, 16, 32, 64];
 space.common = `0.375em`;
@@ -150,6 +151,5 @@ export const createStyledCssVariables = (
 };
 
 export const cssVariables = createStyledCssVariables(theme.colors);
-
 export const createGlobalCss = createGlobalStyle<SuperGrid9kTheme>``;
 export default theme;

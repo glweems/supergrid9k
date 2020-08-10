@@ -5,6 +5,7 @@ import Select from "../Select";
 import { Control } from "./Control";
 import { Input } from "@rebass/forms/styled-components";
 import { Text } from "rebass/styled-components";
+
 const GridGapControls = () => {
   const [{ gridGap }, setGridState] = useRecoilState(grid);
 
@@ -23,7 +24,7 @@ const GridGapControls = () => {
       </Text>
       <Input
         color="text"
-        bg="lights.1"
+        bg="code"
         name="amount"
         value={gridGap.amount}
         onChange={handleChange}
@@ -31,7 +32,7 @@ const GridGapControls = () => {
       />
       <Select
         color="text"
-        bg="lights.1"
+        bg="control"
         name="unit"
         value={gridGap.unit}
         onChange={handleChange}
