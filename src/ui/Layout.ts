@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import Div100vh from "react-div-100vh";
 
-const Layout = styled.div`
+const Layout = styled(Div100vh)`
   display: grid;
   grid-template-areas:
     "grid-sidebar grid-entries"
@@ -8,7 +9,6 @@ const Layout = styled.div`
   grid-template-rows: 1fr 30%;
   grid-template-columns: 300px 1fr;
   width: 100vw;
-  height: 100vh;
   overflow: hidden;
 
   .grid-sidebar {
