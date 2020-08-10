@@ -2,7 +2,7 @@ import React from "react";
 import { useRecoilState } from "recoil";
 import { grid } from "../../state";
 import Select from "../Select";
-import { Control } from "./Control";
+import { Control } from "../../ui/Control";
 import { Input } from "@rebass/forms/styled-components";
 import { Text } from "rebass/styled-components";
 

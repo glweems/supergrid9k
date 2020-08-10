@@ -3,7 +3,7 @@ import { useRecoilState } from "recoil";
 import { PlusIcon } from "../../lib/Icons";
 import { grid, GridState } from "../../state";
 import { defaultInputProps, defaultSelectProps } from "../../lib/utils";
-import { Control } from "./Control";
+import { Control } from "../../ui/Control";
 import { GridEditorControl } from "./GridEditorControl";
 import GridGapControls from "./GridGapControls";
 import { Button, Text } from "rebass/styled-components";

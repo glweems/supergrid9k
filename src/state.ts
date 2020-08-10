@@ -15,6 +15,7 @@ import {
   initialGridTemplateColumns,
   initialGridTemplateRows,
 } from "./lib/utils";
+import { CodePenData } from "./components/CodePenButton";
 
 export type GridTemplateEntry = {
   id: string;
@@ -94,7 +95,11 @@ export const gridAreas = selector<GridArea[]>({
   },
 });
 
-export const snippets = selector({
+export type CodeSnippetLanguage = "html" | "css";
+
+export type CodeSnippetState = Record<CodeSnippetLanguage, string>;
+
+export const snippets = selector<CodeSnippetState>({
   key: "snippets",
   get: ({ get }) => {
     const areas = get(gridAreas);
@@ -114,5 +119,18 @@ export const snippets = selector({
       html: htmlTemplateString({ ...css, gridItems }),
     };
     return state;
+  },
+});
+
+export const codePenOptions = selector<CodePenData>({
+  key: "codePenConfig",
+  get: ({ get }) => {
+    const { html, css } = get(snippets);
+    const config: CodePenData = {
+      title: "Css Grid",
+      html,
+      css,
+    };
+    return config;
   },
 });

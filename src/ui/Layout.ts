@@ -1,0 +1,37 @@
+import styled from "styled-components";
+
+const Layout = styled.div`
+  display: grid;
+  grid-template-areas:
+    "grid-sidebar grid-entries"
+    "grid-sidebar code-viewer";
+  grid-template-rows: 1fr 30%;
+  grid-template-columns: 300px 1fr;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+
+  .grid-sidebar {
+    grid-area: grid-sidebar;
+    color: ${({ theme }) => theme.colors.text};
+    border-right: 2px solid ${({ theme }) => theme.colors.light};
+  }
+
+  .grid-entries {
+    grid-area: grid-entries;
+  }
+
+  .code-viewer {
+    display: grid;
+    grid-area: code-viewer;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  aside {
+    padding-right: ${({ theme }) => theme.space[3]}px;
+    padding-bottom: ${({ theme }) => theme.space[4]}px;
+    padding-left: ${({ theme }) => theme.space[3]}px;
+  }
+`;
+
+export default Layout;
