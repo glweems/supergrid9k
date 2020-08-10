@@ -1,7 +1,6 @@
+import React from "react";
 declare module "prism-react-renderer" {
-  import * as React from "react";
-
-  type Language =
+  export type Language =
     | "markup"
     | "bash"
     | "clike"
@@ -39,7 +38,7 @@ declare module "prism-react-renderer" {
     [key: string]: any;
   };
 
-  export type LanguageDict = { [lang in Language]: PrismGrammar };
+  export type LanguageDict = { [key: Language]: PrismGrammar };
 
   export type PrismLib = {
     languages: LanguageDict;
@@ -89,28 +88,28 @@ declare module "prism-react-renderer" {
     }>;
   };
 
-  type ThemeDict = {
+  export type ThemeDict = {
     root: StyleObj;
     plain: StyleObj;
     [type: string]: StyleObj;
   };
 
-  type Token = {
+  export type Token = {
     types: string[];
     content: string;
     empty?: boolean;
   };
 
-  type PrismToken = {
+  export type PrismToken = {
     type: string;
     content: Array<PrismToken | string> | string;
   };
 
-  type StyleObj = {
+  export type StyleObj = {
     [key: string]: string | number | null;
   };
 
-  type LineInputProps = {
+  export type LineInputProps = {
     key?: React.Key;
     style?: StyleObj;
     className?: string;
@@ -118,14 +117,14 @@ declare module "prism-react-renderer" {
     [otherProp: string]: any;
   };
 
-  type LineOutputProps = {
+  export type LineOutputProps = {
     key?: React.Key;
     style?: StyleObj;
     className: string;
     [otherProps: string]: any;
   };
 
-  type TokenInputProps = {
+  export type TokenInputProps = {
     key?: React.Key;
     style?: StyleObj;
     className?: string;
@@ -133,7 +132,7 @@ declare module "prism-react-renderer" {
     [otherProp: string]: any;
   };
 
-  type TokenOutputProps = {
+  export type TokenOutputProps = {
     key?: React.Key;
     style?: StyleObj;
     className: string;
@@ -149,12 +148,12 @@ declare module "prism-react-renderer" {
     getTokenProps: (input: TokenInputProps) => TokenOutputProps;
   };
 
-  type DefaultProps = {
+  export type DefaultProps = {
     Prism: PrismLib;
     theme: PrismTheme;
   };
 
-  interface HighlightProps {
+  export interface HighlightProps {
     Prism: PrismLib;
     theme?: PrismTheme;
     language: Language;
@@ -172,8 +171,6 @@ declare module "prism-react-renderer" {
   export const defaultProps: DefaultProps;
 
   export const Prism: PrismLib;
-
-  export { Language, DefaultProps, PrismTheme };
 }
 
 declare module "prism-react-renderer/themes/*" {
