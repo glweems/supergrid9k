@@ -6,6 +6,7 @@ import Highlight, {
 } from "prism-react-renderer";
 import React, { FC } from "react";
 import Clipboard from "react-clipboard.js";
+import { Box } from "rebass/styled-components";
 import styled, { css } from "styled-components";
 import syntaxTheme from "../lib/syntaxTheme";
 export interface CodeBlockProps {
@@ -62,8 +63,8 @@ const CodeBody: FC<CodeBodyProps> = ({
       >
         {copyText}
       </Clipboard>
-      <pre className={className} style={style}>
-        <code className={className}>
+      <Box as="pre" className={className} style={style}>
+        <code>
           {tokens.map((line, i) => (
             <div {...getLineProps({ line, key: i })}>
               {line.map((token, key) => (
@@ -72,7 +73,7 @@ const CodeBody: FC<CodeBodyProps> = ({
             </div>
           ))}
         </code>
-      </pre>
+      </Box>
     </CodeContainer>
   );
 };
@@ -111,7 +112,6 @@ const CopyButton = styled.button`
 `;
 const CodeContainer = styled.div<{ showCopy: boolean }>`
   position: relative;
-  background-color: ${({ theme }) => theme.colors.code};
 
   ${({ showCopy }) =>
     showCopy &&

@@ -252,6 +252,14 @@ export function dataToCss(
     .join(" ");
 }
 
+export function createCssString(
+  entries: Pick<GridTemplateEntry, "amount" | "unit">[],
+  repeat = false
+): string {
+  if (repeat) return repeatStr(entries);
+  return dataToCss(entries);
+}
+
 export const defaultGridState: GridState = {
   gridTemplateRows: initialGridTemplateRows,
   gridTemplateColumns: initialGridTemplateColumns,

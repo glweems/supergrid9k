@@ -7,7 +7,7 @@ import {
   htmlTemplateString,
   TemplateStringObject,
 } from "./lib/templateStrings";
-import { dataToCss, defaultGridState, GridUnit } from "./lib/utils";
+import { createCssString, defaultGridState, GridUnit } from "./lib/utils";
 
 export type GridTemplateEntry = {
   id: string;
@@ -34,17 +34,23 @@ export const resetGrid = selector({
   set: ({ set }) => set(grid, defaultGridState),
 });
 
+export const cssRepeat = atom({
+  key: "useCssGridRepeat",
+  default: true,
+});
+
 export const gridCss = selector<TemplateStringObject>({
   key: "gridCss",
   get: ({ get }) => {
     const state = get(grid);
+    const repeat = get(cssRepeat);
     const { amount, unit } = state.gridGap;
 
     const cssObj: TemplateStringObject = {
       className: "grid-container",
       gridGap: `${amount}${unit}`,
-      gridTemplateRows: dataToCss(state.gridTemplateRows),
-      gridTemplateColumns: dataToCss(state.gridTemplateColumns),
+      gridTemplateRows: createCssString(state.gridTemplateRows, repeat),
+      gridTemplateColumns: createCssString(state.gridTemplateColumns, repeat),
     };
 
     return cssObj;
@@ -114,7 +120,6 @@ export const codePenOptions = selector<CodePenData>({
   get: ({ get }) => {
     const { html, css } = get(snippets);
     const config: CodePenData = {
-      title: "Css Grid",
       html,
       css,
     };

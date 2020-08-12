@@ -11,7 +11,7 @@ export interface CodePenData {
    *
    */
   parent?: string;
-  tags?: string[];
+  tags?: [string, string, string, string, string];
   /**
    * "101" Set which editors are open. In this example HTML open, CSS closed, JS open
    */
@@ -101,10 +101,16 @@ const CodePenButton: React.FC<CodePenButtonProps> = ({
 };
 
 CodePenButton.defaultProps = {
-  className: "CodePenButton",
-  children: "Create CodePen",
+  title: "Super Grid 9k Creation",
+  description: `Created With Super Grid 9k!\nCreate your at https://supergrid9k.dev`,
+  tags: ["SuperGrid9k", "css", "grid", "cssgrid", "css-grid"],
   head: '<meta name="viewport" content="width=device-width, initial-scale=1">',
   css_external: "https://supergrid9k.dev/codepen.css",
+  editors: "110",
+  layout: "right",
+  css_starter: "reset",
+  className: "CodePenButton",
+  children: "Create CodePen",
 };
 
 export const SuperGrid9kCodePen: React.FC = () => {
