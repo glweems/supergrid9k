@@ -1,5 +1,8 @@
 import React from "react";
 import { Button } from "rebass/styled-components";
+import { useRecoilValue } from "recoil";
+import { Icon, iconButtonCss } from "../lib/Icons";
+import { codePenOptions } from "../state";
 export interface CodePenData {
   title?: string;
   description?: string;
@@ -54,18 +57,21 @@ export interface CodePenData {
   js_external?: string;
 }
 
-interface CodePenButtonProps {
-  data: CodePenData;
+interface CodePenButtonProps extends Omit<CodePenData, "html" | "css" | "js"> {
+  code?: Pick<CodePenData, "html" | "css" | "js">;
   children?: React.ReactNode;
   className?: string;
+  buttonStyle?: React.CSSProperties;
 }
 
 const CodePenButton: React.FC<CodePenButtonProps> = ({
   children,
   className,
-  data,
+  code,
+  buttonStyle,
+  ...config
 }) => {
-  const values = JSON.stringify(data);
+  const values = JSON.stringify({ ...config, ...code });
   return (
     <form
       action="https://codepen.io/pen/define"
@@ -75,36 +81,35 @@ const CodePenButton: React.FC<CodePenButtonProps> = ({
     >
       <input type="hidden" name="data" value={values} />
       <Button
-        css={`
-          text-align: center;
-          font-family: Avenir, Helvetica, Arial, sans-serif;
-          display: flex;
-          align-items: center;
-          text-transform: unset;
-          cursor: pointer;
-        `}
+        variant="outline"
+        color="text"
+        style={buttonStyle}
+        css={iconButtonCss as any}
         type="submit"
       >
-        <div>
-          <svg
-            data-v-5ac57822=""
-            width="20"
-            height="20"
-            viewBox="0 0 1792 1792"
-          >
-            <path
-              data-v-5ac57822=""
-              d="M216 1169l603 402v-359l-334-223zm-62-144l193-129-193-129v258zm819 546l603-402-269-180-334 223v359zm-77-493l272-182-272-182-272 182zm-411-275l334-223v-359l-603 402zm960 93l193 129v-258zm-138-93l269-180-603-402v359zm485-180v546q0 41-34 64l-819 546q-21 13-43 13t-43-13l-819-546q-34-23-34-64v-546q0-41 34-64l819-546q21-13 43-13t43 13l819 546q34 23 34 64z"
-              fill="#fff"
-            />
-          </svg>
-          {children}
-        </div>
+        <Icon viewBox="0 0 1792 1792">
+          <path
+            d="M216 1169l603 402v-359l-334-223zm-62-144l193-129-193-129v258zm819 546l603-402-269-180-334 223v359zm-77-493l272-182-272-182-272 182zm-411-275l334-223v-359l-603 402zm960 93l193 129v-258zm-138-93l269-180-603-402v359zm485-180v546q0 41-34 64l-819 546q-21 13-43 13t-43-13l-819-546q-34-23-34-64v-546q0-41 34-64l819-546q21-13 43-13t43 13l819 546q34 23 34 64z"
+            fill="#fff"
+          />
+        </Icon>
+
+        <div>{children}</div>
       </Button>
     </form>
   );
 };
 
-CodePenButton.defaultProps = { children: "Create CodePen" };
+CodePenButton.defaultProps = {
+  className: "CodePenButton",
+  children: "Create CodePen",
+  head: `<meta name="viewport" content="width=device-width, initial-scale=1">`,
+};
+
+export const SuperGrid9kCodePen: React.FC = () => {
+  const { css, html, ...options } = useRecoilValue(codePenOptions);
+
+  return <CodePenButton {...options} code={{ css, html }} />;
+};
 
 export default CodePenButton;

@@ -1,62 +1,46 @@
+import dynamic from "next/dynamic";
 import React from "react";
-import styled from "styled-components";
-import Box from "../../ui/Box";
-import CodeSnippets from "../CodeSnippets/CodeSnippets";
-import GridEditorControls from "./GridEditorControls";
-import GridEntries from "./GridEntries";
 import { Text } from "rebass/styled-components";
-import GithubButton from "../../ui/GithubButton";
+import Box from "../../ui/Box";
+import { SuperGrid9kCodePen } from "../CodePenButton";
+import styled from "styled-components";
+
+const Layout = dynamic(() => import("../../ui/Layout"));
+const GridEditorControls = dynamic(() => import("./GridEditorControls"));
+const GridEditorItems = dynamic(() => import("./GridEditorItems"));
+const CodeSnippet = dynamic(() => import("../CodeSnippet"));
+const GithubButton = dynamic(() => import("../../ui/GithubButton"));
+const GridEditorResetButton = dynamic(() => import("./GridEditorResetButton"));
 
 const GridEditor: React.FC = () => {
   return (
     <Layout>
-      <aside className="grid-sidebar">
-        <Text as="h1">SuperGrid9K</Text>
-        <GithubButton>View Code</GithubButton>
+      <Sidebar className="grid-sidebar">
+        <div>
+          <Text as="h1">SuperGrid9K</Text>
+          <GithubButton />
+        </div>
         <GridEditorControls />
-      </aside>
+        <Box alignSelf="flex-end">
+          <SuperGrid9kCodePen />
+          <GridEditorResetButton />
+        </Box>
+      </Sidebar>
 
       <Box as="main" className="grid-entries">
-        <GridEntries height="100%" />
+        <GridEditorItems height="100%" />
       </Box>
 
       <section className="code-viewer">
-        <CodeSnippets />
+        <CodeSnippet language="css" />
+        <CodeSnippet language="html" />
       </section>
     </Layout>
   );
 };
 
-const Layout = styled(Box)`
+const Sidebar = styled.aside`
   display: grid;
-  grid-template-areas:
-    "grid-sidebar grid-entries"
-    "grid-sidebar code-viewer";
-  grid-template-rows: 1fr 30%;
-  grid-template-columns: 300px 1fr;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-
-  .grid-sidebar {
-    grid-area: grid-sidebar;
-    color: ${({ theme }) => theme.colors.text};
-    border-right: 2px solid ${({ theme }) => theme.colors.light};
-  }
-
-  .grid-entries {
-    grid-area: grid-entries;
-  }
-
-  .code-viewer {
-    grid-area: code-viewer;
-  }
-
-  aside {
-    padding-right: ${({ theme }) => theme.space[3]}px;
-    padding-bottom: ${({ theme }) => theme.space[4]}px;
-    padding-left: ${({ theme }) => theme.space[3]}px;
-  }
 `;
 
 export default GridEditor;

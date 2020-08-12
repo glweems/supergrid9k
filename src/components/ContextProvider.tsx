@@ -1,17 +1,13 @@
 import React from "react";
 import { RecoilRoot } from "recoil";
 import { ThemeProvider } from "styled-components";
-import GlobalStyle from "../lib/GlobalStyle";
 import theme from "../lib/theme";
 
 const ContextProvider: React.FC = ({ children }) => {
   return (
-    <RecoilRoot>
-      <ThemeProvider theme={theme}>
-        {children}
-        <GlobalStyle />
-      </ThemeProvider>
-    </RecoilRoot>
+    <ThemeProvider theme={theme}>
+      <RecoilRoot>{children}</RecoilRoot>
+    </ThemeProvider>
   );
 };
 

@@ -1,5 +1,5 @@
 import React, { createElement } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import {
   color,
   ColorProps,
@@ -22,7 +22,7 @@ export const Icon = styled.svg<IconProps>`
 Icon.defaultProps = {
   viewBox: "0 0 16 16",
   xmlns: "http://www.w3.org/2000/svg",
-  size: 35,
+  size: 20,
   fill: "currentColor",
 };
 
@@ -59,3 +59,16 @@ export const CloseIcon: React.FC<IconProps> = (props) =>
       />,
     ],
   });
+
+export const iconButtonCss = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  width: 100%;
+  text-align: center;
+
+  svg {
+    margin-right: ${({ theme }) => theme.space[2]}px;
+  }
+`;

@@ -10,6 +10,7 @@ declare module "@rebass/forms/styled-components" {
   import * as React from "react";
   import * as Rebass from "rebass";
   import * as StyledSystem from "styled-system";
+  import { SuperGrid9kTheme } from "../../../lib/theme";
 
   export {};
 
@@ -17,10 +18,10 @@ declare module "@rebass/forms/styled-components" {
 
   interface BoxKnownProps
     extends Rebass.BaseProps,
-      StyledSystem.SpaceProps,
+      StyledSystem.SpaceProps<SuperGrid9kTheme>,
       StyledSystem.LayoutProps,
       StyledSystem.FontSizeProps,
-      StyledSystem.ColorProps,
+      StyledSystem.ColorProps<SuperGrid9kTheme>,
       StyledSystem.FlexProps,
       StyledSystem.OrderProps,
       StyledSystem.AlignSelfProps,

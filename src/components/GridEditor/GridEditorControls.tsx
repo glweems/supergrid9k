@@ -3,11 +3,11 @@ import { useRecoilState } from "recoil";
 import { PlusIcon } from "../../lib/Icons";
 import { grid, GridState } from "../../state";
 import { defaultInputProps, defaultSelectProps } from "../../lib/utils";
-import { Control } from "./Control";
+import { Control } from "../../ui/Control";
 import { GridEditorControl } from "./GridEditorControl";
-import GridGapControls from "./GridGapControls";
 import { Button, Text } from "rebass/styled-components";
 import { prettyName } from "../../lib/utils";
+import { Select, Input } from "@rebass/forms/styled-components";
 
 function GridEditorControls() {
   const [{ gridGap, ...gridState }, setGridState] = useRecoilState(grid);
@@ -64,10 +64,46 @@ function GridEditorControls() {
           );
         })}
 
-      <GridGapControls />
+      <GridEditorGapControls />
     </React.Fragment>
   );
 }
+
+export const GridEditorGapControls = () => {
+  const [{ gridGap }, setGridState] = useRecoilState(grid);
+
+  const handleChange: React.ChangeEventHandler<
+    HTMLInputElement | HTMLSelectElement
+  > = ({ target: { name, value } }) => {
+    setGridState((prev) => ({
+      ...prev,
+      gridGap: { ...gridGap, [name]: value },
+    }));
+  };
+  return (
+    <Control control="gridGap">
+      <Text as="h3" className="control-label" mb={3}>
+        Grid Gap
+      </Text>
+      <Input
+        color="text"
+        bg="code"
+        name="amount"
+        value={gridGap.amount}
+        onChange={handleChange}
+        {...gridGap.inputProps}
+      />
+      <Select
+        color="text"
+        bg="control"
+        name="unit"
+        value={gridGap.unit}
+        onChange={handleChange}
+        {...gridGap.selectProps}
+      />
+    </Control>
+  );
+};
 
 let id = 0;
 function getId() {

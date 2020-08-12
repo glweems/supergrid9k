@@ -46,7 +46,7 @@ export function GridEditorControl({
     <React.Fragment>
       <Input
         color="text"
-        bg="lights.1"
+        bg="control"
         name="amount"
         value={entry.amount}
         onChange={handleChange}
@@ -55,7 +55,7 @@ export function GridEditorControl({
 
       <Select
         color="text"
-        bg="lights.1"
+        bg="code"
         name="unit"
         onChange={handleChange}
         {...entry.selectProps}

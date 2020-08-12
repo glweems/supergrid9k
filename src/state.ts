@@ -1,20 +1,13 @@
 import { InputProps } from "@rebass/forms/styled-components";
 import { atom, selector } from "recoil";
+import { CodePenData } from "./components/CodePenButton";
 import { SelectProps } from "./components/Select";
 import {
   cssTemplateString,
   htmlTemplateString,
   TemplateStringObject,
 } from "./lib/templateStrings";
-import {
-  dataToCss,
-  defaultInputProps,
-  defaultSelectProps,
-  gridGapUnits,
-  GridUnit,
-  initialGridTemplateColumns,
-  initialGridTemplateRows,
-} from "./lib/utils";
+import { dataToCss, defaultGridState, GridUnit } from "./lib/utils";
 
 export type GridTemplateEntry = {
   id: string;
@@ -32,18 +25,13 @@ export interface GridState {
 
 export const grid = atom<GridState>({
   key: "grid",
-  default: {
-    gridTemplateRows: initialGridTemplateRows,
-    gridTemplateColumns: initialGridTemplateColumns,
+  default: defaultGridState,
+});
 
-    gridGap: {
-      id: "grid-gap",
-      amount: 1,
-      unit: "rem",
-      inputProps: defaultInputProps,
-      selectProps: { ...defaultSelectProps, options: gridGapUnits },
-    },
-  },
+export const resetGrid = selector({
+  key: "ResetGrid",
+  get: ({ get }) => get(grid),
+  set: ({ set }) => set(grid, defaultGridState),
 });
 
 export const gridCss = selector<TemplateStringObject>({
@@ -94,7 +82,11 @@ export const gridAreas = selector<GridArea[]>({
   },
 });
 
-export const snippets = selector({
+export type CodeSnippetLanguage = "html" | "css";
+
+export type CodeSnippetState = Record<CodeSnippetLanguage, string>;
+
+export const snippets = selector<CodeSnippetState>({
   key: "snippets",
   get: ({ get }) => {
     const areas = get(gridAreas);
@@ -114,5 +106,18 @@ export const snippets = selector({
       html: htmlTemplateString({ ...css, gridItems }),
     };
     return state;
+  },
+});
+
+export const codePenOptions = selector<CodePenData>({
+  key: "codePenConfig",
+  get: ({ get }) => {
+    const { html, css } = get(snippets);
+    const config: CodePenData = {
+      title: "Css Grid",
+      html,
+      css,
+    };
+    return config;
   },
 });
