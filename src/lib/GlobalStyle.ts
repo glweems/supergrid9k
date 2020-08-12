@@ -1,10 +1,6 @@
 import { createGlobalStyle } from "styled-components";
-import normalize from "./normalize";
-import { cssVariables } from "./theme";
 
 export default createGlobalStyle`
-  ${cssVariables};
-  ${normalize};
   input,
   select {
     border-radius: ${({ theme }) => theme.space[1]}px;
@@ -13,6 +9,7 @@ export default createGlobalStyle`
   html {
     overflow: unset !important;
     color: ${({ theme }) => theme.colors.text};
+    font-family: ${({ theme }) => theme.fonts.body};
     background-color: ${({ theme }) => theme.colors.background};
   }
 

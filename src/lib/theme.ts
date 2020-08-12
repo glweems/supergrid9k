@@ -1,6 +1,6 @@
 import { createGlobalStyle, css } from "styled-components";
 
-const themeColors: Record<string, string> = {
+export const colors: Record<string, string> = {
   primary: "#3578e5",
   secondary: "##444950",
   background: "#18191a",
@@ -17,17 +17,18 @@ const themeColors: Record<string, string> = {
   dark: "#272822",
 };
 
-themeColors.control = themeColors.code;
+colors.control = colors.code;
 
 const space: SuperGrid9kSpace = [0, 4, 8, 16, 32, 64];
 space.common = `0.375em`;
-
+export const defaultFont =
+  'system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"';
 const theme = {
-  colors: themeColors,
+  colors,
   space,
   fonts: {
-    body: "Merriweather, serif",
-    heading: "Open Sans",
+    body: defaultFont,
+    heading: defaultFont,
     monospace: "Menlo, monospace",
   },
   fontSizes: [12, 14, 16, 20, 24, 32, 48, 64, 96],
@@ -103,8 +104,7 @@ const theme = {
       borderRadius: "default",
     },
     outline: {
-      variant: "buttons.primary",
-      color: "primary",
+      color: "text",
       bg: "transparent",
       boxShadow: "inset 0 0 2px",
     },
@@ -118,6 +118,11 @@ const theme = {
       color: "red",
       bg: "background",
       padding: 1,
+    },
+    reset: {
+      bg: "red",
+      color: "text",
+      fontWeight: "bolder",
     },
   },
   styles: {

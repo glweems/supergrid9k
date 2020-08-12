@@ -1,25 +1,34 @@
+import dynamic from "next/dynamic";
 import React from "react";
 import { Text } from "rebass/styled-components";
 import Box from "../../ui/Box";
-import GithubButton from "../../ui/GithubButton";
-import Layout from "../../ui/Layout";
 import { SuperGrid9kCodePen } from "../CodePenButton";
-import CodeSnippet from "../CodeSnippet";
-import GridEditorControls from "./GridEditorControls";
-import GridEntries from "./GridEntries";
+import styled from "styled-components";
+
+const Layout = dynamic(() => import("../../ui/Layout"));
+const GridEditorControls = dynamic(() => import("./GridEditorControls"));
+const GridEditorItems = dynamic(() => import("./GridEditorItems"));
+const CodeSnippet = dynamic(() => import("../CodeSnippet"));
+const GithubButton = dynamic(() => import("../../ui/GithubButton"));
+const GridEditorResetButton = dynamic(() => import("./GridEditorResetButton"));
 
 const GridEditor: React.FC = () => {
   return (
     <Layout>
-      <aside className="grid-sidebar">
-        <Text as="h1">SuperGrid9K</Text>
-        <GithubButton>View Code</GithubButton>
+      <Sidebar className="grid-sidebar">
+        <div>
+          <Text as="h1">SuperGrid9K</Text>
+          <GithubButton />
+        </div>
         <GridEditorControls />
-        <SuperGrid9kCodePen />
-      </aside>
+        <Box alignSelf="flex-end">
+          <SuperGrid9kCodePen />
+          <GridEditorResetButton />
+        </Box>
+      </Sidebar>
 
       <Box as="main" className="grid-entries">
-        <GridEntries height="100%" />
+        <GridEditorItems height="100%" />
       </Box>
 
       <section className="code-viewer">
@@ -29,5 +38,9 @@ const GridEditor: React.FC = () => {
     </Layout>
   );
 };
+
+const Sidebar = styled.aside`
+  display: grid;
+`;
 
 export default GridEditor;

@@ -1,5 +1,5 @@
 import { SelectProps } from "../components/Select";
-import { GridTemplateEntry } from "../state";
+import { GridTemplateEntry, GridState } from "../state";
 
 export function replaceItemAtIndex<T = object>(
   arr: T[],
@@ -251,3 +251,15 @@ export function dataToCss(
     .split(",")
     .join(" ");
 }
+
+export const defaultGridState: GridState = {
+  gridTemplateRows: initialGridTemplateRows,
+  gridTemplateColumns: initialGridTemplateColumns,
+  gridGap: {
+    id: "grid-gap",
+    amount: 1,
+    unit: "rem",
+    inputProps: defaultInputProps,
+    selectProps: { ...defaultSelectProps, options: gridGapUnits },
+  },
+};

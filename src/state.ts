@@ -1,21 +1,13 @@
 import { InputProps } from "@rebass/forms/styled-components";
 import { atom, selector } from "recoil";
+import { CodePenData } from "./components/CodePenButton";
 import { SelectProps } from "./components/Select";
 import {
   cssTemplateString,
   htmlTemplateString,
   TemplateStringObject,
 } from "./lib/templateStrings";
-import {
-  dataToCss,
-  defaultInputProps,
-  defaultSelectProps,
-  gridGapUnits,
-  GridUnit,
-  initialGridTemplateColumns,
-  initialGridTemplateRows,
-} from "./lib/utils";
-import { CodePenData } from "./components/CodePenButton";
+import { dataToCss, defaultGridState, GridUnit } from "./lib/utils";
 
 export type GridTemplateEntry = {
   id: string;
@@ -33,18 +25,13 @@ export interface GridState {
 
 export const grid = atom<GridState>({
   key: "grid",
-  default: {
-    gridTemplateRows: initialGridTemplateRows,
-    gridTemplateColumns: initialGridTemplateColumns,
+  default: defaultGridState,
+});
 
-    gridGap: {
-      id: "grid-gap",
-      amount: 1,
-      unit: "rem",
-      inputProps: defaultInputProps,
-      selectProps: { ...defaultSelectProps, options: gridGapUnits },
-    },
-  },
+export const resetGrid = selector({
+  key: "ResetGrid",
+  get: ({ get }) => get(grid),
+  set: ({ set }) => set(grid, defaultGridState),
 });
 
 export const gridCss = selector<TemplateStringObject>({
