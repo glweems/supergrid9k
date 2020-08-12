@@ -108,7 +108,7 @@ CodePenButton.defaultProps = {
   css_external: "https://supergrid9k.dev/codepen.css",
   editors: "110",
   layout: "right",
-  css_starter: "reset",
+  css_starter: "normalize",
   className: "CodePenButton",
   children: "Create CodePen",
 };
