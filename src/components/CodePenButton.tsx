@@ -104,7 +104,7 @@ CodePenButton.defaultProps = {
   title: "Super Grid 9k Creation",
   description: `Created With Super Grid 9k!\nCreate your at https://supergrid9k.dev`,
   tags: ["SuperGrid9k", "css", "grid", "cssgrid", "css-grid"],
-  head: '<meta name="viewport" content="width=device-width, initial-scale=1">',
+  head: `<meta name="viewport" content="width=device-width, initial-scale=1">\n<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata:400,400i,700">`,
   css_external: "https://supergrid9k.dev/codepen.css",
   editors: "110",
   layout: "right",
