@@ -103,7 +103,8 @@ const CodePenButton: React.FC<CodePenButtonProps> = ({
 CodePenButton.defaultProps = {
   className: "CodePenButton",
   children: "Create CodePen",
-  head: `<meta name="viewport" content="width=device-width, initial-scale=1">`,
+  head: '<meta name="viewport" content="width=device-width, initial-scale=1">',
+  css_external: "https://supergrid9k.dev/codepen.css",
 };
 
 export const SuperGrid9kCodePen: React.FC = () => {

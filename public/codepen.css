@@ -1,0 +1,54 @@
+/*
+                                      _     _  ___  _         _
+  ___ _   _ _ __   ___ _ __ __ _ _ __(_) __| |/ _ \| | __  __| | _____   __
+ / __| | | | '_ \ / _ \ '__/ _` | '__| |/ _` | (_) | |/ / / _` |/ _ \ \ / /
+ \__ \ |_| | |_) |  __/ | | (_| | |  | | (_| |\__, |   < | (_| |  __/\ V /
+ |___/\__,_| .__/ \___|_|  \__, |_|  |_|\__,_|  /_/|_|\_(_)__,_|\___| \_/
+           |_|             |___/
+*/
+
+:root {
+  --color-primary: #3578e5;
+  --color-secondary: ##444950;
+  --color-background: #18191a;
+  --color-code: #292c3d;
+  --color-text: #fff;
+  --color-muted: #f6f6f9;
+  --color-grey: #dddddf;
+  --color-highlight: hsla(205, 100%, 40%, 0.125);
+  --color-green: #4caf50;
+  --color-purple: #d0c1fa;
+  --color-red: #e44932;
+  --color-yellow: #f8d58c;
+  --color-light: #f8f8f8;
+  --color-dark: #272822;
+  --color-control: #292c3d;
+}
+
+html {
+  color: pink;
+  color: var(--color-background);
+  background-image: radial-gradient(#d7d7d7 1px, currentColor 1px),
+    radial-gradient(#d7d7d7 1px, currentcolor 1px);
+  background-position: 0 0, 25px 25px;
+  background-size: 50px 50px;
+}
+
+body {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+body > div {
+  width: 80vw;
+  height: 80vh;
+}
+
+body div > div {
+  background-color: var(--color-primary);
+  border-radius: 4px;
+  border: 2px solid #275aaf;
+}

@@ -9,15 +9,15 @@ export type TemplateStringObject<T = {}> = GridProps &
 export const cssTemplateString = templateGenerator<
   TemplateStringObject
 >`.${"className"} {
-    display: grid;
-    grid-template-rows: ${"gridTemplateRows"};
-    grid-template-columns: ${"gridTemplateColumns"};
-    grid-gap: ${"gridGap"};
-  }`;
+  display: grid;
+  grid-template-rows: ${"gridTemplateRows"};
+  grid-template-columns: ${"gridTemplateColumns"};
+  grid-gap: ${"gridGap"};
+}`;
 
 export const htmlTemplateString = templateGenerator<
   TemplateStringObject<{ gridItems: string }>
->`<div className="${"className"}">
+>`<div class="${"className"}">
 ${"gridItems"}</div>`;
 
 export const styledComponentsTemplateString = templateGenerator<
