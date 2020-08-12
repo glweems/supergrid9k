@@ -7,8 +7,8 @@ import { Control } from "../../ui/Control";
 import { GridEditorControl } from "./GridEditorControl";
 import { Button, Text } from "rebass/styled-components";
 import { prettyName } from "../../lib/utils";
-import { Select, Input } from "@rebass/forms/styled-components";
-
+import { Input } from "@rebass/forms/styled-components";
+import Select from "../../components/Select";
 function GridEditorControls() {
   const [{ gridGap, ...gridState }, setGridState] = useRecoilState(grid);
 
@@ -39,11 +39,9 @@ function GridEditorControls() {
         .map((key) => {
           const name: keyof typeof gridState = key as any;
           return (
-            <React.Fragment key={key}>
+            <fieldset key={key}>
               <Control>
-                <Text as="h3" className="control-label" mb={3}>
-                  {prettyName(name)}
-                </Text>
+                <legend className="control-label">{prettyName(name)}</legend>
 
                 {gridState[name].map((entry) => (
                   <GridEditorControl key={entry.id} entry={entry} name={name} />
@@ -60,7 +58,7 @@ function GridEditorControls() {
                   <PlusIcon size={28} padding={0} />
                 </Button>
               </Control>
-            </React.Fragment>
+            </fieldset>
           );
         })}
 

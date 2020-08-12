@@ -1,5 +1,6 @@
 import Div100vh from "react-div-100vh";
 import styled from "styled-components";
+import { Control } from "./Control";
 
 const Layout = styled(Div100vh)`
   display: grid;
@@ -22,9 +23,7 @@ const Layout = styled(Div100vh)`
   }
 
   .code-viewer {
-    display: grid;
     grid-area: code-viewer;
-    grid-template-columns: repeat(3, 1fr);
   }
 
   aside {

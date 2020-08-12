@@ -125,6 +125,20 @@ const theme = {
       fontWeight: "bolder",
     },
   },
+  forms: {
+    input: {
+      color: "text",
+      bg: "code",
+      borderColor: "background",
+    },
+    select: {
+      borderRadius: 9999,
+    },
+    textarea: {},
+    label: {},
+    radio: {},
+    checkbox: { color: "red", bg: "red" },
+  },
   styles: {
     root: {
       fontFamily: "body",

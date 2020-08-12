@@ -7,8 +7,9 @@ import styled from "styled-components";
 
 const Layout = dynamic(() => import("../../ui/Layout"));
 const GridEditorControls = dynamic(() => import("./GridEditorControls"));
+const CodeViewerControls = dynamic(() => import("./../CodeViewerControls"));
 const GridEditorItems = dynamic(() => import("./GridEditorItems"));
-const CodeSnippet = dynamic(() => import("../CodeSnippet"));
+const CodeViewer = dynamic(() => import("../CodeViewer"));
 const GithubButton = dynamic(() => import("../../ui/GithubButton"));
 const GridEditorResetButton = dynamic(() => import("./GridEditorResetButton"));
 
@@ -21,26 +22,30 @@ const GridEditor: React.FC = () => {
           <GithubButton />
         </div>
         <GridEditorControls />
-        <Box alignSelf="flex-end">
-          <SuperGrid9kCodePen />
+        <Box>
           <GridEditorResetButton />
         </Box>
+        <CodeViewerControls />
       </Sidebar>
 
       <Box as="main" className="grid-entries">
         <GridEditorItems height="100%" />
       </Box>
 
-      <section className="code-viewer">
-        <CodeSnippet language="css" />
-        <CodeSnippet language="html" />
-      </section>
+      <Box
+        as="section"
+        display="flex"
+        width="100%"
+        justifyContent="space-around"
+        className="code-viewer"
+        bg="code"
+      >
+        <CodeViewer />
+      </Box>
     </Layout>
   );
 };
 
-const Sidebar = styled.aside`
-  display: grid;
-`;
+const Sidebar = styled.aside``;
 
 export default GridEditor;

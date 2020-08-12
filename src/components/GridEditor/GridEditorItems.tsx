@@ -2,6 +2,7 @@ import React from "react";
 import { useRecoilValue } from "recoil";
 import { gridAreas, gridCss } from "../../state";
 import Box, { BoxProps } from "../../ui/Box";
+import GridEditorItem from "./GridEditorItem";
 
 export type GridItemsProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -14,20 +15,11 @@ const GridItems: React.FC<GridItemsProps> = (props) => {
   const items = useRecoilValue(gridAreas);
 
   return (
-    <Box display="grid" {...gridProps} {...(props as any)} css={``}>
+    <Box display="grid" {...gridProps} {...(props as any)}>
       {items.map((item, index) => (
-        <Box
-          key={item.id}
-          color="primary"
-          css={`
-            background-image: radial-gradient(#d7d7d7 1px, currentColor 1px),
-              radial-gradient(#d7d7d7 1px, transparent 1px);
-            background-position: 0 0, 25px 25px;
-            background-size: 50px 50px;
-          `}
-        >
+        <GridEditorItem key={item.id} {...item}>
           {item.number}
-        </Box>
+        </GridEditorItem>
       ))}
     </Box>
   );

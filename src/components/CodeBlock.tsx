@@ -6,16 +6,21 @@ import Highlight, {
 } from "prism-react-renderer";
 import React, { FC } from "react";
 import Clipboard from "react-clipboard.js";
-import { Box } from "rebass/styled-components";
+import { Box, BoxProps } from "rebass/styled-components";
 import styled, { css } from "styled-components";
 import syntaxTheme from "../lib/syntaxTheme";
-export interface CodeBlockProps {
+export interface CodeBlockProps extends BoxProps {
   code: string;
   language: string;
   theme?: PrismTheme;
 }
 
-const CodeBlock: FC<CodeBlockProps> = ({ code, language, theme }) => {
+const CodeBlock: FC<CodeBlockProps> = ({
+  code,
+  language,
+  theme,
+  ...boxProps
+}) => {
   return (
     <Highlight
       {...defaultProps}
@@ -23,12 +28,15 @@ const CodeBlock: FC<CodeBlockProps> = ({ code, language, theme }) => {
       language={language as Language}
       theme={theme}
     >
-      {(renderProps) => <CodeBody {...renderProps} code={code} />}
+      {(renderProps) => (
+        <CodeBody {...renderProps} code={code} boxProps={boxProps} />
+      )}
     </Highlight>
   );
 };
 interface CodeBodyProps extends RenderProps {
   code: string;
+  boxProps: BoxProps;
 }
 
 const CodeBody: FC<CodeBodyProps> = ({
@@ -38,6 +46,7 @@ const CodeBody: FC<CodeBodyProps> = ({
   getLineProps,
   getTokenProps,
   code,
+  boxProps,
 }) => {
   const [showCopy, setShowCopy] = React.useState(false);
   const [copyText, setCopyText] = React.useState("copy");
@@ -55,6 +64,7 @@ const CodeBody: FC<CodeBodyProps> = ({
       onMouseEnter={mouseHandler}
       onMouseLeave={mouseHandler}
       showCopy={showCopy}
+      {...boxProps}
     >
       <Clipboard
         data-clipboard-text={code}
@@ -63,7 +73,7 @@ const CodeBody: FC<CodeBodyProps> = ({
       >
         {copyText}
       </Clipboard>
-      <Box as="pre" className={className} style={style}>
+      <Box as="pre" className={className} style={style} {...boxProps}>
         <code>
           {tokens.map((line, i) => (
             <div {...getLineProps({ line, key: i })}>
@@ -112,7 +122,7 @@ const CopyButton = styled.button`
 `;
 const CodeContainer = styled.div<{ showCopy: boolean }>`
   position: relative;
-
+  height: inherit;
   ${({ showCopy }) =>
     showCopy &&
     css`
@@ -125,6 +135,7 @@ const CodeContainer = styled.div<{ showCopy: boolean }>`
 
 CodeBlock.defaultProps = {
   theme: syntaxTheme,
+  className: "CodeBlock",
 };
 
 export default CodeBlock;

@@ -34,6 +34,11 @@ export const resetGrid = selector({
   set: ({ set }) => set(grid, defaultGridState),
 });
 
+export const gridContainerClass = atom({
+  key: "gridContainerClass",
+  default: "grid-container",
+});
+
 export const cssRepeat = atom({
   key: "useCssGridRepeat",
   default: true,
@@ -44,10 +49,11 @@ export const gridCss = selector<TemplateStringObject>({
   get: ({ get }) => {
     const state = get(grid);
     const repeat = get(cssRepeat);
+    const className = get(gridContainerClass);
     const { amount, unit } = state.gridGap;
 
     const cssObj: TemplateStringObject = {
-      className: "grid-container",
+      className,
       gridGap: `${amount}${unit}`,
       gridTemplateRows: createCssString(state.gridTemplateRows, repeat),
       gridTemplateColumns: createCssString(state.gridTemplateColumns, repeat),
@@ -62,6 +68,11 @@ export interface GridArea {
   name?: string;
   number: number;
   id: string;
+  gridRowStart: number;
+  gridRowEnd: number;
+  gridColumnStart: number;
+  gridColumnEnd: number;
+  lastCol: boolean;
 }
 
 export const gridAreas = selector<GridArea[]>({
@@ -70,11 +81,16 @@ export const gridAreas = selector<GridArea[]>({
     const { gridTemplateRows, gridTemplateColumns } = get(grid);
     let temp: Omit<GridArea, "number">[] = [];
 
-    gridTemplateRows.forEach((row, rowIndex) => {
-      gridTemplateColumns.forEach((col, colIndex) => {
+    gridTemplateColumns.forEach((col, colIndex) => {
+      gridTemplateRows.forEach((row, rowIndex) => {
         temp.push({
           id: `${row.id}.${col.id}`,
           gridTemplateArea: ".",
+          gridRowStart: rowIndex + 1,
+          gridRowEnd: rowIndex + 2,
+          gridColumnStart: colIndex + 1,
+          gridColumnEnd: colIndex + 2,
+          lastCol: colIndex === gridTemplateColumns.length,
         });
       });
     });
@@ -82,6 +98,7 @@ export const gridAreas = selector<GridArea[]>({
     const areas: GridArea[] = temp.map((item, index) => ({
       ...item,
       number: index + 1,
+      lastCol: item.gridColumnEnd === gridTemplateColumns.length,
     }));
 
     return areas;
