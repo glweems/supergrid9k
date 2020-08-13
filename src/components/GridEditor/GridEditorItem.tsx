@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { grid, GridProps } from "styled-system";
 import { GridArea } from "../../state";
 interface GridEditorItemProps extends GridArea {}
 
@@ -8,15 +9,24 @@ const GridEditorItem: React.FC<GridEditorItemProps> = ({
   gridRowEnd,
   gridColumnStart,
   gridColumnEnd,
+  lastRow,
   lastCol,
 }) => {
   return (
     <Styles
-      className={`GridEditorItem ${lastCol ? "lastCol" : ""}`}
+      className={`GridEditorItem ${
+        lastCol ? "lastCol" : lastRow ? "lastRow" : ""
+      }`}
       data-col-start={gridColumnStart}
       data-row-start={gridRowStart}
       data-col-end={gridColumnEnd}
-      data-row-end={gridRowEnd}
+      data-row-end={gridColumnEnd}
+      style={{
+        gridRowStart,
+        gridRowEnd,
+        gridColumnStart,
+        gridColumnEnd,
+      }}
     >
       <div className="handle col" />
       <div className="handle row" />
@@ -26,94 +36,108 @@ const GridEditorItem: React.FC<GridEditorItemProps> = ({
     </Styles>
   );
 };
-const Styles = styled.section<{
-  ["data-col-start"]: number;
-  ["data-row-start"]: number;
-  ["data-col-end"]: number;
-  ["data-row-end"]: number;
-}>`
-  touch-action: none;
-  background: #fff;
-  height: 100%;
+
+type StylesProps = Partial<GridEditorItemProps> & GridProps;
+
+const Styles = styled.section<StylesProps>`
+  ${grid};
   position: relative;
+  height: 100%;
+  background: #fff;
   background-color: var(--color-primary);
-  grid-row: ${(props) =>
-    `${props["data-row-start"]} / ${props["data-row-end"]}`};
-  grid-column: ${(props) =>
-    `${props["data-col-start"]} / ${props["data-col-end"]}`};
+  touch-action: none;
+
   :before {
-    content: "";
     position: absolute;
-    left: 0;
     top: 0;
+    left: 0;
     display: block;
     width: 100%;
     height: 100%;
-    pointer-events: none;
     outline: 1px dashed var(--color-green);
-  }
-  :after {
     content: "";
+    pointer-events: none;
+  }
+
+  :after {
     position: absolute;
-    font-size: 10px;
     width: 14px;
-    border-radius: 3px;
     color: #666;
-    background: #fff;
+    font-size: 10px;
     line-height: 15px;
     text-align: center;
+    background-color: #fff;
+    border-radius: 3px;
+    content: "";
   }
 
   .multi {
-    touch-action: none;
     position: absolute;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
     top: -15px;
     left: -15px;
     z-index: 9;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
     cursor: move;
-  }
-
-  .col {
+    content: "";
     touch-action: none;
-    position: absolute;
-    width: 20px;
-    height: 100%;
-    left: -10px;
-    top: 0;
-    cursor: col-resize;
   }
 
   .row {
-    touch-action: none;
     position: absolute;
+    top: -10px;
+    left: 0;
     width: 100%;
     height: 20px;
-    left: 0;
-    top: -10px;
     cursor: row-resize;
+    touch-action: none;
   }
+
+  .col {
+    position: absolute;
+    top: 0;
+    /* left: -10px; */
+    left: 0;
+    width: 20px;
+    height: 100%;
+    cursor: col-resize;
+    touch-action: none;
+  }
+
   .hidden {
     display: none;
   }
 
-  &[data-row-start="1"]:after {
-    content: attr(data-col-start);
-    left: -7.5px;
-    top: 0;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
-    height: 16px;
+  &[data-row-start="1"][data-col-start] {
+    :after {
+      top: 0;
+      left: -7.5px;
+      height: 16px;
+      color: var(--color-text);
+      background-color: var(--color-primary);
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 5px;
+      border-bottom-left-radius: 5px;
+      content: attr(data-col-start);
+    }
   }
-  &.lastCol:before {
+
+  &.lastCol[data-col-end]:before {
     top: 2px !important;
     right: 0;
     left: auto;
     content: attr(data-col-end);
+  }
+
+  &.lastRow[data-row-end] {
+    :before {
+      top: auto;
+      bottom: 2px !important;
+      left: 0;
+      content: attr(data-row-end);
+    }
   }
 `;
 export default GridEditorItem;

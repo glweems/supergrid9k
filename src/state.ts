@@ -72,6 +72,7 @@ export interface GridArea {
   gridRowEnd: number;
   gridColumnStart: number;
   gridColumnEnd: number;
+  lastRow: boolean;
   lastCol: boolean;
 }
 
@@ -79,10 +80,13 @@ export const gridAreas = selector<GridArea[]>({
   key: "areas",
   get: ({ get }) => {
     const { gridTemplateRows, gridTemplateColumns } = get(grid);
+    console.table(gridTemplateColumns);
+    console.table(gridTemplateRows);
+
     let temp: Omit<GridArea, "number">[] = [];
 
-    gridTemplateColumns.forEach((col, colIndex) => {
-      gridTemplateRows.forEach((row, rowIndex) => {
+    gridTemplateRows.forEach((row, rowIndex) => {
+      gridTemplateColumns.forEach((col, colIndex) => {
         temp.push({
           id: `${row.id}.${col.id}`,
           gridTemplateArea: ".",
@@ -90,7 +94,9 @@ export const gridAreas = selector<GridArea[]>({
           gridRowEnd: rowIndex + 2,
           gridColumnStart: colIndex + 1,
           gridColumnEnd: colIndex + 2,
-          lastCol: colIndex === gridTemplateColumns.length,
+          lastRow: colIndex === 0 && rowIndex + 1 === gridTemplateRows.length,
+          lastCol:
+            rowIndex === 0 && colIndex + 1 === gridTemplateColumns.length,
         });
       });
     });
@@ -98,7 +104,6 @@ export const gridAreas = selector<GridArea[]>({
     const areas: GridArea[] = temp.map((item, index) => ({
       ...item,
       number: index + 1,
-      lastCol: item.gridColumnEnd === gridTemplateColumns.length,
     }));
 
     return areas;

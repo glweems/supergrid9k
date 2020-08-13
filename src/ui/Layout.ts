@@ -1,6 +1,5 @@
 import Div100vh from "react-div-100vh";
 import styled from "styled-components";
-import { Control } from "./Control";
 
 const Layout = styled(Div100vh)`
   display: grid;
@@ -15,7 +14,6 @@ const Layout = styled(Div100vh)`
   .grid-sidebar {
     grid-area: grid-sidebar;
     color: ${({ theme }) => theme.colors.text};
-    border-right: 2px solid ${({ theme }) => theme.colors.light};
   }
 
   .grid-entries {
@@ -24,12 +22,6 @@ const Layout = styled(Div100vh)`
 
   .code-viewer {
     grid-area: code-viewer;
-  }
-
-  aside {
-    padding-right: ${({ theme }) => theme.space[3]}px;
-    padding-bottom: ${({ theme }) => theme.space[4]}px;
-    padding-left: ${({ theme }) => theme.space[3]}px;
   }
 `;
 

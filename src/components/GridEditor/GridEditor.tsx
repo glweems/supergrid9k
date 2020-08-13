@@ -1,9 +1,8 @@
 import dynamic from "next/dynamic";
 import React from "react";
 import { Text } from "rebass/styled-components";
-import Box from "../../ui/Box";
-import { SuperGrid9kCodePen } from "../CodePenButton";
 import styled from "styled-components";
+import Box from "../../ui/Box";
 
 const Layout = dynamic(() => import("../../ui/Layout"));
 const GridEditorControls = dynamic(() => import("./GridEditorControls"));
@@ -29,7 +28,12 @@ const GridEditor: React.FC = () => {
       </Sidebar>
 
       <Box as="main" className="grid-entries">
-        <GridEditorItems height="100%" />
+        <GridEditorItems
+          height="100%"
+          css={`
+            overflow: hidden;
+          `}
+        />
       </Box>
 
       <Box
