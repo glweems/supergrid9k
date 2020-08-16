@@ -1,4 +1,5 @@
 import { InputProps } from "@rebass/forms/styled-components";
+import { CSSProperties } from "react";
 import { atom, selector } from "recoil";
 import { CodePenData } from "./components/CodePenButton";
 import { SelectProps } from "./components/Select";
@@ -74,6 +75,9 @@ export interface GridArea {
   gridColumnEnd: number;
   lastRow: boolean;
   lastCol: boolean;
+  gridArea: string;
+  row: GridTemplateEntry;
+  column: GridTemplateEntry;
 }
 
 export const gridAreas = selector<GridArea[]>({
@@ -86,17 +90,29 @@ export const gridAreas = selector<GridArea[]>({
     let temp: Omit<GridArea, "number">[] = [];
 
     gridTemplateRows.forEach((row, rowIndex) => {
-      gridTemplateColumns.forEach((col, colIndex) => {
-        temp.push({
-          id: `${row.id}.${col.id}`,
+      gridTemplateColumns.forEach((column, columnIndex) => {
+        const gridRowStart = rowIndex + 1;
+        const gridRowEnd = rowIndex + 2;
+        const gridColumnStart = columnIndex + 1;
+        const gridColumnEnd = columnIndex + 2;
+
+        return temp.push({
+          id: `${row.id}.${column.id}`,
+          row,
+          column,
           gridTemplateArea: ".",
-          gridRowStart: rowIndex + 1,
-          gridRowEnd: rowIndex + 2,
-          gridColumnStart: colIndex + 1,
-          gridColumnEnd: colIndex + 2,
-          lastRow: colIndex === 0 && rowIndex + 1 === gridTemplateRows.length,
+          gridRowStart,
+          gridRowEnd,
+          gridColumnStart,
+          gridColumnEnd,
+          gridArea: [gridRowStart, gridColumnStart, gridRowEnd, gridColumnEnd]
+            .toString()
+            .split(",")
+            .join(" / "),
+          lastRow:
+            columnIndex === 0 && rowIndex + 1 === gridTemplateRows.length,
           lastCol:
-            rowIndex === 0 && colIndex + 1 === gridTemplateColumns.length,
+            rowIndex === 0 && columnIndex + 1 === gridTemplateColumns.length,
         });
       });
     });

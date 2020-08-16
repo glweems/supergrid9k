@@ -5,12 +5,13 @@ export interface ControlProps {
 }
 export const Control = styled.div<ControlProps>`
   display: grid;
-  grid-row-gap: ${({ theme }) => theme.space.common};
+  grid-row-gap: ${({ theme }) => theme.space[2]}px;
   grid-template-rows: 1fr;
   grid-template-columns: 120px 1fr 39px;
   margin-bottom: ${({ theme }) => theme.space[4]}px;
+  padding: ${({ theme }) => theme.space[2]}px;
 
-  .control-label {
+  legend {
     grid-row: 1/2;
     grid-column: 1/-1;
   }
@@ -19,7 +20,6 @@ export const Control = styled.div<ControlProps>`
   select,
   .remove-entry {
     font-weight: bold;
-    border-color: ${({ theme }) => theme.colors.dark};
   }
 
   .add-entry {
@@ -30,32 +30,39 @@ export const Control = styled.div<ControlProps>`
 
   .remove-entry {
     grid-column: 3 / 4;
-    border-color: ${({ theme }) => theme.colors.secondary};
-    border-style: solid;
+    /* border-color: ${({ theme }) => theme.colors.secondary}; */
     border-width: 1px;
+    border-style: solid;
+    border-right-style: solid;
+    border-bottom-style: solid;
     border-radius: 0 4px 4px 0;
 
     &:disabled {
-      color: ${({ theme }) => theme.colors.light};
-      cursor: none;
+     opacity: 0.5;
+     svg {
+       color: var(--color-muted);
+     }
     }
 
-    &:not(:disabled):hover {
-      color: ${({ theme }) => theme.colors.text};
-      background-color: ${({ theme }) => theme.colors.red};
+    &:hover {
+      svg {
+        color: var(--color-text);
+      }
+      background-color: var(--color-red);
+      &:disabled {
+        background-color: var(--color-gray);
+      }
     }
   }
 
   input {
     grid-column: 1 / 2;
-    border-right-color: ${({ theme }) => theme.colors.background};
     border-radius: 4px 0 0 4px;
   }
 
   .select {
     grid-column: 2 / 3;
     select {
-      border-left-color: ${({ theme }) => theme.colors.background};
       border-radius: 0;
     }
   }
@@ -64,7 +71,7 @@ export const Control = styled.div<ControlProps>`
   .select {
     text-indent: 4px;
     &:focus {
-      color: ${({ theme }) => theme.colors.yellow};
+      color: var(--color-yellow);
     }
   }
   ${(props) =>

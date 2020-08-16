@@ -2,7 +2,7 @@ import { createGlobalStyle, css } from "styled-components";
 
 export const colors: Record<string, string> = {
   primary: "#3578e5",
-  secondary: "##444950",
+  secondary: "#3e456d",
   background: "#18191a",
   code: "#292c3d",
   text: "#fff",
@@ -19,7 +19,7 @@ export const colors: Record<string, string> = {
 
 colors.control = colors.code;
 
-const space: SuperGrid9kSpace = [0, 4, 8, 16, 32, 64];
+export const space: SuperGrid9kSpace = [0, 4, 8, 16, 32, 64];
 space.common = `0.375em`;
 export const defaultFont =
   'system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"';
@@ -96,7 +96,14 @@ const theme = {
     },
   },
   buttons: {
+    default: {
+      padding: "4px 16px",
+      paddingTop: "none",
+      paddingBottom: "none",
+      borderWidth: 1.5,
+    },
     primary: {
+      variant: "buttons.default",
       fontSize: 2,
       fontWeight: "bold",
       color: "background",
@@ -104,34 +111,52 @@ const theme = {
       borderRadius: "default",
     },
     outline: {
+      variant: "buttons.default",
       color: "text",
       bg: "transparent",
-      boxShadow: "inset 0 0 2px",
+      borderStyle: "solid",
+
+      borderColor: "currentColor",
+
+      ":hover": {
+        bg: "currentColor",
+        opacity: 0.75,
+      },
     },
     secondary: {
-      variant: "buttons.primary",
+      variant: "buttons.default",
       color: "background",
       bg: "secondary",
     },
     close: {
-      variant: "buttons.primary",
+      variant: "buttons.default",
       color: "red",
       bg: "background",
       padding: 1,
     },
     reset: {
+      variant: "buttons.default",
       bg: "red",
       color: "text",
       fontWeight: "bolder",
+      borderLeft: 0,
     },
   },
   forms: {
     input: {
       color: "text",
-      bg: "code",
-      borderColor: "background",
+      borderWidth: 2,
+      boxShadow: "none",
+      borderColor: "secondary",
+      bg: "background",
     },
     select: {
+      color: "text",
+      borderStyle: "solid",
+      borderWidth: 2,
+      boxShadow: "none",
+      borderColor: "secondary",
+      bg: "background",
       borderRadius: 9999,
     },
     textarea: {},
@@ -144,6 +169,9 @@ const theme = {
       fontFamily: "body",
       fontWeight: "body",
       lineHeight: "body",
+    },
+    fieldset: {
+      padding: 1,
     },
   },
 };

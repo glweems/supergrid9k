@@ -1,7 +1,7 @@
 import { PrismTheme } from "prism-react-renderer";
 import { colors } from "./theme";
 const syntaxTheme: PrismTheme = {
-  plain: { color: colors.text, backgroundColor: colors.code },
+  plain: { color: colors.text, backgroundColor: colors.background },
   styles: [
     {
       types: ["comment", "unit"],

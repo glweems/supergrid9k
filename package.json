@@ -25,6 +25,7 @@
     "react-clipboard.js": "^2.0.16",
     "react-div-100vh": "^0.3.8",
     "react-dom": "^16.13.1",
+    "react-draggable": "^4.4.3",
     "react-error-boundary": "^2.3.1",
     "react-is": "^16.13.1",
     "react-router-dom": "^5.2.0",
