@@ -1,5 +1,6 @@
 import { InputProps } from "@rebass/forms/styled-components";
 import { CSSProperties } from "react";
+import { ControlPosition } from "react-draggable";
 import { atom, selector } from "recoil";
 import { CodePenData } from "./components/CodePenButton";
 import { SelectProps } from "./components/Select";
@@ -163,4 +164,9 @@ export const codePenOptions = selector<CodePenData>({
     };
     return config;
   },
+});
+
+export const drag = atom<ControlPosition>({
+  key: "drag",
+  default: { x: 0, y: 0 },
 });

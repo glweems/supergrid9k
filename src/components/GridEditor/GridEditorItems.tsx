@@ -1,4 +1,5 @@
 import React from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   grid,
@@ -38,17 +39,21 @@ const GridItems: React.FC<GridItemsProps> = (props) => {
         height="100%"
       >
         {items.map((item, index) => (
-          <GridEditorItem
+          <ErrorBoundary
             key={item.id}
-            {...item}
-            rowIndex={findEntryIndex(item.row.id, gridState.gridTemplateRows)}
-            columnIndex={findEntryIndex(
-              item.column.id,
-              gridState.gridTemplateColumns
-            )}
+            fallbackRender={({ error }) => <div>{error}</div>}
           >
-            {item.number}
-          </GridEditorItem>
+            <GridEditorItem
+              {...item}
+              rowIndex={findEntryIndex(item.row.id, gridState.gridTemplateRows)}
+              columnIndex={findEntryIndex(
+                item.column.id,
+                gridState.gridTemplateColumns
+              )}
+            >
+              {item.number}
+            </GridEditorItem>
+          </ErrorBoundary>
         ))}
       </Box>
     </Box>
