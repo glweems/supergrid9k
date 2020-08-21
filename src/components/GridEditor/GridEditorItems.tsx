@@ -1,15 +1,8 @@
 import React from "react";
-import { ErrorBoundary } from "react-error-boundary";
-import { useRecoilState, useRecoilValue } from "recoil";
-import {
-  grid,
-  gridAreas,
-  gridCss,
-  GridState,
-  GridTemplateEntry,
-} from "../../state";
+import { useRecoilValue } from "recoil";
+import { dotted, wavyZigzag } from "../../lib/backgrounds";
+import { gridAreas, gridCss } from "../../state";
 import Box, { BoxProps } from "../../ui/Box";
-import GridEditorItem from "./GridEditorItem";
 
 export type GridItemsProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -18,16 +11,11 @@ export type GridItemsProps = React.DetailedHTMLProps<
   BoxProps;
 
 const GridItems: React.FC<GridItemsProps> = (props) => {
-  const [gridState, setGridState] = useRecoilState(grid);
   const gridProps = useRecoilValue(gridCss);
   const items = useRecoilValue(gridAreas);
 
-  const findEntryIndex = (rowId: string, arr: GridTemplateEntry[]) => {
-    return arr.findIndex((obj) => obj.id === rowId);
-  };
-
   return (
-    <Box as="section" height="100%" padding={5} className="GridEditorItems">
+    <Box as="section" height="100%" className="GridEditorItems">
       <Box
         display="grid"
         {...gridProps}
@@ -38,22 +26,27 @@ const GridItems: React.FC<GridItemsProps> = (props) => {
         className="grid"
         height="100%"
       >
-        {items.map((item, index) => (
-          <ErrorBoundary
-            key={item.id}
-            fallbackRender={({ error }) => <div>{error}</div>}
+        {items.map(({ id, number }, index) => (
+          <Box
+            key={id}
+            css={`
+              background: ${index % 2 === 0 ? wavyZigzag : dotted};
+            `}
+            borderRadius={4}
+            padding={2}
           >
-            <GridEditorItem
-              {...item}
-              rowIndex={findEntryIndex(item.row.id, gridState.gridTemplateRows)}
-              columnIndex={findEntryIndex(
-                item.column.id,
-                gridState.gridTemplateColumns
-              )}
+            <Box
+              bg="background"
+              height={30}
+              width={25}
+              css={`
+                text-align: center;
+              `}
+              borderRadius={4}
             >
-              {item.number}
-            </GridEditorItem>
-          </ErrorBoundary>
+              {number}
+            </Box>
+          </Box>
         ))}
       </Box>
     </Box>

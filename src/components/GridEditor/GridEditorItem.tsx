@@ -1,9 +1,5 @@
 import React from "react";
-import Draggable, {
-  ControlPosition,
-  DraggableEventHandler,
-  DraggableProps,
-} from "react-draggable";
+import Draggable, { DraggableProps } from "react-draggable";
 import { useRecoilState } from "recoil";
 import styled, { css } from "styled-components";
 import {
@@ -11,11 +7,8 @@ import {
   HandleLeftIcon,
   HandleRightIcon,
   HandleTopIcon,
-  Icon,
 } from "../../lib/Icons";
-import { itemBg } from "../../lib/theme";
-import { replaceItemAtIndex } from "../../lib/utils";
-import { grid, drag, GridArea, GridTemplateEntry } from "../../state";
+import { drag, GridArea } from "../../state";
 interface GridEditorItemProps extends GridArea {
   rowIndex: number;
   columnIndex: number;
@@ -28,11 +21,9 @@ const GridEditorItem: React.FC<GridEditorItemProps> = ({
   row,
   column,
 }) => {
-  const [dragState, setDragState] = useRecoilState(drag);
-
   return (
     <Item className="Item" gridArea={gridArea}>
-      <DragHandle className="right">
+      {/*  <DragHandle className="right">
         <HandleRightIcon />
       </DragHandle>
       <DragHandle className="top">
@@ -43,7 +34,7 @@ const GridEditorItem: React.FC<GridEditorItemProps> = ({
       </DragHandle>
       <DragHandle className="bottom">
         <HandleBottomIcon />
-      </DragHandle>
+      </DragHandle> */}
     </Item>
   );
 };
@@ -88,6 +79,7 @@ type ItemProps = Partial<GridArea>;
 const Item = styled.section<ItemProps>`
   position: relative;
   grid-area: ${({ gridArea }) => gridArea};
+  background-color: var(--color-primary);
   outline: 0.5px solid var(--color-secondary);
 `;
 interface HandleProps {
@@ -106,6 +98,7 @@ const Handle = styled.span<HandleProps>`
   width: min-content;
   height: min-content;
   padding: ${({ theme }) => theme.space[1]}px;
+
   /* border-color: var(--color-background); */
   border-style: dashed;
   border-width: 1px;

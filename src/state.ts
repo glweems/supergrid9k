@@ -85,8 +85,6 @@ export const gridAreas = selector<GridArea[]>({
   key: "areas",
   get: ({ get }) => {
     const { gridTemplateRows, gridTemplateColumns } = get(grid);
-    console.table(gridTemplateColumns);
-    console.table(gridTemplateRows);
 
     let temp: Omit<GridArea, "number">[] = [];
 

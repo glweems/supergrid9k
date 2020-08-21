@@ -13,10 +13,7 @@ const theme: TypographyOptions = {
   bodyWeight: 300,
   boldWeight: 700,
   includeNormalize: true,
-  overrideStyles: (verticleRytheme, options, styles) => {
-    console.log("verticleRytheme: ", verticleRytheme);
-    console.log("options: ", options);
-    console.log("styles: ", styles);
+  overrideStyles: (verticleRythme, options, styles) => {
     return {
       fieldset: {
         padding: `${space[2]}px`,
