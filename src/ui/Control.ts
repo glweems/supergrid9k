@@ -31,8 +31,8 @@ export const Control = styled.div<ControlProps>`
   .remove-entry {
     grid-column: 3 / 4;
     /* border-color: ${({ theme }) => theme.colors.secondary}; */
-    border-width: 1px;
     border-style: solid;
+    border-width: 1px;
     border-right-style: solid;
     border-bottom-style: solid;
     border-radius: 0 4px 4px 0;
