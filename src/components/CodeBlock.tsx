@@ -7,7 +7,7 @@ import Highlight, {
 import React, { FC } from "react";
 import Clipboard from "react-clipboard.js";
 import { Box, BoxProps } from "rebass/styled-components";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 import syntaxTheme from "../lib/syntaxTheme";
 export interface CodeBlockProps extends BoxProps {
   code: string;

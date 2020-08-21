@@ -1,4 +1,4 @@
-import { createGlobalStyle, css } from "styled-components";
+import { createGlobalStyle, css } from "styled-components/macro";
 
 export const colors: Record<string, string> = {
   primary: "#3578e5",

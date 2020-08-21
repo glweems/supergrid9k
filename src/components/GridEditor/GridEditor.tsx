@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import React from "react";
 import Div100vh from "react-div-100vh";
 import { Text } from "rebass/styled-components";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import Box from "../../ui/Box";
 
 const Layout = dynamic(() => import("../../ui/Layout"));

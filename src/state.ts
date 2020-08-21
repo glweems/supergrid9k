@@ -1,5 +1,4 @@
 import { InputProps } from "@rebass/forms/styled-components";
-import { CSSProperties } from "react";
 import { ControlPosition } from "react-draggable";
 import { atom, selector } from "recoil";
 import { CodePenData } from "./components/CodePenButton";
