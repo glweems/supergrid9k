@@ -1,11 +1,22 @@
-export default function setCssVariables(
-  colors: Record<string, string>,
-  prefix = "color"
+export function setCssObjectVariables(
+  obj: Record<string, string>,
+  prefix: string
 ): void {
   if (typeof document !== "undefined")
-    Object.entries(colors).forEach(([key, value]) => {
+    Object.entries(obj).forEach(([key, value]) => {
       document.documentElement.style.setProperty(`--${prefix}-${key}`, value);
     });
+}
 
-  console.debug("css vars set");
+export function setCssArrayVariables(
+  arr: Array<string | number>,
+  prefix: string
+) {
+  if (typeof document !== "undefined")
+    arr.forEach((val, index) => {
+      document.documentElement.style.setProperty(
+        `--${prefix}-${index}`,
+        `${val}`
+      );
+    });
 }
