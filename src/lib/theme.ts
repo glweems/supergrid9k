@@ -1,6 +1,4 @@
-import { createGlobalStyle, css } from "styled-components/macro";
-
-export const colors: Record<string, string> = {
+export const colors = {
   primary: "#3578e5",
   secondary: "#3e456d",
   background: "#18191a",
@@ -17,14 +15,13 @@ export const colors: Record<string, string> = {
   dark: "#272822",
 };
 
-colors.control = colors.code;
+export const space = [0, 4, 8, 16, 32, 64];
 
-export const space: SuperGrid9kSpace = [0, 4, 8, 16, 32, 64];
-space.common = `0.375em`;
 export const defaultFont =
   'system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"';
+
 const theme = {
-  colors,
+  colors: { ...colors, control: colors.code, bg: colors.background },
   space,
   fonts: {
     body: defaultFont,
@@ -166,37 +163,13 @@ const theme = {
   },
   styles: {
     root: {
-      fontFamily: "body",
-      fontWeight: "body",
-      lineHeight: "body",
-    },
-    fieldset: {
-      padding: 1,
+      fontFamily: defaultFont,
+      fontWeight: defaultFont,
+      lineHeight: defaultFont,
     },
   },
 };
 
-export type SuperGrid9kTheme = typeof theme;
-interface SuperGrid9kSpace<T = number> extends Array<T> {
-  common?: string;
-}
+export type SuperGrid9kTheme = { colors: typeof theme.colors };
 
-export const createStyledCssVariables = (
-  colors: Record<string, string>,
-  prefix = "color"
-) => {
-  let cssVars: Record<string, string> = {};
-  Object.entries(colors).forEach(([key, val]) => {
-    cssVars[`--${prefix}-${key}`] = val;
-  });
-
-  return css`
-    :root {
-      ${cssVars}
-    }
-  `;
-};
-
-export const cssVariables = createStyledCssVariables(theme.colors);
-export const createGlobalCss = createGlobalStyle<SuperGrid9kTheme>``;
 export default theme;

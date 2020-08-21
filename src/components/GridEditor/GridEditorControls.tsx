@@ -40,21 +40,23 @@ function GridEditorControls() {
           const name: keyof typeof gridState = key as any;
           return (
             <Control key={name}>
-              <legend className="control-label">{prettyName(name)}</legend>
+              <div className="elements">
+                <legend className="control-label">{prettyName(name)}</legend>
 
-              {gridState[name].map((entry) => (
-                <GridEditorControl key={entry.id} entry={entry} name={name} />
-              ))}
+                {gridState[name].map((entry) => (
+                  <GridEditorControl key={entry.id} entry={entry} name={name} />
+                ))}
 
-              <Button
-                name={key}
-                className="add-entry"
-                onClick={handleAdd}
-                color="green"
-                variant="outline"
-              >
-                <PlusIcon size={28} padding={0} />
-              </Button>
+                <Button
+                  name={key}
+                  className="add-entry"
+                  onClick={handleAdd}
+                  color="green"
+                  variant="outline"
+                >
+                  <PlusIcon size={28} padding={0} />
+                </Button>
+              </div>
             </Control>
           );
         })}

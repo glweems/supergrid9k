@@ -2,8 +2,8 @@ import dynamic from "next/dynamic";
 import React from "react";
 import Div100vh from "react-div-100vh";
 import { Text } from "rebass/styled-components";
-import styled from "styled-components/macro";
 import Box from "../../ui/Box";
+import { SuperGrid9kCodePen } from "../CodePenButton";
 
 const Layout = dynamic(() => import("../../ui/Layout"));
 const GridEditorControls = dynamic(() => import("./GridEditorControls"));
@@ -17,7 +17,7 @@ const GridEditor: React.FC = () => {
   return (
     <Div100vh>
       <Layout>
-        <Sidebar className="grid-sidebar">
+        <aside className="grid-sidebar">
           <Box className="info">
             <Text as="h1">SuperGrid9K</Text>
             <GithubButton />
@@ -26,31 +26,20 @@ const GridEditor: React.FC = () => {
           <GridEditorControls />
 
           <GridEditorResetButton />
-        </Sidebar>
+        </aside>
 
         <Box className="grid-entries">
           <GridEditorItems />
         </Box>
 
-        <Viewer className="code-viewer">
+        <section className="code-viewer">
           <CodeViewerControls />
           <CodeViewer />
-        </Viewer>
+          <SuperGrid9kCodePen />
+        </section>
       </Layout>
     </Div100vh>
   );
 };
-
-const Viewer = styled.section`
-  display: grid;
-  grid-template-columns: 300px repeat(2, min-content);
-  gap: 1rem;
-`;
-
-const Sidebar = styled.aside`
-  .info {
-    padding: ${({ theme }) => theme.space[2]}px;
-  }
-`;
 
 export default GridEditor;

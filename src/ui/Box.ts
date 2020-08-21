@@ -15,7 +15,7 @@ import {
   space,
   SpaceProps,
 } from "styled-system";
-import theme from "../lib/theme";
+import theme, { SuperGrid9kTheme } from "../lib/theme";
 
 export interface BoxProps
   extends SpaceProps,
@@ -23,7 +23,7 @@ export interface BoxProps
     LayoutProps,
     PositionProps,
     FlexboxProps,
-    ColorProps,
+    ColorProps<SuperGrid9kTheme>,
     GridProps {}
 
 export const boxComposition = compose(

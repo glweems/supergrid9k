@@ -4,18 +4,20 @@ interface GridEditorItemProps {
   number: number;
 }
 const GridEditorItem = styled.div<GridEditorItemProps>`
-  padding: ${({ theme }) => theme.space[2]}px;
+  padding: var(--space-2);
   background: ${({ number }) => (number % 2 === 0 ? wavyZigzag : dotted)};
-  border-radius: ${({ theme }) => theme.space[2]}px;
+  border-radius: var(--space-2);
   ::before {
     width: min-content;
     height: min-content;
-    padding-right: ${({ theme }) => theme.space[3]}px;
-    padding-left: ${({ theme }) => theme.space[3]}px;
+    padding-top:var(--space-1);
+    padding-right:var(--space-3);
+    padding-bottom:var(--space-1);
+    padding-left: var(--space-3);
     font-weight: bold;
     text-align: center;
     background-color: var(--color-background);
-    border-radius: ${({ theme }) => theme.space[1]}px;
+    border-radius: var(--space-1);
     content: "${({ number }) => number}";
   }
 `;

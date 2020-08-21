@@ -49,7 +49,7 @@ const CodeBody: FC<CodeBodyProps> = ({
   boxProps,
 }) => {
   const [showCopy, setShowCopy] = React.useState(false);
-  const [copyText, setCopyText] = React.useState("copy");
+  const [copyText, setCopyText] = React.useState("Copy");
 
   const mouseHandler: React.MouseEventHandler<HTMLDivElement> = (event) => {
     setShowCopy((prev) => !prev);
@@ -96,7 +96,7 @@ const CopyButton = styled.button`
   align-items: flex-start;
   margin: 0em;
   padding: 0.4rem 0.5rem;
-  color: ${({ theme }) => theme.colors.light};
+  color: var(--color-light);
   font: 400 13.3333px "Arial", sans-serif;
   letter-spacing: normal;
   text-align: center;
@@ -106,11 +106,11 @@ const CopyButton = styled.button`
   word-spacing: normal;
   background: rgba(0, 0, 0, 0.3);
   border: none;
-  border-color: ${({ theme }) => theme.colors.code};
+  border-color: var(--color-code);
   border-style: solid;
   border-width: 2px;
   text-rendering: auto;
-  border-radius: 8px;
+  border-radius: var(--space-2);
   border-image: initial;
   outline: none;
   visibility: hidden;

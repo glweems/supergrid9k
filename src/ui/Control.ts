@@ -3,13 +3,14 @@ import theme from "../lib/theme";
 export interface ControlProps {
   control?: "gridGap";
 }
-export const Control = styled.div<ControlProps>`
-  display: grid;
-  grid-row-gap: ${({ theme }) => theme.space[2]}px;
+export const Control = styled.fieldset<ControlProps>`
+.elements {
+    display: grid;
+  grid-row-gap:var(--space-2);
   grid-template-rows: 1fr;
   grid-template-columns: 120px 1fr 39px;
-  margin-bottom: ${({ theme }) => theme.space[4]}px;
-  padding: ${({ theme }) => theme.space[2]}px;
+  margin-bottom: var(--space-3);
+}
 
   legend {
     grid-row: 1/2;
@@ -86,5 +87,5 @@ export const Control = styled.div<ControlProps>`
       }
     `}
 `;
-
+Control.displayName = "GridEditorControl";
 Control.defaultProps = { theme };

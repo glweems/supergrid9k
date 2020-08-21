@@ -3,14 +3,13 @@ import React from "react";
 import { Box } from "rebass/styled-components";
 import { useRecoilState } from "recoil";
 import { cssRepeat, gridContainerClass } from "../state";
-import { SuperGrid9kCodePen } from "./CodePenButton";
 
 const CodeViewerControls = () => {
   const [isRepeatingCss, setIsRepeatingCss] = useRecoilState(cssRepeat);
   const [className, setClassName] = useRecoilState(gridContainerClass);
 
   return (
-    <Box bg="background">
+    <React.Fragment>
       <Box className="control">
         <Label htmlFor="repeat-checkbox">
           <Checkbox
@@ -31,10 +30,7 @@ const CodeViewerControls = () => {
           onChange={(e) => setClassName(e.target.value)}
         />
       </Box>
-      <Box>
-        <SuperGrid9kCodePen />
-      </Box>
-    </Box>
+    </React.Fragment>
   );
 };
 

@@ -26,8 +26,8 @@ const GridItems: React.FC<GridItemsProps> = (props) => {
         className="grid"
         height="100%"
       >
-        {items.map(({ id, number }, index) => (
-          <GridEditorItem key={id} number={number}></GridEditorItem>
+        {items.map(({ id, number }) => (
+          <GridEditorItem key={id} number={number} />
         ))}
       </Box>
     </Box>
