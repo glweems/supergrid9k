@@ -1,20 +1,25 @@
-import Div100vh from "react-div-100vh";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
-const Layout = styled(Div100vh)`
+const Layout = styled.main`
+  position: relative;
   display: grid;
   grid-template-areas:
     "grid-sidebar grid-entries"
     "grid-sidebar code-viewer";
-  grid-template-rows: 1fr 30%;
+  grid-template-rows: 1fr 250px;
   grid-template-columns: 300px 1fr;
   width: 100vw;
-  overflow: hidden;
+  max-width: 100vw;
 
   .grid-sidebar {
+    position: sticky;
+    top: 1rem;
+    right: 1rem;
     grid-area: grid-sidebar;
+    height: 100vh;
+    max-height: 100vh;
+    overflow-y: auto;
     color: ${({ theme }) => theme.colors.text};
-    border-right: 2px solid ${({ theme }) => theme.colors.light};
   }
 
   .grid-entries {
@@ -22,15 +27,7 @@ const Layout = styled(Div100vh)`
   }
 
   .code-viewer {
-    display: grid;
     grid-area: code-viewer;
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  aside {
-    padding-right: ${({ theme }) => theme.space[3]}px;
-    padding-bottom: ${({ theme }) => theme.space[4]}px;
-    padding-left: ${({ theme }) => theme.space[3]}px;
   }
 `;
 

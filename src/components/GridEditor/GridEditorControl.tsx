@@ -45,21 +45,13 @@ export function GridEditorControl({
   return (
     <React.Fragment>
       <Input
-        color="text"
-        bg="control"
         name="amount"
         value={entry.amount}
         onChange={handleChange}
         {...entry.inputProps}
       />
 
-      <Select
-        color="text"
-        bg="code"
-        name="unit"
-        onChange={handleChange}
-        {...entry.selectProps}
-      />
+      <Select name="unit" onChange={handleChange} {...entry.selectProps} />
 
       <Button
         className="remove-entry"

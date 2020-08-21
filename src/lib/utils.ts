@@ -55,7 +55,7 @@ export function getAllowedEntry(
         ...entry,
         amount: 10,
         [name]: value,
-        inputProps: defaultInputProps,
+        inputProps: { ...defaultInputProps, step: 0.1, max: 20 },
         selectProps: defaultSelectProps,
       };
     }
@@ -196,8 +196,8 @@ export const gridGapUnits: GridGapUnit[] = ["px", "rem", "em", "vh", "vw"];
 export const defaultInputProps = {
   name: "amount",
   min: 0,
-  max: 100,
-  step: 1,
+  max: 20,
+  step: 0.1,
   disabled: false,
   type: "number",
 };

@@ -1,4 +1,5 @@
 import { InputProps } from "@rebass/forms/styled-components";
+import { ControlPosition } from "react-draggable";
 import { atom, selector } from "recoil";
 import { CodePenData } from "./components/CodePenButton";
 import { SelectProps } from "./components/Select";
@@ -34,6 +35,11 @@ export const resetGrid = selector({
   set: ({ set }) => set(grid, defaultGridState),
 });
 
+export const gridContainerClass = atom({
+  key: "gridContainerClass",
+  default: "grid-container",
+});
+
 export const cssRepeat = atom({
   key: "useCssGridRepeat",
   default: true,
@@ -44,10 +50,11 @@ export const gridCss = selector<TemplateStringObject>({
   get: ({ get }) => {
     const state = get(grid);
     const repeat = get(cssRepeat);
+    const className = get(gridContainerClass);
     const { amount, unit } = state.gridGap;
 
     const cssObj: TemplateStringObject = {
-      className: "grid-container",
+      className,
       gridGap: `${amount}${unit}`,
       gridTemplateRows: createCssString(state.gridTemplateRows, repeat),
       gridTemplateColumns: createCssString(state.gridTemplateColumns, repeat),
@@ -62,19 +69,48 @@ export interface GridArea {
   name?: string;
   number: number;
   id: string;
+  gridRowStart: number;
+  gridRowEnd: number;
+  gridColumnStart: number;
+  gridColumnEnd: number;
+  lastRow: boolean;
+  lastCol: boolean;
+  gridArea: string;
+  row: GridTemplateEntry;
+  column: GridTemplateEntry;
 }
 
 export const gridAreas = selector<GridArea[]>({
   key: "areas",
   get: ({ get }) => {
     const { gridTemplateRows, gridTemplateColumns } = get(grid);
+
     let temp: Omit<GridArea, "number">[] = [];
 
     gridTemplateRows.forEach((row, rowIndex) => {
-      gridTemplateColumns.forEach((col, colIndex) => {
-        temp.push({
-          id: `${row.id}.${col.id}`,
+      gridTemplateColumns.forEach((column, columnIndex) => {
+        const gridRowStart = rowIndex + 1;
+        const gridRowEnd = rowIndex + 2;
+        const gridColumnStart = columnIndex + 1;
+        const gridColumnEnd = columnIndex + 2;
+
+        return temp.push({
+          id: `${row.id}.${column.id}`,
+          row,
+          column,
           gridTemplateArea: ".",
+          gridRowStart,
+          gridRowEnd,
+          gridColumnStart,
+          gridColumnEnd,
+          gridArea: [gridRowStart, gridColumnStart, gridRowEnd, gridColumnEnd]
+            .toString()
+            .split(",")
+            .join(" / "),
+          lastRow:
+            columnIndex === 0 && rowIndex + 1 === gridTemplateRows.length,
+          lastCol:
+            rowIndex === 0 && columnIndex + 1 === gridTemplateColumns.length,
         });
       });
     });
@@ -125,4 +161,9 @@ export const codePenOptions = selector<CodePenData>({
     };
     return config;
   },
+});
+
+export const drag = atom<ControlPosition>({
+  key: "drag",
+  default: { x: 0, y: 0 },
 });

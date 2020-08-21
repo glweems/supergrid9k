@@ -1,11 +1,12 @@
 import {
-  prettyName,
-  groupRepeatedUnits,
   createRepetition,
-  repeatStr,
   dataToCss,
+  defaultInputProps,
+  defaultSelectProps,
+  groupRepeatedUnits,
+  prettyName,
+  repeatStr,
 } from "./utils";
-import { defaultInputProps, defaultSelectProps } from "../lib/utils";
 
 test("prettyName", () => {
   expect(prettyName("gridTemplateRows")).toEqual("Grid Rows");
