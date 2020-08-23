@@ -1,24 +1,22 @@
-import { InputProps } from '@rebass/forms/styled-components';
 import { ControlPosition } from 'react-draggable';
 import { atom, selector, useRecoilState } from 'recoil';
 import { CodePenData } from './components/CodePenButton';
-import { SelectProps } from './components/Select';
 import { cssTemplateString, htmlTemplateString, TemplateStringObject } from './lib/templateStrings';
 import {
   createCssString,
   defaultGridState,
-  GridUnit,
-  replaceItemAtIndex,
   getAllowedEntry,
+  GridUnit,
   removeItemAtIndex,
+  replaceItemAtIndex,
 } from './lib/utils';
 
 export type GridTemplateEntry = {
   id: string;
   amount: number | '';
   unit: GridUnit;
-  inputProps: InputProps;
-  selectProps: SelectProps;
+  inputProps: React.InputHTMLAttributes<HTMLInputElement>;
+  selectProps: React.InputHTMLAttributes<HTMLSelectElement>;
 };
 
 export interface GridState {

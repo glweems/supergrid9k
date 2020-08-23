@@ -1,6 +1,6 @@
 {
   "name": "@lerna-monorepo/client",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "homepage": "https://supergrid9k.dev",
   "description": "A visual way to generate css for all your css-grid layouts.",

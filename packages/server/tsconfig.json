@@ -10,8 +10,11 @@
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "typeRoots": ["./node_modules/@types"],
-    "baseUrl": "./src"
+    "baseUrl": "./src",
+    "paths": {
+      "@lerna-monorepo/client": ["../client"]
+    }
   },
-  "include": ["src/**/*.ts", "./../client/src/**/*"],
+  "include": ["src/**/*.ts", "@lerna-monorepo/client/**/*"],
   "exclude": ["node_modules"]
 }
