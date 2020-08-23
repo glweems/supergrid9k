@@ -24,10 +24,12 @@ export type GridTemplateEntry = {
 export interface GridState {
   gridTemplateRows: GridTemplateEntry[];
   gridTemplateColumns: GridTemplateEntry[];
-  gridGap: GridTemplateEntry;
+  gridGap: GridTemplateEntry[];
   gridContainerClassName: string;
   useCssRepeatFn: boolean;
 }
+
+export type GridStateName = Pick<GridState, 'gridTemplateColumns' | 'gridTemplateRows' | 'gridGap'>;
 
 export const grid = atom<GridState>({
   key: 'grid',
@@ -63,7 +65,7 @@ export const gridContainerClassName = selector<string>({
   },
 });
 
-export function useGridTemplate(name: keyof Pick<GridState, 'gridTemplateColumns' | 'gridTemplateRows'>) {
+export function useGridTemplate(name: keyof GridStateName) {
   const [gridState, setGridState] = useRecoilState(grid);
 
   const entries = gridState[name];
@@ -82,10 +84,7 @@ export function useGridTemplate(name: keyof Pick<GridState, 'gridTemplateColumns
   return { entries, addEntry, name };
 }
 
-export function useControlHandlers(
-  gridObjKey: keyof Pick<GridState, 'gridTemplateColumns' | 'gridTemplateRows'>,
-  id: string,
-) {
+export function useControlHandlers(gridObjKey: keyof GridStateName, id: string) {
   const [gridState, setGridState] = useRecoilState(grid);
   const entries = gridState[gridObjKey];
   const index = entries.findIndex((e) => e.id === id);
@@ -116,17 +115,13 @@ export function useControlHandlers(
 export const gridCss = selector<TemplateStringObject>({
   key: 'gridCss',
   get: ({ get }) => {
-    const {
-      gridContainerClassName,
-      gridTemplateRows,
-      gridTemplateColumns,
-      useCssRepeatFn,
-      gridGap: { amount, unit },
-    } = get(grid);
+    const { gridContainerClassName, gridTemplateRows, gridTemplateColumns, useCssRepeatFn, gridGap } = get(grid);
+
+    const [rowGap, colGap] = gridGap;
 
     const cssObj: TemplateStringObject = {
       className: gridContainerClassName,
-      gridGap: `${amount}${unit}`,
+      gridGap: `${rowGap.amount}${rowGap.unit} ${colGap.amount}${colGap.unit}`,
       gridTemplateRows: createCssString(gridTemplateRows, useCssRepeatFn),
       gridTemplateColumns: createCssString(gridTemplateColumns, useCssRepeatFn),
     };
