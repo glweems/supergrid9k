@@ -1,11 +1,34 @@
-import * as mongoose from "mongoose";
-import { User } from "../interfaces/users.interface";
+import * as Mongoose from 'mongoose';
+import { Grid } from '../interfaces/grid.interface';
 
-const userSchema = new mongoose.Schema({
-  email: String,
-  password: String,
+const gridSchema = new Mongoose.Schema({
+  grid: {
+    gridTemplateRows: [
+      {
+        id: String,
+        amount: Number,
+        unit: String,
+        inputProps: Object,
+        selectProps: Object,
+      },
+    ],
+    gridTemplateColumns: [
+      {
+        id: String,
+        amount: Number,
+        unit: String,
+        inputProps: Object,
+        selectProps: Object,
+      },
+    ],
+    // gridGap
+    gridContainerClassName: String,
+    useCssRepeatFn: Boolean,
+  },
 });
 
-const userModel = mongoose.model<User & mongoose.Document>("User", userSchema);
+type GridModel = Mongoose.Document & Grid;
 
-export default userModel;
+const gridModel = Mongoose.model<GridModel>('Grid', gridSchema);
+
+export default gridModel;

@@ -1,7 +1,6 @@
-import { GridState } from "../../../client/src/state";
+import { GridState } from '../../../client/src/state';
 
-export interface User {
+export interface Grid {
   _id: string;
   grid: GridState;
-  password: string;
 }

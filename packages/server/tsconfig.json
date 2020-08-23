@@ -3,15 +3,15 @@
     "sourceMap": true,
     "target": "es2017",
     "outDir": "./dist",
-    "baseUrl": "./src",
     "alwaysStrict": true,
     "noImplicitAny": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
-    "typeRoots": ["./node_modules/@types"]
+    "typeRoots": ["./node_modules/@types"],
+    "baseUrl": "./src"
   },
-  "include": ["src/**/*.ts", "../client/src/**/*.ts"],
+  "include": ["src/**/*.ts", "./../client/src/**/*"],
   "exclude": ["node_modules"]
 }
