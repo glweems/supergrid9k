@@ -1,5 +1,5 @@
 {
-  "name": "supergrid9k",
+  "name": "@lerna-monorepo/client",
   "version": "0.1.0",
   "private": true,
   "homepage": "https://supergrid9k.dev",

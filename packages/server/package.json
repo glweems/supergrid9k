@@ -1,5 +1,5 @@
 {
-  "name": "supergrid9k-server",
+  "name": "@lerna-monorepo/server",
   "version": "0.0.0",
   "scripts": {
     "start": "cross-env NODE_ENV=production ts-node --transpile-only src/server.ts",
