@@ -226,13 +226,13 @@ export const initialGridTemplateRows: GridTemplateEntry[] = [
 ];
 
 export const initialGridTemplateColumns: GridTemplateEntry[] = [
-  {
-    id: "column-1",
-    amount: 1,
-    unit: "fr",
-    inputProps: defaultInputProps,
-    selectProps: defaultSelectProps,
-  },
+  // {
+  //   id: "column-1",
+  //   amount: 1,
+  //   unit: "fr",
+  //   inputProps: defaultInputProps,
+  //   selectProps: defaultSelectProps,
+  // },
   {
     id: "column-2",
     amount: 1,
@@ -246,7 +246,7 @@ export function dataToCss(
   entries: Pick<GridTemplateEntry, "amount" | "unit">[]
 ) {
   return entries
-    .map(({ amount, unit }) => `${amount}${unit}`)
+    ?.map(({ amount, unit }) => `${amount}${unit}`)
     .toString()
     .split(",")
     .join(" ");
@@ -261,13 +261,24 @@ export function createCssString(
 }
 
 export const defaultGridState: GridState = {
+  gridContainerClassName: "grid-container",
+  useCssRepeatFn: true,
   gridTemplateRows: initialGridTemplateRows,
   gridTemplateColumns: initialGridTemplateColumns,
-  gridGap: {
-    id: "grid-gap",
-    amount: 1,
-    unit: "rem",
-    inputProps: defaultInputProps,
-    selectProps: { ...defaultSelectProps, options: gridGapUnits },
-  },
+  gridGap: [
+    {
+      id: "grid-gap",
+      amount: 1,
+      unit: "rem",
+      inputProps: defaultInputProps,
+      selectProps: { ...defaultSelectProps, options: gridGapUnits },
+    },
+    {
+      id: "grid-gap1",
+      amount: 1,
+      unit: "rem",
+      inputProps: defaultInputProps,
+      selectProps: { ...defaultSelectProps, options: gridGapUnits },
+    },
+  ],
 };

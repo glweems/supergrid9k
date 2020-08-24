@@ -2,7 +2,6 @@ import { render } from "@testing-library/react";
 import React from "react";
 import ContextProvider from "./components/ContextProvider";
 import GridEditorControls from "./components/GridEditor/GridEditorControls";
-import { GridEditorGapControls } from "./components/GridEditor/GridEditorControls";
 test("renders Grid Rows", () => {
   const { getByText } = render(
     <ContextProvider>
@@ -27,7 +26,7 @@ test("renders Grid Columns", () => {
 test("renders Grid Gap", () => {
   const { getByText } = render(
     <ContextProvider>
-      <GridEditorGapControls />
+      <GridEditorControls />
     </ContextProvider>
   );
   const gridTemplateColumns = getByText(/Grid Gap/i);

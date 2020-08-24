@@ -98,6 +98,8 @@ const theme = {
       paddingTop: "none",
       paddingBottom: "none",
       borderWidth: 1.5,
+      bg: "transparent",
+      borderColor: "transparent",
     },
     primary: {
       variant: "buttons.default",

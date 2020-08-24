@@ -1,66 +1,57 @@
+import { Input } from "@rebass/forms/styled-components";
 import React from "react";
-import { useRecoilState } from "recoil";
+import { Button } from "rebass/styled-components";
 import { CloseIcon } from "../../lib/Icons";
 import {
-  getAllowedEntry,
-  removeItemAtIndex,
-  replaceItemAtIndex,
-} from "../../lib/utils";
-import { grid, GridState, GridTemplateEntry } from "../../state";
+  GridStateName,
+  GridTemplateEntry,
+  useControlHandlers,
+} from "../../state";
 import Select from "../Select";
-import { Input } from "@rebass/forms/styled-components";
-import { Button } from "rebass/styled-components";
-export interface GridEditorControlProps {
-  entry: GridTemplateEntry;
-  name: keyof Omit<GridState, "gridGap">;
+export interface GridEditorControlProps extends GridTemplateEntry {
+  name: keyof GridStateName;
 }
 
-export function GridEditorControl({
-  name: objkey,
-  entry,
-}: GridEditorControlProps) {
-  const [gridState, setGridState] = useRecoilState(grid);
-  const index = gridState[objkey].findIndex((listItem) => listItem === entry);
-
-  const handleChange: React.ChangeEventHandler<
-    HTMLInputElement | HTMLSelectElement
-  > = ({ target: { name, value } }) => {
-    const newEntry = replaceItemAtIndex<GridTemplateEntry>(
-      gridState[objkey],
-      index,
-      getAllowedEntry(name, value as any, entry)
-    );
-
-    setGridState((prev) => ({ ...prev, [objkey]: newEntry }));
-  };
-
-  const handleDelete: React.MouseEventHandler<HTMLButtonElement> = (event) => {
-    const newEntries = removeItemAtIndex(gridState[objkey], index);
-
-    setGridState((prev) => ({ ...prev, [objkey]: newEntries }));
-  };
-
-  const disableDelete = gridState[objkey].length < 2;
+export const GridEditorControl: React.FC<GridEditorControlProps> = ({
+  id,
+  amount,
+  unit,
+  inputProps,
+  selectProps,
+  name,
+}) => {
+  const { handleChange, handleDelete, canDelete } = useControlHandlers(
+    name,
+    id
+  );
 
   return (
     <React.Fragment>
+      {" "}
+      {name !== "gridGap" && (
+        <Button
+          className="remove-entry"
+          onClick={handleDelete}
+          variant="default"
+          disabled={canDelete}
+        >
+          <CloseIcon size={25} />
+        </Button>
+      )}
       <Input
         name="amount"
-        value={entry.amount}
+        className="control-start"
+        defaultValue={amount}
         onChange={handleChange}
-        {...entry.inputProps}
+        {...inputProps}
       />
-
-      <Select name="unit" onChange={handleChange} {...entry.selectProps} />
-
-      <Button
-        className="remove-entry"
-        onClick={handleDelete}
-        variant="close"
-        disabled={disableDelete}
-      >
-        <CloseIcon size={25} />
-      </Button>
+      <Select
+        name="unit"
+        className="control-end"
+        defaultValue={unit}
+        onChange={handleChange}
+        {...selectProps}
+      />
     </React.Fragment>
   );
-}
+};

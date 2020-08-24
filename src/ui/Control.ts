@@ -4,13 +4,15 @@ export interface ControlProps {
   control?: "gridGap";
 }
 export const Control = styled.fieldset<ControlProps>`
-.elements {
+  .elements {
     display: grid;
-  grid-row-gap:var(--space-2);
-  grid-template-rows: 1fr;
-  grid-template-columns: 120px 1fr 39px;
-  margin-bottom: var(--space-3);
-}
+    grid-row-gap: var(--space-2);
+    grid-template-rows: 1fr;
+    grid-template-columns:
+      [delete-start] auto [delete-end]
+      repeat(2, 1fr);
+    margin-bottom: var(--space-3);
+  }
 
   legend {
     grid-row: 1/2;
@@ -30,19 +32,23 @@ export const Control = styled.fieldset<ControlProps>`
   }
 
   .remove-entry {
-    grid-column: 3 / 4;
-    /* border-color: ${({ theme }) => theme.colors.secondary}; */
+    grid-row: span 1;
+    grid-column: delete;
+    margin-right: var(--space-2);
+    padding: 0;
     border-style: solid;
     border-width: 1px;
     border-right-style: solid;
     border-bottom-style: solid;
-    border-radius: 0 4px 4px 0;
 
+    svg {
+      border-radius: 100%;
+    }
     &:disabled {
-     opacity: 0.5;
-     svg {
-       color: var(--color-muted);
-     }
+      opacity: 0.5;
+      svg {
+        color: var(--color-muted);
+      }
     }
 
     &:hover {
@@ -57,14 +63,16 @@ export const Control = styled.fieldset<ControlProps>`
   }
 
   input {
-    grid-column: 1 / 2;
+    grid-row: span 1;
+    grid-column: 2 / 3;
     border-radius: 4px 0 0 4px;
   }
 
   .select {
-    grid-column: 2 / 3;
+    grid-column: 3 / 4;
     select {
       border-radius: 0;
+      border-radius: 0 4px 4px 0;
     }
   }
 
@@ -75,12 +83,11 @@ export const Control = styled.fieldset<ControlProps>`
       color: var(--color-yellow);
     }
   }
-  ${(props) =>
-    props &&
-    props.control === "gridGap" &&
+  ${({ name }) =>
+    name === "gridGap" &&
     css`
       .select {
-        grid-column: 2 / 4;
+        grid-column: 3 / 4;
         select {
           border-radius: 0 4px 4px 0;
         }

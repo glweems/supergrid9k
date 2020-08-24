@@ -1,6 +1,6 @@
 import { InputProps } from "@rebass/forms/styled-components";
 import { ControlPosition } from "react-draggable";
-import { atom, selector } from "recoil";
+import { atom, selector, useRecoilState } from "recoil";
 import { CodePenData } from "./components/CodePenButton";
 import { SelectProps } from "./components/Select";
 import {
@@ -8,7 +8,14 @@ import {
   htmlTemplateString,
   TemplateStringObject,
 } from "./lib/templateStrings";
-import { createCssString, defaultGridState, GridUnit } from "./lib/utils";
+import {
+  createCssString,
+  defaultGridState,
+  GridUnit,
+  replaceItemAtIndex,
+  getAllowedEntry,
+  removeItemAtIndex,
+} from "./lib/utils";
 
 export type GridTemplateEntry = {
   id: string;
@@ -21,43 +28,121 @@ export type GridTemplateEntry = {
 export interface GridState {
   gridTemplateRows: GridTemplateEntry[];
   gridTemplateColumns: GridTemplateEntry[];
-  gridGap: GridTemplateEntry;
+  gridGap: GridTemplateEntry[];
+  gridContainerClassName: string;
+  useCssRepeatFn: boolean;
 }
 
-export const grid = atom<GridState>({
+export type GridStateName = Pick<
+  GridState,
+  "gridTemplateColumns" | "gridTemplateRows" | "gridGap"
+>;
+
+export const grid = atom<null | GridState>({
   key: "grid",
-  default: defaultGridState,
+  default: null,
 });
 
 export const resetGrid = selector({
-  key: "ResetGrid",
+  key: "resetGrid",
   get: ({ get }) => get(grid),
   set: ({ set }) => set(grid, defaultGridState),
 });
 
-export const gridContainerClass = atom({
-  key: "gridContainerClass",
-  default: "grid-container",
+export const cssRepeatFn = selector({
+  key: "cssRepeatFn",
+  get: ({ get }) => get(grid).useCssRepeatFn,
+  set: ({ set, get }) => {
+    const { useCssRepeatFn, ...prev } = get(grid);
+    set(grid, { ...prev, useCssRepeatFn: !useCssRepeatFn });
+  },
 });
 
-export const cssRepeat = atom({
-  key: "useCssGridRepeat",
-  default: true,
+export const gridContainerClassName = selector<string>({
+  key: "gridContainerClassName",
+  get: ({ get }) => {
+    const { gridContainerClassName } = get(grid);
+    return gridContainerClassName;
+  },
+  set: ({ set, get }, value) => {
+    set(grid as any, {
+      ...get(grid),
+      gridContainerClassName: value,
+    });
+  },
 });
+
+export function useGridTemplate(name: keyof GridStateName) {
+  const [gridState, setGridState] = useRecoilState(grid);
+
+  const entries = gridState[name];
+
+  const addEntry = () => {
+    const lastEntry = {
+      ...entries.slice(-1)[0],
+      id: `${name}.${entries.length}`,
+    };
+
+    const newEntries = [...entries, lastEntry];
+
+    setGridState((prev) => ({ ...prev, [name]: newEntries }));
+  };
+
+  return { entries, addEntry, name };
+}
+
+export function useControlHandlers(
+  gridObjKey: keyof GridStateName,
+  id: string
+) {
+  const [gridState, setGridState] = useRecoilState(grid);
+  const entries = gridState[gridObjKey];
+  const index = entries.findIndex((e) => e.id === id);
+
+  const entry = gridState[gridObjKey][index];
+
+  const handleChange: React.ChangeEventHandler<
+    HTMLInputElement | HTMLSelectElement
+  > = ({ target: { name, value } }) => {
+    console.log("value : ", value);
+    console.log("name: ", name);
+
+    const newEntry = replaceItemAtIndex<GridTemplateEntry>(
+      entries,
+      index,
+      getAllowedEntry(name, value as any, entry)
+    );
+
+    setGridState((prev) => ({ ...prev, [gridObjKey]: newEntry }));
+  };
+
+  const handleDelete: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+    const newEntries = removeItemAtIndex(entries, index);
+    setGridState((prev) => ({ ...prev, [gridObjKey]: newEntries }));
+  };
+
+  const canDelete = entries.length < 2;
+
+  return { handleChange, handleDelete, canDelete };
+}
 
 export const gridCss = selector<TemplateStringObject>({
   key: "gridCss",
   get: ({ get }) => {
-    const state = get(grid);
-    const repeat = get(cssRepeat);
-    const className = get(gridContainerClass);
-    const { amount, unit } = state.gridGap;
+    const gridState = get(grid) ?? defaultGridState;
+    const {
+      gridContainerClassName,
+      gridTemplateRows,
+      gridTemplateColumns,
+      useCssRepeatFn,
+      gridGap,
+    } = gridState;
 
     const cssObj: TemplateStringObject = {
-      className,
-      gridGap: `${amount}${unit}`,
-      gridTemplateRows: createCssString(state.gridTemplateRows, repeat),
-      gridTemplateColumns: createCssString(state.gridTemplateColumns, repeat),
+      className: gridContainerClassName,
+      gridGap: `${gridState?.gridGap?.[0]?.amount}${gridState?.gridGap?.[0]?.unit} ${gridState?.gridGap?.[0]?.amount}${gridState?.gridGap?.[0]?.unit}`,
+      gridTemplateRows: createCssString(gridTemplateRows, useCssRepeatFn),
+      gridTemplateColumns: createCssString(gridTemplateColumns, useCssRepeatFn),
     };
 
     return cssObj;

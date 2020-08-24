@@ -1,106 +1,58 @@
 import React from "react";
-import { useRecoilState } from "recoil";
+import { Button } from "rebass/styled-components";
 import { PlusIcon } from "../../lib/Icons";
-import { grid, GridState } from "../../state";
-import { defaultInputProps, defaultSelectProps } from "../../lib/utils";
+import { GridStateName, GridTemplateEntry, useGridTemplate } from "../../state";
 import { Control } from "../../ui/Control";
 import { GridEditorControl } from "./GridEditorControl";
-import { Button, Text } from "rebass/styled-components";
-import { prettyName } from "../../lib/utils";
-import { Input } from "@rebass/forms/styled-components";
-import Select from "../../components/Select";
+
 function GridEditorControls() {
-  const [{ gridGap, ...gridState }, setGridState] = useRecoilState(grid);
-
-  const handleAdd: React.MouseEventHandler<HTMLButtonElement> = ({
-    currentTarget,
-  }) => {
-    const name = currentTarget.name as keyof GridState;
-
-    setGridState((prev) => ({
-      ...prev,
-      [name]: [
-        ...prev[name],
-        {
-          id: getId(),
-          amount: 1,
-          unit: "fr",
-          inputProps: defaultInputProps,
-          selectProps: defaultSelectProps,
-        },
-      ],
-    }));
-  };
-
+  const rowData = useGridTemplate("gridTemplateRows");
+  const columnData = useGridTemplate("gridTemplateColumns");
+  const gapData = useGridTemplate("gridGap");
   return (
     <React.Fragment>
-      {Object.keys(gridState)
-        .reverse()
-        .map((key) => {
-          const name: keyof typeof gridState = key as any;
-          return (
-            <Control key={name}>
-              <div className="elements">
-                <legend className="control-label">{prettyName(name)}</legend>
-
-                {gridState[name].map((entry) => (
-                  <GridEditorControl key={entry.id} entry={entry} name={name} />
-                ))}
-
-                <Button
-                  name={key}
-                  className="add-entry"
-                  onClick={handleAdd}
-                  color="green"
-                  variant="outline"
-                >
-                  <PlusIcon size={28} padding={0} />
-                </Button>
-              </div>
-            </Control>
-          );
-        })}
-
-      <GridEditorGapControls />
+      <GridTemplateControls legend="Grid Rows" {...rowData} />
+      <GridTemplateControls legend="Grid Columns" {...columnData} />
+      <GridTemplateControls legend="Grid Gap" {...gapData} />
     </React.Fragment>
   );
 }
+interface GridTemplateControlProps {
+  name: keyof GridStateName;
+  addEntry: React.MouseEventHandler<HTMLButtonElement>;
+  entries: GridTemplateEntry[];
+  legend: string;
+}
 
-export const GridEditorGapControls = () => {
-  const [{ gridGap }, setGridState] = useRecoilState(grid);
-
-  const handleChange: React.ChangeEventHandler<
-    HTMLInputElement | HTMLSelectElement
-  > = ({ target: { name, value } }) => {
-    setGridState((prev) => ({
-      ...prev,
-      gridGap: { ...gridGap, [name]: value },
-    }));
-  };
+const GridTemplateControls: React.FC<GridTemplateControlProps> = ({
+  name,
+  entries,
+  addEntry,
+  legend,
+}) => {
   return (
-    <Control control="gridGap">
-      <Text as="h3" className="control-label" mb={3}>
-        Grid Gap
-      </Text>
-      <Input
-        name="amount"
-        value={gridGap.amount}
-        onChange={handleChange}
-        {...gridGap.inputProps}
-      />
-      <Select
-        name="unit"
-        value={gridGap.unit}
-        onChange={handleChange}
-        {...gridGap.selectProps}
-      />
+    <Control name={name}>
+      <div className="elements">
+        <legend className="control-label">{legend}</legend>
+
+        {entries?.map((entry) => (
+          <GridEditorControl key={entry.id} {...entry} name={name} />
+        ))}
+
+        {/* Button To Add New GridTemplate Entry */}
+        {name !== "gridGap" && (
+          <Button
+            className="add-entry"
+            onClick={addEntry}
+            color="green"
+            variant="outline"
+          >
+            <PlusIcon size={28} padding={0} />
+          </Button>
+        )}
+      </div>
     </Control>
   );
 };
-
-let id = 0;
-function getId() {
-  return id++;
-}
 
 export default GridEditorControls;
