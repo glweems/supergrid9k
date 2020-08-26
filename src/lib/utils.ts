@@ -226,13 +226,13 @@ export const initialGridTemplateRows: GridTemplateEntry[] = [
 ];
 
 export const initialGridTemplateColumns: GridTemplateEntry[] = [
-  // {
-  //   id: "column-1",
-  //   amount: 1,
-  //   unit: "fr",
-  //   inputProps: defaultInputProps,
-  //   selectProps: defaultSelectProps,
-  // },
+  {
+    id: "column-1",
+    amount: 1,
+    unit: "fr",
+    inputProps: defaultInputProps,
+    selectProps: defaultSelectProps,
+  },
   {
     id: "column-2",
     amount: 1,

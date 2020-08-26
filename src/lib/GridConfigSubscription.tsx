@@ -23,7 +23,7 @@ export default function GridConfigSubscription() {
     console.log("data: ", data);
 
     if (!loading && data && !error) {
-      setGridState(data);
+      setGridState({ ...data, initialState: data });
     } else {
       setGridState(defaultGridState);
     }

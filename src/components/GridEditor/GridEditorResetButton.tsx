@@ -1,15 +1,14 @@
 import React from "react";
-import { useResetRecoilState } from "recoil";
-import { grid } from "../../state";
 import { Button } from "rebass/styled-components";
 import { Icon, iconButtonCss } from "../../lib/Icons";
+import { useResetGrid } from "../../state";
 
 interface GridEditorResetButtonProps {}
 
 const GridEditorResetButton: React.FC<GridEditorResetButtonProps> = ({
   children,
 }) => {
-  const resetGrid = useResetRecoilState(grid);
+  const resetGrid = useResetGrid();
   return (
     <Button onClick={resetGrid} variant="reset" css={iconButtonCss as any}>
       <Icon size={24} color="code">

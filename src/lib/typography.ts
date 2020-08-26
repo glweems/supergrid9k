@@ -21,7 +21,6 @@ const typographyTheme: TypographyOptions = {
       overflow: "auto",
       overflowX: "hidden",
     },
-
     fieldset: {
       padding: `var(--space-2)`,
       border: "unset",

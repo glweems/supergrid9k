@@ -1,26 +1,30 @@
 import { render } from "@testing-library/react";
 import React from "react";
 import ContextProvider from "./components/ContextProvider";
-import GridEditorControls from "./components/GridEditor/GridEditorControls";
+import GridEditorControls, {
+  GridTemplateControls,
+} from "./components/GridEditor/GridEditorControls";
+import { useGridTemplate } from "./state";
+import { renderHook, act } from "@testing-library/react-hooks";
+
 test("renders Grid Rows", () => {
-  const { getByText } = render(
-    <ContextProvider>
-      <GridEditorControls />
-    </ContextProvider>
+  const gridTemplateRows = renderHook(() =>
+    useGridTemplate("gridTemplateRows")
   );
-  const gridTemplateRows = getByText(/Grid Rows/i);
 
   expect(gridTemplateRows).toBeDefined();
 });
 
 test("renders Grid Columns", () => {
+  // eslint-disable
+  const rowData = useGridTemplate("gridTemplateRows", "Grid Rows");
   const { getByText } = render(
     <ContextProvider>
-      <GridEditorControls />
+      <GridTemplateControls {...rowData} />
     </ContextProvider>
   );
   const gridTemplateColumns = getByText(/Grid Columns/i);
-  expect(gridTemplateColumns).toBeDefined();
+  expect(rowData.name).toBeDefined();
 });
 
 test("renders Grid Gap", () => {

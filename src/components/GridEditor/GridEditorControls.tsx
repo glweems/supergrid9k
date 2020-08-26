@@ -6,25 +6,25 @@ import { Control } from "../../ui/Control";
 import { GridEditorControl } from "./GridEditorControl";
 
 function GridEditorControls() {
-  const rowData = useGridTemplate("gridTemplateRows");
-  const columnData = useGridTemplate("gridTemplateColumns");
-  const gapData = useGridTemplate("gridGap");
+  const rowData = useGridTemplate("gridTemplateRows", "Grid Rows");
+  const columnData = useGridTemplate("gridTemplateColumns", "Grid Columns");
+  const gapData = useGridTemplate("gridGap", "Grid Gap");
   return (
     <React.Fragment>
-      <GridTemplateControls legend="Grid Rows" {...rowData} />
-      <GridTemplateControls legend="Grid Columns" {...columnData} />
-      <GridTemplateControls legend="Grid Gap" {...gapData} />
+      <GridTemplateControls {...rowData} />
+      <GridTemplateControls {...columnData} />
+      <GridTemplateControls {...gapData} />
     </React.Fragment>
   );
 }
-interface GridTemplateControlProps {
-  name: keyof GridStateName;
+export interface GridTemplateControlProps {
+  name: GridStateName;
   addEntry: React.MouseEventHandler<HTMLButtonElement>;
   entries: GridTemplateEntry[];
   legend: string;
 }
 
-const GridTemplateControls: React.FC<GridTemplateControlProps> = ({
+export const GridTemplateControls: React.FC<GridTemplateControlProps> = ({
   name,
   entries,
   addEntry,

@@ -4,11 +4,20 @@ import theme from "../lib/theme";
 const Layout = styled.main`
   position: absolute;
   display: grid;
-  grid-template-areas: "grid-sidebar grid-entries code-viewer";
-  grid-template-rows: 100vh;
+  grid-template-areas:
+    "grid-sidebar grid-entries code-viewer"
+    "grid-sidebar dirty-controls code-viewer";
+  grid-template-rows: 1fr auto;
   grid-template-columns: 275px 1fr auto;
   width: 100vw;
   max-width: 100vw;
+
+  /* Input */
+  @supports selector(: focus-visible) {
+    button:focus {
+      outline: none;
+    }
+  }
 
   .grid-sidebar {
     position: sticky;

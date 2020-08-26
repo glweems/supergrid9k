@@ -28,7 +28,6 @@ const GridEditor: React.FC = () => {
           </Box>
 
           <GridEditorControls />
-
           <GridEditorResetButton />
           <SaveTemplateButton />
         </aside>

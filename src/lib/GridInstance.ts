@@ -9,9 +9,10 @@ const backendUrl =
 export const GridInstance = Axios.create({
   baseURL: `${backendUrl}/grid`,
   transformRequest: Axios.defaults.transformRequest,
-  transformResponse: [...Axios.defaults.transformResponse].concat(
-    ({ data }) => data
-  ),
+  transformResponse: [...Axios.defaults.transformResponse].concat((data) => {
+    delete data._id;
+    return data;
+  }),
 });
 
 export const useGridInstance = makeUseAxios({ axios: GridInstance });

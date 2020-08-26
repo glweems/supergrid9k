@@ -9,7 +9,7 @@ import {
 } from "../../state";
 import Select from "../Select";
 export interface GridEditorControlProps extends GridTemplateEntry {
-  name: keyof GridStateName;
+  name: GridStateName;
 }
 
 export const GridEditorControl: React.FC<GridEditorControlProps> = ({
@@ -27,7 +27,6 @@ export const GridEditorControl: React.FC<GridEditorControlProps> = ({
 
   return (
     <React.Fragment>
-      {" "}
       {name !== "gridGap" && (
         <Button
           className="remove-entry"
@@ -38,17 +37,19 @@ export const GridEditorControl: React.FC<GridEditorControlProps> = ({
           <CloseIcon size={25} />
         </Button>
       )}
+
       <Input
         name="amount"
         className="control-start"
-        defaultValue={amount}
+        value={amount}
         onChange={handleChange}
         {...inputProps}
       />
+
       <Select
         name="unit"
         className="control-end"
-        defaultValue={unit}
+        value={unit}
         onChange={handleChange}
         {...selectProps}
       />
