@@ -110,7 +110,7 @@ export function getAllowedEntry(
     case "auto":
       return {
         ...entry,
-        amount: "",
+        amount: "" as any,
         [name]: value,
         inputProps: {
           ...entry.inputProps,

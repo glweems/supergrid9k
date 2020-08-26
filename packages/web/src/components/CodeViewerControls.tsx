@@ -31,7 +31,7 @@ const CodeViewerControls = () => {
 
       <Box className="control">
         <Label>Grid Container Class Name</Label>
-        <Input defaultValue={className} onChange={handleChange} />
+        <Input value={className} onChange={handleChange} />
       </Box>
     </React.Fragment>
   );

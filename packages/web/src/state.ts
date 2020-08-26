@@ -2,7 +2,6 @@ import { InputProps } from "@rebass/forms/styled-components";
 import { ControlPosition } from "react-draggable";
 import { atom, selector, useRecoilState } from "recoil";
 import { CodePenData } from "./components/CodePenButton";
-import { GridEditorControlProps } from "./components/GridEditor/GridEditorControl";
 import { GridTemplateControlProps } from "./components/GridEditor/GridEditorControls";
 import { SelectProps } from "./components/Select";
 import {
@@ -13,10 +12,10 @@ import {
 import {
   createCssString,
   defaultGridState,
-  GridUnit,
-  replaceItemAtIndex,
   getAllowedEntry,
+  GridUnit,
   removeItemAtIndex,
+  replaceItemAtIndex,
 } from "./lib/utils";
 
 export type GridTemplateEntry = {
@@ -74,11 +73,12 @@ export const cssRepeatFn = selector({
   },
 });
 
-export const gridContainerClassName = selector({
+export const gridContainerClassName = selector<string>({
   key: "gridContainerClassName",
   get: ({ get }) => {
     const gridState = get(grid);
     if (gridState) return gridState.gridContainerClassName;
+    return "";
   },
   set: ({ set, get }, value) => {
     const gridState = get(grid);
@@ -249,25 +249,24 @@ export type CodeSnippetState = Record<CodeSnippetLanguage, string>;
 export const snippets = selector({
   key: "snippets",
   get: ({ get }) => {
-    const areas = get(gridAreas);
-    const css = get(gridCss);
-    if (areas && css) {
-      let num = 1;
-      let gridItems = ``;
+    const areasState = get(gridAreas);
+    const cssState = get(gridCss);
 
-      areas.forEach((item, index) => {
-        gridItems += `  <div class="grid-item">${num}</div>${
-          index === areas.length ? "" : "\n"
-        }`;
-        num += 1;
-      });
+    let num = 1;
+    let gridItems = ``;
 
-      const state = {
-        css: cssTemplateString(css),
-        html: htmlTemplateString({ ...css, gridItems }),
-      };
-      return state;
-    }
+    areasState?.forEach((item, index) => {
+      gridItems += `  <div class="grid-item">${num}</div>${
+        index === areasState?.length ? "" : "\n"
+      }`;
+      num += 1;
+    });
+
+    const state = {
+      css: cssTemplateString(cssState ?? {}),
+      html: htmlTemplateString({ ...cssState, gridItems }),
+    };
+    return state;
   },
 });
 

@@ -10,7 +10,7 @@ import SaveTemplateButton from "./SaveTemplateButton";
 
 const Layout = dynamic(() => import("../../ui/Layout"));
 const GridEditorControls = dynamic(() => import("./GridEditorControls"));
-const CodeViewerControls = dynamic(() => import("./../CodeViewerControls"));
+const CodeViewerControls = dynamic(() => import("../CodeViewerControls"));
 const GridEditorItems = dynamic(() => import("./GridEditorItems"));
 const CodeViewer = dynamic(() => import("../CodeViewer"));
 const GithubButton = dynamic(() => import("../../ui/GithubButton"));

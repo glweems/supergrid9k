@@ -69,7 +69,7 @@ export const iconButtonCss = css`
   text-align: center;
 
   svg {
-    margin-right: ${({ theme }) => theme.space[2]}px;
+    margin-right: var(--space-2);
   }
 `;
 
