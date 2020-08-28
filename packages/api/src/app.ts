@@ -1,14 +1,14 @@
-import * as cookieParser from "cookie-parser";
-import * as cors from "cors";
-import * as express from "express";
-import * as helmet from "helmet";
-import * as hpp from "hpp";
-import * as mongoose from "mongoose";
-import * as logger from "morgan";
-import * as swaggerUi from "swagger-ui-express";
-import Routes from "./interfaces/routes.interface";
-import errorMiddleware from "./middlewares/error.middleware";
-import { connectionOptions, connectionUri } from "./utils/connection";
+import * as cookieParser from 'cookie-parser';
+import * as cors from 'cors';
+import * as express from 'express';
+import * as helmet from 'helmet';
+import * as hpp from 'hpp';
+import * as mongoose from 'mongoose';
+import * as logger from 'morgan';
+import * as swaggerUi from 'swagger-ui-express';
+import Routes from './interfaces/routes.interface';
+import errorMiddleware from './middlewares/error.middleware';
+import { connectionOptions, connectionUri } from './utils/connection';
 
 export interface AppProps {
   Routes: Routes[];
@@ -24,7 +24,7 @@ class App {
   constructor({ Routes: routes }: AppProps) {
     this.app = express();
     this.port = process.env.PORT || 3000;
-    this.env = process.env.NODE_ENV === "production";
+    this.env = process.env.NODE_ENV === 'production';
 
     this.connectToDatabase();
     this.initializeMiddlewares();
@@ -46,22 +46,22 @@ class App {
     if (this.env) {
       this.app.use(hpp());
       this.app.use(helmet());
-      this.app.use(logger("combined"));
-      this.app.use(cors({ origin: "*", credentials: true }));
+      this.app.use(logger('combined'));
+      this.app.use(cors({ origin: '*', credentials: true }));
     } else {
-      this.app.use(logger("dev"));
+      this.app.use(logger('dev'));
       this.app.use(cors({ origin: true, credentials: true }));
     }
 
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(cookieParser());
-    this.app.use("/api-docs", swaggerUi.serve);
+    this.app.use('/api-docs', swaggerUi.serve);
   }
 
   private initializeRoutes(routes: Routes[]) {
     routes.forEach((route) => {
-      this.app.use("/", route.router);
+      this.app.use('/', route.router);
     });
   }
 

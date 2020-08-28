@@ -1,23 +1,19 @@
-import { render } from "@testing-library/react";
-import React from "react";
-import ContextProvider from "./components/ContextProvider";
-import GridEditorControls, {
-  GridTemplateControls,
-} from "./components/GridEditor/GridEditorControls";
-import { useGridTemplate } from "./state";
-import { renderHook, act } from "@testing-library/react-hooks";
+import { render } from '@testing-library/react';
+import React from 'react';
+import ContextProvider from './components/ContextProvider';
+import GridEditorControls, { GridTemplateControls } from './components/GridEditor/GridEditorControls';
+import { useGridTemplate } from './state';
+import { renderHook, act } from '@testing-library/react-hooks';
 
-test("renders Grid Rows", () => {
-  const gridTemplateRows = renderHook(() =>
-    useGridTemplate("gridTemplateRows")
-  );
+test('renders Grid Rows', () => {
+  const gridTemplateRows = renderHook(() => useGridTemplate('gridTemplateRows'));
 
   expect(gridTemplateRows).toBeDefined();
 });
 
-test("renders Grid Columns", () => {
+test('renders Grid Columns', () => {
   // eslint-disable
-  const rowData = useGridTemplate("gridTemplateRows", "Grid Rows");
+  const rowData = useGridTemplate('gridTemplateRows', 'Grid Rows');
   const { getByText } = render(
     <ContextProvider>
       <GridTemplateControls {...rowData} />
@@ -27,7 +23,7 @@ test("renders Grid Columns", () => {
   expect(rowData.name).toBeDefined();
 });
 
-test("renders Grid Gap", () => {
+test('renders Grid Gap', () => {
   const { getByText } = render(
     <ContextProvider>
       <GridEditorControls />

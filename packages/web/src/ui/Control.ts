@@ -1,7 +1,7 @@
-import styled, { css } from "styled-components/macro";
-import theme from "../lib/theme";
+import styled, { css } from 'styled-components/macro';
+import theme from '../lib/theme';
 export interface ControlProps {
-  control?: "gridGap";
+  control?: 'gridGap';
 }
 export const Control = styled.fieldset<ControlProps>`
   .elements {
@@ -84,7 +84,7 @@ export const Control = styled.fieldset<ControlProps>`
     }
   }
   ${({ name }) =>
-    name === "gridGap" &&
+    name === 'gridGap' &&
     css`
       .select {
         grid-column: 3 / 4;
@@ -94,5 +94,5 @@ export const Control = styled.fieldset<ControlProps>`
       }
     `}
 `;
-Control.displayName = "GridEditorControl";
+Control.displayName = 'GridEditorControl';
 Control.defaultProps = { theme };

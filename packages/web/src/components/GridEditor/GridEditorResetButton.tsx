@@ -1,13 +1,11 @@
-import React from "react";
-import { Button } from "rebass/styled-components";
-import { Icon, iconButtonCss } from "../../lib/Icons";
-import { useResetGrid } from "../../state";
+import React from 'react';
+import { Button } from 'rebass/styled-components';
+import { Icon, iconButtonCss } from '../../lib/Icons';
+import { useResetGrid } from '../../state';
 
 interface GridEditorResetButtonProps {}
 
-const GridEditorResetButton: React.FC<GridEditorResetButtonProps> = ({
-  children,
-}) => {
+const GridEditorResetButton: React.FC<GridEditorResetButtonProps> = ({ children }) => {
   const resetGrid = useResetGrid();
   return (
     <Button onClick={resetGrid} variant="reset" css={iconButtonCss as any}>

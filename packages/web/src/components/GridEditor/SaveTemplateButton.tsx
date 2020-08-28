@@ -1,6 +1,6 @@
-import React from "react";
-import { Button } from "rebass/styled-components";
-import useSaveTemplateLink from "../../hooks/useSaveTemplateLink";
+import React from 'react';
+import { Button } from 'rebass/styled-components';
+import useSaveTemplateLink from '../../hooks/useSaveTemplateLink';
 
 export default function SaveTemplateButton() {
   const { data, loading, handleClick } = useSaveTemplateLink();

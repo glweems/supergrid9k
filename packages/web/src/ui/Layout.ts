@@ -1,19 +1,19 @@
-import styled from "styled-components/macro";
-import theme from "../lib/theme";
+import styled from 'styled-components/macro';
+import theme from '../lib/theme';
 
 const Layout = styled.main`
   position: absolute;
   display: grid;
   grid-template-areas:
-    "grid-sidebar grid-entries code-viewer"
-    "grid-sidebar dirty-controls code-viewer";
+    'grid-sidebar grid-entries code-viewer'
+    'grid-sidebar dirty-controls code-viewer';
   grid-template-rows: 1fr auto;
   grid-template-columns: 275px 1fr auto;
   width: 100vw;
   max-width: 100vw;
 
   /* Input */
-  @supports selector(: focus-visible) {
+  @supports selector(:) {
     button:focus {
       outline: none;
     }
@@ -50,7 +50,7 @@ const Layout = styled.main`
       position: absolute;
       right: var(--space-2);
       bottom: var(--space-3);
-      width: calc(100% - var(--space-3));
+      width: 100%;
       margin: auto;
       background-color: var(--color-background);
     }
@@ -61,6 +61,6 @@ const Layout = styled.main`
   }
 `;
 
-Layout.displayName = "Layout";
+Layout.displayName = 'Layout';
 Layout.defaultProps = { theme };
 export default Layout;

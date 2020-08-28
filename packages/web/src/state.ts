@@ -1,14 +1,10 @@
-import { InputProps } from "@rebass/forms/styled-components";
-import { ControlPosition } from "react-draggable";
-import { atom, selector, useRecoilState } from "recoil";
-import { CodePenData } from "./components/CodePenButton";
-import { GridTemplateControlProps } from "./components/GridEditor/GridEditorControls";
-import { SelectProps } from "./components/Select";
-import {
-  cssTemplateString,
-  htmlTemplateString,
-  TemplateStringObject,
-} from "./lib/templateStrings";
+import { InputProps } from '@rebass/forms/styled-components';
+import { ControlPosition } from 'react-draggable';
+import { atom, selector, useRecoilState } from 'recoil';
+import { CodePenData } from './components/CodePenButton';
+import { GridTemplateControlProps } from './components/GridEditor/GridEditorControls';
+import { SelectProps } from './components/Select';
+import { cssTemplateString, htmlTemplateString, TemplateStringObject } from './lib/templateStrings';
 import {
   createCssString,
   defaultGridState,
@@ -16,34 +12,45 @@ import {
   GridUnit,
   removeItemAtIndex,
   replaceItemAtIndex,
-} from "./lib/utils";
+} from './lib/utils';
+
+import { Grid } from '@supergrid9k/api/src/models/grid.model';
+
+export interface GridState extends Grid {
+  initialState?: GridState;
+}
 
 export type GridTemplateEntry = {
   id: string;
   amount: number;
   unit: GridUnit;
-  inputProps: InputProps;
-  selectProps: SelectProps;
+  inputProps?: InputProps;
+  selectProps?: SelectProps;
 };
 
-export interface GridState {
-  gridTemplateRows: GridTemplateEntry[];
-  gridTemplateColumns: GridTemplateEntry[];
-  gridGap: GridTemplateEntry[];
-  initialState?: GridState;
-  gridContainerClassName: string;
-  useCssRepeatFn: boolean;
-  saved?: boolean;
-}
+export type GridStateName = keyof Pick<GridState, 'gridTemplateColumns' | 'gridTemplateRows' | 'gridGap'>;
+export const grid = atom<GridState>({
+  key: 'grid',
+  default: defaultGridState,
+});
 
-export type GridStateName = keyof Pick<
-  GridState,
-  "gridTemplateColumns" | "gridTemplateRows" | "gridGap"
->;
+export const gridDirty = selector({
+  key: 'gridDirty',
+  get: ({ get }) => {
+    const gridState = get(grid);
+    const initialState = gridState?.initialState;
 
-export const grid = atom<null | GridState>({
-  key: "grid",
-  default: null,
+    return (
+      {
+        gridTemplateRows: gridState?.gridTemplateRows,
+        gridTemplateColumns: gridState?.gridTemplateColumns,
+      } ==
+      {
+        gridTemplateRows: initialState?.gridTemplateRows,
+        gridTemplateColumns: initialState?.gridTemplateColumns,
+      }
+    );
+  },
 });
 
 export function useResetGrid(newState?: GridState) {
@@ -59,7 +66,7 @@ export function useResetGrid(newState?: GridState) {
   return resetGrid;
 }
 export const cssRepeatFn = selector({
-  key: "cssRepeatFn",
+  key: 'cssRepeatFn',
   get: ({ get }) => {
     const gridState = get(grid);
     if (gridState) return gridState.useCssRepeatFn;
@@ -74,11 +81,11 @@ export const cssRepeatFn = selector({
 });
 
 export const gridContainerClassName = selector<string>({
-  key: "gridContainerClassName",
+  key: 'gridContainerClassName',
   get: ({ get }) => {
     const gridState = get(grid);
     if (gridState) return gridState.gridContainerClassName;
-    return "";
+    return '';
   },
   set: ({ set, get }, value) => {
     const gridState = get(grid);
@@ -92,10 +99,7 @@ export const gridContainerClassName = selector<string>({
   },
 });
 
-export function useGridTemplate(
-  name: GridStateName,
-  legend: string
-): GridTemplateControlProps {
+export function useGridTemplate(name: GridStateName, legend: string): GridTemplateControlProps {
   const [gridState, setGridState] = useRecoilState(grid);
 
   const addEntry = () => {
@@ -112,15 +116,20 @@ export function useGridTemplate(
     }
   };
 
-  return { entries: gridState ? gridState[name] : [], addEntry, name, legend };
+  return {
+    entries: gridState[name],
+    addEntry,
+    name,
+    legend,
+  };
 }
 
 export function useControlHandlers(gridObjKey: GridStateName, id: string) {
   const [gridState, setGridState] = useRecoilState(grid);
 
-  const handleChange: React.ChangeEventHandler<
-    HTMLInputElement | HTMLSelectElement
-  > = ({ target: { name, value } }) => {
+  const handleChange: React.ChangeEventHandler<HTMLInputElement | HTMLSelectElement> = ({
+    target: { name, value },
+  }) => {
     if (gridState) {
       const entries = gridState[gridObjKey];
       const index = entries.findIndex((e) => e.id === id);
@@ -152,26 +161,18 @@ export function useControlHandlers(gridObjKey: GridStateName, id: string) {
 }
 
 export const gridCss = selector({
-  key: "gridCss",
+  key: 'gridCss',
   get: ({ get }) => {
     const gridState = get(grid);
 
     if (gridState) {
-      const {
-        gridContainerClassName,
-        gridTemplateRows,
-        gridTemplateColumns,
-        useCssRepeatFn,
-      } = gridState;
+      const { gridContainerClassName, gridTemplateRows, gridTemplateColumns, useCssRepeatFn } = gridState;
 
       const cssObj: TemplateStringObject = {
         className: gridContainerClassName,
         gridGap: `${gridState?.gridGap?.[0]?.amount}${gridState?.gridGap?.[0]?.unit} ${gridState?.gridGap?.[1]?.amount}${gridState?.gridGap?.[1]?.unit}`,
         gridTemplateRows: createCssString(gridTemplateRows, useCssRepeatFn),
-        gridTemplateColumns: createCssString(
-          gridTemplateColumns,
-          useCssRepeatFn
-        ),
+        gridTemplateColumns: createCssString(gridTemplateColumns, useCssRepeatFn),
       };
 
       return cssObj;
@@ -197,12 +198,12 @@ export interface GridArea {
 }
 
 export const gridAreas = selector({
-  key: "areas",
+  key: 'areas',
   get: ({ get }) => {
     const gridState = get(grid);
     if (gridState) {
       const { gridTemplateRows, gridTemplateColumns } = gridState;
-      let temp: Omit<GridArea, "number">[] = [];
+      const temp: Omit<GridArea, 'number'>[] = [];
 
       gridTemplateRows.forEach((row, rowIndex) => {
         gridTemplateColumns.forEach((column, columnIndex) => {
@@ -215,19 +216,14 @@ export const gridAreas = selector({
             id: `${row.id}.${column.id}`,
             row,
             column,
-            gridTemplateArea: ".",
+            gridTemplateArea: '.',
             gridRowStart,
             gridRowEnd,
             gridColumnStart,
             gridColumnEnd,
-            gridArea: [gridRowStart, gridColumnStart, gridRowEnd, gridColumnEnd]
-              .toString()
-              .split(",")
-              .join(" / "),
-            lastRow:
-              columnIndex === 0 && rowIndex + 1 === gridTemplateRows.length,
-            lastCol:
-              rowIndex === 0 && columnIndex + 1 === gridTemplateColumns.length,
+            gridArea: [gridRowStart, gridColumnStart, gridRowEnd, gridColumnEnd].toString().split(',').join(' / '),
+            lastRow: columnIndex === 0 && rowIndex + 1 === gridTemplateRows.length,
+            lastCol: rowIndex === 0 && columnIndex + 1 === gridTemplateColumns.length,
           });
         });
       });
@@ -242,12 +238,12 @@ export const gridAreas = selector({
   },
 });
 
-export type CodeSnippetLanguage = "html" | "css";
+export type CodeSnippetLanguage = 'html' | 'css';
 
 export type CodeSnippetState = Record<CodeSnippetLanguage, string>;
 
 export const snippets = selector({
-  key: "snippets",
+  key: 'snippets',
   get: ({ get }) => {
     const areasState = get(gridAreas);
     const cssState = get(gridCss);
@@ -256,9 +252,7 @@ export const snippets = selector({
     let gridItems = ``;
 
     areasState?.forEach((item, index) => {
-      gridItems += `  <div class="grid-item">${num}</div>${
-        index === areasState?.length ? "" : "\n"
-      }`;
+      gridItems += `  <div class="grid-item">${num}</div>${index === areasState?.length ? '' : '\n'}`;
       num += 1;
     });
 
@@ -271,7 +265,7 @@ export const snippets = selector({
 });
 
 export const codePenOptions = selector<CodePenData>({
-  key: "codePenConfig",
+  key: 'codePenConfig',
   get: ({ get }) => {
     const codes = get(snippets);
     const config: CodePenData = {
@@ -283,6 +277,6 @@ export const codePenOptions = selector<CodePenData>({
 });
 
 export const drag = atom<ControlPosition>({
-  key: "drag",
+  key: 'drag',
   default: { x: 0, y: 0 },
 });

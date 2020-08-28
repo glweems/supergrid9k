@@ -1,10 +1,4 @@
-import {
-  createSchema,
-  Type,
-  typedModel,
-  ExtractProps,
-  ExtractDoc,
-} from "ts-mongoose";
+import { createSchema, Type, typedModel, ExtractProps, ExtractDoc } from 'ts-mongoose';
 
 const InputPropsSchema = createSchema(
   {
@@ -31,33 +25,27 @@ const GridTemplateEntrySchema = createSchema(
     id: Type.string({ required: true }),
     amount: Type.number({ required: true }),
     unit: Type.string({ required: true }),
-    inputProps: Type.schema({ required: true }).of<typeof SelectPropsSchema>(
-      InputPropsSchema
-    ),
-    selectProps: Type.schema({ required: true }).of(SelectPropsSchema),
+    inputProps: Type.schema().of<typeof SelectPropsSchema>(InputPropsSchema),
+    selectProps: Type.schema().of(SelectPropsSchema),
   },
-  { _id: false }
+  { _id: false, __v: false }
 );
 
 const GridSchema = createSchema(
   {
     url: Type.string({ required: false }),
-    gridTemplateRows: Type.array({ required: true }).of(
-      GridTemplateEntrySchema
-    ),
-    gridTemplateColumns: Type.array({ required: true }).of(
-      GridTemplateEntrySchema
-    ),
-    gridGap: Type.array({ required: true }).of(GridTemplateEntrySchema),
+    gridTemplateRows: Type.array({ required: true }).of<typeof GridTemplateEntrySchema>(GridTemplateEntrySchema),
+    gridTemplateColumns: Type.array({ required: true }).of(GridTemplateEntrySchema),
+    gridGap: Type.array({ required: true }).of<Omit<typeof GridTemplateEntrySchema, '__v'>>(GridTemplateEntrySchema),
     gridContainerClassName: Type.string({ required: true }),
     useCssRepeatFn: Type.boolean({ required: true }),
   },
   { timestamps: { createdAt: true } }
 );
 
-const GridModel = typedModel("Grid", GridSchema);
+const GridModel = typedModel('Grid', GridSchema);
 export type GridDoc = ExtractDoc<typeof GridSchema>;
-export type GridState = ExtractProps<typeof GridSchema>;
+export type Grid = Omit<ExtractProps<typeof GridSchema>, '__v'>;
 
 export default GridModel;
 

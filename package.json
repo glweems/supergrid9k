@@ -13,6 +13,7 @@
   "author": "Garrett Weems <gwgraphicdesign@gmail.com> (https://glweems.com)",
   "license": "MIT",
   "devDependencies": {
-    "lerna": "^3.22.1"
+    "lerna": "^3.22.1",
+    "prettier": "^2.1.1"
   }
 }

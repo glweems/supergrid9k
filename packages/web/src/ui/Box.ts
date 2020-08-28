@@ -1,4 +1,4 @@
-import styled from "styled-components/macro";
+import styled from 'styled-components/macro';
 import {
   border,
   BorderProps,
@@ -14,8 +14,8 @@ import {
   PositionProps,
   space,
   SpaceProps,
-} from "styled-system";
-import theme, { SuperGrid9kTheme } from "../lib/theme";
+} from 'styled-system';
+import theme, { SuperGrid9kTheme } from '../lib/theme';
 
 export interface BoxProps
   extends SpaceProps,
@@ -26,20 +26,13 @@ export interface BoxProps
     ColorProps<SuperGrid9kTheme>,
     GridProps {}
 
-export const boxComposition = compose(
-  grid,
-  color,
-  layout,
-  space,
-  flexbox,
-  border
-);
+export const boxComposition = compose(grid, color, layout, space, flexbox, border);
 
 const Box = styled.div<BoxProps>`
   ${boxComposition}
 `;
 
-Box.displayName = "Box";
+Box.displayName = 'Box';
 
 Box.defaultProps = {
   theme,

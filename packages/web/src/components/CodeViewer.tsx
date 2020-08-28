@@ -1,7 +1,7 @@
-import React from "react";
-import { useRecoilValue } from "recoil";
-import { snippets } from "../state";
-import CodeBlock from "./CodeBlock";
+import React from 'react';
+import { useRecoilValue } from 'recoil';
+import { snippets } from '../state';
+import CodeBlock from './CodeBlock';
 
 const CodeViewer: React.FC = () => {
   const { css, html } = useRecoilValue(snippets);

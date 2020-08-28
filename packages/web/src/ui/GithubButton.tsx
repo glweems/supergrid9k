@@ -1,6 +1,6 @@
-import React from "react";
-import { Link, LinkProps } from "rebass/styled-components";
-import { Icon } from "../lib/Icons";
+import React from 'react';
+import { Link, LinkProps } from 'rebass/styled-components';
+import { Icon } from '../lib/Icons';
 
 interface GithubButtonProps extends LinkProps {}
 const GithubButton: React.FC<GithubButtonProps> = ({ children, ...props }) => (
@@ -20,9 +20,9 @@ const GithubButton: React.FC<GithubButtonProps> = ({ children, ...props }) => (
 );
 
 GithubButton.defaultProps = {
-  children: "View Code",
-  display: "inline-flex",
-  alignItems: "center",
+  children: 'View Code',
+  display: 'inline-flex',
+  alignItems: 'center',
 } as LinkProps;
 
 export default GithubButton;

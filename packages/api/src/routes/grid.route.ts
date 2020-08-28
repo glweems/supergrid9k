@@ -1,9 +1,9 @@
-import { Router } from "express";
-import GridController from "../controllers/grid.controller";
-import Route from "../interfaces/routes.interface";
+import { Router } from 'express';
+import GridController from '../controllers/grid.controller';
+import Route from '../interfaces/routes.interface';
 
 class GridRoute implements Route {
-  public path = "/grid";
+  public path = '/grid';
   public router = Router();
   public gridController = new GridController();
 

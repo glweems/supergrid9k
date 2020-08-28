@@ -1,20 +1,17 @@
 // _app.js
-import App, { AppContext, AppProps } from "next/app";
-import Head from "next/head";
-import React from "react";
-import { ErrorBoundary } from "react-error-boundary";
-import ContextProvider from "../components/ContextProvider";
-import ErrorFallback from "../components/ErrorFallback";
-import {
-  setCssArrayVariables,
-  setCssObjectVariables,
-} from "../lib/setCssVariables";
-import { colors, space } from "../lib/theme";
+import App, { AppContext, AppProps } from 'next/app';
+import Head from 'next/head';
+import React from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
+import ContextProvider from '../components/ContextProvider';
+import ErrorFallback from '../components/ErrorFallback';
+import { setCssArrayVariables, setCssObjectVariables } from '../lib/setCssVariables';
+import { colors, space } from '../lib/theme';
 
-setCssObjectVariables(colors, "color");
+setCssObjectVariables(colors, 'color');
 setCssArrayVariables(
   space.map((val) => `${val}px`),
-  "space"
+  'space'
 );
 export default class MyApp extends App<AppProps> {
   static async getInitialProps({ Component, router, ctx }: AppContext) {
