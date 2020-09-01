@@ -49,9 +49,11 @@
     "web": "^0.0.2"
   },
   "scripts": {
+    "preinstall": "npx lerna bootstrap",
     "dev": "next",
     "start": "next start",
-    "build": "next build && next export",
+    "build": "next build",
+    "export": "next export",
     "format": "prettier --ignore-path .gitignore --write \"src/**/*.{ts,tsx,json,yml,md}\"",
     "lint:js": "eslint --ignore-path .gitignore \"src/**/*.{ts,tsx}\"",
     "lint:style": "stylelint --ignore-path .gitignore \"src/**/*.{ts,tsx}\"",
