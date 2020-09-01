@@ -1,38 +1,46 @@
 import { InputProps } from '@rebass/forms/styled-components';
-import { ControlPosition } from 'react-draggable';
+import React from 'react';
+import Id from 'react-id-generator';
 import { atom, selector, useRecoilState } from 'recoil';
 import { CodePenData } from './components/CodePenButton';
 import { GridTemplateControlProps } from './components/GridEditor/GridEditorControls';
 import { SelectProps } from './components/Select';
+import getAllowedEntry from './lib/getAllowedEntry';
 import { cssTemplateString, htmlTemplateString, TemplateStringObject } from './lib/templateStrings';
-import {
-  createCssString,
-  defaultGridState,
-  getAllowedEntry,
-  GridUnit,
-  removeItemAtIndex,
-  replaceItemAtIndex,
-} from './lib/utils';
-
-import { Grid } from '@supergrid9k/api/src/models/grid.model';
-
-export interface GridState extends Grid {
-  initialState?: GridState;
-}
+import { createCssString, defaultGridState, removeItemAtIndex, replaceItemAtIndex } from './lib/utils';
 
 export type GridTemplateEntry = {
   id: string;
   amount: number;
-  unit: GridUnit;
-  inputProps?: InputProps;
-  selectProps?: SelectProps;
+  unit: string;
+  inputProps: InputProps;
+  selectProps: SelectProps;
 };
 
+export interface GridState {
+  _id?: string;
+  gridTemplateRows: GridTemplateEntry[];
+  gridTemplateColumns: GridTemplateEntry[];
+  gridGap: GridTemplateEntry[];
+  initialState?: GridState;
+  gridContainerClassName: string;
+  useCssRepeatFn: boolean;
+}
+
 export type GridStateName = keyof Pick<GridState, 'gridTemplateColumns' | 'gridTemplateRows' | 'gridGap'>;
-export const grid = atom<GridState>({
+export const grid = atom<null | GridState>({
   key: 'grid',
-  default: defaultGridState,
+  default: null,
 });
+
+export function useSetGridState(gridConfigObject: GridState) {
+  const [, setGridState] = useRecoilState(grid);
+
+  React.useEffect(() => {
+    const newState = { ...gridConfigObject, initialState: gridConfigObject };
+    setGridState(newState);
+  }, [gridConfigObject, setGridState]);
+}
 
 export const gridDirty = selector({
   key: 'gridDirty',
@@ -103,21 +111,18 @@ export function useGridTemplate(name: GridStateName, legend: string): GridTempla
   const [gridState, setGridState] = useRecoilState(grid);
 
   const addEntry = () => {
-    if (gridState) {
-      const entries = gridState[name];
-      const lastEntry = {
-        ...entries.slice(-1)[0],
-        id: `${name}.${entries.length}`,
-      };
+    const entries = gridState?.[name];
+    const lastEntry: any = {
+      ...entries?.slice(-1)[0],
+    };
 
-      const newEntries = [...entries, lastEntry];
+    const newEntries = [...entries, lastEntry];
 
-      setGridState({ ...gridState, [name]: newEntries });
-    }
+    setGridState({ ...gridState, [name]: newEntries } as any);
   };
 
   return {
-    entries: gridState[name],
+    entries: gridState?.[name],
     addEntry,
     name,
     legend,
@@ -131,22 +136,18 @@ export function useControlHandlers(gridObjKey: GridStateName, id: string) {
     target: { name, value },
   }) => {
     if (gridState) {
-      const entries = gridState[gridObjKey];
-      const index = entries.findIndex((e) => e.id === id);
-      const entry = gridState[gridObjKey][index];
-      const newEntry = replaceItemAtIndex<GridTemplateEntry>(
-        entries,
-        index,
-        getAllowedEntry(name, value as any, entry)
-      );
+      const entries = gridState?.[gridObjKey];
+      const index = entries?.findIndex((e) => e.id === id);
+      const entry = gridState?.[gridObjKey][index];
+      const newEntry = replaceItemAtIndex(entries, index, getAllowedEntry({ name, value: value as any, entry }));
       setGridState({ ...gridState, [gridObjKey]: newEntry });
     }
   };
 
-  const handleDelete: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+  const handleDelete: React.MouseEventHandler<HTMLButtonElement> = () => {
     if (gridState) {
-      const entries = gridState[gridObjKey];
-      const index = entries.findIndex((e) => e.id === id);
+      const entries = gridState?.[gridObjKey];
+      const index = entries?.findIndex((e) => e.id === id);
       const newEntries = removeItemAtIndex(entries, index);
       setGridState({
         ...gridState,
@@ -213,7 +214,7 @@ export const gridAreas = selector({
           const gridColumnEnd = columnIndex + 2;
 
           return temp.push({
-            id: `${row.id}.${column.id}`,
+            id: Id(),
             row,
             column,
             gridTemplateArea: '.',
@@ -246,6 +247,7 @@ export const snippets = selector({
   key: 'snippets',
   get: ({ get }) => {
     const areasState = get(gridAreas);
+
     const cssState = get(gridCss);
 
     let num = 1;
@@ -265,7 +267,7 @@ export const snippets = selector({
 });
 
 export const codePenOptions = selector<CodePenData>({
-  key: 'codePenConfig',
+  key: 'codePenOptions',
   get: ({ get }) => {
     const codes = get(snippets);
     const config: CodePenData = {
@@ -274,9 +276,4 @@ export const codePenOptions = selector<CodePenData>({
     };
     return config;
   },
-});
-
-export const drag = atom<ControlPosition>({
-  key: 'drag',
-  default: { x: 0, y: 0 },
 });

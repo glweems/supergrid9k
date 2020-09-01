@@ -46,13 +46,19 @@ const Layout = styled.main`
     overflow-y: auto;
     color: var(--color-text);
 
-    .CodePenButton {
+    .CodePenButton,
+    .SaveTemplateButton {
+      width: calc(100% - var(--space-3));
+    }
+
+    .SaveTemplateButton {
       position: absolute;
-      right: var(--space-2);
-      bottom: var(--space-3);
+      right: 0;
+      bottom: 0;
       width: 100%;
       margin: auto;
-      background-color: var(--color-background);
+      color: var(--color-text);
+      background-color: var(--color-primary);
     }
     pre {
       height: fit-content;

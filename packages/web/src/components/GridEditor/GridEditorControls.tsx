@@ -20,7 +20,7 @@ function GridEditorControls() {
 export interface GridTemplateControlProps {
   name: GridStateName;
   addEntry: React.MouseEventHandler<HTMLButtonElement>;
-  entries: GridTemplateEntry[];
+  entries?: GridTemplateEntry[];
   legend: string;
 }
 
@@ -30,9 +30,9 @@ export const GridTemplateControls: React.FC<GridTemplateControlProps> = ({ name,
       <div className="elements">
         <legend className="control-label">{legend}</legend>
 
-        {entries?.map((entry) => (
-          <GridEditorControl key={entry.id} {...entry} name={name} />
-        ))}
+        {entries?.map((entry, index) => {
+          return <GridEditorControl key={`${entry.id}.${index}`} {...entry} name={name} />;
+        })}
 
         {/* Button To Add New GridTemplate Entry */}
         {name !== 'gridGap' && (

@@ -1,31 +1,27 @@
 import { templateGenerator } from './utils';
 import { GridProps } from 'styled-system';
 
-export type TemplateStringObject<T = {}> = GridProps &
+export type TemplateStringObject<T = Record<string, unknown>> = GridProps &
   T & {
     className?: string;
   };
 
-export const cssTemplateString = templateGenerator<TemplateStringObject>`.${'className'} {
+export const cssTemplateString = templateGenerator`.${'className'} {
   display: grid;
   grid-template-rows: ${'gridTemplateRows'};
   grid-template-columns: ${'gridTemplateColumns'};
   grid-gap: ${'gridGap'};
 }`;
 
-export const htmlTemplateString = templateGenerator<
-  TemplateStringObject<{ gridItems: string }>
->`<div class="${'className'}">
+export const htmlTemplateString = templateGenerator`<div class="${'className'}">
 ${'gridItems'}</div>`;
 
-export const styledComponentsTemplateString = templateGenerator<
-  TemplateStringObject
->`const ${'className'} = styled.div\`\n   display: grid;
+export const styledComponentsTemplateString = templateGenerator`const ${'className'} = styled.div\`\n   display: grid;
     grid-template-rows: ${'gridTemplateRows'};
     grid-template-columns: ${'gridTemplateColumns'};
     grid-gap: ${'gridGap'};\n\`;`;
 
-export const styleObjTemplateString = templateGenerator<TemplateStringObject>`const ${'className'} = {
+export const styleObjTemplateString = templateGenerator`const ${'className'} = {
   display: grid;
   gridTemplateRows: "${'gridTemplateRows'}",
   gridTemplateColumns: "${'gridTemplateColumns'}",
@@ -33,4 +29,4 @@ export const styleObjTemplateString = templateGenerator<TemplateStringObject>`co
 }
 `;
 
-export const styleObjHTMLTemplateString = templateGenerator<TemplateStringObject>`<div style={${'className'}}></div>`;
+export const styleObjHTMLTemplateString = templateGenerator`<div style={${'className'}}></div>`;

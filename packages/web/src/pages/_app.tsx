@@ -7,14 +7,13 @@ import ContextProvider from '../components/ContextProvider';
 import ErrorFallback from '../components/ErrorFallback';
 import { setCssArrayVariables, setCssObjectVariables } from '../lib/setCssVariables';
 import { colors, space } from '../lib/theme';
-
 setCssObjectVariables(colors, 'color');
 setCssArrayVariables(
   space.map((val) => `${val}px`),
   'space'
 );
-export default class MyApp extends App<AppProps> {
-  static async getInitialProps({ Component, router, ctx }: AppContext) {
+export default class MyApp extends App<AppProps<{ dehydratedState: any }>> {
+  static async getInitialProps({ Component, ctx }: AppContext) {
     let pageProps = {};
 
     if (Component.getInitialProps) {
