@@ -16,7 +16,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 export async function getStaticPaths() {
   return {
     paths: ['/grid/id'],
-    fallback: true,
+    fallback: false,
   };
 }
 
