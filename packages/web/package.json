@@ -49,7 +49,7 @@
     "web": "^0.0.2"
   },
   "scripts": {
-    "preinstall": "npx lerna bootstrap",
+    "preinstall": "cd ../../ yarn",
     "dev": "next",
     "start": "next start",
     "build": "next build",
