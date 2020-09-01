@@ -1,27 +1,14 @@
-import { GetStaticProps } from 'next';
+import { useRouter } from 'next/dist/client/router';
 import React from 'react';
 import { withErrorBoundary } from 'react-error-boundary';
 import { useGrid } from '../../api.ts/GridApi';
 import ErrorFallback from '../../components/ErrorFallback';
 import GridEditor from '../../components/GridEditor/GridEditor';
 
-export const getStaticProps: GetStaticProps = async (context) => {
-  return {
-    props: {
-      id: context.params?.id,
-    },
-  };
-};
+const GridPage: React.FC = () => {
+  const router = useRouter();
+  const { isLoading, error } = useGrid(router.query.id as string);
 
-export async function getStaticPaths() {
-  return {
-    paths: ['/grid/id'],
-    fallback: false,
-  };
-}
-
-const GridPage: React.FC<{ id: string }> = ({ id }) => {
-  const { isLoading, error } = useGrid(id);
   if (error) return <div>{error}</div>;
   if (isLoading) return <div>loading</div>;
 
