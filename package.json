@@ -8,6 +8,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "install": "lerna bootstrap",
     "dev": "lerna run dev --parallel",
     "build": "lerna run build"
   },
