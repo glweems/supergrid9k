@@ -1,4 +1,4 @@
-import styled from "styled-components/macro";
+import styled from 'styled-components/macro';
 
 interface GridEditorItemProps {
   number: number;
@@ -11,15 +11,15 @@ const GridEditorItem = styled.div<GridEditorItemProps>`
   ::before {
     width: min-content;
     height: min-content;
-    padding-top:var(--space-1);
-    padding-right:var(--space-3);
-    padding-bottom:var(--space-1);
+    padding-top: var(--space-1);
+    padding-right: var(--space-3);
+    padding-bottom: var(--space-1);
     padding-left: var(--space-3);
     font-weight: bold;
     text-align: center;
     background-color: var(--color-background);
     border-radius: var(--space-1);
-    content: "${({ number }) => number}";
+    content: '${({ number }) => number}';
   }
 `;
 

@@ -1,14 +1,6 @@
-import React, { createElement } from "react";
-import styled, { css } from "styled-components/macro";
-import {
-  color,
-  ColorProps,
-  compose,
-  layout,
-  LayoutProps,
-  space,
-  SpaceProps,
-} from "styled-system";
+import React, { createElement } from 'react';
+import styled, { css } from 'styled-components/macro';
+import { color, ColorProps, compose, layout, LayoutProps, space, SpaceProps } from 'styled-system';
 
 interface IconProps extends ColorProps, LayoutProps, SpaceProps {}
 
@@ -20,10 +12,10 @@ export const Icon = styled.svg<IconProps>`
 `;
 
 Icon.defaultProps = {
-  viewBox: "0 0 16 16",
-  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: '0 0 16 16',
+  xmlns: 'http://www.w3.org/2000/svg',
   size: 20,
-  fill: "currentColor",
+  fill: 'currentColor',
 };
 
 export const PlusIcon: React.FC<IconProps> = (props) =>
@@ -118,7 +110,7 @@ export const HandleBottomIcon: React.FC<IconProps> = (props) =>
   });
 
 const defaultHandleProps: IconProps = {
-  color: "secondary",
+  color: 'secondary',
 };
 
 HandleTopIcon.defaultProps = defaultHandleProps;

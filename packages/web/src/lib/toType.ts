@@ -1,12 +1,12 @@
 export type TypeValue =
-  | "array"
-  | "object"
-  | "function"
-  | "string"
-  | "number"
-  | "asyncfunction"
-  | "promise"
-  | "undefined";
+  | 'array'
+  | 'object'
+  | 'function'
+  | 'string'
+  | 'number'
+  | 'asyncfunction'
+  | 'promise'
+  | 'undefined';
 
 export const toType = (obj: unknown): TypeValue =>
   ({}.toString

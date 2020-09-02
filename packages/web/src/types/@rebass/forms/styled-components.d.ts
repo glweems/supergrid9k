@@ -1,4 +1,4 @@
-declare module "@rebass/forms/styled-components" {
+declare module '@rebass/forms/styled-components' {
   // Type definitions for @rebass/forms 4.0
   // Project: https://github.com/rebassjs/rebass#readme
   // Definitions by: zinozzino <https://github.com/zinozzino>
@@ -7,10 +7,10 @@ declare module "@rebass/forms/styled-components" {
   // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
   // TypeScript Version: 3.1
 
-  import * as React from "react";
-  import * as Rebass from "rebass";
-  import * as StyledSystem from "styled-system";
-  import { SuperGrid9kTheme } from "../../../lib/theme";
+  import * as React from 'react';
+  import * as Rebass from 'rebass';
+  import * as StyledSystem from 'styled-system';
+  import { SuperGrid9kTheme } from '../../../lib/theme';
 
   export {};
 
@@ -39,10 +39,7 @@ declare module "@rebass/forms/styled-components" {
 
   export interface LabelProps
     extends LabelKnownProps,
-      Omit<
-        React.LabelHTMLAttributes<HTMLLabelElement>,
-        keyof LabelKnownProps
-      > {}
+      Omit<React.LabelHTMLAttributes<HTMLLabelElement>, keyof LabelKnownProps> {}
 
   export const Label: React.ComponentType<LabelProps>;
 
@@ -54,19 +51,13 @@ declare module "@rebass/forms/styled-components" {
 
   export interface SelectProps
     extends BoxKnownProps,
-      Omit<
-        React.SelectHTMLAttributes<HTMLSelectElement>,
-        keyof BoxKnownProps
-      > {}
+      Omit<React.SelectHTMLAttributes<HTMLSelectElement>, keyof BoxKnownProps> {}
 
   export const Select: React.ComponentType<SelectProps>;
 
   export interface TextareaProps
     extends BoxKnownProps,
-      Omit<
-        React.TextareaHTMLAttributes<HTMLTextAreaElement>,
-        keyof BoxKnownProps
-      > {}
+      Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, keyof BoxKnownProps> {}
 
   export const Textarea: React.ComponentType<TextareaProps>;
 

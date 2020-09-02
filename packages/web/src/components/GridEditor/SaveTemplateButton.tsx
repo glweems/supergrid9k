@@ -1,14 +1,12 @@
-import React from "react";
-import { Button } from "rebass/styled-components";
-import useSaveTemplateLink from "../../hooks/useSaveTemplateLink";
+import React from 'react';
+import { Button } from 'rebass/styled-components';
+import { useCreateGrid } from '../../lib/GridApi';
 
 export default function SaveTemplateButton() {
-  const { data, loading, handleClick } = useSaveTemplateLink();
+  const buttonProps = useCreateGrid();
   return (
-    <>
-      <Button onClick={handleClick}>Save Grid</Button>
-      {JSON.stringify(data, null, 2)}
-      {String(loading)}
-    </>
+    <Button className="SaveTemplateButton" {...buttonProps}>
+      Save Grid
+    </Button>
   );
 }

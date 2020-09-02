@@ -1,27 +1,22 @@
-import { SelectProps } from "../components/Select";
-import { GridTemplateEntry, GridState } from "../state";
-
-export function replaceItemAtIndex<T = object>(
-  arr: T[],
-  index: number,
-  newValue: T
-) {
+import Id from 'react-id-generator';
+import { GridState, GridTemplateEntry } from '../state';
+export function replaceItemAtIndex<T = Record<string, unknown>>(arr: T[], index: number, newValue: T) {
   return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
 }
 
-export function removeItemAtIndex<T = object>(arr: T[], index: number) {
-  return [...arr.slice(0, index), ...arr.slice(index + 1)];
+export function removeItemAtIndex<T = Record<string, unknown>>(arr: T[], index: number) {
+  return [...arr?.slice(0, index), ...arr?.slice(index + 1)];
 }
 
 export type TypeValue =
-  | "array"
-  | "object"
-  | "function"
-  | "string"
-  | "number"
-  | "asyncfunction"
-  | "promise"
-  | "undefined";
+  | 'array'
+  | 'object'
+  | 'function'
+  | 'string'
+  | 'number'
+  | 'asyncfunction'
+  | 'promise'
+  | 'undefined';
 
 export const toType = (obj: unknown): TypeValue =>
   ({}.toString
@@ -29,103 +24,19 @@ export const toType = (obj: unknown): TypeValue =>
     .match(/\s([a-zA-Z]+)/)[1]
     .toLowerCase());
 
-export function templateGenerator<T extends object>(
+export function templateGenerator<T extends Record<string, unknown>>(
   strings: TemplateStringsArray,
   ...keys: Array<keyof T>
 ) {
   return function (data: T) {
-    let template = strings.slice();
+    const template = strings.slice();
 
     keys.forEach((key, i) => {
       template[i] = template[i] + data[key];
     });
 
-    return template.join("");
+    return template.join('');
   };
-}
-
-export function getAllowedEntry(
-  name: string,
-  value: GridUnit,
-  entry: GridTemplateEntry
-): GridTemplateEntry {
-  switch (value) {
-    case "fr": {
-      return {
-        ...entry,
-        amount: 10,
-        [name]: value,
-        inputProps: { ...defaultInputProps, step: 0.1, max: 20 },
-        selectProps: defaultSelectProps,
-      };
-    }
-    case "%":
-      return {
-        ...entry,
-        amount: 10,
-        [name]: value,
-        inputProps: defaultInputProps,
-        selectProps: defaultSelectProps,
-      };
-    case "px":
-      return {
-        ...entry,
-        amount: 100,
-        [name]: value,
-        inputProps: { ...entry.inputProps, max: 1000 },
-        selectProps: defaultSelectProps,
-      };
-    case "vw":
-      return {
-        ...entry,
-        amount: 10,
-        [name]: value,
-        inputProps: defaultInputProps,
-        selectProps: defaultSelectProps,
-      };
-    case "vh":
-      return {
-        ...entry,
-        amount: 10,
-        [name]: value,
-        inputProps: defaultInputProps,
-        selectProps: defaultSelectProps,
-      };
-    case "em":
-      return {
-        ...entry,
-        amount: 5,
-        [name]: value,
-        inputProps: defaultInputProps,
-        selectProps: defaultSelectProps,
-      };
-    case "rem":
-      return {
-        ...entry,
-        amount: 5,
-        [name]: value,
-        inputProps: defaultInputProps,
-        selectProps: defaultSelectProps,
-      };
-    case "auto":
-      return {
-        ...entry,
-        amount: "" as any,
-        [name]: value,
-        inputProps: {
-          ...entry.inputProps,
-          disabled: true,
-          style: { display: "none" },
-        },
-        selectProps: { ...entry.selectProps, style: { gridColumn: "1 / 3" } },
-      };
-
-    default:
-      return {
-        ...entry,
-        [name]: value,
-      };
-  }
 }
 
 /**
@@ -135,17 +46,15 @@ export function getAllowedEntry(
  */
 export function prettyName(name: string): string {
   return name
-    .split("Template")
-    .join(" ")
+    .split('Template')
+    .join(' ')
     .replace(/(?:^|\s)\S/g, function (a) {
       return a.toUpperCase();
     });
 }
 
-export const groupRepeatedUnits = (
-  templateUnitArray: Pick<GridTemplateEntry, "amount" | "unit">[]
-) => {
-  const templateArray = templateUnitArray.map((i) => i["amount"] + i["unit"]);
+export const groupRepeatedUnits = (templateUnitArray: Pick<GridTemplateEntry, 'amount' | 'unit'>[]) => {
+  const templateArray = templateUnitArray.map((i) => i['amount'] + i['unit']);
   const groups = [[templateArray.shift() as string]];
   for (const templateUnit of templateArray) {
     const lastGroup = groups[groups.length - 1];
@@ -163,63 +72,58 @@ export const createRepetition = (groups: string[][], maxRepetition = 1) => {
     .map((group) =>
       // If you want to add repetition only when a measure is repeated more than x times,
       // change maxRepetition value to x
-      group.length === maxRepetition
-        ? group.join(" ")
-        : `repeat(${group.length}, ${group[0]})`
+      group.length === maxRepetition ? group.join(' ') : `repeat(${group.length}, ${group[0]})`
     )
-    .join(" ");
+    .join(' ');
 };
 
-export function repeatStr(
-  entries: Pick<GridTemplateEntry, "amount" | "unit">[]
-) {
+export function repeatStr(entries: Pick<GridTemplateEntry, 'amount' | 'unit'>[]) {
   return createRepetition(groupRepeatedUnits(entries));
 }
+type ElementType<T extends unknown[]> = T extends Array<infer ElementType> ? ElementType : string;
 
-export type GridUnit = "fr" | "%" | "px" | "vw" | "vh" | "em" | "rem" | "auto";
+export const gridUnits = ['fr', '%', 'px', 'vw', 'vh', 'em', 'rem', 'auto'];
 
-export const gridUnits: GridUnit[] = [
-  "fr",
-  "%",
-  "px",
-  "vw",
-  "vh",
-  "em",
-  "rem",
-  "auto",
-];
+export type GridTemplateUnit = typeof gridUnits[number];
 
-export type GridGapUnit = "px" | "rem" | "em" | "vh" | "vw";
-
-export const gridGapUnits: GridGapUnit[] = ["px", "rem", "em", "vh", "vw"];
+export const gridGapUnits = ['px', 'rem', 'em', 'vh', 'vw'];
 
 export const defaultInputProps = {
-  name: "amount",
-  min: 0,
-  max: 20,
-  step: 0.1,
+  name: 'amount',
   disabled: false,
-  type: "number",
+  type: 'number',
 };
 
-export const defaultSelectProps: SelectProps = {
-  name: "unit",
+export const defaultSelectProps = {
+  name: 'unit',
   disabled: false,
   options: gridUnits,
 };
 
+export function dataToCss(entries: Pick<GridTemplateEntry, 'amount' | 'unit'>[]) {
+  return entries
+    .map(({ amount, unit }) => `${amount}${unit}`)
+    .toString()
+    .split(',')
+    .join(' ');
+}
+
+export function createCssString(entries: Pick<GridTemplateEntry, 'amount' | 'unit'>[], repeat = false): string {
+  if (repeat) return repeatStr(entries);
+  return dataToCss(entries);
+}
 export const initialGridTemplateRows: GridTemplateEntry[] = [
   {
-    id: "row-1",
+    id: Id(),
     amount: 1,
-    unit: "fr",
+    unit: 'fr',
     inputProps: defaultInputProps,
     selectProps: defaultSelectProps,
   },
   {
-    id: "row-2",
+    id: Id(),
     amount: 1,
-    unit: "fr",
+    unit: 'fr',
     inputProps: defaultInputProps,
     selectProps: defaultSelectProps,
   },
@@ -227,58 +131,47 @@ export const initialGridTemplateRows: GridTemplateEntry[] = [
 
 export const initialGridTemplateColumns: GridTemplateEntry[] = [
   {
-    id: "column-1",
+    id: Id(),
     amount: 1,
-    unit: "fr",
+    unit: 'fr',
     inputProps: defaultInputProps,
     selectProps: defaultSelectProps,
   },
   {
-    id: "column-2",
+    id: Id(),
     amount: 1,
-    unit: "fr",
+    unit: 'fr',
     inputProps: defaultInputProps,
     selectProps: defaultSelectProps,
   },
 ];
-
-export function dataToCss(
-  entries: Pick<GridTemplateEntry, "amount" | "unit">[]
-) {
-  return entries
-    ?.map(({ amount, unit }) => `${amount}${unit}`)
-    .toString()
-    .split(",")
-    .join(" ");
-}
-
-export function createCssString(
-  entries: Pick<GridTemplateEntry, "amount" | "unit">[],
-  repeat = false
-): string {
-  if (repeat) return repeatStr(entries);
-  return dataToCss(entries);
-}
-
 export const defaultGridState: GridState = {
-  gridContainerClassName: "grid-container",
-  useCssRepeatFn: true,
   gridTemplateRows: initialGridTemplateRows,
   gridTemplateColumns: initialGridTemplateColumns,
   gridGap: [
     {
-      id: "grid-gap",
+      id: Id(),
       amount: 1,
-      unit: "rem",
+      unit: 'rem',
       inputProps: defaultInputProps,
       selectProps: { ...defaultSelectProps, options: gridGapUnits },
     },
     {
-      id: "grid-gap1",
+      id: Id(),
       amount: 1,
-      unit: "rem",
+      unit: 'rem',
       inputProps: defaultInputProps,
       selectProps: { ...defaultSelectProps, options: gridGapUnits },
     },
   ],
+  useCssRepeatFn: true,
+  gridContainerClassName: 'grid',
 };
+
+export function omit<T = Record<string, unknown>>(obj: T, ...keys: Array<keyof T>) {
+  const newObj = { ...obj };
+  keys.forEach((key) => {
+    delete newObj[key];
+  });
+  return newObj;
+}

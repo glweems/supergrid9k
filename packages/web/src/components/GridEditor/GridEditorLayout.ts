@@ -1,19 +1,22 @@
-import styled from "styled-components/macro";
-import theme from "../lib/theme";
+import styled from 'styled-components/macro';
+import theme from '../../lib/theme';
+import { LayoutProps, layout } from 'styled-system';
 
-const Layout = styled.main`
+const GridEditorLayout = styled.main<LayoutProps>`
+  ${layout};
   position: absolute;
   display: grid;
   grid-template-areas:
-    "grid-sidebar grid-entries code-viewer"
-    "grid-sidebar dirty-controls code-viewer";
+    'grid-sidebar grid-entries code-viewer'
+    'grid-sidebar dirty-controls code-viewer';
   grid-template-rows: 1fr auto;
   grid-template-columns: 275px 1fr auto;
   width: 100vw;
   max-width: 100vw;
+  overflow-y: hidden;
 
   /* Input */
-  @supports selector(: focus-visible) {
+  @supports selector(:) {
     button:focus {
       outline: none;
     }
@@ -46,13 +49,19 @@ const Layout = styled.main`
     overflow-y: auto;
     color: var(--color-text);
 
-    .CodePenButton {
-      position: absolute;
-      right: var(--space-2);
-      bottom: var(--space-3);
+    .CodePenButton,
+    .SaveTemplateButton {
       width: calc(100% - var(--space-3));
+    }
+
+    .SaveTemplateButton {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 100%;
       margin: auto;
-      background-color: var(--color-background);
+      color: var(--color-text);
+      background-color: var(--color-primary);
     }
     pre {
       height: fit-content;
@@ -61,6 +70,6 @@ const Layout = styled.main`
   }
 `;
 
-Layout.displayName = "Layout";
-Layout.defaultProps = { theme };
-export default Layout;
+GridEditorLayout.displayName = 'GridEditorLayout';
+GridEditorLayout.defaultProps = { theme };
+export default GridEditorLayout;

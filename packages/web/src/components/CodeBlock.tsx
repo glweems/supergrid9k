@@ -1,36 +1,19 @@
-import Highlight, {
-  defaultProps,
-  Language,
-  PrismTheme,
-  RenderProps,
-} from "prism-react-renderer";
-import React, { FC } from "react";
-import Clipboard from "react-clipboard.js";
-import { Box, BoxProps } from "rebass/styled-components";
-import styled, { css } from "styled-components/macro";
-import syntaxTheme from "../lib/syntaxTheme";
+import Highlight, { defaultProps, Language, PrismTheme, RenderProps } from 'prism-react-renderer';
+import React, { FC } from 'react';
+import Clipboard from 'react-clipboard.js';
+import { Box, BoxProps } from 'rebass/styled-components';
+import styled, { css } from 'styled-components/macro';
+import syntaxTheme from '../lib/syntaxTheme';
 export interface CodeBlockProps extends BoxProps {
   code: string;
   language: string;
   theme?: PrismTheme;
 }
 
-const CodeBlock: FC<CodeBlockProps> = ({
-  code,
-  language,
-  theme,
-  ...boxProps
-}) => {
+const CodeBlock: FC<CodeBlockProps> = ({ code, language, theme, ...boxProps }) => {
   return (
-    <Highlight
-      {...defaultProps}
-      code={code}
-      language={language as Language}
-      theme={theme}
-    >
-      {(renderProps) => (
-        <CodeBody {...renderProps} code={code} boxProps={boxProps} />
-      )}
+    <Highlight {...defaultProps} code={code} language={language as Language} theme={theme}>
+      {(renderProps) => <CodeBody {...renderProps} code={code} boxProps={boxProps} />}
     </Highlight>
   );
 };
@@ -39,38 +22,21 @@ interface CodeBodyProps extends RenderProps {
   boxProps: BoxProps;
 }
 
-const CodeBody: FC<CodeBodyProps> = ({
-  className,
-  style,
-  tokens,
-  getLineProps,
-  getTokenProps,
-  code,
-  boxProps,
-}) => {
+const CodeBody: FC<CodeBodyProps> = ({ className, style, tokens, getLineProps, getTokenProps, code, boxProps }) => {
   const [showCopy, setShowCopy] = React.useState(false);
-  const [copyText, setCopyText] = React.useState("Copy");
+  const [copyText, setCopyText] = React.useState('Copy');
 
   const mouseHandler: React.MouseEventHandler<HTMLDivElement> = (event) => {
     setShowCopy((prev) => !prev);
   };
 
   const handleCopySuccess = (event: ClipboardJS.Event) => {
-    setCopyText("Copied!");
+    setCopyText('Copied!');
   };
 
   return (
-    <CodeContainer
-      onMouseEnter={mouseHandler}
-      onMouseLeave={mouseHandler}
-      showCopy={showCopy}
-      {...boxProps}
-    >
-      <Clipboard
-        data-clipboard-text={code}
-        component={CopyButton}
-        onSuccess={handleCopySuccess}
-      >
+    <CodeContainer onMouseEnter={mouseHandler} onMouseLeave={mouseHandler} showCopy={showCopy} {...boxProps}>
+      <Clipboard data-clipboard-text={code} component={CopyButton} onSuccess={handleCopySuccess}>
         {copyText}
       </Clipboard>
       <Box as="pre" className={className} style={style} {...boxProps}>
@@ -97,7 +63,7 @@ const CopyButton = styled.button`
   margin: 0em;
   padding: 0.4rem 0.5rem;
   color: var(--color-light);
-  font: 400 13.3333px "Arial", sans-serif;
+  font: 400 13.3333px 'Arial', sans-serif;
   letter-spacing: normal;
   text-align: center;
   text-transform: none;
@@ -116,8 +82,7 @@ const CopyButton = styled.button`
   visibility: hidden;
   cursor: pointer;
   opacity: 0;
-  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out,
-    bottom 0.2s ease-in-out;
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out, bottom 0.2s ease-in-out;
   appearance: button;
 `;
 const CodeContainer = styled.div<{ showCopy: boolean }>`
@@ -135,7 +100,7 @@ const CodeContainer = styled.div<{ showCopy: boolean }>`
 
 CodeBlock.defaultProps = {
   theme: syntaxTheme,
-  className: "CodeBlock",
+  className: 'CodeBlock',
 };
 
 export default CodeBlock;

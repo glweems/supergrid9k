@@ -1,0 +1,35 @@
+{
+  "name": "@shared/eslint-config",
+  "version": "0.0.1",
+  "files": [
+    "prettier.config.js"
+  ],
+  "description": "Now I’m the model of a modern major general / The venerated Virginian veteran whose men are all / Lining up, to put me up on a pedestal / Writin’ letters to relatives / Embellishin’ my elegance and eloquence / But the elephant is in the room / The truth is in ya face when ya hear the British cannons go / BOOM",
+  "keywords": [],
+  "author": "Garrett Weems <gwgraphicdesign@gmail.com>",
+  "license": "ISC",
+  "main": "main/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/glweems/supergrid9k.git"
+  },
+  "devDependencies": {
+    "eslint": "7.7.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-config-react-app": "5.2.1",
+    "eslint-config-stylelint": "^12.0.0",
+    "eslint-plugin-flowtype": "5.2.0",
+    "eslint-plugin-import": "2.22.0",
+    "eslint-plugin-jsx-a11y": "6.3.1",
+    "eslint-plugin-react": "7.20.6",
+    "eslint-plugin-react-hooks": "^4.1.0",
+    "prettier": "^2.1.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/glweems/supergrid9k/issues"
+  },
+  "homepage": "https://github.com/glweems/supergrid9k#readme"
+}

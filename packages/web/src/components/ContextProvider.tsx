@@ -1,17 +1,16 @@
-import React from "react";
-import { RecoilRoot } from "recoil";
-import { ThemeProvider } from "styled-components/macro";
-import GridConfigSubscription from "../lib/GridConfigSubscription";
-import theme from "../lib/theme";
-
+import React from 'react';
+import { ReactQueryDevtools } from 'react-query-devtools';
+import { RecoilRoot } from 'recoil';
+import { ThemeProvider } from 'styled-components/macro';
+import theme from '../lib/theme';
 const ContextProvider: React.FC = ({ children }) => {
   return (
-    <ThemeProvider theme={theme}>
-      <RecoilRoot>
-        <GridConfigSubscription />
-        {children}
-      </RecoilRoot>
-    </ThemeProvider>
+    <React.Fragment>
+      <ThemeProvider theme={theme}>
+        <RecoilRoot>{children}</RecoilRoot>
+      </ThemeProvider>
+      <ReactQueryDevtools />
+    </React.Fragment>
   );
 };
 

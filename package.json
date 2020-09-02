@@ -8,11 +8,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "lerna run dev --parallel"
+    "install": "lerna bootstrap",
+    "dev": "lerna run dev --parallel",
+    "build": "lerna run build"
   },
   "author": "Garrett Weems <gwgraphicdesign@gmail.com> (https://glweems.com)",
   "license": "MIT",
-  "devDependencies": {
+  "dependencies": {
     "lerna": "^3.22.1"
+  },
+  "devDependencies": {
+    "prettier": "^2.1.1",
+    "@shared/eslint-config": "^0.0.1"
   }
 }

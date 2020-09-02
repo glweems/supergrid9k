@@ -1,13 +1,13 @@
-import Typography, { TypographyOptions } from "typography";
-import CodePlugin from "typography-plugin-code";
-import theme, { colors, defaultFont } from "./theme";
+import Typography, { TypographyOptions } from 'typography';
+import CodePlugin from 'typography-plugin-code';
+import theme, { colors, defaultFont } from './theme';
 
 const typographyTheme: TypographyOptions = {
-  baseFontSize: "16px",
+  baseFontSize: '16px',
   scaleRatio: 2,
   baseLineHeight: 1.78,
-  headerFontFamily: defaultFont.split(","),
-  bodyFontFamily: defaultFont.split(","),
+  headerFontFamily: defaultFont.split(','),
+  bodyFontFamily: defaultFont.split(','),
   bodyColor: colors.text,
   headerWeight: 700,
   bodyWeight: 300,
@@ -16,15 +16,15 @@ const typographyTheme: TypographyOptions = {
   overrideStyles: (verticleRythme, options, styles) => ({
     html: {
       ...styles.html,
-      color: "var(--color-text)",
+      color: 'var(--color-text)',
       backgroundColor: theme.colors.bg,
-      overflow: "auto",
-      overflowX: "hidden",
+      overflow: 'auto',
+      overflowX: 'hidden',
     },
     fieldset: {
       padding: `var(--space-2)`,
-      border: "unset",
-      display: "contents",
+      border: 'unset',
+      display: 'contents',
     },
 
     legend: {
@@ -33,36 +33,36 @@ const typographyTheme: TypographyOptions = {
 
     button: {
       ...styles.button,
-      cursor: "pointer",
+      cursor: 'pointer',
       ...theme.buttons.default,
     },
 
     select: {
       ...styles.select,
-      cursor: "pointer",
+      cursor: 'pointer',
     },
 
     input: {
       ...styles.input,
-      cursor: "text",
+      cursor: 'text',
     },
     pre: {
-      overflowX: "auto",
-      textOverflow: "scroll",
+      overflowX: 'auto',
+      textOverflow: 'scroll',
     },
-    "::-webkit-scrollbar": {
-      height: "7px",
-      width: "7px",
-    },
-
-    "::-webkit-scrollbar-thumb": {
-      background: "var(--color-secondary)",
-      borderRadius: "var(--space-2)",
+    '::-webkit-scrollbar': {
+      height: '7px',
+      width: '7px',
     },
 
-    "::-webkit-scrollbar-track": {
-      background: "var(--color-background)",
-      borderRadius: "var(--space-2)",
+    '::-webkit-scrollbar-thumb': {
+      background: 'var(--color-secondary)',
+      borderRadius: 'var(--space-2)',
+    },
+
+    '::-webkit-scrollbar-track': {
+      background: 'var(--color-background)',
+      borderRadius: 'var(--space-2)',
     },
   }),
   plugins: [new CodePlugin()],

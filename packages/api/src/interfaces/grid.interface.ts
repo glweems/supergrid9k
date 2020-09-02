@@ -1,6 +1,6 @@
 export type GridTemplateEntry = {
   id: string;
-  amount: number | "";
+  amount: number | '';
   unit: string;
   inputProps: any;
 };
