@@ -6,5 +6,4 @@ const userSchema = createSchema({
 });
 
 const userModel = typedModel('User', userSchema);
-
 export default userModel;

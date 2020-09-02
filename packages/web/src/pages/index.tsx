@@ -3,6 +3,8 @@ import { grid } from '../state';
 import { useRecoilState } from 'recoil';
 import React from 'react';
 import { defaultGridState } from '../lib/utils';
+import Div100vh from 'react-div-100vh';
+import Navbar from '../ui/Navbar';
 
 export default function IndexPage() {
   const [gridState, setGridState] = useRecoilState(grid);
@@ -10,5 +12,10 @@ export default function IndexPage() {
     if (!gridState) setGridState({ ...defaultGridState, initialState: defaultGridState });
   }, [gridState, setGridState]);
 
-  return <GridEditor />;
+  return (
+    <Div100vh>
+      <Navbar title="super grid 9k" />
+      <GridEditor />
+    </Div100vh>
+  );
 }

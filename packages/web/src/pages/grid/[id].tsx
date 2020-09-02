@@ -1,7 +1,7 @@
 import { GetStaticProps } from 'next';
 import React from 'react';
 import { withErrorBoundary } from 'react-error-boundary';
-import { useGrid } from '../../api.ts/GridApi';
+import { useGrid } from '../../lib/GridApi';
 import ErrorFallback from '../../components/ErrorFallback';
 import GridEditor from '../../components/GridEditor/GridEditor';
 

@@ -7,6 +7,7 @@ import ContextProvider from '../components/ContextProvider';
 import ErrorFallback from '../components/ErrorFallback';
 import { setCssArrayVariables, setCssObjectVariables } from '../lib/setCssVariables';
 import { colors, space } from '../lib/theme';
+
 setCssObjectVariables(colors, 'color');
 setCssArrayVariables(
   space.map((val) => `${val}px`),

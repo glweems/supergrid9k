@@ -1,7 +1,9 @@
 import styled from 'styled-components/macro';
-import theme from '../lib/theme';
+import theme from '../../lib/theme';
+import { LayoutProps, layout } from 'styled-system';
 
-const Layout = styled.main`
+const GridEditorLayout = styled.main<LayoutProps>`
+  ${layout};
   position: absolute;
   display: grid;
   grid-template-areas:
@@ -11,6 +13,7 @@ const Layout = styled.main`
   grid-template-columns: 275px 1fr auto;
   width: 100vw;
   max-width: 100vw;
+  overflow-y: hidden;
 
   /* Input */
   @supports selector(:) {
@@ -67,6 +70,6 @@ const Layout = styled.main`
   }
 `;
 
-Layout.displayName = 'Layout';
-Layout.defaultProps = { theme };
-export default Layout;
+GridEditorLayout.displayName = 'GridEditorLayout';
+GridEditorLayout.defaultProps = { theme };
+export default GridEditorLayout;

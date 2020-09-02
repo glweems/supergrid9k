@@ -168,7 +168,7 @@ export const defaultGridState: GridState = {
   gridContainerClassName: 'grid',
 };
 
-export function omit<T = Record<string, unknown> | null>(obj: T, ...keys: Array<keyof T>) {
+export function omit<T = Record<string, unknown>>(obj: T, ...keys: Array<keyof T>) {
   const newObj = { ...obj };
   keys.forEach((key) => {
     delete newObj[key];

@@ -1,14 +1,19 @@
 import Axios from 'axios';
 import { useQuery } from 'react-query';
 import { useRecoilState } from 'recoil';
-import { grid, GridState } from '../state';
-import { omit } from '../lib/utils';
+import { dirtyGrid, grid, GridState } from '../state';
+import { omit } from './utils';
 
 const backendUrl = process.env.API_URL || 'http://localhost:5000';
 
 export const GridInstance = Axios.create({
   baseURL: `${backendUrl}/grid/`,
 });
+
+export /**
+ * Grids instance
+ */
+const getGrids = async () => await (await GridInstance.get<GridState[]>('')).data;
 const getGridById = async (gridId: string) => GridInstance.get(gridId);
 
 export const create = async (_: unknown, grid: GridState) => await GridInstance.post('', grid).then((res) => res.data);
@@ -31,9 +36,11 @@ export function useGrid(gridId: string) {
   return { data, isLoading, error };
 }
 
-export function useCreateGrid() {
+export function useCreateGrid(): React.ButtonHTMLAttributes<HTMLButtonElement> {
   const [gridState] = useRecoilState(grid);
-  const newGrid = omit(gridState as any, '_id');
+  const [isDirty] = useRecoilState(dirtyGrid);
+
+  const newGrid = gridState && omit(gridState, '_id');
   const { isLoading, refetch } = useQuery(['createGrid', newGrid], create, { enabled: false });
 
   const handleClick: React.MouseEventHandler<HTMLButtonElement> = async () => {
@@ -42,5 +49,5 @@ export function useCreateGrid() {
     });
   };
 
-  return { handleClick, isLoading };
+  return { onClick: handleClick, disabled: isLoading || !isDirty };
 }

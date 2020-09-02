@@ -7,6 +7,12 @@ import { isEmptyObject } from '../utils/util';
 class GridService {
   grids = GridModel;
 
+  findAllGrid = async () => {
+    const arr = await this.grids.find();
+    if (!arr) throw new HttpException(409, "You're not user");
+    return arr;
+  };
+
   findById = async (userId: string) => {
     const findGrid = await this.grids.findById(userId);
     if (!findGrid) throw new HttpException(409, "You're not user");

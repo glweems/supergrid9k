@@ -1,11 +1,11 @@
 import React from 'react';
 import { Button } from 'rebass/styled-components';
-import { useCreateGrid } from '../../api.ts/GridApi';
+import { useCreateGrid } from '../../lib/GridApi';
 
 export default function SaveTemplateButton() {
-  const { handleClick, isLoading } = useCreateGrid();
+  const buttonProps = useCreateGrid();
   return (
-    <Button className="SaveTemplateButton" onClick={handleClick} disabled={isLoading}>
+    <Button className="SaveTemplateButton" {...buttonProps}>
       Save Grid
     </Button>
   );

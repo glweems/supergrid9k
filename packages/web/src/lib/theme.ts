@@ -1,6 +1,6 @@
 export const colors = {
   primary: '#3578e5',
-  secondary: '#3e456d',
+  secondary: '#242526',
   background: '#18191a',
   code: '#292c3d',
   text: '#fff',
@@ -100,6 +100,10 @@ const theme = {
       borderWidth: 1.5,
       bg: 'transparent',
       borderColor: 'transparent',
+      '&:disabled': {
+        opacity: 0.5,
+        cursor: 'not-allowed',
+      },
     },
     primary: {
       variant: 'buttons.default',
@@ -151,11 +155,12 @@ const theme = {
     },
     select: {
       color: 'text',
+
       borderStyle: 'solid',
       borderWidth: 2,
       boxShadow: 'none',
       borderColor: 'secondary',
-      bg: 'background',
+      bg: 'secondary',
       borderRadius: 9999,
     },
     textarea: {},

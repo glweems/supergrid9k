@@ -5,12 +5,21 @@ import GridService from '../services/grid.service';
 class GridController {
   gridService = new GridService();
 
-  getUserById = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
-    const userId = req.params.id;
+  getGridFeed = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
+    try {
+      const grids = await this.gridService.findAllGrid();
+      res.status(200).json(grids);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  getGridById = async (req: Request<{ id: string }>, res: Response, next: NextFunction) => {
+    const gridId = req.params.id;
 
     try {
-      await this.gridService.findById(userId).then((user) => {
-        if (user) res.status(200).json(user);
+      await this.gridService.findById(gridId).then((grid) => {
+        if (grid) res.status(200).json(grid);
       });
     } catch (error) {
       next(error);

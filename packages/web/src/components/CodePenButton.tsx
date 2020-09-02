@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button } from 'rebass/styled-components';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { Icon, iconButtonCss } from '../lib/Icons';
-import { codePenOptions } from '../state';
+import { codePenOptions, grid } from '../state';
 export interface CodePenData {
   title?: string;
   description?: string;
@@ -97,4 +97,8 @@ export const SuperGrid9kCodePen: React.FC = () => {
   return <CodePenButton {...options} code={{ css, html }} />;
 };
 
-export default CodePenButton;
+export default function CodePen() {
+  const [gridState] = useRecoilState(grid);
+  if (!gridState) return gridState;
+  return <SuperGrid9kCodePen />;
+}

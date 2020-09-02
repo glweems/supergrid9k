@@ -7,7 +7,7 @@ import { GridTemplateControlProps } from './components/GridEditor/GridEditorCont
 import { SelectProps } from './components/Select';
 import getAllowedEntry from './lib/getAllowedEntry';
 import { cssTemplateString, htmlTemplateString, TemplateStringObject } from './lib/templateStrings';
-import { createCssString, defaultGridState, removeItemAtIndex, replaceItemAtIndex } from './lib/utils';
+import { createCssString, removeItemAtIndex, replaceItemAtIndex } from './lib/utils';
 
 export type GridTemplateEntry = {
   id: string;
@@ -42,37 +42,20 @@ export function useSetGridState(gridConfigObject: GridState) {
   }, [gridConfigObject, setGridState]);
 }
 
-export const gridDirty = selector({
-  key: 'gridDirty',
-  get: ({ get }) => {
-    const gridState = get(grid);
-    const initialState = gridState?.initialState;
+export const dirtyGrid = atom({ key: 'dirtyGrid', default: false });
 
-    return (
-      {
-        gridTemplateRows: gridState?.gridTemplateRows,
-        gridTemplateColumns: gridState?.gridTemplateColumns,
-      } ==
-      {
-        gridTemplateRows: initialState?.gridTemplateRows,
-        gridTemplateColumns: initialState?.gridTemplateColumns,
-      }
-    );
-  },
-});
-
-export function useResetGrid(newState?: GridState) {
+export function useResetGrid(): React.ButtonHTMLAttributes<HTMLButtonElement> {
   const [gridState, setGridState] = useRecoilState(grid);
+  const [isDirty, setIsDirty] = useRecoilState(dirtyGrid);
 
-  let resetValue = defaultGridState;
-  if (gridState?.initialState) resetValue = gridState;
-  if (newState) resetValue = newState;
-  function resetGrid() {
-    return setGridState(resetValue);
-  }
+  const handleClick: React.MouseEventHandler = () => {
+    if (gridState?.initialState) setGridState({ ...gridState.initialState, initialState: gridState.initialState });
+    setIsDirty(false);
+  };
 
-  return resetGrid;
+  return { onClick: handleClick, disabled: !isDirty };
 }
+
 export const cssRepeatFn = selector({
   key: 'cssRepeatFn',
   get: ({ get }) => {
@@ -109,16 +92,21 @@ export const gridContainerClassName = selector<string>({
 
 export function useGridTemplate(name: GridStateName, legend: string): GridTemplateControlProps {
   const [gridState, setGridState] = useRecoilState(grid);
+  const [isDirty, setIsDirty] = useRecoilState(dirtyGrid);
 
   const addEntry = () => {
-    const entries = gridState?.[name];
-    const lastEntry: any = {
-      ...entries?.slice(-1)[0],
-    };
+    if (gridState) {
+      const entries = gridState?.[name];
+      const lastEntry = {
+        ...entries?.slice(-1)[0],
+      };
 
-    const newEntries = [...entries, lastEntry];
+      const newEntries = [...entries, lastEntry];
 
-    setGridState({ ...gridState, [name]: newEntries } as any);
+      setGridState({ ...gridState, [name]: newEntries });
+
+      if (!isDirty) setIsDirty(true);
+    }
   };
 
   return {
@@ -131,7 +119,7 @@ export function useGridTemplate(name: GridStateName, legend: string): GridTempla
 
 export function useControlHandlers(gridObjKey: GridStateName, id: string) {
   const [gridState, setGridState] = useRecoilState(grid);
-
+  const [isDirty, setIsDirty] = useRecoilState(dirtyGrid);
   const handleChange: React.ChangeEventHandler<HTMLInputElement | HTMLSelectElement> = ({
     target: { name, value },
   }) => {
@@ -142,6 +130,7 @@ export function useControlHandlers(gridObjKey: GridStateName, id: string) {
       const newEntry = replaceItemAtIndex(entries, index, getAllowedEntry({ name, value: value as any, entry }));
       setGridState({ ...gridState, [gridObjKey]: newEntry });
     }
+    if (!isDirty) setIsDirty(true);
   };
 
   const handleDelete: React.MouseEventHandler<HTMLButtonElement> = () => {
@@ -149,6 +138,9 @@ export function useControlHandlers(gridObjKey: GridStateName, id: string) {
       const entries = gridState?.[gridObjKey];
       const index = entries?.findIndex((e) => e.id === id);
       const newEntries = removeItemAtIndex(entries, index);
+      // const originalValue = gridState?.initialState?.[gridObjKey][index];
+      if (!isDirty) setIsDirty(true);
+
       setGridState({
         ...gridState,
         [gridObjKey]: newEntries,

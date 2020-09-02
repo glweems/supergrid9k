@@ -16,6 +16,6 @@
       "@lerna-monorepo/client": ["../client"]
     }
   },
-  "include": ["src/**/*.ts", "@lerna-monorepo/client/**/*"],
+  "include": ["src/**/*.ts", "@lerna-monorepo/client/**/*", "src/types.d.ts"],
   "exclude": ["node_modules"]
 }

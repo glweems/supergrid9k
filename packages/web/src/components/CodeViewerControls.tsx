@@ -2,14 +2,13 @@ import { Checkbox, Input, Label } from '@rebass/forms/styled-components';
 import React from 'react';
 import { Box } from 'rebass/styled-components';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
-import { cssRepeatFn, gridContainerClassName, gridDirty } from '../state';
+import { cssRepeatFn, gridContainerClassName } from '../state';
 
 const CodeViewerControls = () => {
   const checked = useRecoilValue(cssRepeatFn);
   const toggle = useResetRecoilState(cssRepeatFn);
   const className = useRecoilValue(gridContainerClassName);
   const setClassName = useSetRecoilState(gridContainerClassName);
-  const isDirty = useRecoilValue(gridDirty);
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     setClassName(event.target.value);
@@ -29,8 +28,6 @@ const CodeViewerControls = () => {
           Use CSS Repeat Function.
         </Label>
       </Box>
-
-      {isDirty ? 'dirty' : 'clean'}
 
       <Box className="control">
         <Label>Grid Container Class Name</Label>

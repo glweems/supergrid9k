@@ -29,7 +29,7 @@ export default function getAllowedEntry({
     case 'fr': {
       return {
         ...entry,
-        amount: 10,
+        amount: 1,
         [name]: value,
         inputProps: { ...defaultInputProps, step: 0.25, max: 20 },
         selectProps: defaultSelectProps,
