@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components/macro';
-import { gridAreas, gridCss } from '../../state';
+import { gridAreas, gridCss } from '../../store/grid';
 import Box, { BoxProps } from '../../ui/Box';
 import GridEditorItem from './GridEditorItem';
 
@@ -15,7 +15,7 @@ const GridItems: React.FC<GridItemsProps> = () => {
     <Box as="section" height="100%" className="GridEditorItems">
       <GridRender {...gridProps} padding={3} className="grid">
         {items?.map(({ id, number }) => (
-          <GridEditorItem key={id} number={number} />
+          <GridEditorItem key={id} name={number} />
         ))}
       </GridRender>
     </Box>

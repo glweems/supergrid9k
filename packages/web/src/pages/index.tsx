@@ -1,5 +1,5 @@
 import GridEditor from '../components/GridEditor/GridEditor';
-import { grid } from '../state';
+import { grid } from '../store/grid';
 import { useRecoilState } from 'recoil';
 import React from 'react';
 import { defaultGridState } from '../lib/utils';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'rebass/styled-components';
 import { PlusIcon } from '../../lib/Icons';
-import { GridStateName, GridTemplateEntry, useGridTemplate } from '../../state';
+import { GridStateName, GridTemplateEntry, useGridTemplate } from '../../store/grid';
 import { Control } from '../../ui/Control';
 import { GridEditorControl } from './GridEditorControl';
 

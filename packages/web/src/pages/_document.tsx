@@ -3,7 +3,8 @@ import React from 'react';
 import { GoogleFont, TypographyStyle } from 'react-typography';
 import { ServerStyleSheet } from 'styled-components/macro';
 import typography from '../lib/typography';
-
+import validateEnv from '../lib/validateEnv';
+validateEnv();
 interface MyDocumentProps extends DocumentProps {
   styleTags: string;
 }

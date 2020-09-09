@@ -2,12 +2,12 @@ import { InputProps } from '@rebass/forms/styled-components';
 import React from 'react';
 import Id from 'react-id-generator';
 import { atom, selector, useRecoilState } from 'recoil';
-import { CodePenData } from './components/CodePenButton';
-import { GridTemplateControlProps } from './components/GridEditor/GridEditorControls';
-import { SelectProps } from './components/Select';
-import getAllowedEntry from './lib/getAllowedEntry';
-import { cssTemplateString, htmlTemplateString, TemplateStringObject } from './lib/templateStrings';
-import { createCssString, removeItemAtIndex, replaceItemAtIndex } from './lib/utils';
+import { CodePenData } from '../components/CodePenButton';
+import { GridTemplateControlProps } from '../components/GridEditor/GridEditorControls';
+import { SelectProps } from '../components/Select';
+import getAllowedEntry from '../lib/getAllowedEntry';
+import { cssTemplateString, htmlTemplateString, TemplateStringObject } from '../lib/templateStrings';
+import { createCssString, removeItemAtIndex, replaceItemAtIndex } from '../lib/utils';
 
 export type GridTemplateEntry = {
   id: string;

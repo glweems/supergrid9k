@@ -2,7 +2,7 @@ import { Input } from '@rebass/forms/styled-components';
 import React from 'react';
 import { Button } from 'rebass/styled-components';
 import { CloseIcon } from '../../lib/Icons';
-import { GridStateName, GridTemplateEntry, useControlHandlers } from '../../state';
+import { GridStateName, GridTemplateEntry, useControlHandlers } from '../../store/grid';
 import Select from '../Select';
 import { gridGapUnits, gridUnits } from '../../lib/utils';
 export interface GridEditorControlProps extends GridTemplateEntry {

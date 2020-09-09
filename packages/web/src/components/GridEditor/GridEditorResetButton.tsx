@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'rebass/styled-components';
 import { Icon, iconButtonCss } from '../../lib/Icons';
-import { useResetGrid } from '../../state';
+import { useResetGrid } from '../../store/grid';
 
 const GridEditorResetButton: React.FC = ({ children }) => {
   const buttonProps = useResetGrid();

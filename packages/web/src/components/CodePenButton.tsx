@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'rebass/styled-components';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { Icon, iconButtonCss } from '../lib/Icons';
-import { codePenOptions, grid } from '../state';
+import { codePenOptions, grid } from '../store/grid';
 export interface CodePenData {
   title?: string;
   description?: string;

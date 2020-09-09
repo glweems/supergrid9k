@@ -10,11 +10,11 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
   const data = await captureWebsite.base64(`http://localhost:3000/grid/${req.query?.gridId}`, {
     waitForElement: '.grid-entries',
     element: '.grid-entries',
-    scaleFactor: 1,
-    quality: 0.1,
+    // scaleFactor: 1,
+    // quality: 0.1,
     type: 'jpeg',
-    width: 1000,
-    height: 400,
+    // width: 1000,
+    // height: 400,
   });
   const img = Buffer.from(data, 'base64');
   res.writeHead(200, { 'Content-Type': 'image/png', 'Content-Length': img.length });

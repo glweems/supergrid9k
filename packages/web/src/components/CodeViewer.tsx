@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import { snippets } from '../state';
+import { snippets } from '../store/grid';
 import CodeBlock from './CodeBlock';
 
 const CodeViewer: React.FC = () => {

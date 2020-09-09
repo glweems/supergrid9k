@@ -54,6 +54,10 @@ const typographyTheme: TypographyOptions = {
       height: '7px',
       width: '7px',
     },
+    svg: {
+      ...styles.svg,
+      verticalAlign: 'middle',
+    },
 
     '::-webkit-scrollbar-thumb': {
       background: 'var(--color-secondary)',

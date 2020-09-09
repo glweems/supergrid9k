@@ -1,7 +1,7 @@
 import Axios from 'axios';
 import { useQuery } from 'react-query';
 import { useRecoilState } from 'recoil';
-import { dirtyGrid, grid, GridState } from '../state';
+import { dirtyGrid, grid, GridState } from '../store/grid';
 import { omit } from './utils';
 
 const backendUrl = process.env.API_URL || 'http://localhost:5000';
@@ -41,13 +41,13 @@ export function useCreateGrid(): React.ButtonHTMLAttributes<HTMLButtonElement> {
   const [isDirty] = useRecoilState(dirtyGrid);
 
   const newGrid = gridState && omit(gridState, '_id');
-  const { isLoading, refetch } = useQuery(['createGrid', newGrid], create, { enabled: false });
+  const { isLoading, refetch, error } = useQuery(['createGrid', newGrid], create, { enabled: false });
 
   const handleClick: React.MouseEventHandler<HTMLButtonElement> = async () => {
     await refetch().then((res) => {
       window.location.assign(`/grid/${res._id}`);
     });
   };
-
-  return { onClick: handleClick, disabled: isLoading || !isDirty };
+  const buttonText = isLoading ? 'Loading' : error ? 'Error' : 'save ';
+  return { onClick: handleClick, disabled: isLoading || !isDirty, children: buttonText };
 }

@@ -1,5 +1,5 @@
 import Id from 'react-id-generator';
-import { GridState, GridTemplateEntry } from '../state';
+import { GridState, GridTemplateEntry } from '../store/grid';
 export function replaceItemAtIndex<T = Record<string, unknown>>(arr: T[], index: number, newValue: T) {
   return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
 }

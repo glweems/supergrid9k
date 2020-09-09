@@ -5,7 +5,7 @@ import Id from 'react-id-generator';
 import { useQuery } from 'react-query';
 import ErrorFallback from '../../components/ErrorFallback';
 import { getGrids } from '../../lib/GridApi';
-import { GridState } from '../../state';
+import { GridState } from '../../store/grid';
 
 interface GridFeedProps {
   grids: GridState[];

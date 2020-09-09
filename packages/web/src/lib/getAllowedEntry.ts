@@ -1,4 +1,4 @@
-import { GridTemplateEntry } from '../state';
+import { GridTemplateEntry } from '../store/grid';
 import { defaultSelectProps } from './utils';
 const defaultInputProps = {
   name: 'amount',

@@ -1,15 +1,18 @@
 import React from 'react';
-import { ReactQueryDevtools } from 'react-query-devtools';
 import { RecoilRoot } from 'recoil';
 import { ThemeProvider } from 'styled-components/macro';
+import RecoilDebugger from '../lib/RecoilDebugger';
 import theme from '../lib/theme';
+
 const ContextProvider: React.FC = ({ children }) => {
   return (
     <React.Fragment>
       <ThemeProvider theme={theme}>
-        <RecoilRoot>{children}</RecoilRoot>
+        <RecoilRoot>
+          <RecoilDebugger />
+          {children}
+        </RecoilRoot>
       </ThemeProvider>
-      <ReactQueryDevtools />
     </React.Fragment>
   );
 };

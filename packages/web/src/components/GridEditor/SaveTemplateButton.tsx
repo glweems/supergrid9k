@@ -4,9 +4,5 @@ import { useCreateGrid } from '../../lib/GridApi';
 
 export default function SaveTemplateButton() {
   const buttonProps = useCreateGrid();
-  return (
-    <Button className="SaveTemplateButton" {...buttonProps}>
-      Save Grid
-    </Button>
-  );
+  return <Button className="SaveTemplateButton" {...buttonProps} />;
 }
