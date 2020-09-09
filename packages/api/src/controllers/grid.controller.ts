@@ -28,10 +28,9 @@ class GridController {
 
   createGrid = async (req: Request, res: Response, next: NextFunction) => {
     const grid: ExtractFromReq<typeof GridModel> = req.body;
-    console.log('grid: ', grid);
 
     try {
-      res.status(201).json(await this.gridService.create(grid));
+      res.status(200).json(await this.gridService.create(grid));
     } catch (error) {
       next(error);
     }
