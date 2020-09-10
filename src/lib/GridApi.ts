@@ -4,8 +4,6 @@ import { useRecoilState } from 'recoil';
 import { dirtyGrid, grid, GridState } from '../store/grid';
 import { omit } from './utils';
 
-const backendUrl = process.env.API_URL || 'http://localhost:3000';
-
 export const GridInstance = Axios.create({
   baseURL: `/api/grid/`,
 });
