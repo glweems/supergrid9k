@@ -1,6 +1,6 @@
 <h1 align="center">Welcome to supergrid9k 👋</h1>
 
-![img](https://raw.githubusercontent.com/glweems/supergrid9k/assets/readme-banner.png)
+![img](./public/supergrid9k.PNG)
 
 <div style="width: 100%;
     margin: 0 auto;
@@ -18,7 +18,6 @@
       <img alt="Twitter: garrettlweems" src="https://img.shields.io/twitter/follow/garrettlweems.svg?style=social" />
     </a>
   </p>
-</div>
 
 > css grid generator that is super and 9k
 
@@ -60,3 +59,5 @@ Give a ⭐️ if this project helped you!
 ---
 
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
+
+</div>
