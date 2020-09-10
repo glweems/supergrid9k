@@ -17,7 +17,7 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
         {title}
       </Text>
       <Box mx="auto" />
-      <Link variant="nav" href="#!">
+      <Link variant="nav" href="/api/auth/github">
         Profile
       </Link>
     </Flex>
