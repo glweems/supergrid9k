@@ -13,7 +13,6 @@
   ],
   "dependencies": {
     "@rebass/forms": "^4.0.6",
-    "@rebass/preset": "^4.0.5",
     "@types/mongoose": "^5.7.36",
     "@types/rebass": "^4.0.6",
     "axios": "^0.20.0",
@@ -25,7 +24,7 @@
     "next": "^9.5.3",
     "polished": "^3.6.5",
     "prism-react-renderer": "^1.1.1",
-    "react": "^17.0.0-rc.0",
+    "react": "^17.0.0-rc.1",
     "react-clipboard.js": "^2.0.16",
     "react-div-100vh": "^0.5.0",
     "react-dom": "^16.13.1",
@@ -35,8 +34,6 @@
     "react-is": "^16.13.1",
     "react-query": "^2.14.1",
     "react-query-devtools": "^2.4.5",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.3",
     "react-typography": "^0.16.19",
     "rebass": "^4.0.7",
     "recoil": "^0.0.10",
@@ -46,12 +43,9 @@
     "styled-components": "^5.1.1",
     "styled-media-query": "^2.1.2",
     "styled-system": "^5.1.5",
-    "ts-mongoose": "^0.0.21",
     "typescript": "^4.0.2",
     "typography": "^0.16.19",
-    "typography-breakpoint-constants": "^0.16.19",
-    "typography-plugin-code": "^0.16.19",
-    "typography-theme-sutro": "^0.16.19"
+    "typography-plugin-code": "^0.16.19"
   },
   "scripts": {
     "preinstall": "cd ../../ yarn",
@@ -70,7 +64,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "pretty-quick --staged",
-      "pre-push": "npm run test:all && npm run build"
+      "pre-push": "npm run build"
     }
   },
   "browserslist": {
@@ -89,7 +83,6 @@
     "styled-components": "^5"
   },
   "devDependencies": {
-    "eslint-plugin-prettier": "^3.1.4",
     "@babel/register": "^7.10.5",
     "@testing-library/dom": "^7.22.1",
     "@testing-library/jest-dom": "^5.11.3",
@@ -123,6 +116,7 @@
     "eslint-plugin-flowtype": "5.2.0",
     "eslint-plugin-import": "2.22.0",
     "eslint-plugin-jsx-a11y": "6.3.1",
+    "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "7.20.6",
     "eslint-plugin-react-hooks": "^4.1.0",
     "husky": "^4.2.5",
