@@ -1,7 +1,7 @@
 /* This is a database connection function*/
 import mongoose, { ConnectionOptions } from 'mongoose';
 
-let connection: { isConnected?: number } = {}; /* creating connection object*/
+const connection: { isConnected?: number } = {}; /* creating connection object*/
 const { MONGO_USER, MONGO_PASSWORD, MONGO_PATH, MONGO_DATABASE } = process.env;
 
 console.log('MONGO_PATH: ', MONGO_PATH);

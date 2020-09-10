@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { SuperGrid9kTheme } from '../lib/theme';
 
 declare module 'styled-components' {

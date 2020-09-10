@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, LinkProps } from 'rebass/styled-components';
 import { Icon } from '../lib/Icons';
 
-interface GithubButtonProps extends LinkProps {}
+type GithubButtonProps = LinkProps;
 const GithubButton: React.FC<GithubButtonProps> = ({ children, ...props }) => (
   <Link
     href="https://github.com/glweems/supergrid9k"

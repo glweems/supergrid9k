@@ -4,6 +4,7 @@ import Clipboard from 'react-clipboard.js';
 import { Box, BoxProps } from 'rebass/styled-components';
 import styled, { css } from 'styled-components/macro';
 import syntaxTheme from '../lib/syntaxTheme';
+import Id from 'react-id-generator';
 export interface CodeBlockProps extends BoxProps {
   code: string;
   language: string;
@@ -42,9 +43,9 @@ const CodeBody: FC<CodeBodyProps> = ({ className, style, tokens, getLineProps, g
       <Box as="pre" className={className} style={style} {...boxProps}>
         <code>
           {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
+            <div key={Id('codeblock')} {...getLineProps({ line, key: i })}>
               {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
+                <span key={Id('span')} {...getTokenProps({ token, key })} />
               ))}
             </div>
           ))}
