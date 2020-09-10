@@ -1,4 +1,4 @@
-import { Checkbox, Input, Label } from '@rebass/forms/styled-components';
+import { Checkbox, Input, Label } from '@rebass/forms';
 import React from 'react';
 import { Box } from 'rebass/styled-components';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';

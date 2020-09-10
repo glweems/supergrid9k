@@ -1,9 +1,11 @@
-import { atom, useRecoilState } from 'recoil';
+import { atom, useRecoilState, selector, useRecoilValue, useSetRecoilState } from 'recoil';
+import { GridArea } from './grid';
 interface GridEditorUiState {
   isControlsOpen: boolean;
   controlPanelWidth: number;
   isSnippetsVisable: boolean;
   codePanelWidth: number;
+  activeEditingId: null | GridArea['id'];
 }
 interface UiState {
   gridEditor: GridEditorUiState;
@@ -17,23 +19,44 @@ export const ui = atom<UiState>({
       controlPanelWidth: 300,
       isSnippetsVisable: true,
       codePanelWidth: 300,
+      activeEditingId: null,
     },
   },
 });
-export interface UseGridEditorUi extends GridEditorUiState {
-  handleClick: React.MouseEventHandler<HTMLButtonElement>;
+
+const gridEditorUi = selector({
+  key: 'gridEditorUi',
+  get: ({ get }) => get(ui).gridEditor,
+});
+
+const activeEditingId = selector({
+  key: 'activeEditingId',
+  get: ({ get }) => get(gridEditorUi).activeEditingId,
+  set: ({ set, get }, newValue) => {
+    const { gridEditor } = get(ui);
+    set(ui, (state) => ({
+      ...state,
+      gridEditor: {
+        ...gridEditor,
+        activeEditingId: newValue,
+      },
+    }));
+  },
+});
+
+interface UseGridEditorUi extends GridEditorUiState {
+  handleClick: React.MouseEventHandler<any>;
 }
 
 export function useGridEditorUi(): UseGridEditorUi {
-  const [uiState, setUiState] = useRecoilState(ui);
-
+  const gridEditorUiState = useRecoilValue(gridEditorUi);
+  const activeId = useRecoilValue(activeEditingId);
+  const setGridEditorUiState = useSetRecoilState(activeEditingId);
   const handleClick: UseGridEditorUi['handleClick'] = (event) => {
-    const name = event.currentTarget.name as keyof GridEditorUiState;
-    setUiState((state) => ({
-      ...state,
-      gridEditor: { ...state.gridEditor, [name]: !state.gridEditor[name] },
-    }));
+    const { id } = event.currentTarget;
+    if (id === activeId) return setGridEditorUiState(null);
+    return setGridEditorUiState(event.currentTarget.id);
   };
 
-  return { ...uiState.gridEditor, handleClick };
+  return { ...gridEditorUiState, handleClick };
 }

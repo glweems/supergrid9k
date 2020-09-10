@@ -1,7 +1,10 @@
+import { AnimatePresence, motion } from 'framer-motion';
 import React from 'react';
+import { Button } from 'rebass/styled-components';
 import { useRecoilState } from 'recoil';
+import { ArrowShortLeftIcon } from '../../lib/Icons';
 import { grid, GridState } from '../../store/grid';
-import { ui, useGridEditorUi } from '../../store/ui';
+import { useGridEditorUi } from '../../store/ui';
 import Box from '../../ui/Box';
 import CodePenButton from '../CodePenButton';
 import CodeViewer from '../CodeViewer';
@@ -11,9 +14,7 @@ import GridEditorItems from './GridEditorItems';
 import GridEditorLayout from './GridEditorLayout';
 import GridEditorResetButton from './GridEditorResetButton';
 import SaveTemplateButton from './SaveTemplateButton';
-import { Button } from 'rebass/styled-components';
-import { ArrowShortLeftIcon } from '../../lib/Icons';
-import { AnimatePresence, motion } from 'framer-motion';
+
 export interface GridEditorProps {
   grid?: GridState;
 }
@@ -63,7 +64,7 @@ const GridEditor: React.FC<GridEditorProps> = ({ grid: gridProp }) => {
 };
 
 export default GridEditor;
-/*
+/* import dynamic from 'next/dynamic';
 const GridEditorLayout = dynamic(() => import('./GridEditorLayout'));
 const GridEditorControls = dynamic(() => import('./GridEditorControls'));
 const CodeViewerControls = dynamic(() => import('../CodeViewerControls'));

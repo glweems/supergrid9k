@@ -1,27 +1,19 @@
 import styled from 'styled-components/macro';
 import { Input, Label } from '@rebass/forms/styled-components';
 import React from 'react';
+import { GridArea } from '../../store/grid';
+import { useGridEditorUi } from '../../store/ui';
 
-interface GridEditorItemProps {
-  name: string | number;
-}
-
-const GridEditorItem: React.FC<GridEditorItemProps> = ({ name }) => {
+const GridEditorItem: React.FC<GridArea> = ({ id, name }) => {
   const [isEditable, setIsEditable] = React.useState(false);
 
-  if (isEditable)
-    return (
-      <StyledGridEditorItem>
-        <div className="item-control">
-          <Label>
-            Area Name
-            <Input bg="primary" />
-          </Label>
-        </div>
-      </StyledGridEditorItem>
-    );
+  const { handleClick, activeEditingId } = useGridEditorUi();
 
-  return <StandardGridEditorItemWrapper name={name} onClick={(e) => setIsEditable((state) => !state)} />;
+  return (
+    <StandardGridEditorItemWrapper id={id} onClick={handleClick}>
+      {activeEditingId}
+    </StandardGridEditorItemWrapper>
+  );
 };
 
 const StyledGridEditorItem = styled.div`
@@ -30,7 +22,7 @@ const StyledGridEditorItem = styled.div`
   border-radius: var(--space-2);
 `;
 
-const StandardGridEditorItemWrapper = styled(StyledGridEditorItem)<GridEditorItemProps>`
+const StandardGridEditorItemWrapper = styled(StyledGridEditorItem)`
   ::before {
     width: min-content;
     height: min-content;
@@ -42,7 +34,6 @@ const StandardGridEditorItemWrapper = styled(StyledGridEditorItem)<GridEditorIte
     text-align: center;
     background-color: var(--color-background);
     border-radius: var(--space-1);
-    content: '${({ name }) => name}';
   }
 `;
 

@@ -190,7 +190,7 @@ export interface GridArea {
   column: GridTemplateEntry;
 }
 
-export const gridAreas = selector({
+export const gridEditorAreas = selector({
   key: 'areas',
   get: ({ get }) => {
     const gridState = get(grid);
@@ -238,7 +238,7 @@ export type CodeSnippetState = Record<CodeSnippetLanguage, string>;
 export const snippets = selector({
   key: 'snippets',
   get: ({ get }) => {
-    const areasState = get(gridAreas);
+    const areasState = get(gridEditorAreas);
 
     const cssState = get(gridCss);
 

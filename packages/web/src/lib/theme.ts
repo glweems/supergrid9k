@@ -166,7 +166,6 @@ const theme = {
     textarea: {},
     label: {},
     radio: {},
-    checkbox: { color: 'red', bg: 'red' },
   },
   styles: {
     root: {

@@ -5,12 +5,11 @@ import { RecoilLogger } from 'recoil-devtools-logger';
 import { grid } from '../store/grid';
 import { ui } from '../store/ui';
 
-const RecoilDebugger: React.FC = () =>
-  true ? null : (
-    <RecoilDevtools values={[grid, ui]}>
-      <ReactQueryDevtools />
-      <RecoilLogger />
-    </RecoilDevtools>
-  );
+const RecoilDebugger: React.FC = () => (
+  <RecoilDevtools values={[grid, ui]}>
+    <ReactQueryDevtools />
+    <RecoilLogger />
+  </RecoilDevtools>
+);
 
 export default RecoilDebugger;

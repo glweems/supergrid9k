@@ -1,7 +1,8 @@
 import { cleanEnv, port, str } from 'envalid';
 
 export default function validateEnv() {
-  cleanEnv(process.env, {
+  return cleanEnv(process.env, {
     API_URL: str(),
+    MONGODB_URI: str(),
   });
 }
