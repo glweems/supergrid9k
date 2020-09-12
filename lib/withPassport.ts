@@ -23,8 +23,7 @@ export interface PassportSession {
 // example does not have a database, the complete Github profile is serialized
 // and deserialized.
 passport.serializeUser((user: Profile, done) => {
-  const { id, displayName, username, profileUrl, photos } = user;
-  done(null, { id, displayName, username, profileUrl, photos });
+  done(null, user);
 });
 passport.deserializeUser(async (serializedUser, done) => {
   if (!serializedUser) {

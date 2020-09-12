@@ -22,7 +22,11 @@ export interface GridEditorProps {
 const GridEditor: React.FC<GridEditorProps> = ({ grid: gridProp }) => {
   const [gridState, setGridState] = useRecoilState(grid);
   const { isControlsOpen, controlPanelWidth, codePanelWidth, handleClick } = useGridEditorUi();
-  if (gridProp) setGridState(gridProp);
+
+  React.useEffect(() => {
+    !gridState && setGridState(gridProp);
+  }, [gridProp, gridState, setGridState]);
+
   if (!gridState) return null;
 
   const gelProps = { controlPanelWidth, codePanelWidth };

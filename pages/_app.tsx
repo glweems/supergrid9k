@@ -1,14 +1,12 @@
 // _app.js
-import ContextProvider from '@/components/ContextProvider';
-import ErrorFallback from '@/components/ErrorFallback';
+import { colors, space } from '@/lib/theme';
 import App, { AppContext, AppProps } from 'next/app';
 import Head from 'next/head';
 import React from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
 import { setCssArrayVariables, setCssObjectVariables } from '../lib/setCssVariables';
-import { colors, space } from '@/lib/theme';
+import withIdentity from '../lib/withIdentity';
 
-export default class MyApp extends App<AppProps<{ dehydratedState: any }>> {
+class MyApp extends App<AppProps<{ dehydratedState: any }>> {
   static async getInitialProps({ Component, ctx }: AppContext) {
     let pageProps = {};
 
@@ -31,12 +29,10 @@ export default class MyApp extends App<AppProps<{ dehydratedState: any }>> {
         <Head>
           <title>Super Grid 9K</title>
         </Head>
-        <ContextProvider>
-          <ErrorBoundary fallbackRender={ErrorFallback}>
-            <Component {...pageProps} />
-          </ErrorBoundary>
-        </ContextProvider>
+
+        <Component {...pageProps} />
       </React.Fragment>
     );
   }
 }
+export default withIdentity(MyApp);

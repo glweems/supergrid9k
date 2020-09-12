@@ -4,15 +4,15 @@ import withPassport, { passport } from '@/lib/withPassport';
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { provider } = req.query;
   if (!provider) {
-    return { statusCode: 404 };
+    return { status: 4004 };
   }
 
   passport.authenticate(provider, {
     failureRedirect: '/',
     successRedirect: '/',
   })(req, res, (...args) => {
-    console.log('auth callback', args);
-    return true;
+    console.log('args: ', args);
+    return args;
   });
 };
 

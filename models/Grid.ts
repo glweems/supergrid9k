@@ -1,28 +1,4 @@
 import mongoose from 'mongoose';
-/* const InputPropsSchema = createSchema(
-  {
-    name: Type.string(),
-    min: Type.number(),
-    max: Type.number(),
-    step: Type.number(),
-    disabled: Type.boolean(),
-    type: Type.string(),
-  },
-  { _id: false }
-);
-const SelectPropsSchema = createSchema(
-  {
-    name: Type.string(),
-    disabled: Type.boolean(),
-    options: Type.array().of(Type.string()),
-  },
-  { _id: false }
-);
-
-const GridTemplateEntrySchema = createSchema(
-
-  { _id: false, __v: false }
-); */
 
 const GridSchema = new mongoose.Schema(
   {
@@ -53,11 +29,34 @@ const GridSchema = new mongoose.Schema(
   { timestamps: { createdAt: true } }
 );
 
+export default mongoose.models.Grid || mongoose.model('Grid', GridSchema);
+/* const InputPropsSchema = createSchema(
+  {
+    name: Type.string(),
+    min: Type.number(),
+    max: Type.number(),
+    step: Type.number(),
+    disabled: Type.boolean(),
+    type: Type.string(),
+  },
+  { _id: false }
+);
+const SelectPropsSchema = createSchema(
+  {
+    name: Type.string(),
+    disabled: Type.boolean(),
+    options: Type.array().of(Type.string()),
+  },
+  { _id: false }
+);
+
+const GridTemplateEntrySchema = createSchema(
+
+  { _id: false, __v: false }
+); */
 // gridSchema.plugin(paginate);
 // export type GridDoc = ExtractDoc<typeof GridSchema>;
 // export type Grid = Omit<ExtractProps<typeof GridSchema>, '__v'>;
-
-export default mongoose.models.Grid || mongoose.model('Grid', GridSchema);
 
 /* import * as Mongoose from "mongoose";
 import { Grid } from "../interfaces/grid.interface";

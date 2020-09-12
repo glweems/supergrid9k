@@ -1,5 +1,6 @@
 // next.config.js
 module.exports = {
-  reactStrictMode: true,
+  reactStrictMode: false,
+  fastRefresh: false,
   pageExtensions: ['tsx', 'ts'],
 };

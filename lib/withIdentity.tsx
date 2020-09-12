@@ -1,8 +1,10 @@
-import React, { useContext } from 'react';
-import nextCookie from 'next-cookies';
-import redirect from './redirect';
-import NextApp, { AppInitialProps, AppContext } from 'next/app';
 import { NextPageContext } from 'next';
+import nextCookie from 'next-cookies';
+import NextApp, { AppContext, AppInitialProps } from 'next/app';
+import React from 'react';
+import { RecoilRoot } from 'recoil';
+import ContextProvider from '../components/ContextProvider';
+import redirect from './redirect';
 
 export interface UserIdentity {
   id: number;
@@ -12,9 +14,8 @@ export interface UserIdentity {
 type IdentityProviderProps = Readonly<AppInitialProps> & {
   session: UserIdentity;
 };
-const IdentityContext = React.createContext<UserIdentity>((null as unknown) as UserIdentity);
 
-const loginPage = '/auth/login';
+const loginPage = '/';
 
 export const redirectToLogin = (ctx: NextPageContext) => {
   if (
@@ -60,9 +61,6 @@ const withIdentity = (App: NextApp | any) => {
       } = JSON.parse(serializedCookie);
 
       // redirect to login if cookie exists but is empty
-      if (!user) {
-        redirectToLogin(ctx.ctx);
-      }
 
       const session: UserIdentity = user;
 
@@ -76,14 +74,14 @@ const withIdentity = (App: NextApp | any) => {
       const { session, ...appProps } = this.props;
 
       return (
-        <IdentityContext.Provider value={session}>
-          <App {...appProps} />
-        </IdentityContext.Provider>
+        <RecoilRoot>
+          <ContextProvider session={session}>
+            <App {...appProps} />
+          </ContextProvider>
+        </RecoilRoot>
       );
     }
   };
 };
 
 export default withIdentity;
-
-export const useIdentity = (): UserIdentity => useContext(IdentityContext);
