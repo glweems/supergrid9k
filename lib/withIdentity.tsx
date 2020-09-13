@@ -4,15 +4,11 @@ import NextApp, { AppContext, AppInitialProps } from 'next/app';
 import React from 'react';
 import { RecoilRoot } from 'recoil';
 import ContextProvider from '../components/ContextProvider';
+import { githubSessionToUserObj } from './passport/github';
 import redirect from './redirect';
 
-export interface UserIdentity {
-  id: number;
-  name: string;
-  email: string;
-}
 type IdentityProviderProps = Readonly<AppInitialProps> & {
-  session: UserIdentity;
+  session: any;
 };
 
 const loginPage = '/';
@@ -48,22 +44,26 @@ const withIdentity = (App: NextApp | any) => {
         redirectToLogin(ctx.ctx);
         return Promise.resolve({
           pageProps: null,
-          session: (null as unknown) as UserIdentity,
+          session: (null as unknown) as any,
         });
       }
 
       const serializedCookie = Buffer.from(passportSession, 'base64').toString();
 
       const {
-        passport: { user },
+        passport: { user: ghUser },
       }: {
-        passport: { user: UserIdentity };
+        passport: { user: any };
       } = JSON.parse(serializedCookie);
 
       // redirect to login if cookie exists but is empty
 
-      const session: UserIdentity = user;
-
+      const session = ghUser;
+      try {
+        // await checkuser(githubSessionToUserObj(ghUser._json)).then((res) => console.log(res));
+      } catch (error) {
+        console.error(error);
+      }
       return {
         ...appProps,
         session,

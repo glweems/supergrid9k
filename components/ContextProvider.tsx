@@ -1,11 +1,15 @@
 import { auth } from '@/store/auth';
+import Axios from 'axios';
 import React from 'react';
 import Modal from 'react-modal';
+import { useQuery } from 'react-query';
 import { ReactQueryDevtools } from 'react-query-devtools';
 import { Box, Link } from 'rebass/styled-components';
 import { useRecoilState } from 'recoil';
 import { ThemeProvider } from 'styled-components/macro';
+import { githubSessionToUserObj } from '../lib/passport/github';
 import theme from '../lib/theme';
+import { checkuser } from '../models/User';
 import { ui, useAuthModal } from '../store/ui';
 Modal.setAppElement('#__next');
 const AuthModal = () => {
@@ -25,15 +29,8 @@ const AuthModal = () => {
 interface ContextProviderProps {
   session: any;
 }
-const ContextProvider: React.FC<ContextProviderProps> = ({ children, session }) => {
-  // const idk = React.useMemo(session, session);
-  //
-  const [user, setUser] = useRecoilState(auth);
-  React.useEffect(() => {
-    if (!user && session) {
-      setUser(session);
-    }
-  }, [session, setUser, user]);
+const ContextProvider: React.FC<ContextProviderProps> = ({ children, ...props }) => {
+  console.log(props);
 
   return (
     <ThemeProvider theme={theme}>

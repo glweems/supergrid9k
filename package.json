@@ -12,6 +12,7 @@
     "create"
   ],
   "dependencies": {
+    "@hapi/iron": "^6.0.0",
     "@rebass/forms": "^4.0.6",
     "@types/mongoose": "^5.7.36",
     "@types/react-modal": "^3.10.6",
@@ -24,7 +25,9 @@
     "framer-motion": "^2.6.10",
     "micro-redirect": "^1.0.2",
     "mongoose": "^5.10.4",
+    "mongoose-findorcreate": "^3.0.0",
     "next": "^9.5.3",
+    "next-connect": "^0.9.0",
     "next-cookies": "^2.0.3",
     "passport": "^0.4.1",
     "passport-github": "^1.1.0",
@@ -52,9 +55,11 @@
     "styled-components": "^5.1.1",
     "styled-media-query": "^2.1.2",
     "styled-system": "^5.1.5",
+    "swr": "^0.3.2",
     "typescript": "^4.0.2",
     "typography": "^0.16.19",
-    "typography-plugin-code": "^0.16.19"
+    "typography-plugin-code": "^0.16.19",
+    "validator": "^13.1.1"
   },
   "scripts": {
     "dev": "next",

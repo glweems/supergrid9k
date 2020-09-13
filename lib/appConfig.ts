@@ -25,5 +25,5 @@ const appConfig: AppConfig = {
     scope: 'user:email',
   },
 };
-
+console.log('appConfig: ', appConfig);
 export default appConfig;

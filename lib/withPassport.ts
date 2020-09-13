@@ -1,16 +1,14 @@
-import passport from 'passport';
 import cookieSession from 'cookie-session';
-import url from 'url';
 import redirect from 'micro-redirect';
-import { github } from './passport';
-import { UserIdentity } from './withIdentity';
+import passport from 'passport';
 import { Profile } from 'passport-github';
+import url from 'url';
 export { default as passport } from 'passport';
 
-passport.use(github);
+// passport.use(github);
 
 export interface PassportSession {
-  passport: { user: UserIdentity };
+  // passport: { user: UserIdentity };
 }
 
 // Configure Passport authenticated session persistence.

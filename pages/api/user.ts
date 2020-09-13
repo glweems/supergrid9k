@@ -1,8 +1,7 @@
-import { NextApiResponse, NextApiRequest } from 'next';
-import passport from '@/lib/passport';
-import { Mongoose } from 'mongoose';
+import Mongoose from 'mongoose';
 import nextConnect from 'next-connect';
-import auth from '../../../../middleware/auth';
+import auth from './../../middleware/auth';
+
 const handler = nextConnect();
 
 handler

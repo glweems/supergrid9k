@@ -1,5 +1,5 @@
-import { NextApiResponse, NextApiRequest } from 'next';
-import withPassport, { passport } from '@/lib/withPassport';
+import { NextApiRequest, NextApiResponse } from 'next';
+import passport from '@/lib/passport';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { provider } = req.query;
@@ -8,12 +8,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    await passport.authenticate(provider)(req, res, (...args) => {
-      console.log('passport authenticated', args);
-    });
+    await passport.authenticate(provider);
   } catch (err) {
-    return res.status(500);
+    res.status(500);
   }
 };
 
-export default withPassport(handler);
+export default handler;

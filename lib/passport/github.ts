@@ -1,6 +1,43 @@
 import { Strategy as GithubStrategy } from 'passport-github';
+import { SuperGrid9kUser } from '../../models/User';
 import appConfig from '../appConfig';
-
+export interface GithubJsonObject {
+  login: string;
+  id: number;
+  node_id: string;
+  avatar_url: string;
+  gravatar_id: string;
+  url: string;
+  html_url: string;
+  followers_url: string;
+  following_url: string;
+  gists_url: string;
+  starred_url: string;
+  subscriptions_url: string;
+  organizations_url: string;
+  repos_url: string;
+  events_url: string;
+  received_events_url: string;
+  type: string;
+  site_admin: boolean;
+  name: string;
+  company: string;
+  blog: string;
+  location: string;
+  email: string;
+  hireable: boolean;
+  bio: string;
+  twitter_username?: any;
+  public_repos: number;
+  public_gists: number;
+  followers: number;
+  following: number;
+  created_at: string;
+  updated_at: string;
+}
+export interface GithubSession {
+  _json: GithubJsonObject;
+}
 // STATICALLY configure the Github strategy for use by Passport.
 //
 // OAuth 2.0-based strategies require a `verify` function which receives the
@@ -24,3 +61,15 @@ const strategy = new GithubStrategy(appConfig.github, (accessToken, refreshToken
 });
 
 export default strategy;
+
+export function githubSessionToUserObj(session?: GithubJsonObject): SuperGrid9kUser {
+  if (!session) return;
+
+  return {
+    _id: String(session.id),
+    username: session.login,
+    email: session.email,
+    tbn: session.avatar_url,
+    bio: session.bio,
+  };
+}

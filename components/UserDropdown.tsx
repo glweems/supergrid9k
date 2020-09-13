@@ -41,7 +41,7 @@ const UserDropdown = ({ user }: Props) => {
         </Box>
       )}
       values={[]}
-      placeholder={user.photos[0].value}
+      placeholder={user?.photos?.[0]?.value}
       dropdownHandle={false}
       onChange={() => undefined}
       name={user.username}

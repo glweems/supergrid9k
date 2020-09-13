@@ -25,6 +25,5 @@ export default async function dbConnect() {
       return config;
     });
 
-  if (!db) console.error('failed to connect...');
-  else connection = { ...db, isConnected: db.connection.readyState };
+  connection = { ...db, isConnected: db.connections[0].readyState };
 }
