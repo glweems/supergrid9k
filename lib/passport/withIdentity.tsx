@@ -1,11 +1,12 @@
+import Axios from 'axios';
 import { NextPageContext } from 'next';
 import nextCookie from 'next-cookies';
 import NextApp, { AppContext, AppInitialProps } from 'next/app';
 import React from 'react';
 import { RecoilRoot } from 'recoil';
-import ContextProvider from '../../components/ContextProvider';
-import { SuperGrid9kUser } from '../../models/User';
-import redirect from '../redirect';
+import ContextProvider from '@/components/ContextProvider';
+import { SuperGrid9kUser } from '@/models/User';
+import redirect from '@/lib/redirect';
 
 export type UserIdentity = SuperGrid9kUser;
 
@@ -57,6 +58,10 @@ const withIdentity = (App: NextApp | any) => {
       }: {
         passport: { user: UserIdentity };
       } = JSON.parse(serializedCookie);
+
+      await Axios.post('http://localhost:3000/api/user', user)
+        .then((idk) => console.log(idk.data))
+        .catch((err) => console.error(err));
 
       // redirect to login if cookie exists but is empty
 
