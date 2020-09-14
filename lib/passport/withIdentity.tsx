@@ -54,18 +54,18 @@ const withIdentity = (App: NextApp | any) => {
       const serializedCookie = Buffer.from(passportSession, 'base64').toString();
 
       const {
-        passport: { user },
+        passport: { user: ghUser },
       }: {
         passport: { user: UserIdentity };
       } = JSON.parse(serializedCookie);
 
-      await Axios.post('http://localhost:3000/api/user', user)
+      const user = await Axios.post(`http://localhost:3000/api/user`, ghUser)
         .then((idk) => console.log(idk.data))
         .catch((err) => console.error(err));
 
       // redirect to login if cookie exists but is empty
 
-      const session: UserIdentity = user;
+      const session: UserIdentity = ghUser;
 
       return {
         ...appProps,

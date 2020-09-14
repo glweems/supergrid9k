@@ -5,8 +5,11 @@ import { ReactQueryDevtools } from 'react-query-devtools';
 import { Box, Link } from 'rebass/styled-components';
 import { useRecoilState } from 'recoil';
 import { ThemeProvider } from 'styled-components/macro';
-import theme from '../lib/theme';
-import { ui, useAuthModal } from '../store/ui';
+import theme from '@/lib/theme';
+import { ui, useAuthModal } from '@/store/ui';
+import useSWR from 'swr';
+import Axios from 'axios';
+
 Modal.setAppElement('#__next');
 const AuthModal = () => {
   const [state] = useAuthModal();
@@ -27,7 +30,6 @@ interface ContextProviderProps {
 }
 const ContextProvider: React.FC<ContextProviderProps> = ({ children, session }) => {
   // const idk = React.useMemo(session, session);
-  //
   const [user, setUser] = useRecoilState(auth);
   React.useEffect(() => {
     if (!user && session) {
