@@ -4,7 +4,7 @@ import App, { AppContext, AppProps } from 'next/app';
 import Head from 'next/head';
 import React from 'react';
 import { setCssArrayVariables, setCssObjectVariables } from '../lib/setCssVariables';
-import withIdentity from '../lib/withIdentity';
+import withIdentity from '@/lib/passport/withIdentity';
 
 class MyApp extends App<AppProps<{ dehydratedState: any }>> {
   static async getInitialProps({ Component, ctx }: AppContext) {
@@ -24,6 +24,7 @@ class MyApp extends App<AppProps<{ dehydratedState: any }>> {
       'space'
     );
     const { Component, pageProps } = this.props;
+
     return (
       <React.Fragment>
         <Head>

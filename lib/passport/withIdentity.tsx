@@ -3,14 +3,12 @@ import nextCookie from 'next-cookies';
 import NextApp, { AppContext, AppInitialProps } from 'next/app';
 import React from 'react';
 import { RecoilRoot } from 'recoil';
-import ContextProvider from '../components/ContextProvider';
-import redirect from './redirect';
+import ContextProvider from '../../components/ContextProvider';
+import { SuperGrid9kUser } from '../../models/User';
+import redirect from '../redirect';
 
-export interface UserIdentity {
-  id: number;
-  name: string;
-  email: string;
-}
+export type UserIdentity = SuperGrid9kUser;
+
 type IdentityProviderProps = Readonly<AppInitialProps> & {
   session: UserIdentity;
 };

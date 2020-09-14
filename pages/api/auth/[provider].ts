@@ -1,19 +1,15 @@
 import { NextApiResponse, NextApiRequest } from 'next';
-import withPassport, { passport } from '@/lib/withPassport';
+import withPassport, { passport } from '@/lib/passport/withPassport';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { provider } = req.query;
   if (!provider) {
-    res.status(400);
+    return { statusCode: 404 };
   }
 
-  try {
-    await passport.authenticate(provider)(req, res, (...args) => {
-      console.log('passport authenticated', args);
-    });
-  } catch (err) {
-    return res.status(500);
-  }
+  await passport.authenticate(provider)(req, res, (...args) => {
+    console.log('passport authenticated', args);
+  });
 };
 
 export default withPassport(handler);
