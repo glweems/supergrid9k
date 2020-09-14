@@ -36,4 +36,4 @@ class MyApp extends App<AppProps<{ dehydratedState: any }>> {
     );
   }
 }
-export default withIdentity(MyApp);
+export default MyApp;

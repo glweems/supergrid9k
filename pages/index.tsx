@@ -1,18 +1,56 @@
-import GridEditor from '@/components/GridEditor/GridEditor';
-import { defaultGridState } from '@/lib/utils';
-import Navbar from '@/ui/Navbar';
+import useSWR from 'swr';
+import Link from 'next/link';
+import { useUser } from '@/lib/auth/useUser';
 import React from 'react';
-import Div100vh from 'react-div-100vh';
-import { useRecoilState } from 'recoil';
-import { auth } from '@/store/auth';
-export default function IndexPage() {
-  const [user] = useRecoilState(auth);
-  console.log('user: ', user);
+const fetcher = (url, token) =>
+  fetch(url, {
+    method: 'GET',
+    headers: new Headers({ 'Content-Type': 'application/json', token }),
+    credentials: 'same-origin',
+  }).then((res) => res.json());
+
+const Index = () => {
+  const { user, logout } = useUser();
+  const { data, error } = useSWR(user ? ['/api/getFood', user.token] : null, fetcher);
+  if (!user) {
+    return (
+      <>
+        <p>Hi there!</p>
+        <p>
+          You are not signed in.{' '}
+          <Link href={'/auth'}>
+            <a>Sign in</a>
+          </Link>
+        </p>
+      </>
+    );
+  }
 
   return (
-    <Div100vh>
-      <Navbar title="super grid 9k" />
-      <GridEditor grid={{ ...defaultGridState, initialState: defaultGridState }} />
-    </Div100vh>
+    <div>
+      <div>
+        <p>You're signed in. Email: {user.email}</p>
+        <p
+          style={{
+            display: 'inline-block',
+            color: 'blue',
+            textDecoration: 'underline',
+            cursor: 'pointer',
+          }}
+          onClick={() => logout()}
+        >
+          Log out
+        </p>
+      </div>
+      <div>
+        <Link href={'/example'}>
+          <a>Another example page</a>
+        </Link>
+      </div>
+      {error && <div>Failed to fetch food!</div>}
+      {data && !error ? <div>Your favorite food is {data.food}.</div> : <div>Loading...</div>}
+    </div>
   );
-}
+};
+
+export default Index;
