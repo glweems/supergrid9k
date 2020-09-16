@@ -2,6 +2,7 @@ import React from 'react';
 import Base, { SelectProps } from 'react-dropdown-select';
 import { Box, Image, Link } from 'rebass';
 import styled from 'styled-components/macro';
+import { useUser } from '../store/auth';
 
 const BaseSelect = (props: SelectProps<{ label: string; path: string }>) => (
   <Base<{ label: string; path: string }> {...props} />
@@ -18,12 +19,8 @@ const Select = styled(BaseSelect)`
   }
 `;
 
-interface Props {
-  user: null | any;
-}
-
-const UserDropdown = ({ user }: Props) => {
-  if (!user) return null;
+const UserDropdown = () => {
+  const user = useUser();
   return (
     <Select
       direction="rtl"
@@ -41,15 +38,19 @@ const UserDropdown = ({ user }: Props) => {
         </Box>
       )}
       values={[]}
-      placeholder={user.tbn}
+      placeholder={user.photoURL}
       dropdownHandle={false}
       onChange={() => undefined}
-      name={user.username}
+      name={user.displayName}
       searchable={false}
       options={[
         {
           label: 'Logout',
           path: '/api/auth/logout',
+        },
+        {
+          label: 'Profile',
+          path: '/',
         },
       ]}
       itemRenderer={({ item }) => (

@@ -1,5 +1,5 @@
 import initFirebase from '@/lib/auth/initFirebase';
-import { mapUserData } from '@/lib/auth/mapUserData';
+import mapUserData from '@/lib/auth/mapUserData';
 import { setUserCookie } from '@/lib/auth/userCookies';
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -27,6 +27,7 @@ const firebaseAuthConfig = {
   credentialHelper: 'none',
   callbacks: {
     signInSuccessWithAuthResult: async ({ user }, redirectUrl) => {
+      console.log('redirectUrl: ', redirectUrl);
       const userData = mapUserData(user);
       setUserCookie(userData);
     },

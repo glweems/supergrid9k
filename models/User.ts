@@ -1,14 +1,7 @@
 import Mongoose, { Schema } from 'mongoose';
 import validator from 'validator';
+import { SuperGrid9kUser } from '../lib/auth/mapUserData';
 import { GridSchema } from './Grid';
-
-export interface SuperGrid9kUser {
-  _id: string;
-  username: string;
-  email: string;
-  tbn: string;
-  bio: string;
-}
 
 const UserSchema = new Schema(
   {

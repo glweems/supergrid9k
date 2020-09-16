@@ -101,7 +101,7 @@ export const defaultSelectProps = {
 
 export function dataToCss(entries: Pick<GridTemplateEntry, 'amount' | 'unit'>[]) {
   return entries
-    .map(({ amount, unit }) => `${amount}${unit}`)
+    ?.map(({ amount, unit }) => `${amount}${unit}`)
     .toString()
     .split(',')
     .join(' ');

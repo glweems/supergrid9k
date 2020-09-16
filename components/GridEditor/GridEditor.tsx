@@ -1,11 +1,7 @@
-import { AnimatePresence, motion } from 'framer-motion';
-import React from 'react';
-import { Button } from 'rebass/styled-components';
-import { useRecoilState } from 'recoil';
-import { ArrowShortLeftIcon } from '@/lib/Icons';
 import { grid, GridState } from '@/store/grid';
-import { useGridEditorUi } from '@/store/ui';
 import Box from '@/ui/Box';
+import React from 'react';
+import { useRecoilState } from 'recoil';
 import CodePenButton from '../CodePenButton';
 import CodeViewer from '../CodeViewer';
 import CodeViewerControls from '../CodeViewerControls';
@@ -20,39 +16,25 @@ export interface GridEditorProps {
 }
 
 const GridEditor: React.FC<GridEditorProps> = ({ grid: gridProp }) => {
+  console.log('gridProps', gridProp);
   const [gridState, setGridState] = useRecoilState(grid);
-  const { isControlsOpen, controlPanelWidth, codePanelWidth, handleClick } = useGridEditorUi();
 
   React.useEffect(() => {
-    !gridState && setGridState(gridProp);
+    if (!gridState) {
+      console.log(gridProp);
+      setGridState(gridProp);
+    }
   }, [gridProp, gridState, setGridState]);
 
+  // const gelProps = { controlPanelWidth, codePanelWidth };
   if (!gridState) return null;
 
-  const gelProps = { controlPanelWidth, codePanelWidth };
-
   return (
-    <GridEditorLayout maxHeight="calc(100vh - 40px)" {...gelProps}>
-      <AnimatePresence>
-        {isControlsOpen ? (
-          <Box
-            as={motion.aside}
-            className="grid-sidebar"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1, width: controlPanelWidth }}
-            exit={{ opacity: 0, width: 0, x: -100 }}
-          >
-            <Button name="isControlsOpen" bg="secondary" width="100%" marginBottom={4} onClick={handleClick}>
-              <ArrowShortLeftIcon />
-            </Button>
-            <GridEditorControls />
-            <GridEditorResetButton />
-          </Box>
-        ) : (
-          <div className="grid-sidebar" />
-        )}
-      </AnimatePresence>
-
+    <GridEditorLayout maxHeight="calc(100vh - 40px)">
+      <div className="grid-sidebar">
+        <GridEditorControls />
+        <GridEditorResetButton />
+      </div>
       <Box className="grid-entries">
         <GridEditorItems />
       </Box>

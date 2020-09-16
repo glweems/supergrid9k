@@ -1,19 +1,28 @@
-import React from 'react';
 import { NextComponentType } from 'next';
-import CodeBlock from '../components/CodeBlock';
-import withIdentity from '../lib/passport/withIdentity';
+import React from 'react';
+import { Box, Flex, Heading, Image, Text } from 'rebass/styled-components';
+import { useUser } from '@/store/auth';
+import Container from '@/ui/Container';
+import Navbar from '@/ui/Navbar';
 
-const ProfilePage: NextComponentType<React.FC> = (props) => {
+const ProfilePage: NextComponentType<React.FC> = () => {
+  const user = useUser();
   return (
-    <div>
-      <CodeBlock language="json" code={JSON.stringify(props, null, 2)} />
-    </div>
+    <React.Fragment>
+      <Navbar title={user?.displayName} />
+      <Container padding={3}>
+        <Flex>
+          <Box marginRight={3}>
+            <Image src={user?.photoURL} variant="avatar" />
+          </Box>
+          <Box>
+            <Heading>{user?.displayName}</Heading>
+            <Text>{user?.email}</Text>
+          </Box>
+        </Flex>
+      </Container>
+    </React.Fragment>
   );
 };
 
-ProfilePage.getInitialProps = async (context) => {
-  console.log('context: ', context);
-  return { hi: '' };
-};
-
-export default withIdentity(ProfilePage);
+export default ProfilePage;

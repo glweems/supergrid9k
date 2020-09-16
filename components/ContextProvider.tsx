@@ -1,14 +1,12 @@
-import { auth } from '@/store/auth';
+import theme from '@/lib/theme';
+import { ui, useAuthModal } from '@/store/ui';
 import React from 'react';
 import Modal from 'react-modal';
 import { ReactQueryDevtools } from 'react-query-devtools';
 import { Box, Link } from 'rebass/styled-components';
 import { useRecoilState } from 'recoil';
 import { ThemeProvider } from 'styled-components/macro';
-import theme from '@/lib/theme';
-import { ui, useAuthModal } from '@/store/ui';
-import useSWR from 'swr';
-import Axios from 'axios';
+import useAuth from '../lib/auth/useAuth';
 
 Modal.setAppElement('#__next');
 const AuthModal = () => {
@@ -26,21 +24,15 @@ const AuthModal = () => {
   );
 };
 interface ContextProviderProps {
-  session: any;
+  session?: any;
 }
-const ContextProvider: React.FC<ContextProviderProps> = ({ children, session }) => {
-  // const idk = React.useMemo(session, session);
-  const [user, setUser] = useRecoilState(auth);
-  React.useEffect(() => {
-    if (!user && session) {
-      setUser(session);
-    }
-  }, [session, setUser, user]);
+const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
+  useAuth();
 
   return (
     <ThemeProvider theme={theme}>
-      <ReactQueryDevtools />
       <AuthModal />
+      <ReactQueryDevtools />
       {children}
     </ThemeProvider>
   );
