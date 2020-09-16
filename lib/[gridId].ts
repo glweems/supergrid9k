@@ -17,7 +17,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     width: 1000,
     height: 400,
   });
-  console.log('data: ', data);
+
   const img = Buffer.from(data, 'base64');
   res.writeHead(200, { 'Content-Type': 'image/png', 'Content-Length': img.length });
 

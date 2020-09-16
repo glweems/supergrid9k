@@ -1,5 +1,9 @@
 import React from 'react';
-import { Box, BoxProps, Flex, FlexProps, Heading } from 'rebass/styled-components';
+import NextLink from 'next/link';
+
+import { Box, BoxProps, Flex, FlexProps, Heading, Link } from 'rebass/styled-components';
+import { useUser } from '../store/auth';
+import UserDropdown from '../components/UserDropdown';
 
 interface NavbarProps {
   title?: React.ReactText | React.ReactNode;
@@ -10,6 +14,8 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ title, children, flexProps, boxProps, headingProps }) => {
+  const user = useUser();
+
   return (
     <Flex as="header" {...flexProps}>
       <Box>
@@ -22,12 +28,26 @@ const Navbar: React.FC<NavbarProps> = ({ title, children, flexProps, boxProps, h
       <Box as="nav" {...boxProps}>
         {children}
       </Box>
+
+      <Box>
+        {user ? (
+          <UserDropdown />
+        ) : (
+          <Link as={NextLink} href="/auth">
+            login
+          </Link>
+        )}
+      </Box>
     </Flex>
   );
 };
 
 Navbar.defaultProps = {
-  title: 'Super Grid 9k',
+  title: (
+    <Link as={NextLink} href="/">
+      Super Grid 9K
+    </Link>
+  ),
   flexProps: {
     px: 2,
     color: 'text',

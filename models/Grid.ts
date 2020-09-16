@@ -1,32 +1,23 @@
-import mongoose from 'mongoose';
-
-export const GridSchema = new mongoose.Schema(
+import mongoose, { Schema } from 'mongoose';
+const GridTemplateEntrySchema = new Schema(
   {
-    gridTemplateRows: [
-      {
-        id: String,
-        amount: String,
-        unit: String,
-      },
-    ],
-    gridTemplateColumns: [
-      {
-        id: String,
-        amount: String,
-        unit: String,
-      },
-    ],
-    gridGap: [
-      {
-        id: String,
-        amount: String,
-        unit: String,
-      },
-    ],
+    id: String,
+    amount: String,
+    unit: String,
+  },
+  { _id: false, validateBeforeSave: true }
+);
+
+export const GridSchema = new Schema(
+  {
+    gridTemplateRows: [GridTemplateEntrySchema],
+    gridTemplateColumns: [GridTemplateEntrySchema],
+    gridGap: [GridTemplateEntrySchema],
     gridContainerClassName: String,
     useCssRepeatFn: Boolean,
+    owner: { type: String, index: true },
   },
-  { timestamps: true }
+  { timestamps: true, validateBeforeSave: true }
 );
 
 export default mongoose.models.Grid || mongoose.model('Grid', GridSchema);

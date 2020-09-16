@@ -1,4 +1,4 @@
-import Mongoose, { Schema } from 'mongoose';
+import Mongoose, { Model, model, Schema } from 'mongoose';
 import validator from 'validator';
 import { SuperGrid9kUser } from '../lib/auth/mapUserData';
 import { GridSchema } from './Grid';
@@ -22,7 +22,6 @@ const UserSchema = new Schema(
   { timestamps: true, validateBeforeSave: true }
 );
 
-const UserModel: Mongoose.Model<Mongoose.Document & SuperGrid9kUser> =
-  Mongoose.models.User || Mongoose.model('User', UserSchema);
+const UserModel: Model<Mongoose.Document & SuperGrid9kUser> = Mongoose.models.User || model('User', UserSchema);
 
 export default UserModel;
