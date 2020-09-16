@@ -46,11 +46,11 @@ const UserDropdown = () => {
       options={[
         {
           label: 'Logout',
-          path: '/api/auth/logout',
+          path: '/logout',
         },
         {
           label: 'Profile',
-          path: '/',
+          path: '/profile',
         },
       ]}
       itemRenderer={({ item }) => (

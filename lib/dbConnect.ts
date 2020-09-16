@@ -1,30 +1,39 @@
-/* This is a database connection function*/
-import mongoose, { Mongoose } from 'mongoose';
-type DbConnectionObj = Mongoose & { isConnected?: number };
+import 'colors';
+import mongoose from 'mongoose';
 
-let connection: DbConnectionObj = null; /* creating connection object*/
+const { MONGODB_URI: uri } = process.env;
 
 export default async function dbConnect() {
   /* check if we have connection to our databse*/
-  if (connection?.isConnected) {
+  if (mongoose.connections[0].readyState) {
     return;
   }
 
   /* connecting to our database */
-  const { MONGODB_URI } = process.env;
 
-  const db = await mongoose
-    .connect(MONGODB_URI, {
-      useCreateIndex: true,
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useFindAndModify: false,
-    })
-    .then((config) => {
-      console.log('Connected To Database');
-      return config;
+  await mongoose.connect(uri, {
+    useCreateIndex: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  });
+
+  mongoose.connection.on('connected', () => {
+    console.log('Mongoose default connection is open to '.america, uri);
+  });
+
+  mongoose.connection.on('error', (err) => {
+    console.log('Mongoose default connection has occured ' + err + ' error');
+  });
+
+  mongoose.connection.on('disconnected', () => {
+    console.log('Mongoose default connection is disconnected');
+  });
+
+  process.on('SIGINT', function () {
+    mongoose.connection.close(() => {
+      console.log('Mongoose default connection is disconnected due to application termination');
+      process.exit(0);
     });
-
-  if (!db) console.error('failed to connect...');
-  else connection = { ...db, isConnected: db.connection.readyState };
+  });
 }

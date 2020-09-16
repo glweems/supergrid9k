@@ -8,7 +8,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     case 'GET':
       {
         try {
-          const grids = await Grid.find();
+          const grids = await Grid.find(req.query);
           return res.status(200).json(grids);
         } catch (err) {
           res.status(500).json(err);

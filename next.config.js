@@ -1,5 +1,6 @@
 // Use the hidden-source-map option when you don't want the source maps to be
 // publicly available on the servers, only to the error reporting
+
 const withSourceMaps = require('@zeit/next-source-maps');
 
 // Use the SentryWebpack plugin to upload the source maps during build step
@@ -20,8 +21,7 @@ const COMMIT_SHA = VERCEL_GITHUB_COMMIT_SHA || VERCEL_GITLAB_COMMIT_SHA || VERCE
 process.env.SENTRY_DSN = SENTRY_DSN;
 
 module.exports.config = {
-  reactStrictMode: false,
-  fastRefresh: false,
+  reactStrictMode: true,
   pageExtensions: ['tsx', 'ts'],
 };
 

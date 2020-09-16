@@ -1,7 +1,9 @@
 import Axios from 'axios';
+import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { ButtonProps } from 'rebass/styled-components';
 import { useRecoilState } from 'recoil';
+import { useUser } from '../store/auth';
 import { dirtyGrid, grid, GridState } from '../store/grid';
 import { omit } from './utils';
 
@@ -36,13 +38,15 @@ export function useGrid(gridId: string) {
 export function useCreateGrid(): ButtonProps {
   const [gridState] = useRecoilState(grid);
   const [isDirty] = useRecoilState(dirtyGrid);
+  const router = useRouter();
+  const user = useUser();
+  const newGrid = { ...omit(gridState, '_id', 'initialState'), owner: user?.id };
 
-  const newGrid = gridState && omit(gridState, '_id');
   const { isLoading, refetch, error } = useQuery(['createGrid', newGrid], create, { enabled: false });
 
   const handleClick: React.MouseEventHandler<any> = async () => {
     await refetch().then((res) => {
-      window.location.assign(`/grid/${res._id}`);
+      router.push(`/grid/${res._id}`);
     });
   };
   const buttonText = isLoading ? 'Loading' : error ? 'Error' : 'save ';

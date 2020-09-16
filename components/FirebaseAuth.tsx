@@ -26,8 +26,7 @@ const firebaseAuthConfig = {
   signInSuccessUrl: '/profile',
   credentialHelper: 'none',
   callbacks: {
-    signInSuccessWithAuthResult: async ({ user }, redirectUrl) => {
-      console.log('redirectUrl: ', redirectUrl);
+    signInSuccessWithAuthResult: async ({ user }) => {
       const userData = mapUserData(user);
       setUserCookie(userData);
     },

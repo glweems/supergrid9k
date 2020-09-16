@@ -2,6 +2,8 @@ import { grid, GridState } from '@/store/grid';
 import Box from '@/ui/Box';
 import React from 'react';
 import { useRecoilState } from 'recoil';
+import { omit } from '../../lib/utils';
+import { useUser } from '../../store/auth';
 import CodePenButton from '../CodePenButton';
 import CodeViewer from '../CodeViewer';
 import CodeViewerControls from '../CodeViewerControls';
@@ -15,16 +17,22 @@ export interface GridEditorProps {
   grid?: GridState;
 }
 
+function useCleanGridState(obj) {
+  const user = useUser();
+
+  const readyState = { ...omit(obj, '_id'), initalState: obj, user };
+  return readyState;
+}
+
 const GridEditor: React.FC<GridEditorProps> = ({ grid: gridProp }) => {
-  console.log('gridProps', gridProp);
   const [gridState, setGridState] = useRecoilState(grid);
+  const obj = useCleanGridState(gridProp);
 
   React.useEffect(() => {
     if (!gridState) {
-      console.log(gridProp);
-      setGridState(gridProp);
+      setGridState(obj);
     }
-  }, [gridProp, gridState, setGridState]);
+  }, [gridState, obj, setGridState]);
 
   // const gelProps = { controlPanelWidth, codePanelWidth };
   if (!gridState) return null;

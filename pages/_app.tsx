@@ -25,7 +25,6 @@ class MyApp extends App<AppProps<{ dehydratedState: any }>> {
       'space'
     );
     const { Component, pageProps } = this.props;
-
     return (
       <React.Fragment>
         <Head>

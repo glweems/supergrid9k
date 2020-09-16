@@ -31,18 +31,22 @@ const gridEditorUi = selector({
   get: ({ get }) => get(ui).gridEditor,
 });
 
-const activeEditingId = selector({
+const activeEditingId = selector<string>({
   key: 'activeEditingId',
   get: ({ get }) => get(gridEditorUi).activeEditingId,
   set: ({ set, get }, newValue) => {
     const { gridEditor } = get(ui);
-    set(ui, (state) => ({
-      ...state,
-      gridEditor: {
-        ...gridEditor,
-        activeEditingId: newValue,
-      },
-    }));
+    set(
+      ui,
+      (state) =>
+        ({
+          ...state,
+          gridEditor: {
+            ...gridEditor,
+            activeEditingId: newValue,
+          },
+        } as any)
+    );
   },
 });
 
