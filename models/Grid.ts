@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const GridSchema = new mongoose.Schema(
+export const GridSchema = new mongoose.Schema(
   {
     gridTemplateRows: [
       {
@@ -26,7 +26,7 @@ const GridSchema = new mongoose.Schema(
     gridContainerClassName: String,
     useCssRepeatFn: Boolean,
   },
-  { timestamps: { createdAt: true } }
+  { timestamps: true }
 );
 
 export default mongoose.models.Grid || mongoose.model('Grid', GridSchema);

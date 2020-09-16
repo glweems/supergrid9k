@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import captureWebsite from 'capture-website';
+import { hostingURL } from './appConfig';
 export const config = {
   api: {
     bodyParser: false, // Disallow body parsing, consume as stream
@@ -7,7 +8,7 @@ export const config = {
   },
 };
 export default async function (req: NextApiRequest, res: NextApiResponse) {
-  const data = await captureWebsite.base64(`http://localhost:3000/grid/${req.query?.gridId}`, {
+  const data = await captureWebsite.base64(`${hostingURL}/grid/${req.query?.gridId}`, {
     waitForElement: '.grid-entries',
     element: '.grid-entries',
     scaleFactor: 1,

@@ -12,7 +12,7 @@ const getOAuthUrls: (hostName: string, app: string) => { callbackURL: string } =
 });
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
-const hostingURL = process.env.HOSTING_URL || 'http://localhost:3000';
+export const hostingURL = process.env.HOSTING_URL || 'http://localhost:3000';
 
 const appConfig: AppConfig = {
   isDevelopment,

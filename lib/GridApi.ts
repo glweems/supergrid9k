@@ -23,12 +23,10 @@ export const create = async (_: unknown, grid: GridState) => await GridInstance.
  * @returns
  */
 export function useGrid(gridId: string) {
-  const [, setGridState] = useRecoilState(grid);
-
   const { data, isLoading, error } = useQuery<void, string>(
     gridId,
     (id) => {
-      getGridById(id).then(({ data }) => setGridState({ ...data, initialState: data }));
+      getGridById(id).then(({ data }) => data);
     },
     { enabled: typeof gridId === 'string' }
   );

@@ -14,9 +14,11 @@ import {
   PositionProps,
   space,
   SpaceProps,
+  textAlign,
+  TextAlignProps,
 } from 'styled-system';
 import theme, { SuperGrid9kTheme } from '../lib/theme';
-
+import { Box as RebassBox } from 'rebass/styled-components';
 export interface BoxProps
   extends SpaceProps,
     BorderProps,
@@ -24,11 +26,12 @@ export interface BoxProps
     PositionProps,
     FlexboxProps,
     ColorProps<SuperGrid9kTheme>,
-    GridProps {}
+    GridProps,
+    TextAlignProps {}
 
-export const boxComposition = compose(grid, color, layout, space, flexbox, border);
+export const boxComposition = compose(grid, color, layout, space, flexbox, border, textAlign);
 
-const Box = styled.div<BoxProps>`
+const Box = styled(RebassBox)<BoxProps>`
   ${boxComposition}
 `;
 

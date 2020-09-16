@@ -75,6 +75,7 @@ export const gridContainerClassName = selector<string>({
   key: 'gridContainerClassName',
   get: ({ get }) => {
     const gridState = get(grid);
+
     if (gridState) return gridState.gridContainerClassName;
     return '';
   },
@@ -198,7 +199,7 @@ export const gridEditorAreas = selector({
       const { gridTemplateRows, gridTemplateColumns } = gridState;
       const temp: Omit<GridArea, 'number'>[] = [];
 
-      gridTemplateRows.forEach((row, rowIndex) => {
+      gridTemplateRows?.forEach((row, rowIndex) => {
         gridTemplateColumns.forEach((column, columnIndex) => {
           const gridRowStart = rowIndex + 1;
           const gridRowEnd = rowIndex + 2;

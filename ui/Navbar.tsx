@@ -1,34 +1,39 @@
-import { ArrowShortLeftIcon, ArrowShortRightIcon } from '@/lib/Icons';
-import { ui, useGridEditorUi } from '@/store/ui';
 import React from 'react';
-import { Box, Button, Flex, Text } from 'rebass/styled-components';
-import { useRecoilState } from 'recoil';
-import UserDropdown from '../components/UserDropdown';
-import { auth } from '../store/auth';
+import { Box, BoxProps, Flex, FlexProps, Heading } from 'rebass/styled-components';
 
 interface NavbarProps {
-  title: React.ReactText | React.ReactNode;
+  title?: React.ReactText | React.ReactNode;
+  flexProps?: FlexProps;
+  boxProps?: BoxProps;
+  Heading?: React.FC<any>;
+  headingProps?: any;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ title }) => {
-  const { isControlsOpen, handleClick } = useGridEditorUi();
-  const [, setUiState] = useRecoilState(ui);
-  const [user] = useRecoilState(auth);
-  const handleClicks: React.MouseEventHandler<HTMLButtonElement> = () => {
-    setUiState((state) => ({ ...state, isAuthModalOpen: true }));
-  };
+const Navbar: React.FC<NavbarProps> = ({ title, children, flexProps, boxProps, headingProps }) => {
   return (
-    <Flex px={2} color="#fff" bg="secondary" alignItems="center">
-      <Button name="isControlsOpen" bg="secondary" onClick={handleClick}>
-        {isControlsOpen ? <ArrowShortLeftIcon /> : <ArrowShortRightIcon />}
-      </Button>
-      <Text p={2} fontWeight="bold">
-        {title}
-      </Text>
-      <Box mx="auto" />
-      {user ? <UserDropdown user={user} /> : <Button onClick={handleClicks}>Login</Button>}
+    <Flex as="header" {...flexProps}>
+      <Box>
+        {title && (
+          <Heading p={2} fontWeight="bold" {...headingProps}>
+            {title}
+          </Heading>
+        )}
+      </Box>
+      <Box as="nav" {...boxProps}>
+        {children}
+      </Box>
     </Flex>
   );
+};
+
+Navbar.defaultProps = {
+  title: 'Super Grid 9k',
+  flexProps: {
+    px: 2,
+    color: 'text',
+    bg: 'secondary',
+    alignItems: 'center',
+  },
 };
 
 export default Navbar;

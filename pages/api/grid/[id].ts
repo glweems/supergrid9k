@@ -2,27 +2,23 @@ import { NextApiHandler } from 'next';
 import dbConnect from '@/lib/dbConnect';
 import Grid from '@/models/Grid';
 
-const handle: NextApiHandler = async (req, res) => {
-  const {
-    query: { id },
-    method,
-  } = req;
-
+const handler: NextApiHandler = async (req, res) => {
+  if (!req.query.id) {
+    return res.status(300).send('missing id');
+  }
   await dbConnect();
 
-  switch (method) {
+  switch (req.method) {
     case 'GET': {
       try {
-        const grid = await Grid.findById(id);
-        if (!grid) {
-          return res.status(400).json({ success: false });
-        }
-        return res.status(200).json(grid);
-      } catch (err) {
-        res.status(400).json({ err });
+        await Grid.findById(req.query.id).then((g) => {
+          return res.status(200).json(g);
+        });
+      } catch (error) {
+        return res.status(500).json(error);
       }
     }
   }
 };
 
-export default handle;
+export default handler;

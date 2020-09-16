@@ -20,6 +20,7 @@ module.exports = {
   ],
   plugins: ['react-hooks'],
   rules: {
+    '@typescript-eslint/no-var-requires': 'off',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
     'react/prop-types': 'off',

@@ -3,8 +3,9 @@ import { colors, space } from '@/lib/theme';
 import App, { AppContext, AppProps } from 'next/app';
 import Head from 'next/head';
 import React from 'react';
+import { RecoilRoot } from 'recoil';
+import ContextProvider from '../components/ContextProvider';
 import { setCssArrayVariables, setCssObjectVariables } from '../lib/setCssVariables';
-import withIdentity from '../lib/withIdentity';
 
 class MyApp extends App<AppProps<{ dehydratedState: any }>> {
   static async getInitialProps({ Component, ctx }: AppContext) {
@@ -24,15 +25,19 @@ class MyApp extends App<AppProps<{ dehydratedState: any }>> {
       'space'
     );
     const { Component, pageProps } = this.props;
+
     return (
       <React.Fragment>
         <Head>
           <title>Super Grid 9K</title>
         </Head>
-
-        <Component {...pageProps} />
+        <RecoilRoot>
+          <ContextProvider>
+            <Component {...pageProps} />
+          </ContextProvider>
+        </RecoilRoot>
       </React.Fragment>
     );
   }
 }
-export default withIdentity(MyApp);
+export default MyApp;
