@@ -6,7 +6,7 @@ import useSWR from 'swr';
 import { hostingURL } from '@/lib/appConfig';
 import { GridState } from '@/store/grid';
 import Navbar from '@/ui/Navbar';
-import { fetcher } from '../../lib/fetcher';
+import { fetcher } from '@/lib/fetcher';
 
 export const getServerSideProps: GetServerSideProps = async (req) => {
   const data = await fetcher(`${hostingURL}/api/grid/${req.query.id}`);
@@ -14,7 +14,7 @@ export const getServerSideProps: GetServerSideProps = async (req) => {
 };
 
 const GridPage: React.FC<{ id: string; data: any }> = ({ id, data: initialData }) => {
-  const { data, error } = useSWR<GridState>(`/grid/${id}`, { initialData });
+  const { data, error } = useSWR<GridState>(`/api/grid/${id}`, { initialData });
 
   if (error) return <div>Whoops! an error occured.</div>;
   if (!data) return <div>loading</div>;
@@ -27,5 +27,3 @@ const GridPage: React.FC<{ id: string; data: any }> = ({ id, data: initialData }
   );
 };
 export default GridPage;
-
-// <CodeBlock language="json" code={JSON.stringify(gridState, null, 2)} />
