@@ -33,7 +33,7 @@ const UserDropdown = () => {
         </Flex>
       )}
       values={[]}
-      placeholder={user.photoURL}
+      placeholder={user?.photoURL}
       dropdownHandle={false}
       onChange={() => undefined}
       name={user.displayName}
