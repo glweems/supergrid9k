@@ -1,6 +1,5 @@
-import { NextApiRequest, NextApiResponse } from 'next';
 import captureWebsite from 'capture-website';
-import { hostingURL } from './appConfig';
+import { NextApiRequest, NextApiResponse } from 'next';
 export const config = {
   api: {
     bodyParser: false, // Disallow body parsing, consume as stream
@@ -8,13 +7,13 @@ export const config = {
   },
 };
 export default async function (req: NextApiRequest, res: NextApiResponse) {
-  const data = await captureWebsite.base64(`${hostingURL}/grid/${req.query?.gridId}`, {
+  const data = await captureWebsite.base64(`/grid/${req.query?.gridId}`, {
+    element: '#screenshot',
     waitForElement: '.grid-entries',
-    element: '.grid-entries',
     scaleFactor: 1,
     quality: 0.1,
-    type: 'jpeg',
     width: 1000,
+    type: 'png',
     height: 400,
   });
 
@@ -23,5 +22,3 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 
   res.end(img);
 }
-/*  await captureWebsite
-    .file(`http://localhost:3000/grid/${req.query?.gridId}`, `public/${req.query?.gridId}.png`, { overwrite: true, }) */

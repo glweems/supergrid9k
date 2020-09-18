@@ -1,7 +1,7 @@
 import 'colors';
 import mongoose from 'mongoose';
 
-const { MONGODB_URI: uri } = process.env;
+const { MONGO_URL: uri } = process.env;
 
 export default async function dbConnect() {
   /* check if we have connection to our databse*/

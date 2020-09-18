@@ -53,6 +53,7 @@ Navbar.defaultProps = {
     color: 'text',
     bg: 'secondary',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
 };
 
