@@ -1,8 +1,11 @@
 import React from 'react';
 import Base, { SelectProps } from 'react-dropdown-select';
-import { Box, Image, Link } from 'rebass';
+import { Image } from 'rebass';
 import styled from 'styled-components/macro';
 import { useUser } from '../store/auth';
+import { Flex } from 'rebass/styled-components';
+import Box from '@/ui/Box';
+import Link from '@/ui/Link';
 
 const BaseSelect = (props: SelectProps<{ label: string; path: string }>) => (
   <Base<{ label: string; path: string }> {...props} />
@@ -23,19 +26,11 @@ const UserDropdown = () => {
   const user = useUser();
   return (
     <Select
-      direction="rtl"
       contentRenderer={({ props: { placeholder } }) => (
-        <Box
-          width="100px"
-          css={`
-            text-align: right;
-            * {
-              text-align: right;
-            }
-          `}
-        >
+        <Flex>
+          <Box marginRight={2}>{user?.displayName}</Box>
           <Image src={placeholder} variant="avatar" height={26} width="auto" />
-        </Box>
+        </Flex>
       )}
       values={[]}
       placeholder={user.photoURL}
@@ -54,7 +49,7 @@ const UserDropdown = () => {
         },
       ]}
       itemRenderer={({ item }) => (
-        <Box>
+        <Box border={1}>
           <Link href={item.path}>{item.label}</Link>
         </Box>
       )}

@@ -21,6 +21,14 @@ const typographyTheme: TypographyOptions = {
       overflow: 'auto',
       overflowX: 'hidden',
     },
+    a: {
+      ...styles.a,
+      color: 'var(--color-primary)',
+      textDecoration: 'none',
+    },
+    'a:hover': {
+      textDecoration: 'underline',
+    },
     fieldset: {
       padding: `var(--space-2)`,
       border: 'unset',

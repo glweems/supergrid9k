@@ -39,11 +39,11 @@ const GridEditor: React.FC<GridEditorProps> = ({ grid: gridProp }) => {
 
   return (
     <GridEditorLayout maxHeight="calc(100vh - 40px)">
-      <div className="grid-sidebar">
+      <aside className="grid-sidebar">
         <GridEditorControls />
         <GridEditorResetButton />
-      </div>
-      <Box className="grid-entries">
+      </aside>
+      <Box id="screenshot" className="grid-entries">
         <GridEditorItems />
       </Box>
 
