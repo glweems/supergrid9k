@@ -1,8 +1,10 @@
-import React from 'react';
-import { Button } from 'rebass/styled-components';
 import { PlusIcon } from '@/lib/Icons';
 import { GridStateName, GridTemplateEntry, useGridTemplate } from '@/store/grid';
 import { Control } from '@/ui/Control';
+import React from 'react';
+import { Button } from 'rebass/styled-components';
+import Box from '../../ui/Box';
+import If from '../If';
 import { GridEditorControl } from './GridEditorControl';
 
 function GridEditorControls() {
@@ -17,6 +19,7 @@ function GridEditorControls() {
     </React.Fragment>
   );
 }
+
 export interface GridTemplateControlProps {
   name: GridStateName;
   addEntry: React.MouseEventHandler<HTMLButtonElement>;
@@ -26,22 +29,26 @@ export interface GridTemplateControlProps {
 
 export const GridTemplateControls: React.FC<GridTemplateControlProps> = ({ name, entries, addEntry, legend }) => {
   return (
-    <Control name={name}>
-      <div className="elements">
-        <legend className="control-label">{legend}</legend>
+    <div className="elements">
+      <label className="control-label">{legend}</label>
 
+      <ul>
         {entries?.map((entry, index) => {
-          return <GridEditorControl key={`${entry.id}.${index}`} {...entry} name={name} />;
+          return (
+            <Box as="li" key={`${entry.id}.${index}`} m={0}>
+              <GridEditorControl {...entry} name={name} />
+            </Box>
+          );
         })}
+      </ul>
 
-        {/* Button To Add New GridTemplate Entry */}
-        {name !== 'gridGap' && (
-          <Button className="add-entry" onClick={addEntry} color="green" variant="outline">
-            <PlusIcon size={28} padding={0} />
-          </Button>
-        )}
-      </div>
-    </Control>
+      {/* Button To Add New GridTemplate Entry */}
+      <If isTrue={name !== 'gridGap'}>
+        <Button className="add-entry" onClick={addEntry} color="green" variant="outline">
+          <PlusIcon size={28} padding={0} />
+        </Button>
+      </If>
+    </div>
   );
 };
 

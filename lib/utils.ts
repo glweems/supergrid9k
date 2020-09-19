@@ -145,6 +145,7 @@ export const initialGridTemplateColumns: GridTemplateEntry[] = [
   },
 ];
 export const defaultGridState: GridState = {
+  name: 'Template',
   gridTemplateRows: initialGridTemplateRows,
   gridTemplateColumns: initialGridTemplateColumns,
   gridGap: [

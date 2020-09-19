@@ -4,16 +4,6 @@ export interface ControlProps {
   control?: 'gridGap';
 }
 export const Control = styled.fieldset<ControlProps>`
-  .elements {
-    display: grid;
-    grid-row-gap: var(--space-2);
-    grid-template-rows: 1fr;
-    grid-template-columns:
-      [delete-start] auto [delete-end]
-      repeat(2, 1fr);
-    margin-bottom: var(--space-3);
-  }
-
   legend {
     grid-row: 1/2;
     grid-column: 1/-1;

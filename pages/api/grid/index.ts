@@ -18,7 +18,11 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     case 'POST':
       {
         try {
-          return await Grid.create(req.body).then((created) => res.status(200).json(created));
+          const newGrid = await Grid.create(req.body).catch((err) => {
+            return res.status(500).json(err);
+          });
+
+          if (newGrid) return res.status(200).json(newGrid);
         } catch (err) {
           res.status(400).json({ err });
         }

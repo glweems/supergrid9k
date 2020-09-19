@@ -5,6 +5,12 @@ import Head from 'next/head';
 import React from 'react';
 import { RecoilRoot } from 'recoil';
 import ContextProvider from '../components/ContextProvider';
+import whyDidYouRender from '@welldone-software/why-did-you-render';
+
+if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
+  whyDidYouRender(React);
+}
+
 import { setCssArrayVariables, setCssObjectVariables } from '../lib/setCssVariables';
 
 class MyApp extends App<AppProps<{ dehydratedState: any }>> {

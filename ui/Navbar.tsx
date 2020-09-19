@@ -1,9 +1,10 @@
 import React from 'react';
-import NextLink from 'next/link';
 
-import { Box, BoxProps, Flex, FlexProps, Heading, Link } from 'rebass/styled-components';
+import { Box, BoxProps, Flex, FlexProps, Heading } from 'rebass/styled-components';
 import { useUser } from '../store/auth';
 import UserDropdown from '../components/UserDropdown';
+import { LogoIcon } from '../lib/Icons';
+import Link from './Link';
 
 interface NavbarProps {
   title?: React.ReactText | React.ReactNode;
@@ -21,6 +22,7 @@ const Navbar: React.FC<NavbarProps> = ({ title, children, flexProps, boxProps, h
       <Box>
         {title && (
           <Heading p={2} fontWeight="bold" {...headingProps}>
+            <LogoIcon />
             {title}
           </Heading>
         )}
@@ -29,25 +31,13 @@ const Navbar: React.FC<NavbarProps> = ({ title, children, flexProps, boxProps, h
         {children}
       </Box>
 
-      <Box>
-        {user ? (
-          <UserDropdown />
-        ) : (
-          <Link as={NextLink} href="/auth">
-            login
-          </Link>
-        )}
-      </Box>
+      <Box>{user ? <UserDropdown /> : <Link href="/auth">login</Link>}</Box>
     </Flex>
   );
 };
 
 Navbar.defaultProps = {
-  title: (
-    <Link as={NextLink} href="/">
-      Super Grid 9K
-    </Link>
-  ),
+  title: <Link href="/">Super Grid 9K</Link>,
   flexProps: {
     px: 2,
     color: 'text',

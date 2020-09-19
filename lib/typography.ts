@@ -21,6 +21,15 @@ const typographyTheme: TypographyOptions = {
       overflow: 'auto',
       overflowX: 'hidden',
     },
+    ul: {
+      ...styles.ul,
+      marginLeft: 'unset',
+      listStylePosition: 'unset',
+    },
+    li: {
+      ...styles.li,
+      listStyleType: 'none',
+    },
     a: {
       ...styles.a,
       color: 'var(--color-primary)',
@@ -53,6 +62,7 @@ const typographyTheme: TypographyOptions = {
     input: {
       ...styles.input,
       cursor: 'text',
+      textIndent: '5px',
     },
     pre: {
       overflowX: 'auto',

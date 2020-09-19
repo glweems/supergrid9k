@@ -18,6 +18,34 @@ Icon.defaultProps = {
   fill: 'currentColor',
 };
 
+export const LogoIcon: React.FC<IconProps> = (props) =>
+  createElement(Icon, {
+    ...props,
+    viewBox: '0 0 500 500',
+    children: [
+      <rect
+        key="LogoIconKey-1"
+        x="0.000732422"
+        y="0.000671387"
+        width="143.312"
+        height="143.008"
+        rx="16"
+        fill="var(--color-primary)"
+      />,
+      <rect key="LogoIconKey-2" y="177.986" width="142.857" height="322.014" rx="16" fill="var(--color-yellow)" />,
+      <rect key="LogoIconKey-3" x="177.986" width="322.014" height="322.014" rx="16" fill="var(--color-yellow)" />,
+      <rect
+        key="LogoIconKey-4"
+        x="177.986"
+        y="357.143"
+        width="322.014"
+        height="142.857"
+        rx="16"
+        fill="var(--color-primary)"
+      />,
+    ],
+  });
+
 export const PlusIcon: React.FC<IconProps> = (props) =>
   createElement(Icon, {
     ...props,

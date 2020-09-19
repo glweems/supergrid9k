@@ -19,6 +19,7 @@ export type GridTemplateEntry = {
 
 export interface GridState {
   _id?: string;
+  name: string;
   gridTemplateRows: GridTemplateEntry[];
   gridTemplateColumns: GridTemplateEntry[];
   gridGap: GridTemplateEntry[];

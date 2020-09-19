@@ -146,22 +146,22 @@ const theme = {
     },
   },
   forms: {
-    input: {
+    template: {
       color: 'text',
       borderWidth: 2,
       boxShadow: 'none',
       borderColor: 'secondary',
+      borderRadius: 2,
       bg: 'background',
+      outline: 'none',
+      textIndent: '8px',
+      padding: 2,
+    },
+    input: {
+      variant: 'forms.template',
     },
     select: {
-      color: 'text',
-
-      borderStyle: 'solid',
-      borderWidth: 2,
-      boxShadow: 'none',
-      borderColor: 'secondary',
-      bg: 'secondary',
-      borderRadius: 9999,
+      variant: 'forms.template',
     },
     textarea: {},
     label: {},

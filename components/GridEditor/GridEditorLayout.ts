@@ -8,7 +8,8 @@ const GridEditorLayout = styled.main<LayoutProps>`
   display: grid;
   grid-template-areas:
     'grid-sidebar grid-entries code-viewer'
-    'grid-sidebar dirty-controls code-viewer';
+    'grid-sidebar grid-entries code-viewer'
+    'footer footer footer';
   grid-template-rows: 1fr auto;
   grid-template-columns: 275px 1fr auto;
   width: 100vw;
@@ -20,6 +21,9 @@ const GridEditorLayout = styled.main<LayoutProps>`
     button:focus {
       outline: none;
     }
+  }
+  footer {
+    grid-area: footer;
   }
 
   .grid-sidebar {

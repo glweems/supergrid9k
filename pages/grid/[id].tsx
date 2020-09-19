@@ -7,6 +7,8 @@ import { hostingURL } from '@/lib/appConfig';
 import { GridState } from '@/store/grid';
 import Navbar from '@/ui/Navbar';
 import { fetcher } from '@/lib/fetcher';
+import { withErrorBoundary } from 'react-error-boundary';
+import ErrorFallback from '../../components/ErrorFallback';
 
 export const getServerSideProps: GetServerSideProps = async (req) => {
   const data = await fetcher(`${hostingURL}/api/grid/${req.query.id}`);
@@ -14,7 +16,7 @@ export const getServerSideProps: GetServerSideProps = async (req) => {
 };
 
 const GridPage: React.FC<{ id: string; data: any }> = ({ id, data: initialData }) => {
-  const { data, error } = useSWR<GridState>(`/api/grid/${id}`, { initialData });
+  const { data, error } = useSWR<GridState>(`${hostingURL}/api/grid/${id}`, { initialData });
 
   if (error) return <div>Whoops! an error occured.</div>;
   if (!data) return <div>loading</div>;
@@ -26,4 +28,4 @@ const GridPage: React.FC<{ id: string; data: any }> = ({ id, data: initialData }
     </Div100vh>
   );
 };
-export default GridPage;
+export default withErrorBoundary(GridPage, { fallbackRender: ErrorFallback });

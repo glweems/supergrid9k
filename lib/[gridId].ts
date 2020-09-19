@@ -9,10 +9,10 @@ export const config = {
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   const data = await captureWebsite.base64(`/grid/${req.query?.gridId}`, {
     element: '#screenshot',
-    waitForElement: '.grid-entries',
+    waitForElement: '#screenshot',
     scaleFactor: 1,
     quality: 0.1,
-    width: 1000,
+    width: 500,
     type: 'png',
     height: 400,
   });
