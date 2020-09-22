@@ -1,25 +1,22 @@
+import theme from '@/lib/theme';
 import { grid, GridState } from '@/store/grid';
 import Box from '@/ui/Box';
+import { motion } from 'framer-motion';
+import dynamic from 'next/dynamic';
 import React from 'react';
 import { Button, Flex } from 'rebass/styled-components';
 import { useRecoilState } from 'recoil';
-import { omit } from '../../lib/utils';
-import { useUser } from '../../store/auth';
-import CodePenButton from '../CodePenButton';
-import CodeViewer from '../CodeViewer';
-import CodeViewerControls from '../CodeViewerControls';
-import GridEditorControls from './GridEditorControls';
-import GridEditorItems from './GridEditorItems';
-import GridEditorResetButton from './GridEditorResetButton';
-import SaveTemplateButton from './SaveTemplateButton';
 import styled from 'styled-components/macro';
-import theme from '@/lib/theme';
-import { LayoutProps, layout } from 'styled-system';
+import { layout, LayoutProps } from 'styled-system';
+import { ArrowShortLeftIcon } from '@/lib/Icons';
+import { omit } from '@/lib/utils';
+import { useUser } from '@/store/auth';
+import If from '@/components/If';
 import GridEditorName from './GridEditorName';
-import { ArrowShortLeftIcon } from '../../lib/Icons';
-import ResizePanel from 'react-resize-panel';
-import { AnimatePresence, motion } from 'framer-motion';
-
+import SaveTemplateButton from './SaveTemplateButton';
+const GridEditorControls = dynamic(() => import('./GridEditorControls'));
+const GridEditorItems = dynamic(() => import('./GridEditorItems'));
+const GridEditorResetButton = dynamic(() => import('./GridEditorResetButton'));
 export interface GridEditorProps {
   grid?: GridState;
 }
@@ -44,39 +41,36 @@ const GridEditor: React.FC<GridEditorProps> = ({ grid: gridProp }) => {
   // const gelProps = { controlPanelWidth, codePanelWidth };
 
   return (
-    <AnimatePresence>
-      {gridState && (
-        <GridEditorLayout
-          maxHeight="calc(100vh - 40px)"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-        >
-          <aside className="grid-sidebar">
-            <GridEditorName />
-            <GridEditorControls />
-          </aside>
+    <If isTrue={gridState !== null}>
+      <GridEditorLayout
+        maxHeight="calc(100vh - 40px)"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <Box as={motion.aside} className="grid-sidebar" height="100%">
+          <GridEditorName />
+          <GridEditorControls />
+        </Box>
 
-          <Box id="screenshot" className="grid-entries">
-            <GridEditorItems />
-          </Box>
+        <Box id="screenshot" className="grid-entries">
+          <GridEditorItems />
+        </Box>
 
-          <footer className="toolbar">
-            <Button>
-              <ArrowShortLeftIcon />
-            </Button>
-            <Flex>
-              <CodePenButton />
-              <GridEditorResetButton />
-              <SaveTemplateButton />
-            </Flex>
-            <Button>
-              <ArrowShortLeftIcon />
-            </Button>
-          </footer>
-        </GridEditorLayout>
-      )}
-    </AnimatePresence>
+        <motion.section className="toolbar">
+          <Button>
+            <ArrowShortLeftIcon />
+          </Button>
+          <Flex>
+            <GridEditorResetButton />
+            <SaveTemplateButton />
+          </Flex>
+          <Button>
+            <ArrowShortLeftIcon />
+          </Button>
+        </motion.section>
+      </GridEditorLayout>
+    </If>
   );
 };
 
@@ -162,11 +156,3 @@ const GridEditorLayout = motion.custom(styled.main<LayoutProps>`
 
 GridEditorLayout.displayName = 'GridEditorLayout';
 GridEditorLayout.defaultProps = { theme };
-
-/* import dynamic from 'next/dynamic';
-const GridEditorLayout = dynamic(() => import('./GridEditorLayout'));
-const GridEditorControls = dynamic(() => import('./GridEditorControls'));
-const CodeViewerControls = dynamic(() => import('../CodeViewerControls'));
-const GridEditorItems = dynamic(() => import('./GridEditorItems'));
-const CodeViewer = dynamic(() => import('../CodeViewer'));
-const GridEditorResetButton = dynamic(() => import('./GridEditorResetButton')); */

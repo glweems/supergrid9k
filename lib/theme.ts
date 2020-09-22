@@ -76,6 +76,10 @@ const theme = {
       p: 2,
       bg: 'background',
       boxShadow: 'card',
+      borderRadius: 3,
+      borderWidth: 2,
+      borderStyle: 'solid',
+      borderColor: 'secondary',
     },
     link: {
       color: 'primary',
@@ -94,7 +98,8 @@ const theme = {
   },
   buttons: {
     default: {
-      padding: '4px 16px',
+      margin: 0,
+      padding: '2px 16px',
       paddingTop: 'none',
       paddingBottom: 'none',
       borderWidth: 1.5,
@@ -102,7 +107,7 @@ const theme = {
       borderColor: 'transparent',
       '&:disabled': {
         opacity: 0.5,
-        cursor: 'not-allowed',
+        cursor: 'unset',
       },
     },
     primary: {
@@ -118,9 +123,7 @@ const theme = {
       color: 'text',
       bg: 'transparent',
       borderStyle: 'solid',
-
       borderColor: 'currentColor',
-
       ':hover': {
         bg: 'currentColor',
         opacity: 0.75,

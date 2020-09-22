@@ -1,15 +1,26 @@
+import { motion } from 'framer-motion';
 import React, { createElement } from 'react';
 import styled, { css } from 'styled-components/macro';
-import { color, ColorProps, compose, layout, LayoutProps, space, SpaceProps } from 'styled-system';
+import {
+  color,
+  ColorProps,
+  compose,
+  layout,
+  LayoutProps,
+  space,
+  SpaceProps,
+} from 'styled-system';
 
-interface IconProps extends ColorProps, LayoutProps, SpaceProps {}
+interface IconProps extends ColorProps, LayoutProps, SpaceProps {
+  children?: any;
+}
 
 const iconComposition = compose(color, layout, space);
 
-export const Icon = styled.svg<IconProps>`
+export const Icon = motion.custom(styled.svg<IconProps>`
   ${iconComposition};
   vertical-align: middle;
-`;
+`);
 
 Icon.defaultProps = {
   viewBox: '0 0 16 16',
@@ -21,30 +32,32 @@ Icon.defaultProps = {
 export const LogoIcon: React.FC<IconProps> = (props) =>
   createElement(Icon, {
     ...props,
-    viewBox: '0 0 500 500',
+    children: (
+      <path
+        fillRule="evenodd"
+        d="M6 1H1v3h5V1zM1 0a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1H1zm14 12h-5v3h5v-3zm-5-1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-5zM6 8H1v7h5V8zM1 7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H1zm14-6h-5v7h5V1zm-5-1a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1h-5z"
+      />
+    ),
+  });
+
+export const GearIcon: React.FC<IconProps> = (props) =>
+  createElement(Icon, {
+    ...props,
     children: [
-      <rect
-        key="LogoIconKey-1"
-        x="0.000732422"
-        y="0.000671387"
-        width="143.312"
-        height="143.008"
-        rx="16"
-        fill="var(--color-primary)"
+      <path
+        key="gear-icon-0"
+        fillRule="evenodd"
+        d="M8.837 1.626c-.246-.835-1.428-.835-1.674 0l-.094.319A1.873 1.873 0 0 1 4.377 3.06l-.292-.16c-.764-.415-1.6.42-1.184 1.185l.159.292a1.873 1.873 0 0 1-1.115 2.692l-.319.094c-.835.246-.835 1.428 0 1.674l.319.094a1.873 1.873 0 0 1 1.115 2.693l-.16.291c-.415.764.42 1.6 1.185 1.184l.292-.159a1.873 1.873 0 0 1 2.692 1.116l.094.318c.246.835 1.428.835 1.674 0l.094-.319a1.873 1.873 0 0 1 2.693-1.115l.291.16c.764.415 1.6-.42 1.184-1.185l-.159-.291a1.873 1.873 0 0 1 1.116-2.693l.318-.094c.835-.246.835-1.428 0-1.674l-.319-.094a1.873 1.873 0 0 1-1.115-2.692l.16-.292c.415-.764-.42-1.6-1.185-1.184l-.291.159A1.873 1.873 0 0 1 8.93 1.945l-.094-.319zm-2.633-.283c.527-1.79 3.065-1.79 3.592 0l.094.319a.873.873 0 0 0 1.255.52l.292-.16c1.64-.892 3.434.901 2.54 2.541l-.159.292a.873.873 0 0 0 .52 1.255l.319.094c1.79.527 1.79 3.065 0 3.592l-.319.094a.873.873 0 0 0-.52 1.255l.16.292c.893 1.64-.902 3.434-2.541 2.54l-.292-.159a.873.873 0 0 0-1.255.52l-.094.319c-.527 1.79-3.065 1.79-3.592 0l-.094-.319a.873.873 0 0 0-1.255-.52l-.292.16c-1.64.893-3.433-.902-2.54-2.541l.159-.292a.873.873 0 0 0-.52-1.255l-.319-.094c-1.79-.527-1.79-3.065 0-3.592l.319-.094a.873.873 0 0 0 .52-1.255l-.16-.292c-.892-1.64.902-3.433 2.541-2.54l.292.159a.873.873 0 0 0 1.255-.52l.094-.319z"
       />,
-      <rect key="LogoIconKey-2" y="177.986" width="142.857" height="322.014" rx="16" fill="var(--color-yellow)" />,
-      <rect key="LogoIconKey-3" x="177.986" width="322.014" height="322.014" rx="16" fill="var(--color-yellow)" />,
-      <rect
-        key="LogoIconKey-4"
-        x="177.986"
-        y="357.143"
-        width="322.014"
-        height="142.857"
-        rx="16"
-        fill="var(--color-primary)"
+      <path
+        key="gear-icon-1"
+        fillRule="evenodd"
+        d="M8 5.754a2.246 2.246 0 1 0 0 4.492 2.246 2.246 0 0 0 0-4.492zM4.754 8a3.246 3.246 0 1 1 6.492 0 3.246 3.246 0 0 1-6.492 0z"
       />,
     ],
   });
+
+// LogoIcon.defaultProps = ;
 
 export const PlusIcon: React.FC<IconProps> = (props) =>
   createElement(Icon, {

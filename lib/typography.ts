@@ -3,7 +3,6 @@ import CodePlugin from 'typography-plugin-code';
 import theme, { colors, defaultFont } from './theme';
 
 const typographyTheme: TypographyOptions = {
-  baseFontSize: '16px',
   scaleRatio: 2,
   baseLineHeight: 1.78,
   headerFontFamily: defaultFont.split(','),

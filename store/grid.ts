@@ -6,11 +6,20 @@ import { CodePenData } from '@/components/CodePenButton';
 import { GridTemplateControlProps } from '@/components/GridEditor/GridEditorControls';
 import { SelectProps } from '@/components/Select';
 import getAllowedEntry from '../lib/getAllowedEntry';
-import { cssTemplateString, htmlTemplateString, TemplateStringObject } from '../lib/templateStrings';
-import { createCssString, removeItemAtIndex, replaceItemAtIndex } from '../lib/utils';
+import {
+  cssTemplateString,
+  htmlTemplateString,
+  TemplateStringObject,
+} from '../lib/templateStrings';
+import {
+  createCssString,
+  removeItemAtIndex,
+  replaceItemAtIndex,
+} from '../lib/utils';
+import _ from 'lodash';
 
 export type GridTemplateEntry = {
-  id: string;
+  // id: string;
   amount: number;
   unit: string;
   inputProps: InputProps;
@@ -28,7 +37,10 @@ export interface GridState {
   useCssRepeatFn: boolean;
 }
 
-export type GridStateName = keyof Pick<GridState, 'gridTemplateColumns' | 'gridTemplateRows' | 'gridGap'>;
+export type GridStateName = keyof Pick<
+  GridState,
+  'gridTemplateColumns' | 'gridTemplateRows' | 'gridGap'
+>;
 export const grid = atom<null | GridState>({
   key: 'grid',
   default: null,
@@ -50,7 +62,11 @@ export function useResetGrid(): React.ButtonHTMLAttributes<HTMLButtonElement> {
   const [isDirty, setIsDirty] = useRecoilState(dirtyGrid);
 
   const handleClick: React.MouseEventHandler = () => {
-    if (gridState?.initialState) setGridState({ ...gridState.initialState, initialState: gridState.initialState });
+    if (gridState?.initialState)
+      setGridState({
+        ...gridState.initialState,
+        initialState: gridState.initialState,
+      });
     setIsDirty(false);
   };
 
@@ -92,7 +108,10 @@ export const gridContainerClassName = selector<string>({
   },
 });
 
-export function useGridTemplate(name: GridStateName, legend: string): GridTemplateControlProps {
+export function useGridTemplate(
+  name: GridStateName,
+  legend: string
+): GridTemplateControlProps {
   const [gridState, setGridState] = useRecoilState(grid);
   const [isDirty, setIsDirty] = useRecoilState(dirtyGrid);
 
@@ -119,40 +138,37 @@ export function useGridTemplate(name: GridStateName, legend: string): GridTempla
   };
 }
 
-export function useControlHandlers(gridObjKey: GridStateName, id: string) {
+export function useControlHandlers(gridObjKey: GridStateName, index: number) {
   const [gridState, setGridState] = useRecoilState(grid);
   const [isDirty, setIsDirty] = useRecoilState(dirtyGrid);
-  const handleChange: React.ChangeEventHandler<HTMLInputElement | HTMLSelectElement> = ({
-    target: { name, value },
-  }) => {
-    if (gridState) {
-      const entries = gridState?.[gridObjKey];
-      const index = entries?.findIndex((e) => e.id === id);
-      const entry = gridState?.[gridObjKey][index];
-      const newEntry = replaceItemAtIndex(entries, index, getAllowedEntry({ name, value: value as any, entry }));
-      setGridState({ ...gridState, [gridObjKey]: newEntry });
-    }
+  const entries = gridState?.[gridObjKey];
+  const entry = gridState?.[gridObjKey][index];
+
+  const changeValue: React.ChangeEventHandler<
+    HTMLInputElement | HTMLSelectElement
+  > = ({ target: { name, value } }) => {
+    const newEntry = replaceItemAtIndex(
+      entries,
+      index,
+      getAllowedEntry({ name, value: value as any, entry })
+    );
+    setGridState({ ...gridState, [gridObjKey]: newEntry });
     if (!isDirty) setIsDirty(true);
   };
 
   const handleDelete: React.MouseEventHandler<HTMLButtonElement> = () => {
-    if (gridState) {
-      const entries = gridState?.[gridObjKey];
-      const index = entries?.findIndex((e) => e.id === id);
-      const newEntries = removeItemAtIndex(entries, index);
-      // const originalValue = gridState?.initialState?.[gridObjKey][index];
-      if (!isDirty) setIsDirty(true);
+    const newEntries = removeItemAtIndex(entries, index);
+    if (!isDirty) setIsDirty(true);
 
-      setGridState({
-        ...gridState,
-        [gridObjKey]: newEntries,
-      });
-    }
+    setGridState({
+      ...gridState,
+      [gridObjKey]: newEntries,
+    });
   };
 
-  const canDelete = gridState !== null && gridState[gridObjKey].length < 2;
+  const canDelete = gridState?.[gridObjKey].length < 2;
 
-  return { handleChange, handleDelete, canDelete };
+  return { handleChange: changeValue, handleDelete, canDelete };
 }
 
 export const gridCss = selector({
@@ -161,13 +177,21 @@ export const gridCss = selector({
     const gridState = get(grid);
 
     if (gridState) {
-      const { gridContainerClassName, gridTemplateRows, gridTemplateColumns, useCssRepeatFn } = gridState;
+      const {
+        gridContainerClassName,
+        gridTemplateRows,
+        gridTemplateColumns,
+        useCssRepeatFn,
+      } = gridState;
 
       const cssObj: TemplateStringObject = {
         className: gridContainerClassName,
         gridGap: `${gridState?.gridGap?.[0]?.amount}${gridState?.gridGap?.[0]?.unit} ${gridState?.gridGap?.[1]?.amount}${gridState?.gridGap?.[1]?.unit}`,
         gridTemplateRows: createCssString(gridTemplateRows, useCssRepeatFn),
-        gridTemplateColumns: createCssString(gridTemplateColumns, useCssRepeatFn),
+        gridTemplateColumns: createCssString(
+          gridTemplateColumns,
+          useCssRepeatFn
+        ),
       };
 
       return cssObj;
@@ -196,40 +220,40 @@ export const gridEditorAreas = selector({
   key: 'areas',
   get: ({ get }) => {
     const gridState = get(grid);
-    if (gridState) {
-      const { gridTemplateRows, gridTemplateColumns } = gridState;
-      const temp: Omit<GridArea, 'number'>[] = [];
 
-      gridTemplateRows?.forEach((row, rowIndex) => {
-        gridTemplateColumns.forEach((column, columnIndex) => {
-          const gridRowStart = rowIndex + 1;
-          const gridRowEnd = rowIndex + 2;
-          const gridColumnStart = columnIndex + 1;
-          const gridColumnEnd = columnIndex + 2;
+    const temp: Omit<GridArea, 'number'>[] = [];
 
-          return temp.push({
-            id: Id(),
-            row,
-            column,
-            gridTemplateArea: '.',
-            gridRowStart,
-            gridRowEnd,
-            gridColumnStart,
-            gridColumnEnd,
-            gridArea: [gridRowStart, gridColumnStart, gridRowEnd, gridColumnEnd].toString().split(',').join(' / '),
-            lastRow: columnIndex === 0 && rowIndex + 1 === gridTemplateRows.length,
-            lastCol: rowIndex === 0 && columnIndex + 1 === gridTemplateColumns.length,
-          });
-        });
+    gridState?.gridTemplateRows?.forEach((row, rowIndex) => {
+      gridState?.gridTemplateColumns?.forEach((column, columnIndex) => {
+        const gridRowStart = rowIndex + 1;
+        const gridRowEnd = rowIndex + 2;
+        const gridColumnStart = columnIndex + 1;
+        const gridColumnEnd = columnIndex + 2;
+        const area = {
+          id: `${columnIndex}.${rowIndex}`,
+          row,
+          column,
+          gridTemplateArea: '.',
+          gridRowStart,
+          gridRowEnd,
+          gridColumnStart,
+          gridColumnEnd,
+          gridArea: [gridRowStart, gridColumnStart, gridRowEnd, gridColumnEnd]
+            .toString()
+            .split(',')
+            .join(' / '),
+          lastRow:
+            columnIndex === 0 &&
+            rowIndex + 1 === gridState?.gridTemplateRows.length,
+          lastCol:
+            rowIndex === 0 &&
+            columnIndex + 1 === gridState?.gridTemplateColumns.length,
+        };
+        temp.push(area);
       });
+    });
 
-      const areas: GridArea[] = temp.map((item, index) => ({
-        ...item,
-        number: index + 1,
-      }));
-
-      return areas;
-    }
+    return temp;
   },
 });
 
@@ -248,7 +272,9 @@ export const snippets = selector({
     let gridItems = ``;
 
     areasState?.forEach((_item, index) => {
-      gridItems += `  <div class="grid-item">${num}</div>${index === areasState?.length ? '' : '\n'}`;
+      gridItems += `  <div class="grid-item">${num}</div>${
+        index === areasState?.length ? '' : '\n'
+      }`;
       num += 1;
     });
 
@@ -256,6 +282,7 @@ export const snippets = selector({
       css: cssTemplateString(cssState ?? {}),
       html: htmlTemplateString({ ...cssState, gridItems }),
     };
+    console.log('state: ', state);
     return state;
   },
 });
@@ -271,3 +298,10 @@ export const codePenOptions = selector<CodePenData>({
     return config;
   },
 });
+
+export function makeDefaultGrid({
+  initialState,
+  ...state
+}: GridState): GridState {
+  return { ...state, initialState: { ...initialState, ...state } };
+}

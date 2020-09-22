@@ -1,44 +1,24 @@
-import dbConnect from '@/lib/dbConnect';
 import Grid from '@/models/Grid';
-import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
-import authMiddleware from '../../../lib/auth/authMiddleware';
-import { SuperGrid9kUser } from '../../../lib/auth/mapUserData';
-interface AuthApiRequest extends NextApiRequest {
+import { dbMiddleware } from '@/lib/apiHelpers';
+import authMiddleware from '@/lib/auth/authMiddleware';
+import { SuperGrid9kUser } from '@/lib/auth/mapUserData';
+export interface AuthApiRequest extends NextApiRequest {
   user?: SuperGrid9kUser;
 }
 
-function onNoMatch(req, res) {
+function onNoMatch(_req, res) {
   res.status(404).end('page is not found... or is it');
 }
 
 const handler = nc<AuthApiRequest, NextApiResponse>({ onNoMatch })
   .use(authMiddleware)
-  .get(async (req, res) => {
-    await dbConnect();
-    console.log('USER', req.user);
-    await Grid.findById(req.query.id).then((g) => {
-      return res.status(200).json(g);
-    });
+  .use(dbMiddleware)
+  .get((req, res) => {
+    Grid.findById(req.query.id)
+      .then((grid) => res.status(200).json(grid))
+      .catch((err) => res.status(404).json(err));
   });
-
-const hasdndler: NextApiHandler = async (req, res) => {
-  if (!req.query.id) {
-    return res.status(300).send('missing id');
-  }
-  await dbConnect();
-
-  switch (req.method) {
-    case 'GET': {
-      try {
-        await Grid.findById(req.query.id).then((g) => {
-          return res.status(200).json(g);
-        });
-      } catch (error) {
-        return res.status(500).json(error);
-      }
-    }
-  }
-};
 
 export default handler;

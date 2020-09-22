@@ -1,35 +1,18 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import dbConnect from '@/lib/dbConnect';
+import { dbMiddleware } from '@/lib/apiHelpers';
 import Grid from '@/models/Grid';
+import { NextApiResponse } from 'next';
+import nc from 'next-connect';
+import { AuthApiRequest } from './[id]';
 
-export default async function (req: NextApiRequest, res: NextApiResponse) {
-  await dbConnect();
-  switch (req.method) {
-    case 'GET':
-      {
-        try {
-          const grids = await Grid.find(req.query);
-          return res.status(200).json(grids);
-        } catch (err) {
-          res.status(500).json(err);
-        }
-      }
-      break;
-    case 'POST':
-      {
-        try {
-          const newGrid = await Grid.create(req.body).catch((err) => {
-            return res.status(500).json(err);
-          });
+const handler = nc<AuthApiRequest, NextApiResponse>()
+  .use(dbMiddleware)
+  .get((req, res) => {
+    Grid.find(req.query)
+      .then((grid) => res.status(200).json(grid))
+      .catch((err) => res.status(404).json(err));
+  })
+  .post((req, res) => {
+    Grid.create(req.body).then((grid) => res.status(201).json(grid));
+  });
 
-          if (newGrid) return res.status(200).json(newGrid);
-        } catch (err) {
-          res.status(400).json({ err });
-        }
-      }
-      break;
-    default:
-      res.status(400).json({ success: false });
-      break;
-  }
-}
+export default handler;
