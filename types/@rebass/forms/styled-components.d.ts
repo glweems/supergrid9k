@@ -39,7 +39,10 @@ declare module '@rebass/forms/styled-components' {
 
   export interface LabelProps
     extends LabelKnownProps,
-      Omit<React.LabelHTMLAttributes<HTMLLabelElement>, keyof LabelKnownProps> {}
+      Omit<
+        React.LabelHTMLAttributes<HTMLLabelElement>,
+        keyof LabelKnownProps
+      > {}
 
   export const Label: React.ComponentType<LabelProps>;
 
@@ -51,13 +54,19 @@ declare module '@rebass/forms/styled-components' {
 
   export interface SelectProps
     extends BoxKnownProps,
-      Omit<React.SelectHTMLAttributes<HTMLSelectElement>, keyof BoxKnownProps> {}
+      Omit<
+        React.SelectHTMLAttributes<HTMLSelectElement>,
+        keyof BoxKnownProps
+      > {}
 
   export const Select: React.ComponentType<SelectProps>;
 
   export interface TextareaProps
     extends BoxKnownProps,
-      Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, keyof BoxKnownProps> {}
+      Omit<
+        React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+        keyof BoxKnownProps
+      > {}
 
   export const Textarea: React.ComponentType<TextareaProps>;
 

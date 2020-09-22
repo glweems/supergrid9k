@@ -6,7 +6,10 @@ export interface AppConfig {
   github: StrategyOptions;
 }
 
-const getOAuthUrls: (hostName: string, app: string) => { callbackURL: string } = (hostName: string, app: string) => ({
+const getOAuthUrls: (
+  hostName: string,
+  app: string
+) => { callbackURL: string } = (hostName: string, app: string) => ({
   // Alternatively, use `[app].ts` filenames for paramaterized urls
   callbackURL: `${hostName}/api/auth/callback/${app}`,
 });

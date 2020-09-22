@@ -4,9 +4,8 @@ import {
   GridTemplateEntry,
   useGridTemplate,
 } from '@/store/grid';
-import { Control } from '@/ui/Control';
-import React from 'react';
 import Button from '@/ui/Button';
+import React from 'react';
 import Box from '../../ui/Box';
 import If from '../If';
 import { GridEditorControl } from './GridEditorControl';

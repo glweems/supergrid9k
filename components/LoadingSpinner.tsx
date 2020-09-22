@@ -50,7 +50,7 @@ const LoadingSpinner: React.FC<BoxProps> = (boxProps) => {
       variants={loadingContainerVariants}
       initial="start"
       animate="end"
-      {...boxProps}
+      {...(boxProps as any)}
     >
       <motion.span
         style={loadingCircle}

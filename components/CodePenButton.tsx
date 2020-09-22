@@ -33,7 +33,12 @@ export interface CodePenData {
    * "alert('test');"
    */
   js?: string;
-  js_pre_processor?: 'none' | 'coffeescript' | 'babel' | 'livescript' | 'typescript';
+  js_pre_processor?:
+    | 'none'
+    | 'coffeescript'
+    | 'babel'
+    | 'livescript'
+    | 'typescript';
   /**
    * "loading"
    */
@@ -59,12 +64,29 @@ interface CodePenButtonProps extends Omit<CodePenData, 'html' | 'css' | 'js'> {
   buttonStyle?: React.CSSProperties;
 }
 
-const CodePenButton: React.FC<CodePenButtonProps> = ({ children, className, code, buttonStyle, ...config }) => {
+const CodePenButton: React.FC<CodePenButtonProps> = ({
+  children,
+  className,
+  code,
+  buttonStyle,
+  ...config
+}) => {
   const values = JSON.stringify({ ...config, ...code });
   return (
-    <form action="https://codepen.io/pen/define" method="POST" target="_blank" className={className}>
+    <form
+      action="https://codepen.io/pen/define"
+      method="POST"
+      target="_blank"
+      className={className}
+    >
       <input type="hidden" name="data" value={values} />
-      <Button variant="outline" color="text" style={buttonStyle} css={iconButtonCss as any} type="submit">
+      <Button
+        variant="outline"
+        color="text"
+        style={buttonStyle}
+        css={iconButtonCss as any}
+        type="submit"
+      >
         <Icon viewBox="0 0 1792 1792">
           <path
             d="M216 1169l603 402v-359l-334-223zm-62-144l193-129-193-129v258zm819 546l603-402-269-180-334 223v359zm-77-493l272-182-272-182-272 182zm-411-275l334-223v-359l-603 402zm960 93l193 129v-258zm-138-93l269-180-603-402v359zm485-180v546q0 41-34 64l-819 546q-21 13-43 13t-43-13l-819-546q-34-23-34-64v-546q0-41 34-64l819-546q21-13 43-13t43 13l819 546q34 23 34 64z"

@@ -1,10 +1,9 @@
-import { InputProps } from '@rebass/forms/styled-components';
-import React from 'react';
-import Id from 'react-id-generator';
-import { atom, selector, useRecoilState } from 'recoil';
 import { CodePenData } from '@/components/CodePenButton';
 import { GridTemplateControlProps } from '@/components/GridEditor/GridEditorControls';
 import { SelectProps } from '@/components/Select';
+import { InputProps } from '@rebass/forms/styled-components';
+import React from 'react';
+import { atom, selector, useRecoilState } from 'recoil';
 import getAllowedEntry from '../lib/getAllowedEntry';
 import {
   cssTemplateString,
@@ -16,7 +15,6 @@ import {
   removeItemAtIndex,
   replaceItemAtIndex,
 } from '../lib/utils';
-import _ from 'lodash';
 
 export type GridTemplateEntry = {
   // id: string;

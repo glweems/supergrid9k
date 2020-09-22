@@ -14,10 +14,12 @@ export const GridInstance = Axios.create({
 export /**
  * Grids instance
  */
-const getGrids = async () => await (await GridInstance.get<GridState[]>('')).data;
+const getGrids = async () =>
+  await (await GridInstance.get<GridState[]>('')).data;
 const getGridById = async (gridId: string) => GridInstance.get(gridId);
 
-export const create = async (_: unknown, grid: GridState) => await GridInstance.post('', grid).then((res) => res.data);
+export const create = async (_: unknown, grid: GridState) =>
+  await GridInstance.post('', grid).then((res) => res.data);
 
 /**
  * Uses grid
@@ -40,9 +42,16 @@ export function useCreateGrid(): ButtonProps {
   const [isDirty] = useRecoilState(dirtyGrid);
   const router = useRouter();
   const user = useUser();
-  const newGrid = { ...omit(gridState, '_id', 'initialState'), owner: user?.id };
+  const newGrid = {
+    ...omit(gridState, '_id', 'initialState'),
+    owner: user?.id,
+  };
 
-  const { isLoading, refetch, error } = useQuery(['createGrid', newGrid], create, { enabled: false });
+  const { isLoading, refetch, error } = useQuery(
+    ['createGrid', newGrid],
+    create,
+    { enabled: false }
+  );
 
   const handleClick: React.MouseEventHandler<any> = async () => {
     await refetch().then((res) => {
@@ -50,5 +59,9 @@ export function useCreateGrid(): ButtonProps {
     });
   };
   const buttonText = isLoading ? 'Loading' : error ? 'Error' : 'save ';
-  return { onClick: handleClick, disabled: isLoading || !isDirty, children: buttonText };
+  return {
+    onClick: handleClick,
+    disabled: isLoading || !isDirty,
+    children: buttonText,
+  };
 }

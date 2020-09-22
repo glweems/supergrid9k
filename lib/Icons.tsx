@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import React, { createElement } from 'react';
 import styled, { css } from 'styled-components/macro';
 import {
@@ -11,16 +10,14 @@ import {
   SpaceProps,
 } from 'styled-system';
 
-interface IconProps extends ColorProps, LayoutProps, SpaceProps {
-  children?: any;
-}
+interface IconProps extends ColorProps, LayoutProps, SpaceProps {}
 
 const iconComposition = compose(color, layout, space);
 
-export const Icon = motion.custom(styled.svg<IconProps>`
+export const Icon = styled.svg<IconProps>`
   ${iconComposition};
   vertical-align: middle;
-`);
+`;
 
 Icon.defaultProps = {
   viewBox: '0 0 16 16',
@@ -56,8 +53,6 @@ export const GearIcon: React.FC<IconProps> = (props) =>
       />,
     ],
   });
-
-// LogoIcon.defaultProps = ;
 
 export const PlusIcon: React.FC<IconProps> = (props) =>
   createElement(Icon, {

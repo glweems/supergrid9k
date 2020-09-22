@@ -7,8 +7,8 @@ import React from 'react';
 import styled from 'styled-components/macro';
 
 const GridEditorItem: React.FC<GridArea> = ({ id, gridTemplateArea }) => {
-  const { handleClick, activeEditingId } = useGridEditorUi();
-  function onPan(event, info) {
+  const { handleClick } = useGridEditorUi();
+  function onPan(_event, info) {
     console.log(info);
   }
 

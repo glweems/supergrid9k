@@ -42,16 +42,39 @@ declare module 'prism-react-renderer' {
 
   export type PrismLib = {
     languages: LanguageDict;
-    tokenize: (code: string, grammar: PrismGrammar, language: Language) => PrismToken[] | string[];
-    highlight: (code: string, grammar: PrismGrammar, language: Language) => string;
+    tokenize: (
+      code: string,
+      grammar: PrismGrammar,
+      language: Language
+    ) => PrismToken[] | string[];
+    highlight: (
+      code: string,
+      grammar: PrismGrammar,
+      language: Language
+    ) => string;
   };
 
   export type PrismThemeEntry = {
     color?: string;
     backgroundColor?: string;
     fontStyle?: 'normal' | 'italic';
-    fontWeight?: 'normal' | 'bold' | '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900';
-    textDecorationLine?: 'none' | 'underline' | 'line-through' | 'underline line-through';
+    fontWeight?:
+      | 'normal'
+      | 'bold'
+      | '100'
+      | '200'
+      | '300'
+      | '400'
+      | '500'
+      | '600'
+      | '700'
+      | '800'
+      | '900';
+    textDecorationLine?:
+      | 'none'
+      | 'underline'
+      | 'line-through'
+      | 'underline line-through';
     opacity?: number;
     [styleKey: string]: string | number | void;
   };

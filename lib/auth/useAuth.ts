@@ -6,7 +6,11 @@ import { useRecoilState } from 'recoil';
 import { auth } from '../../store/auth';
 import initFirebase from './initFirebase';
 import mapUserData, { SuperGrid9kUser } from './mapUserData';
-import { getUserFromCookie, removeUserCookie, setUserCookie } from './userCookies';
+import {
+  getUserFromCookie,
+  removeUserCookie,
+  setUserCookie,
+} from './userCookies';
 
 initFirebase();
 

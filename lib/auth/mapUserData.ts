@@ -21,9 +21,15 @@ export interface SuperGrid9kUser {
  */
 export default function mapUserData(session: SessionUser): SuperGrid9kUser {
   const { uid: id, email, xa: token, providerData } = session;
-  const displayName = providerData?.find(({ displayName }) => displayName !== null)?.displayName;
-  const photoURL = providerData?.find(({ photoURL }) => photoURL !== null).photoURL ?? '/public/avatar.png';
-  const phoneNumber = providerData?.find(({ phoneNumber }) => phoneNumber !== null)?.phoneNumber;
+  const displayName = providerData?.find(
+    ({ displayName }) => displayName !== null
+  )?.displayName;
+  const photoURL =
+    providerData?.find(({ photoURL }) => photoURL !== null).photoURL ??
+    '/public/avatar.png';
+  const phoneNumber = providerData?.find(
+    ({ phoneNumber }) => phoneNumber !== null
+  )?.phoneNumber;
 
   return {
     id,

@@ -1,4 +1,7 @@
-import { Select as RebassSelect, SelectProps as RebassSelectProps } from '@rebass/forms/styled-components';
+import {
+  Select as RebassSelect,
+  SelectProps as RebassSelectProps,
+} from '@rebass/forms/styled-components';
 import React, { FC } from 'react';
 
 export interface SelectProps<T = string> extends RebassSelectProps {

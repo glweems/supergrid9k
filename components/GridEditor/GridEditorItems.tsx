@@ -17,7 +17,6 @@ const GridItems: React.FC<GridItemsProps> = () => {
   const gridProps = useRecoilValue(gridCss);
   const items = useRecoilValue(gridEditorAreas);
   const {
-    handleClick,
     activeEditingId,
     setGridEditorUiState,
     isGridItemOpen,

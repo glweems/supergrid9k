@@ -6,7 +6,11 @@ import { useResetGrid } from '@/store/grid';
 const GridEditorResetButton: React.FC = ({ children }) => {
   const buttonProps = useResetGrid();
   return (
-    <Button {...(buttonProps as any)} variant="reset" css={iconButtonCss as any}>
+    <Button
+      {...(buttonProps as any)}
+      variant="reset"
+      css={iconButtonCss as any}
+    >
       <Icon size={24} color="code">
         <path
           fillRule="evenodd"

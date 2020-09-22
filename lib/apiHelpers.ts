@@ -9,7 +9,7 @@ export function dbError<T = any>(err: T) {
 export const dbMiddleware: RequestHandler<
   NextApiRequest,
   NextApiResponse
-> = async (req, res, next) => {
+> = async (_req, _res, next) => {
   await dbConnect();
   next();
 };

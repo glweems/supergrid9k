@@ -44,7 +44,12 @@ const FirebaseAuth = () => {
   }, []);
   return (
     <div>
-      {renderAuth ? <StyledFirebaseAuth uiConfig={firebaseAuthConfig as any} firebaseAuth={firebase.auth()} /> : null}
+      {renderAuth ? (
+        <StyledFirebaseAuth
+          uiConfig={firebaseAuthConfig as any}
+          firebaseAuth={firebase.auth()}
+        />
+      ) : null}
     </div>
   );
 };
