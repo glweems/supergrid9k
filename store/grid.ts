@@ -249,7 +249,7 @@ export const snippets = selector({
       css: cssTemplateString(cssState ?? {}),
       html: htmlTemplateString({ ...cssState, gridItems }),
     };
-    console.log('state: ', state);
+
     return state;
   },
 });

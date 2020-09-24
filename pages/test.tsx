@@ -11,7 +11,6 @@ const Test: NextPage = () => {
   React.useEffect(() => {
     if (!gridState) setGridState(defaultGridState);
   }, [gridState, setGridState]);
-  console.log('gridState: ', gridState);
 
   return (
     <div>

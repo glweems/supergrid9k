@@ -1,6 +1,3 @@
-import { buttons } from 'polished';
-console.log('buttons: ', buttons);
-
 export const colors = {
   primary: '#3578e5',
   secondary: '#242526',
