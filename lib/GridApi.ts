@@ -1,7 +1,6 @@
 import Axios from 'axios';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
-import { ButtonProps } from 'rebass/styled-components';
 import { useRecoilState } from 'recoil';
 import { useUser } from '../store/auth';
 import { dirtyGrid, grid, GridState } from '../store/grid';
@@ -37,7 +36,7 @@ export function useGrid(gridId: string) {
   return { data, isLoading, error };
 }
 
-export function useCreateGrid(): ButtonProps {
+export function useCreateGrid() {
   const [gridState] = useRecoilState(grid);
   const [isDirty] = useRecoilState(dirtyGrid);
   const router = useRouter();

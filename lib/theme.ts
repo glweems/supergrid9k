@@ -1,3 +1,6 @@
+import { buttons } from 'polished';
+console.log('buttons: ', buttons);
+
 export const colors = {
   primary: '#3578e5',
   secondary: '#242526',
@@ -97,21 +100,7 @@ const theme = {
     },
   },
   buttons: {
-    default: {
-      margin: 0,
-      padding: '2px 16px',
-      paddingTop: 'none',
-      paddingBottom: 'none',
-      borderWidth: 1.5,
-      bg: 'transparent',
-      borderColor: 'transparent',
-      '&:disabled': {
-        opacity: 0.5,
-        cursor: 'unset',
-      },
-    },
     primary: {
-      variant: 'buttons.default',
       fontSize: 2,
       fontWeight: 'bold',
       color: 'background',
@@ -119,13 +108,12 @@ const theme = {
       borderRadius: 'default',
     },
     outline: {
-      variant: 'buttons.default',
       color: 'text',
       bg: 'transparent',
       borderStyle: 'solid',
       borderColor: 'currentColor',
+
       ':hover': {
-        bg: 'currentColor',
         opacity: 0.75,
       },
     },
@@ -160,9 +148,8 @@ const theme = {
       textIndent: '8px',
       padding: 2,
     },
-    input: {
-      variant: 'forms.template',
-    },
+
+    input: { variant: 'forms.template' },
     select: {
       variant: 'forms.template',
     },

@@ -10,7 +10,6 @@ import Highlight, {
 } from 'prism-react-renderer';
 import React, { FC } from 'react';
 import Clipboard from 'react-clipboard.js';
-import Id from 'react-id-generator';
 import styled from 'styled-components/macro';
 import If from './If';
 export interface CodeBlockProps extends BoxProps {
@@ -100,7 +99,7 @@ const CodeBody: FC<CodeBodyProps> = ({
               {...getLineProps({ line, key: i })}
             >
               {line.map((token, key) => (
-                <span key={Id('span')} {...getTokenProps({ token, key })} />
+                <span key={key} {...getTokenProps({ token, key })} />
               ))}
             </div>
           ))}

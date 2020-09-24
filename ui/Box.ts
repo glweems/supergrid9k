@@ -48,6 +48,6 @@ const Box = styled(RebassBox)<BoxProps>`
 `;
 
 Box.displayName = 'Box';
-Box.defaultProps = { theme };
+Box.defaultProps = { theme, variant: 'box' };
 
 export default Box;

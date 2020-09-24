@@ -6,13 +6,13 @@ import {
   useRecoilValue,
   useSetRecoilState,
 } from 'recoil';
-import { GridArea } from './grid';
+import { GridAreaState } from './grid';
 interface GridEditorUiState {
   isControlsOpen: boolean;
   controlPanelWidth: number;
   isSnippetsVisable: boolean;
   codePanelWidth: number;
-  activeEditingId: null | GridArea['id'];
+  activeEditingId: null | GridAreaState['id'];
   isGridItemOpen: boolean;
 }
 interface UiState {

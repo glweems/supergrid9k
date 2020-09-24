@@ -5,11 +5,7 @@ import { InputProps } from '@rebass/forms/styled-components';
 import React from 'react';
 import { atom, selector, useRecoilState } from 'recoil';
 import getAllowedEntry from '../lib/getAllowedEntry';
-import {
-  cssTemplateString,
-  htmlTemplateString,
-  TemplateStringObject,
-} from '../lib/templateStrings';
+import { cssTemplateString, htmlTemplateString } from '../lib/templateStrings';
 import {
   createCssString,
   removeItemAtIndex,
@@ -174,44 +170,29 @@ export const gridCss = selector({
   get: ({ get }) => {
     const gridState = get(grid);
 
-    if (gridState) {
-      const {
-        gridContainerClassName,
-        gridTemplateRows,
-        gridTemplateColumns,
-        useCssRepeatFn,
-      } = gridState;
+    const gridContainerClassName = gridState?.gridContainerClassName;
+    const gridTemplateRows = gridState?.gridTemplateRows;
+    const gridTemplateColumns = gridState?.gridTemplateColumns;
+    const useCssRepeatFn = gridState?.useCssRepeatFn;
 
-      const cssObj: TemplateStringObject = {
-        className: gridContainerClassName,
-        gridGap: `${gridState?.gridGap?.[0]?.amount}${gridState?.gridGap?.[0]?.unit} ${gridState?.gridGap?.[1]?.amount}${gridState?.gridGap?.[1]?.unit}`,
-        gridTemplateRows: createCssString(gridTemplateRows, useCssRepeatFn),
-        gridTemplateColumns: createCssString(
-          gridTemplateColumns,
-          useCssRepeatFn
-        ),
-      };
+    const cssObj = {
+      className: gridContainerClassName,
+      gridGap: `${gridState?.gridGap?.[0]?.amount}${gridState?.gridGap?.[0]?.unit} ${gridState?.gridGap?.[1]?.amount}${gridState?.gridGap?.[1]?.unit}`,
+      gridTemplateRows: createCssString(gridTemplateRows, useCssRepeatFn),
+      gridTemplateColumns: createCssString(gridTemplateColumns, useCssRepeatFn),
+    };
 
-      return cssObj;
-    }
-    return null;
+    return cssObj;
   },
 });
 
-export interface GridArea {
-  gridTemplateArea: string;
+export interface GridAreaState {
   name?: string;
-  number: number;
   id: string;
   gridRowStart: number;
   gridRowEnd: number;
   gridColumnStart: number;
   gridColumnEnd: number;
-  lastRow: boolean;
-  lastCol: boolean;
-  gridArea: string;
-  row: GridTemplateEntry;
-  column: GridTemplateEntry;
 }
 
 export const gridEditorAreas = selector({
@@ -219,33 +200,21 @@ export const gridEditorAreas = selector({
   get: ({ get }) => {
     const gridState = get(grid);
 
-    const temp: Omit<GridArea, 'number'>[] = [];
+    const temp: GridAreaState[] = [];
 
-    gridState?.gridTemplateRows?.forEach((row, rowIndex) => {
-      gridState?.gridTemplateColumns?.forEach((column, columnIndex) => {
+    gridState?.gridTemplateRows?.forEach((_row, rowIndex) => {
+      gridState?.gridTemplateColumns?.forEach((_column, columnIndex) => {
         const gridRowStart = rowIndex + 1;
         const gridRowEnd = rowIndex + 2;
         const gridColumnStart = columnIndex + 1;
         const gridColumnEnd = columnIndex + 2;
-        const area = {
+
+        const area: GridAreaState = {
           id: `${columnIndex}.${rowIndex}`,
-          row,
-          column,
-          gridTemplateArea: '.',
           gridRowStart,
           gridRowEnd,
           gridColumnStart,
           gridColumnEnd,
-          gridArea: [gridRowStart, gridColumnStart, gridRowEnd, gridColumnEnd]
-            .toString()
-            .split(',')
-            .join(' / '),
-          lastRow:
-            columnIndex === 0 &&
-            rowIndex + 1 === gridState?.gridTemplateRows.length,
-          lastCol:
-            rowIndex === 0 &&
-            columnIndex + 1 === gridState?.gridTemplateColumns.length,
         };
         temp.push(area);
       });

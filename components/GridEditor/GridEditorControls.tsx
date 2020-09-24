@@ -1,11 +1,12 @@
-import { PlusIcon } from '@/lib/Icons';
 import {
   GridStateName,
   GridTemplateEntry,
   useGridTemplate,
 } from '@/store/grid';
 import Button from '@/ui/Button';
+import { motion } from 'framer-motion';
 import React from 'react';
+import { Flex } from 'rebass';
 import Box from '../../ui/Box';
 import If from '../If';
 import { GridEditorControl } from './GridEditorControl';
@@ -37,30 +38,35 @@ export const GridTemplateControls: React.FC<GridTemplateControlProps> = ({
   legend,
 }) => {
   return (
-    <div className="elements">
-      <label className="control-label">{legend}</label>
+    <div>
+      <Flex flexDirection="column" justifyContent="stretch" padding={1}>
+        <label className="control-label">{legend}</label>
+        {/* Button To Add New GridTemplate Entry */}
+        <If isTrue={name !== 'gridGap'}>
+          <Button
+            onClick={addEntry}
+            color="background"
+            bg="green"
+            padding={0}
+            paddingX={2}
+            width="100%"
+            alignSelf="flex-end"
+            css={``}
+          >
+            +
+          </Button>
+        </If>
+      </Flex>
 
       <ul>
         {entries?.map((entry, index) => {
           return (
-            <Box as="li" key={`${name}-${index}`} m={0}>
+            <Box as={motion.li} key={`${name}-${index}`} m={0}>
               <GridEditorControl name={name} {...entry} index={index} />
             </Box>
           );
         })}
       </ul>
-
-      {/* Button To Add New GridTemplate Entry */}
-      <If isTrue={name !== 'gridGap'}>
-        <Button
-          className="add-entry"
-          onClick={addEntry}
-          color="green"
-          variant="outline"
-        >
-          <PlusIcon size={28} padding={0} />
-        </Button>
-      </If>
     </div>
   );
 };

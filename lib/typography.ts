@@ -13,6 +13,10 @@ const typographyTheme: TypographyOptions = {
   boldWeight: 700,
   includeNormalize: true,
   overrideStyles: (_, __, styles) => ({
+    body: { minHeight: '100vh' },
+    '#__next': {
+      minHeight: '100vh',
+    },
     html: {
       ...styles.html,
       color: 'var(--color-text)',
@@ -50,7 +54,6 @@ const typographyTheme: TypographyOptions = {
     button: {
       ...styles.button,
       cursor: 'pointer',
-      ...theme.buttons.default,
     },
 
     select: {
