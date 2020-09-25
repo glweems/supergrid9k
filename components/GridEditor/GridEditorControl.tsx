@@ -1,20 +1,19 @@
 import { Icon } from '@/lib/Icons';
 import { gridGapUnits, gridUnits } from '@/lib/utils';
-import {
-  GridStateName,
-  GridTemplateEntry,
-  useControlHandlers,
-} from '@/store/grid';
+import { GridControlObjKey, GridState, GridTemplateEntry } from '@/store/grid';
 import Box from '@/ui/Box';
 import Button from '@/ui/Button';
 import { Input } from '@rebass/forms/styled-components';
 import { motion } from 'framer-motion';
+import produce from 'immer';
 import React from 'react';
+import useSWR, { mutate } from 'swr';
 import If from '../If';
 import Select from '../Select';
 export interface GridEditorControlProps extends GridTemplateEntry {
-  name: GridStateName;
+  objKey: GridControlObjKey;
   index: number;
+  endpoint: string;
 }
 
 const motionProps = {
@@ -24,40 +23,86 @@ const motionProps = {
 };
 
 export const GridEditorControl: React.FC<GridEditorControlProps> = ({
+  objKey,
+  index,
+  endpoint,
   amount,
   unit,
-  name,
-  index,
-  inputProps,
 }) => {
-  const { handleChange, handleDelete, canDelete } = useControlHandlers(
-    name,
-    index
-  );
+  const { data, error } = useSWR<GridState>(endpoint, {
+    refreshInterval: 0,
+    shouldRetryOnError: false,
+    revalidateOnMount: false,
+    revalidateOnFocus: false,
+    refreshWhenHidden: false,
+  });
+  const control = data?.[objKey]?.[index];
+  const [state, setState] = React.useState({ amount, unit });
 
-  const isGap = name === 'gridGap';
+  const isGap = objKey === 'gridGap';
+
+  const handleChange: React.ChangeEventHandler<
+    HTMLInputElement | HTMLSelectElement
+  > = (event) => {
+    const { name, value } = event.target;
+
+    setState(
+      produce((draft) => {
+        draft[name] = value;
+      })
+    );
+
+    mutate(
+      endpoint,
+      produce((draft: GridState) => {
+        draft[objKey][index][name] = value;
+      }),
+      false
+    );
+
+    // if (!isDirty) setIsDirty(true);
+  };
+
+  const handleDelete: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+    mutate(
+      endpoint,
+      produce((draft: GridState) => {
+        draft?.[objKey]?.splice(index, 1);
+      }),
+      false
+    );
+  };
+
+  const canDelete = data?.[objKey].filter((obj) => obj !== null)?.length < 2;
+
+  const loading = !error && data?.[objKey].length < 1;
+  if (loading) return <div>loading</div>;
+
   return (
     <motion.div {...motionProps}>
       <Box display="flex" alignItems="center" marginTop="-2px" height={'auto'}>
         <Input
           name="amount"
           className="control-start"
-          value={amount}
+          value={state.amount}
           onChange={handleChange}
-          {...inputProps}
-          flex="1 1 auto"
+          type="number"
+          min="0"
+          autoComplete="off"
+          disabled={state.unit === 'auto'}
         />
 
         <Select
           name="unit"
           className="control-end"
-          value={unit}
+          value={control?.unit}
           onChange={handleChange}
           options={isGap ? gridGapUnits : gridUnits}
           minWidth="80px"
           marginLeft="-2px"
         />
-        {!isGap && (
+
+        <If isTrue={!isGap}>
           <Button
             marginLeft="0px"
             className="remove-entry"
@@ -74,9 +119,11 @@ export const GridEditorControl: React.FC<GridEditorControlProps> = ({
               />
             </Icon>
           </Button>
-        )}
-        <If isTrue={!isGap}></If>
+        </If>
       </Box>
     </motion.div>
   );
 };
+/*   const update = () =>
+
+ */

@@ -8,6 +8,7 @@ import getAllowedEntry from '../lib/getAllowedEntry';
 import { cssTemplateString, htmlTemplateString } from '../lib/templateStrings';
 import {
   createCssString,
+  GridControlUnit,
   removeItemAtIndex,
   replaceItemAtIndex,
 } from '../lib/utils';
@@ -15,9 +16,9 @@ import {
 export type GridTemplateEntry = {
   // id: string;
   amount: number;
-  unit: string;
-  inputProps: InputProps;
-  selectProps: SelectProps;
+  unit: GridControlUnit;
+  inputProps?: InputProps;
+  selectProps?: SelectProps;
 };
 
 export interface GridState {
@@ -31,7 +32,7 @@ export interface GridState {
   useCssRepeatFn: boolean;
 }
 
-export type GridStateName = keyof Pick<
+export type GridControlObjKey = keyof Pick<
   GridState,
   'gridTemplateColumns' | 'gridTemplateRows' | 'gridGap'
 >;
@@ -103,7 +104,7 @@ export const gridContainerClassName = selector<string>({
 });
 
 export function useGridTemplate(
-  name: GridStateName,
+  name: GridControlObjKey,
   legend: string
 ): GridTemplateControlProps {
   const [gridState, setGridState] = useRecoilState(grid);
@@ -132,7 +133,10 @@ export function useGridTemplate(
   };
 }
 
-export function useControlHandlers(gridObjKey: GridStateName, index: number) {
+export function useControlHandlers(
+  gridObjKey: GridControlObjKey,
+  index: number
+) {
   const [gridState, setGridState] = useRecoilState(grid);
   const [isDirty, setIsDirty] = useRecoilState(dirtyGrid);
   const entries = gridState?.[gridObjKey];
@@ -165,24 +169,33 @@ export function useControlHandlers(gridObjKey: GridStateName, index: number) {
   return { handleChange: changeValue, handleDelete, canDelete };
 }
 
+export interface GridCssObj {
+  className: string;
+  gridGap: string;
+  gridTemplateRows: string;
+  gridTemplateColumns: string;
+}
+
+export function makeGridCss(state: GridState): GridCssObj {
+  const gridContainerClassName = state?.gridContainerClassName;
+  const gridTemplateRows = state?.gridTemplateRows;
+  const gridTemplateColumns = state?.gridTemplateColumns;
+  const useCssRepeatFn = state?.useCssRepeatFn;
+
+  return {
+    className: gridContainerClassName,
+    gridGap: `${state?.gridGap?.[0]?.amount}${state?.gridGap?.[0]?.unit} ${state?.gridGap?.[1]?.amount}${state?.gridGap?.[1]?.unit}`,
+    gridTemplateRows: createCssString(gridTemplateRows, useCssRepeatFn),
+    gridTemplateColumns: createCssString(gridTemplateColumns, useCssRepeatFn),
+  };
+}
+
 export const gridCss = selector({
   key: 'gridCss',
   get: ({ get }) => {
     const gridState = get(grid);
 
-    const gridContainerClassName = gridState?.gridContainerClassName;
-    const gridTemplateRows = gridState?.gridTemplateRows;
-    const gridTemplateColumns = gridState?.gridTemplateColumns;
-    const useCssRepeatFn = gridState?.useCssRepeatFn;
-
-    const cssObj = {
-      className: gridContainerClassName,
-      gridGap: `${gridState?.gridGap?.[0]?.amount}${gridState?.gridGap?.[0]?.unit} ${gridState?.gridGap?.[1]?.amount}${gridState?.gridGap?.[1]?.unit}`,
-      gridTemplateRows: createCssString(gridTemplateRows, useCssRepeatFn),
-      gridTemplateColumns: createCssString(gridTemplateColumns, useCssRepeatFn),
-    };
-
-    return cssObj;
+    return makeGridCss(gridState);
   },
 });
 
@@ -195,32 +208,30 @@ export interface GridAreaState {
   gridColumnEnd: number;
 }
 
+export function makeGridAreas(state: GridState) {
+  const areas: GridAreaState[] = [];
+
+  state?.gridTemplateRows?.forEach((_row, rowIndex) => {
+    state?.gridTemplateColumns?.forEach((_column, columnIndex) => {
+      areas.push({
+        id: `${columnIndex}.${rowIndex}`,
+        gridRowStart: rowIndex + 1,
+        gridRowEnd: rowIndex + 2,
+        gridColumnStart: columnIndex + 1,
+        gridColumnEnd: columnIndex + 2,
+      });
+    });
+  });
+
+  return areas;
+}
+
 export const gridEditorAreas = selector({
   key: 'areas',
   get: ({ get }) => {
     const gridState = get(grid);
 
-    const temp: GridAreaState[] = [];
-
-    gridState?.gridTemplateRows?.forEach((_row, rowIndex) => {
-      gridState?.gridTemplateColumns?.forEach((_column, columnIndex) => {
-        const gridRowStart = rowIndex + 1;
-        const gridRowEnd = rowIndex + 2;
-        const gridColumnStart = columnIndex + 1;
-        const gridColumnEnd = columnIndex + 2;
-
-        const area: GridAreaState = {
-          id: `${columnIndex}.${rowIndex}`,
-          gridRowStart,
-          gridRowEnd,
-          gridColumnStart,
-          gridColumnEnd,
-        };
-        temp.push(area);
-      });
-    });
-
-    return temp;
+    return makeGridAreas(gridState);
   },
 });
 

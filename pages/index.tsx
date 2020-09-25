@@ -12,12 +12,10 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 const IndexPage: NextPage<{ data: GridState }> = ({ data: initialData }) => {
-  const { data, error } = useSWR('/api/grid/template', { initialData });
-  if (error) return <div>Whoops!</div>;
   return (
     <>
       <Navbar headingProps={{ color: '#fff', fontWeight: 'bold' }} />
-      <GridEditor grid={data} />
+      <GridEditor endpoint="/api/grid/template" initialData={initialData} />
     </>
   );
 };

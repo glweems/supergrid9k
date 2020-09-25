@@ -1,5 +1,5 @@
 import {
-  GridStateName,
+  GridControlObjKey,
   GridTemplateEntry,
   useGridTemplate,
 } from '@/store/grid';
@@ -25,7 +25,7 @@ function GridEditorControls() {
 }
 
 export interface GridTemplateControlProps {
-  name: GridStateName;
+  name: GridControlObjKey;
   addEntry: React.MouseEventHandler<HTMLButtonElement>;
   entries?: GridTemplateEntry[];
   legend: string;

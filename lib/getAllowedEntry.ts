@@ -1,30 +1,120 @@
+import { InputProps } from '@rebass/forms/styled-components';
 import { GridTemplateEntry } from '../store/grid';
-import { defaultSelectProps } from './utils';
-const defaultInputProps = {
-  name: 'amount',
-  disabled: false,
-  type: 'number',
-  min: 0,
-};
+import {
+  defaultInputProps,
+  defaultSelectProps,
+  GridControlUnit,
+} from './utils';
 
-/**
- * Gets allowed entry
- * @param {
- *   name,
- *   value,
- *   entry,
- * }
- * @returns allowed entry
- */
-export default function getAllowedEntry({
-  name,
-  value,
-  entry,
-}: {
-  name: string;
-  value: string;
-  entry: GridTemplateEntry;
-}): GridTemplateEntry {
+export function getInputProps(
+  unit: GridControlUnit
+): [InputProps['value'], InputProps] {
+  switch (unit) {
+    case 'fr':
+      return [
+        1,
+        {
+          type: 'number',
+          min: 0,
+          max: 100,
+          step: 0.25,
+          autoComplete: 'off',
+          disabled: false,
+        },
+      ];
+    case '%':
+      return [
+        10,
+        {
+          type: 'number',
+          min: 0,
+          max: 100,
+          step: 5,
+          autoComplete: 'off',
+          disabled: false,
+        },
+      ];
+    case 'auto':
+      return [
+        '',
+        {
+          type: 'number',
+          min: 0,
+          step: 100,
+          autoComplete: 'off',
+          disabled: true,
+        },
+      ];
+
+    case 'em':
+      return [
+        5,
+        {
+          type: 'number',
+          min: 0,
+          max: 100,
+          step: 1,
+          autoComplete: 'off',
+          disabled: false,
+        },
+      ];
+    case 'rem':
+      return [
+        5,
+        {
+          type: 'number',
+          min: 0,
+          max: 100,
+          step: 1,
+          autoComplete: 'off',
+          disabled: false,
+        },
+      ];
+    case 'px':
+      return [
+        100,
+        {
+          type: 'number',
+          min: 0,
+          step: 100,
+          autoComplete: 'off',
+          disabled: false,
+        },
+      ];
+    case 'vh':
+      return [
+        5,
+        {
+          type: 'number',
+          min: 0,
+          max: 100,
+          step: 5,
+          autoComplete: 'off',
+          disabled: false,
+        },
+      ];
+    case 'vw':
+      return [
+        5,
+        {
+          type: 'number',
+          min: 0,
+          max: 100,
+          step: 5,
+          autoComplete: 'off',
+          disabled: false,
+        },
+      ];
+    default:
+      break;
+  }
+}
+
+export default function getAllowedEntry(
+  name: string,
+  value: string,
+  entry: GridTemplateEntry
+): GridTemplateEntry {
   switch (value) {
     case 'fr': {
       return {

@@ -15,14 +15,7 @@ interface ContextProviderProps {
 const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
   useAuth();
   useAnalytics({ publicKey: 'analytics_pub_c0b2081ea0' });
-  return (
-    <ThemeProvider theme={theme}>
-      <AuthModal />
-      <SWRConfig value={{ fetcher }}>
-        <DndProvider backend={HTML5Backend}>{children}</DndProvider>
-      </SWRConfig>
-    </ThemeProvider>
-  );
+  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 };
 
 export default ContextProvider;

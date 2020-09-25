@@ -1,85 +1,126 @@
-import { ArrowShortLeftIcon } from '@/lib/Icons';
-import { omit } from '@/lib/utils';
-import { useUser } from '@/store/auth';
-import { grid, GridState } from '@/store/grid';
+import { prettyControlName } from '@/lib/utils';
+import { GridControlObjKey, GridState } from '@/store/grid';
 import Box from '@/ui/Box';
-import Button from '@/ui/Button';
+import { Input } from '@rebass/forms/styled-components';
 import { motion } from 'framer-motion';
-import dynamic from 'next/dynamic';
 import React from 'react';
 import { use100vh } from 'react-div-100vh';
-import { Flex } from 'rebass/styled-components';
+import { Flex, Button } from 'rebass';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components/macro';
 import { layout } from 'styled-system';
+import useSWR from 'swr';
+import getAllowedEntry from '../../lib/getAllowedEntry';
 import { ui } from '../../store/ui';
-import GridEditorName from './GridEditorName';
-import { ToggleControlsButton } from './GridEditorToggleButtons';
-import SaveTemplateButton from './SaveTemplateButton';
-const GridEditorControls = dynamic(() => import('./GridEditorControls'));
-const GridEditorItems = dynamic(() => import('./GridEditorItems'));
-const GridEditorResetButton = dynamic(() => import('./GridEditorResetButton'));
+import If from '../If';
+import { GridEditorControl } from './GridEditorControl';
+import GridEditorItems from './GridEditorItems';
 export interface GridEditorProps {
+  endpoint: string;
   grid?: GridState;
+  initialData?: GridState;
 }
 
-function useCleanGridState(obj) {
-  const user = useUser();
+type setGridState = React.Dispatch<React.SetStateAction<GridState>>;
 
-  const readyState = { ...omit(obj, '_id'), initalState: obj, user };
-  return readyState;
-}
+const GridEditor: React.FC<GridEditorProps> = ({ endpoint, initialData }) => {
+  const { data, error, mutate } = useSWR<GridState, GridState>(endpoint, {
+    initialData,
+    refreshInterval: 0,
+    shouldRetryOnError: false,
+    revalidateOnMount: false,
+    revalidateOnFocus: false,
+    refreshWhenHidden: false,
+  });
 
-const GridEditor: React.FC<GridEditorProps> = ({ grid: gridProp }) => {
-  const [gridState, setGridState] = useRecoilState(grid);
-  const [uiState] = useRecoilState(ui);
-  const obj = useCleanGridState(gridProp);
   const vp = use100vh();
-  const height = `calc(${vp}px - ${uiState.navbarHeight})`;
-  React.useEffect(() => {
-    if (!gridState) {
-      setGridState(obj);
-    }
-  }, [gridState, obj, setGridState]);
-
-  // const gelProps = { controlPanelWidth, codePanelWidth };
 
   return (
-    <Layout
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      height={height}
-    >
+    <Layout height={vp + 'px'}>
       <Box as={motion.aside} className="grid-sidebar">
-        <div>
-          <ToggleControlsButton />
-          <GridEditorName />
-          <GridEditorControls />
-        </div>
+        <EditorControlStack objKey="gridTemplateRows" endpoint={endpoint} />
+        <EditorControlStack objKey="gridTemplateColumns" endpoint={endpoint} />
+        <EditorControlStack objKey="gridGap" endpoint={endpoint} />
       </Box>
 
       <Box className="grid-items" height="100%">
+        {JSON.stringify(data, null, 2)}
         <GridEditorItems />
       </Box>
 
-      <motion.section className="toolbar">
-        <Button>
-          <ArrowShortLeftIcon />
-        </Button>
-        <Flex>
-          <GridEditorResetButton />
-          <SaveTemplateButton />
-        </Flex>
-        <Button>
-          <ArrowShortLeftIcon />
-        </Button>
-      </motion.section>
+      <motion.section className="toolbar"></motion.section>
     </Layout>
   );
 };
 
-export default GridEditor;
+const EditorControlStack: React.FC<{
+  endpoint: string;
+  objKey: GridControlObjKey;
+  // addEntry: React.MouseEventHandler<HTMLButtonElement>;
+  // gridState: GridState;
+  // setGridState: setGridState;
+}> = ({ objKey, endpoint }) => {
+  const { data, error, mutate } = useSWR<GridState>(endpoint, {
+    refreshInterval: 0,
+    revalidateOnMount: false,
+    revalidateOnFocus: false,
+    refreshWhenHidden: false,
+  });
+
+  const addEntry = () => {
+    if (data) {
+      const entries = data?.[objKey];
+      const lastEntry = {
+        ...entries?.slice(-1)[0],
+      };
+
+      const newEntries = [...entries, lastEntry];
+
+      mutate({ ...data, [objKey]: newEntries }, false);
+
+      // if (!isDirty) setIsDirty(true);
+    }
+  };
+
+  if (data?.[objKey])
+    return (
+      <div>
+        <Flex flexDirection="column" justifyContent="stretch" padding={1}>
+          <label className="control-label">{prettyControlName(objKey)}</label>
+          {/* Button To Add New GridTemplate Entry */}
+          <If isTrue={objKey !== 'gridGap'}>
+            <Button
+              name={objKey}
+              onClick={addEntry}
+              color="background"
+              bg="green"
+              padding={0}
+              paddingX={2}
+              width="100%"
+              alignSelf="flex-end"
+              css={``}
+            >
+              +
+            </Button>
+          </If>
+        </Flex>
+        {data?.[objKey]
+          ?.filter((obj) => obj !== null)
+          .map((item, index) => {
+            return (
+              <GridEditorControl
+                endpoint={endpoint}
+                key={`control-${objKey}-${index}`}
+                objKey={objKey}
+                index={index}
+                {...item}
+              />
+            );
+          })}
+      </div>
+    );
+  return null;
+};
 
 const Layout = motion.custom(styled(Box)`
   ${layout};
@@ -140,3 +181,4 @@ const Layout = motion.custom(styled(Box)`
 `);
 
 Layout.displayName = 'GridEditorLayout';
+export default GridEditor;

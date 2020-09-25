@@ -1,12 +1,14 @@
+import { defaultGridState } from '@/lib/utils';
 import { NextApiResponse } from 'next';
 import nc from 'next-connect';
-import { defaultGridState } from '@/lib/utils';
-import { makeDefaultGrid } from '@/store/grid';
+import authMiddleware from '../../../lib/auth/authMiddleware';
 import { AuthApiRequest } from './[id]';
 
-const json = makeDefaultGrid(defaultGridState);
-const handler = nc<AuthApiRequest, NextApiResponse>().get(async (req, res) => {
-  res.status(200).json({ ...json, owner: { ...req.user } });
-});
+const json = defaultGridState;
+const handler = nc<AuthApiRequest, NextApiResponse>()
+  .use(authMiddleware)
+  .get(async (_req, res) => {
+    res.status(200).json(json);
+  });
 
 export default handler;

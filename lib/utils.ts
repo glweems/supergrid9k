@@ -1,10 +1,12 @@
+import { InputProps } from '@rebass/forms/styled-components';
+import { SelectProps } from '../components/Select';
 import { GridState, GridTemplateEntry } from '../store/grid';
 export function replaceItemAtIndex<T = Record<string, unknown>>(
   arr: T[],
   index: number,
   newValue: T
 ) {
-  return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
+  return [...arr?.slice(0, index), newValue, ...arr?.slice(index + 1)];
 }
 
 export function removeItemAtIndex<T = Record<string, unknown>>(
@@ -50,10 +52,12 @@ export function templateGenerator<T extends Record<string, unknown>>(
  * @returns string
  * @example prettyName("gridTemplateRows") // returns "Grid Rows"
  */
-export function prettyName(name: string): string {
+export function prettyControlName(name: string): string {
   return name
+    .split('grid')
+    .join('')
     .split('Template')
-    .join(' ')
+    .join('')
     .replace(/(?:^|\s)\S/g, function (a) {
       return a.toUpperCase();
     });
@@ -92,21 +96,39 @@ export function repeatStr(
 ) {
   return createRepetition(groupRepeatedUnits(entries));
 }
-
-export const gridUnits = ['fr', '%', 'px', 'vw', 'vh', 'em', 'rem', 'auto'];
+export type GridControlUnit =
+  | 'fr'
+  | '%'
+  | 'px'
+  | 'vw'
+  | 'vh'
+  | 'em'
+  | 'rem'
+  | 'auto';
+export const gridUnits: GridControlUnit[] = [
+  'fr',
+  '%',
+  'px',
+  'vw',
+  'vh',
+  'em',
+  'rem',
+  'auto',
+];
 
 export type GridTemplateUnit = typeof gridUnits[number];
 
 export const gridGapUnits = ['px', 'rem', 'em', 'vh', 'vw'];
 
-export const defaultInputProps = {
-  name: 'amount',
+export const defaultInputProps: InputProps = {
   disabled: false,
   type: 'number',
   min: 0,
+  autoComplete: 'off',
+  step: 0.25,
 };
 
-export const defaultSelectProps = {
+export const defaultSelectProps: SelectProps = {
   name: 'unit',
   disabled: false,
   options: gridUnits,
@@ -129,51 +151,44 @@ export function createCssString(
   if (repeat) return repeatStr(entries);
   return dataToCss(entries);
 }
-export const initialGridTemplateRows: GridTemplateEntry[] = [
-  {
-    amount: 1,
-    unit: 'fr',
-    inputProps: defaultInputProps,
-    selectProps: defaultSelectProps,
-  },
-  {
-    amount: 1,
-    unit: 'fr',
-    inputProps: defaultInputProps,
-    selectProps: defaultSelectProps,
-  },
-];
-
-export const initialGridTemplateColumns: GridTemplateEntry[] = [
-  {
-    amount: 1,
-    unit: 'fr',
-    inputProps: defaultInputProps,
-    selectProps: defaultSelectProps,
-  },
-  {
-    amount: 1,
-    unit: 'fr',
-    inputProps: defaultInputProps,
-    selectProps: defaultSelectProps,
-  },
-];
 export const defaultGridState: GridState = {
   name: 'Template',
-  gridTemplateRows: initialGridTemplateRows,
-  gridTemplateColumns: initialGridTemplateColumns,
+  gridTemplateRows: [
+    {
+      amount: 1,
+      unit: 'fr',
+    },
+    {
+      amount: 1,
+      unit: 'fr',
+    },
+    {
+      amount: 1,
+      unit: 'fr',
+    },
+  ],
+  gridTemplateColumns: [
+    {
+      amount: 1,
+      unit: 'fr',
+    },
+    {
+      amount: 1,
+      unit: 'fr',
+    },
+    {
+      amount: 1,
+      unit: 'fr',
+    },
+  ],
   gridGap: [
     {
       amount: 1,
       unit: 'rem',
-      inputProps: defaultInputProps,
-      selectProps: { ...defaultSelectProps, options: gridGapUnits },
     },
     {
       amount: 1,
       unit: 'rem',
-      inputProps: defaultInputProps,
-      selectProps: { ...defaultSelectProps, options: gridGapUnits },
     },
   ],
   useCssRepeatFn: true,
