@@ -52,11 +52,12 @@
     "styled-components": "^5.2.0",
     "styled-media-query": "^2.1.2",
     "styled-system": "^5.1.5",
-    "swr": "^0.3.3",
+    "swr": "^0.3.5",
     "typescript": "^4.1.0-beta",
     "typography": "^0.16.19",
     "typography-plugin-code": "^0.16.19",
     "use-debounce": "^5.0.0",
+    "use-immer": "^0.4.1",
     "validator": "^13.1.17"
   },
   "scripts": {
@@ -126,7 +127,7 @@
     "eslint-config-stylelint": "^12.0.0",
     "eslint-plugin-flowtype": "5.2.0",
     "eslint-plugin-import": "2.22.0",
-    "eslint-plugin-jsx-a11y": "6.3.1",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "7.20.6",
     "eslint-plugin-react-hooks": "^4.1.2",

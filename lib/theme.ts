@@ -97,9 +97,13 @@ const theme = {
     },
   },
   buttons: {
+    base: {
+      color: 'background',
+      bg: 'primary',
+      borderRadius: 'default',
+    },
     primary: {
       fontSize: 2,
-      fontWeight: 'bold',
       color: 'background',
       bg: 'primary',
       borderRadius: 'default',
@@ -113,24 +117,6 @@ const theme = {
       ':hover': {
         opacity: 0.75,
       },
-    },
-    secondary: {
-      variant: 'buttons.default',
-      color: 'background',
-      bg: 'secondary',
-    },
-    close: {
-      variant: 'buttons.default',
-      color: 'red',
-      bg: 'background',
-      padding: 1,
-    },
-    reset: {
-      variant: 'buttons.default',
-      bg: 'red',
-      color: 'text',
-      fontWeight: 'bolder',
-      borderLeft: 0,
     },
   },
   forms: {

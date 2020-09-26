@@ -1,18 +1,17 @@
 import { prettyControlName } from '@/lib/utils';
 import { GridControlObjKey, GridState } from '@/store/grid';
 import Box from '@/ui/Box';
-import { Input } from '@rebass/forms/styled-components';
-import { motion } from 'framer-motion';
+import { motion, MotionProps } from 'framer-motion';
+import produce from 'immer';
 import React from 'react';
 import { use100vh } from 'react-div-100vh';
-import { Flex, Button } from 'rebass';
-import { useRecoilState } from 'recoil';
+import { Flex } from 'rebass';
+import Button from '@/ui/Button';
 import styled from 'styled-components/macro';
 import { layout } from 'styled-system';
-import useSWR from 'swr';
-import getAllowedEntry from '../../lib/getAllowedEntry';
-import { ui } from '../../store/ui';
+import useSWR, { mutate } from 'swr';
 import If from '../If';
+import { GridEditorContextProvider, useGridEditorContext } from './GridContext';
 import { GridEditorControl } from './GridEditorControl';
 import GridEditorItems from './GridEditorItems';
 export interface GridEditorProps {
@@ -21,22 +20,16 @@ export interface GridEditorProps {
   initialData?: GridState;
 }
 
-type setGridState = React.Dispatch<React.SetStateAction<GridState>>;
-
 const GridEditor: React.FC<GridEditorProps> = ({ endpoint, initialData }) => {
-  const { data, error, mutate } = useSWR<GridState, GridState>(endpoint, {
+  const { data, error } = useSWR<GridState, GridState>(endpoint, {
     initialData,
     refreshInterval: 0,
-    shouldRetryOnError: false,
     revalidateOnMount: false,
-    revalidateOnFocus: false,
-    refreshWhenHidden: false,
   });
-
   const vp = use100vh();
 
   return (
-    <Layout height={vp + 'px'}>
+    <Layout height={`calc(${vp}px - 3.75rem)`}>
       <Box as={motion.aside} className="grid-sidebar">
         <EditorControlStack objKey="gridTemplateRows" endpoint={endpoint} />
         <EditorControlStack objKey="gridTemplateColumns" endpoint={endpoint} />
@@ -44,13 +37,32 @@ const GridEditor: React.FC<GridEditorProps> = ({ endpoint, initialData }) => {
       </Box>
 
       <Box className="grid-items" height="100%">
-        {JSON.stringify(data, null, 2)}
-        <GridEditorItems />
+        <GridEditorItems endpoint={endpoint} />
       </Box>
 
-      <motion.section className="toolbar"></motion.section>
+      <Box
+        as="section"
+        className="toolbar"
+        height="3.5rem"
+        display="flex"
+        justifyItems="flex-end"
+        justifyContent="flex-end"
+        alignItems="center"
+        // variant="nav"
+      >
+        <Box ml="auto">
+          <Button bg="muted">Code</Button>
+        </Box>
+      </Box>
     </Layout>
   );
+};
+
+const motionProps = {
+  initial: { opacity: 0, y: 30, scale: 0.5 },
+  animate: { opacity: 1, y: 0, scale: 1 },
+  exit: { opacity: 0, y: 30 },
+  transition: { duration: 0.25 },
 };
 
 const EditorControlStack: React.FC<{
@@ -60,12 +72,9 @@ const EditorControlStack: React.FC<{
   // gridState: GridState;
   // setGridState: setGridState;
 }> = ({ objKey, endpoint }) => {
-  const { data, error, mutate } = useSWR<GridState>(endpoint, {
-    refreshInterval: 0,
-    revalidateOnMount: false,
-    revalidateOnFocus: false,
-    refreshWhenHidden: false,
-  });
+  const { data, error } = useSWR<GridState>(endpoint, {});
+
+  if (error) return <div>error</div>;
 
   const addEntry = () => {
     if (data) {
@@ -74,55 +83,66 @@ const EditorControlStack: React.FC<{
         ...entries?.slice(-1)[0],
       };
 
-      const newEntries = [...entries, lastEntry];
-
-      mutate({ ...data, [objKey]: newEntries }, false);
+      mutate(
+        endpoint,
+        produce((draft) => {
+          draft[objKey].push(lastEntry);
+        }),
+        false
+      );
 
       // if (!isDirty) setIsDirty(true);
     }
   };
 
-  if (data?.[objKey])
-    return (
-      <div>
-        <Flex flexDirection="column" justifyContent="stretch" padding={1}>
-          <label className="control-label">{prettyControlName(objKey)}</label>
-          {/* Button To Add New GridTemplate Entry */}
-          <If isTrue={objKey !== 'gridGap'}>
-            <Button
-              name={objKey}
-              onClick={addEntry}
-              color="background"
-              bg="green"
-              padding={0}
-              paddingX={2}
-              width="100%"
-              alignSelf="flex-end"
-              css={``}
+  return (
+    <div>
+      <Flex flexDirection="column" justifyContent="stretch" padding={1}>
+        <label className="control-label">{prettyControlName(objKey)}</label>
+        {/* Button To Add New GridTemplate Entry */}
+        <If isTrue={objKey !== 'gridGap'}>
+          <Button
+            name={objKey}
+            onClick={addEntry}
+            color="background"
+            bg="green"
+            padding={0}
+            paddingX={2}
+            width="100%"
+            alignSelf="flex-end"
+            css={``}
+          >
+            +
+          </Button>
+        </If>
+      </Flex>
+      <motion.ul>
+        {data?.[objKey].map((item, index) => {
+          return (
+            <Box
+              key={`control-${objKey}-${index}`}
+              as={motion.li}
+              display="flex"
+              alignItems="center"
+              marginTop="-2px"
+              height={'auto'}
+              {...motionProps}
             >
-              +
-            </Button>
-          </If>
-        </Flex>
-        {data?.[objKey]
-          ?.filter((obj) => obj !== null)
-          .map((item, index) => {
-            return (
               <GridEditorControl
                 endpoint={endpoint}
-                key={`control-${objKey}-${index}`}
                 objKey={objKey}
                 index={index}
                 {...item}
               />
-            );
-          })}
-      </div>
-    );
-  return null;
+            </Box>
+          );
+        })}
+      </motion.ul>
+    </div>
+  );
 };
 
-const Layout = motion.custom(styled(Box)`
+const Layout = styled(Box)`
   ${layout};
   display: grid;
   grid-template-areas:
@@ -133,15 +153,10 @@ const Layout = motion.custom(styled(Box)`
   width: 100vw;
 
   .toolbar {
+    display: flex;
     grid-area: toolbar;
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    place-items: center;
-    div {
-      place-items: center;
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-    }
+    justify-content: flex-end;
+    padding: var(--space-2);
   }
 
   aside {
@@ -178,7 +193,7 @@ const Layout = motion.custom(styled(Box)`
       outline: none;
     }
   }
-`);
+`;
 
 Layout.displayName = 'GridEditorLayout';
 export default GridEditor;

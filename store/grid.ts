@@ -200,7 +200,7 @@ export const gridCss = selector({
 });
 
 export interface GridAreaState {
-  name?: string;
+  name: string;
   id: string;
   gridRowStart: number;
   gridRowEnd: number;
@@ -208,20 +208,20 @@ export interface GridAreaState {
   gridColumnEnd: number;
 }
 
-export function makeGridAreas(state: GridState) {
-  const areas: GridAreaState[] = [];
-
-  state?.gridTemplateRows?.forEach((_row, rowIndex) => {
-    state?.gridTemplateColumns?.forEach((_column, columnIndex) => {
-      areas.push({
+export function makeGridAreas(state?: GridState): GridAreaState[] {
+  if (!state) return [];
+  const areas: GridAreaState[] = state?.gridTemplateRows
+    ?.map((_row, rowIndex) =>
+      state?.gridTemplateColumns?.map((_column, columnIndex) => ({
         id: `${columnIndex}.${rowIndex}`,
+        name: '.',
         gridRowStart: rowIndex + 1,
         gridRowEnd: rowIndex + 2,
         gridColumnStart: columnIndex + 1,
         gridColumnEnd: columnIndex + 2,
-      });
-    });
-  });
+      }))
+    )
+    .flat();
 
   return areas;
 }
