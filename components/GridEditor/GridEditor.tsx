@@ -1,19 +1,18 @@
 import { prettyControlName } from '@/lib/utils';
 import { GridControlObjKey, GridState } from '@/store/grid';
 import Box from '@/ui/Box';
-import { motion, MotionProps } from 'framer-motion';
+import Button from '@/ui/Button';
+import { motion } from 'framer-motion';
 import produce from 'immer';
 import React from 'react';
 import { use100vh } from 'react-div-100vh';
 import { Flex } from 'rebass';
-import Button from '@/ui/Button';
 import styled from 'styled-components/macro';
 import { layout } from 'styled-system';
 import useSWR, { mutate } from 'swr';
 import If from '../If';
-import { GridEditorContextProvider, useGridEditorContext } from './GridContext';
+import GridAreas from './GridAreas';
 import { GridEditorControl } from './GridEditorControl';
-import GridEditorItems from './GridEditorItems';
 export interface GridEditorProps {
   endpoint: string;
   grid?: GridState;
@@ -21,7 +20,7 @@ export interface GridEditorProps {
 }
 
 const GridEditor: React.FC<GridEditorProps> = ({ endpoint, initialData }) => {
-  const { data, error } = useSWR<GridState, GridState>(endpoint, {
+  const { data } = useSWR<GridState, GridState>(endpoint, {
     initialData,
     refreshInterval: 0,
     revalidateOnMount: false,
@@ -37,7 +36,7 @@ const GridEditor: React.FC<GridEditorProps> = ({ endpoint, initialData }) => {
       </Box>
 
       <Box className="grid-items" height="100%">
-        <GridEditorItems endpoint={endpoint} />
+        <GridAreas endpoint={endpoint} />
       </Box>
 
       <Box
@@ -54,6 +53,10 @@ const GridEditor: React.FC<GridEditorProps> = ({ endpoint, initialData }) => {
           <Button bg="muted">Code</Button>
         </Box>
       </Box>
+
+      <If isTrue={data?.name !== undefined}>
+        {/* <CodeBlock language="json" code={JSON.stringify(data, null, 2)} /> */}
+      </If>
     </Layout>
   );
 };
@@ -87,6 +90,15 @@ const EditorControlStack: React.FC<{
         endpoint,
         produce((draft) => {
           draft[objKey].push(lastEntry);
+          switch (objKey) {
+            case 'gridTemplateRows':
+              draft.width++;
+              break;
+            case 'gridTemplateColumns':
+              draft.height++;
+            default:
+              break;
+          }
         }),
         false
       );
@@ -161,19 +173,16 @@ const Layout = styled(Box)`
 
   aside {
     grid-area: grid-sidebar;
-    overflow-y: auto;
-    color: var(--color-text);
     width: 250px;
-    padding: 0;
     margin: 0;
+    padding: 0;
     overflow: hidden;
     overflow-y: auto;
     color: var(--color-text);
-    width: 250px;
+    background-color: var(--color-secondary);
     border-right-color: var(--color-muted);
     border-right-width: 1px;
     border-right-style: solid;
-    background-color: var(--color-secondary);
     :first-child {
       padding: var(--space-3);
     }

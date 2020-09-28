@@ -1,18 +1,14 @@
 import { Icon } from '@/lib/Icons';
 import { gridGapUnits, gridUnits } from '@/lib/utils';
 import { GridControlObjKey, GridState, GridTemplateEntry } from '@/store/grid';
-import Box from '@/ui/Box';
 import Button from '@/ui/Button';
 import { Input } from '@rebass/forms/styled-components';
-import { motion } from 'framer-motion';
 import produce from 'immer';
+import _ from 'lodash';
 import React from 'react';
 import useSWR, { mutate } from 'swr';
 import If from '../If';
 import Select from '../Select';
-import { useImmer } from 'use-immer';
-import { useGridEditorContext } from './GridContext';
-import _ from 'lodash';
 export interface GridEditorControlProps extends GridTemplateEntry {
   objKey: GridControlObjKey;
   index: number;
@@ -22,16 +18,15 @@ export interface GridEditorControlProps extends GridTemplateEntry {
 export const GridEditorControl: React.FC<GridEditorControlProps> = ({
   objKey,
   index,
-  amount,
   endpoint,
-  unit,
 }) => {
   const { data, error } = useSWR<GridState>(endpoint, {
     refreshInterval: 0,
     revalidateOnMount: false,
   });
+
   const control = data?.[objKey]?.[index];
-  const [state, setState] = useImmer(control);
+  const [state, setState] = React.useState(control);
 
   const isGap = objKey === 'gridGap';
 
@@ -41,7 +36,7 @@ export const GridEditorControl: React.FC<GridEditorControlProps> = ({
     const { name, value } = event.target;
 
     setState((draft) => {
-      draft[name] = value;
+      return { ...draft, [name]: value };
     });
 
     mutate(
@@ -55,11 +50,21 @@ export const GridEditorControl: React.FC<GridEditorControlProps> = ({
     // if (!isDirty) setIsDirty(true);
   };
 
-  const handleDelete: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+  const handleDelete: React.MouseEventHandler<HTMLButtonElement> = () => {
     mutate(
       endpoint,
       produce((draft: GridState) => {
         draft?.[objKey]?.splice(index, 1);
+        switch (objKey) {
+          case 'gridTemplateRows':
+            draft.width--;
+            break;
+          case 'gridTemplateColumns':
+            draft.height--;
+            break;
+          default:
+            break;
+        }
       }),
       false
     );

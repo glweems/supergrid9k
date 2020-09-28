@@ -3893,6 +3893,11 @@ css-color-keywords@^1.0.0:
   resolved "https://registry.yarnpkg.com/css-color-keywords/-/css-color-keywords-1.0.0.tgz#fea2616dc676b2962686b3af8dbdbe180b244e05"
   integrity sha1-/qJhbcZ2spYmhrOvjb2+GAskTgU=
 
+css-grid-template-parser@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/css-grid-template-parser/-/css-grid-template-parser-0.1.0.tgz#f18a5560c4b2e4cbe19e4ea9050d32b3699738e2"
+  integrity sha512-AtofWFdLTeInKnsyK+VE/6LVkPP25BTyWaGJQYVDF36Uzit6JzvP91hQpk2eD/L5CPQhaEgV8soqOC0yWpKfUA==
+
 css-in-js-utils@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/css-in-js-utils/-/css-in-js-utils-2.0.1.tgz#3b472b398787291b47cfe3e44fecfdd9e914ba99"
@@ -10435,7 +10440,7 @@ svg-tags@^1.0.0:
   resolved "https://registry.yarnpkg.com/svg-tags/-/svg-tags-1.0.0.tgz#58f71cee3bd519b59d4b2a843b6c7de64ac04764"
   integrity sha1-WPcc7jvVGbWdSyqEO2x95krAR2Q=
 
-swr@^0.3.3:
+swr@^0.3.5:
   version "0.3.5"
   resolved "https://registry.yarnpkg.com/swr/-/swr-0.3.5.tgz#848a80e7b23b96d7221468555d8688d3efdecbc7"
   integrity sha512-sZNed7JBEnFC42+XFWJ+aYGGVg5D3qNyISZOke3oL/gM1UNm0tsj9mbhTPT99SV9DzbKbT1NFTTRandPdhvpUA==

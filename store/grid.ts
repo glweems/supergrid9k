@@ -1,8 +1,7 @@
 import { CodePenData } from '@/components/CodePenButton';
 import { GridTemplateControlProps } from '@/components/GridEditor/GridEditorControls';
-import { SelectProps } from '@/components/Select';
-import { InputProps } from '@rebass/forms/styled-components';
-import React from 'react';
+import { Area, template } from 'css-grid-template-parser';
+import React, { CSSProperties } from 'react';
 import { atom, selector, useRecoilState } from 'recoil';
 import getAllowedEntry from '../lib/getAllowedEntry';
 import { cssTemplateString, htmlTemplateString } from '../lib/templateStrings';
@@ -17,25 +16,82 @@ export type GridTemplateEntry = {
   // id: string;
   amount: number;
   unit: GridControlUnit;
-  inputProps?: InputProps;
-  selectProps?: SelectProps;
 };
-
+export interface RawGridState {
+  name: string;
+  gridTemplateRows: string;
+  gridTemplateColumns: string;
+  gridGap: string;
+  gridContainerClassName: string;
+  useCssRepeatFn: boolean;
+}
 export interface GridState {
   _id?: string;
   name: string;
   gridTemplateRows: GridTemplateEntry[];
   gridTemplateColumns: GridTemplateEntry[];
-  gridGap: GridTemplateEntry[];
-  initialState?: GridState;
+  gridGap: [GridTemplateEntry, GridTemplateEntry];
   gridContainerClassName: string;
   useCssRepeatFn: boolean;
+  width: number;
+  height: number;
+  areas: Record<string, Area>;
+  // gridTemplateArea: string;
 }
 
 export type GridControlObjKey = keyof Pick<
   GridState,
   'gridTemplateColumns' | 'gridTemplateRows' | 'gridGap'
 >;
+
+export interface GridAreaState {
+  name: string;
+  id: string;
+  gridRowStart: number;
+  gridRowEnd: number;
+  gridColumnStart: number;
+  gridColumnEnd: number;
+}
+
+export function makeGridAreas(state?: GridState) {
+  if (!state) return [];
+
+  // const rows = new Array(s)
+
+  return [{}, {}];
+}
+export interface GridCssObj
+  extends Pick<
+    CSSProperties,
+    'display' | 'gridGap' | 'gridTemplateRows' | 'gridTemplateColumns'
+  > {
+  className: string;
+}
+
+export function makeGridCss(
+  state: GridState,
+  _items?: GridAreaState[]
+): GridCssObj {
+  const gridContainerClassName = state?.gridContainerClassName;
+  const gridTemplateRows = state?.gridTemplateRows;
+  const gridTemplateColumns = state?.gridTemplateColumns;
+  const useCssRepeatFn = state?.useCssRepeatFn;
+  const obj = {
+    display: 'grid',
+    height: 'inherit',
+    className: gridContainerClassName,
+    gridGap: `${state?.gridGap?.[0]?.amount}${state?.gridGap?.[0]?.unit} ${state?.gridGap?.[1]?.amount}${state?.gridGap?.[1]?.unit}`,
+    gridTemplateRows: createCssString(gridTemplateRows, useCssRepeatFn),
+    gridTemplateColumns: createCssString(gridTemplateColumns, useCssRepeatFn),
+    gridTemplateAreas: template({
+      height: gridTemplateColumns?.length,
+      width: gridTemplateRows?.length,
+      areas: state.areas,
+    }),
+  };
+
+  return obj;
+}
 export const grid = atom<null | GridState>({
   key: 'grid',
   default: null,
@@ -148,7 +204,7 @@ export function useControlHandlers(
     const newEntry = replaceItemAtIndex(
       entries,
       index,
-      getAllowedEntry({ name, value: value as any, entry })
+      getAllowedEntry(name, value, entry)
     );
     setGridState({ ...gridState, [gridObjKey]: newEntry });
     if (!isDirty) setIsDirty(true);
@@ -169,27 +225,6 @@ export function useControlHandlers(
   return { handleChange: changeValue, handleDelete, canDelete };
 }
 
-export interface GridCssObj {
-  className: string;
-  gridGap: string;
-  gridTemplateRows: string;
-  gridTemplateColumns: string;
-}
-
-export function makeGridCss(state: GridState): GridCssObj {
-  const gridContainerClassName = state?.gridContainerClassName;
-  const gridTemplateRows = state?.gridTemplateRows;
-  const gridTemplateColumns = state?.gridTemplateColumns;
-  const useCssRepeatFn = state?.useCssRepeatFn;
-
-  return {
-    className: gridContainerClassName,
-    gridGap: `${state?.gridGap?.[0]?.amount}${state?.gridGap?.[0]?.unit} ${state?.gridGap?.[1]?.amount}${state?.gridGap?.[1]?.unit}`,
-    gridTemplateRows: createCssString(gridTemplateRows, useCssRepeatFn),
-    gridTemplateColumns: createCssString(gridTemplateColumns, useCssRepeatFn),
-  };
-}
-
 export const gridCss = selector({
   key: 'gridCss',
   get: ({ get }) => {
@@ -198,33 +233,6 @@ export const gridCss = selector({
     return makeGridCss(gridState);
   },
 });
-
-export interface GridAreaState {
-  name: string;
-  id: string;
-  gridRowStart: number;
-  gridRowEnd: number;
-  gridColumnStart: number;
-  gridColumnEnd: number;
-}
-
-export function makeGridAreas(state?: GridState): GridAreaState[] {
-  if (!state) return [];
-  const areas: GridAreaState[] = state?.gridTemplateRows
-    ?.map((_row, rowIndex) =>
-      state?.gridTemplateColumns?.map((_column, columnIndex) => ({
-        id: `${columnIndex}.${rowIndex}`,
-        name: '.',
-        gridRowStart: rowIndex + 1,
-        gridRowEnd: rowIndex + 2,
-        gridColumnStart: columnIndex + 1,
-        gridColumnEnd: columnIndex + 2,
-      }))
-    )
-    .flat();
-
-  return areas;
-}
 
 export const gridEditorAreas = selector({
   key: 'areas',
