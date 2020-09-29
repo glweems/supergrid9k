@@ -1,3 +1,6 @@
+import { useContext } from 'react';
+import { ThemeContext } from 'styled-components';
+
 export const colors = {
   primary: '#3578e5',
   secondary: '#242526',
@@ -22,6 +25,9 @@ export const defaultFont =
 
 const theme = {
   colors: { ...colors, control: colors.code, bg: colors.background },
+  navbarHeight: '3.75rem',
+  toolbarHeight: '3.5rem',
+  sidebarWidth: 300,
   space,
   fonts: {
     body: defaultFont,
@@ -149,6 +155,12 @@ const theme = {
   },
 };
 
-export type SuperGrid9kTheme = { colors: typeof theme.colors };
+export type SuperGrid9kTheme = typeof theme;
+
+export function useTheme() {
+  const context = useContext(ThemeContext);
+
+  return context;
+}
 
 export default theme;

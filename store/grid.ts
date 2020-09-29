@@ -1,6 +1,13 @@
+/* eslint-disable no-extend-native */
 import { CodePenData } from '@/components/CodePenButton';
 import { GridTemplateControlProps } from '@/components/GridEditor/GridEditorControls';
-import { Area, template } from 'css-grid-template-parser';
+import {
+  Area,
+  template,
+  Entry,
+  GridState,
+  RawGridState,
+} from 'css-grid-template-parser';
 import React, { CSSProperties } from 'react';
 import { atom, selector, useRecoilState } from 'recoil';
 import getAllowedEntry from '../lib/getAllowedEntry';
@@ -17,27 +24,6 @@ export type GridTemplateEntry = {
   amount: number;
   unit: GridControlUnit;
 };
-export interface RawGridState {
-  name: string;
-  gridTemplateRows: string;
-  gridTemplateColumns: string;
-  gridGap: string;
-  gridContainerClassName: string;
-  useCssRepeatFn: boolean;
-}
-export interface GridState {
-  _id?: string;
-  name: string;
-  gridTemplateRows: GridTemplateEntry[];
-  gridTemplateColumns: GridTemplateEntry[];
-  gridGap: [GridTemplateEntry, GridTemplateEntry];
-  gridContainerClassName: string;
-  useCssRepeatFn: boolean;
-  width: number;
-  height: number;
-  areas: Record<string, Area>;
-  // gridTemplateArea: string;
-}
 
 export type GridControlObjKey = keyof Pick<
   GridState,
@@ -53,12 +39,41 @@ export interface GridAreaState {
   gridColumnEnd: number;
 }
 
-export function makeGridAreas(state?: GridState) {
+function char_count(str: string, letter: string) {
+  let letter_Count = 0;
+  for (let position = 0; position < str.length; position++) {
+    if (str.charAt(position) === letter) {
+      letter_Count++;
+    }
+  }
+  return letter_Count;
+}
+
+export function makeGridAreas({
+  areas,
+  gridTemplateRows,
+  gridTemplateColumns,
+  ...state
+}: RawGridState) {
   if (!state) return [];
+  const areaStr = template({
+    width: gridTemplateColumns.split(' ').length,
+    height: gridTemplateRows.split(' ').length,
+    areas,
+  });
 
-  // const rows = new Array(s)
+  console.log(char_count(areaStr, '.'));
+  const unnamed = areaStr
+    .split('\n')
+    .map((row) => row.split(' ').map((col) => ({ name: 'hi' })))
+    .flat();
 
-  return [{}, {}];
+  const named = Object.entries(areas).map(([name, value]) => ({
+    name,
+    ...value,
+  }));
+
+  return [...named, ...unnamed];
 }
 export interface GridCssObj
   extends Pick<
@@ -81,8 +96,8 @@ export function makeGridCss(
     height: 'inherit',
     className: gridContainerClassName,
     gridGap: `${state?.gridGap?.[0]?.amount}${state?.gridGap?.[0]?.unit} ${state?.gridGap?.[1]?.amount}${state?.gridGap?.[1]?.unit}`,
-    gridTemplateRows: createCssString(gridTemplateRows, useCssRepeatFn),
-    gridTemplateColumns: createCssString(gridTemplateColumns, useCssRepeatFn),
+    // gridTemplateRows: createCssString(gridTemplateRows, useCssRepeatFn),
+    // gridTemplateColumns: createCssString(gridTemplateColumns, useCssRepeatFn),
     gridTemplateAreas: template({
       height: gridTemplateColumns?.length,
       width: gridTemplateRows?.length,

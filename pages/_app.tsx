@@ -57,11 +57,9 @@ class MyApp extends App<AppProps<{ dehydratedState: any }>> {
           />
           <link rel="manifest" href="/site.webmanifest" />
         </Head>
-        <RecoilRoot>
-          <ContextProvider>
-            <Component {...pageProps} />
-          </ContextProvider>
-        </RecoilRoot>
+        <ContextProvider>
+          <Component {...pageProps} />
+        </ContextProvider>
       </React.Fragment>
     );
   }

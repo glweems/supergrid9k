@@ -10,15 +10,13 @@ export interface SelectProps<T = string> extends RebassSelectProps {
 
 const Select: FC<SelectProps> = ({ options, style, ...props }) => {
   return (
-    <div className={`select ${props.className}`} style={style}>
-      <RebassSelect {...props}>
-        {options?.map((option, index) => (
-          <option key={`${props.name}-${option}-${index}`} value={option}>
-            {option}
-          </option>
-        ))}
-      </RebassSelect>
-    </div>
+    <RebassSelect {...props}>
+      {options?.map((option, index) => (
+        <option key={`${props.name}-${option}-${index}`} value={option}>
+          {option}
+        </option>
+      ))}
+    </RebassSelect>
   );
 };
 

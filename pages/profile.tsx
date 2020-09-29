@@ -1,4 +1,3 @@
-import { useUser } from '@/store/auth';
 import Container from '@/ui/Container';
 import Navbar from '@/ui/Navbar';
 import { Tiles } from '@rebass/layout';
@@ -6,11 +5,13 @@ import { NextComponentType } from 'next';
 import React from 'react';
 import { Box, Flex, Heading, Image, Text } from 'rebass/styled-components';
 import useSWR from 'swr';
-import GridEditorCard from '../components/GridEditorCard';
-import { GridState } from '../store/grid';
+import GridEditorCard from '@/components/GridEditorCard';
+import useAuth from '@/lib/auth/useAuth';
+import { GridState } from 'css-grid-template-parser';
+import { useUser } from '../lib/User';
+
 const ProfilePage: NextComponentType<React.FC> = () => {
   const user = useUser();
-
   const { data } = useSWR<GridState[]>(`/api/grid?owner=${user?.id}`);
 
   return (

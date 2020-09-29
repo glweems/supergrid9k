@@ -1,90 +1,60 @@
-import { createCssString } from '@/lib/utils';
-import { GridState, makeGridAreas, makeGridCss } from '@/store/grid';
-import { template } from 'css-grid-template-parser';
-import produce from 'immer';
+import Box, { BoxProps } from '@/ui/Box';
+import {
+  entriesArrayParser,
+  makeGridAreas,
+  RawGridState,
+  template,
+} from 'css-grid-template-parser';
 import React from 'react';
-import useSWR, { mutate } from 'swr';
-import { useImmer } from 'use-immer';
-import Box from '../../ui/Box';
+import styled from 'styled-components/macro';
+import useSWR from 'swr';
 
-interface GridAreasProps {
+interface GridAreasProps extends BoxProps {
   endpoint: string;
+  initialData: RawGridState;
 }
-const GridAreas: React.FC<GridAreasProps> = ({ endpoint }) => {
-  const { data, error } = useSWR<GridState, GridState>(endpoint, {
+const GridAreas: React.FC<GridAreasProps> = ({
+  endpoint,
+  initialData,
+  ...boxProps
+}) => {
+  const { data, error } = useSWR<RawGridState, RawGridState>(endpoint, {
     revalidateOnMount: true,
+    revalidateOnFocus: false,
     refreshInterval: 0,
+    initialData,
   });
 
-  const [areasState, setAreasState] = useImmer(null);
-  const [gridCss, setGridCss] = useImmer(null);
+  const [areasState, setAreasState] = React.useState(makeGridAreas(data));
 
-  React.useEffect(() => {
-    if (data) {
-      setAreasState(() => makeGridAreas(data));
-      setGridCss(() => makeGridCss(data));
-    }
-  }, [data, setAreasState, setGridCss]);
+  const gridTemplateAreas = template({
+    width: entriesArrayParser(data['gridTemplateRows']).length,
+    height: entriesArrayParser(data['gridTemplateColumns']).length,
+    areas: data.areas,
+  });
 
   if (error) return <div>error</div>;
 
-  const handleClick = () => {
-    // setAreasState;
-    mutate(
-      endpoint,
-      produce((draft: GridState) => {
-        draft.areas = {
-          test: {
-            row: { start: 0, end: 1, span: 0 },
-            column: { start: 0, end: 1, span: 0 },
-          },
-        };
-      }),
-      false
-    );
-  };
-
-  if (!data) return null;
-
-  const styleObj = {
-    display: 'grid',
-    gridTemplateRows: createCssString(
-      data?.gridTemplateRows,
-      data?.useCssRepeatFn
-      // true // data?.useCssRepeatFn
-    ),
-    gridTemplateColumns: createCssString(
-      data?.gridTemplateColumns,
-      // true
-      data?.useCssRepeatFn
-    ),
-    gridTemplateAreas: template({
-      width: data?.width,
-      height: data?.height,
-      areas: {
-        test: {
-          row: { start: 1, end: 2, span: 1 },
-          column: { start: 1, end: 2, span: 1 },
-        },
-      },
-    }),
-  };
-
   return (
-    <Box style={{ ...styleObj, ...gridCss }}>
-      {areasState?.map((_, index) => (
+    <GridProperties {...boxProps}>
+      {areasState?.map((area, index) => (
         <Box
           key={'item' + index}
           bg="primary"
           height="100%"
           width="100%"
-          onClick={handleClick}
+          style={area.style}
         >
-          asdf
+          {area?.name}
         </Box>
       ))}
-    </Box>
+    </GridProperties>
   );
 };
+const GridProperties = styled(Box)`
+  display: grid;
+  grid-area: grid;
+  height: ${({ theme }) => `calc(100vh - ${theme.navbarHeight})`};
+`;
 
 export default GridAreas;

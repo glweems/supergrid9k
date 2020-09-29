@@ -1,6 +1,6 @@
 import { InputProps } from '@rebass/forms/styled-components';
 import { SelectProps } from '../components/Select';
-import { GridState, GridTemplateEntry } from '../store/grid';
+import { GridState, GridTemplateEntry, RawGridState } from '../store/grid';
 
 export function replaceItemAtIndex<T = Record<string, unknown>>(
   arr: T[],
@@ -153,14 +153,19 @@ export function createCssString(
   return dataToCss(entries);
 }
 
-export const defaultGridState: GridState = {
+export const defaultGridState: RawGridState = {
   name: 'Template',
   gridTemplateColumns: '1fr 1fr 1fr',
   gridTemplateRows: '1fr 1fr 1fr',
   gridGap: '10px 10px',
   useCssRepeatFn: false,
   gridContainerClassName: 'grid',
-  areas: {},
+  areas: {
+    one: {
+      row: { start: 1, end: 2, span: 1 },
+      column: { start: 1, end: 2, span: 1 },
+    },
+  },
   width: 3,
   height: 3,
 };

@@ -1,13 +1,12 @@
+import Box from '@/ui/Box';
 import React from 'react';
-
 import { BoxProps, Flex, FlexProps, Heading } from 'rebass/styled-components';
-import { useUser } from '../store/auth';
+import { useTheme } from 'styled-components/macro';
 import UserDropdown from '../components/UserDropdown';
 import { LogoIcon } from '../lib/Icons';
+import { useUser } from '../lib/User';
 import Link from './Link';
-import Box from '@/ui/Box';
-import { useRecoilState } from 'recoil';
-import { ui } from '../store/ui';
+
 interface NavbarProps {
   title?: React.ReactText | React.ReactNode;
   flexProps?: FlexProps;
@@ -24,8 +23,7 @@ const Navbar: React.FC<NavbarProps> = ({
   headingProps,
 }) => {
   const user = useUser();
-  const [{ navbarHeight }] = useRecoilState(ui);
-
+  const { navbarHeight } = useTheme();
   return (
     <Flex as="header" {...flexProps} height={navbarHeight}>
       <Heading p={2} fontWeight="bold" {...headingProps}>

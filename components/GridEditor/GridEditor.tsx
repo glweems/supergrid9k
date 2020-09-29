@@ -1,195 +1,114 @@
-import { prettyControlName } from '@/lib/utils';
-import { GridControlObjKey, GridState } from '@/store/grid';
+import { GridControlObjKey } from '@/store/grid';
 import Box from '@/ui/Box';
-import Button from '@/ui/Button';
-import { motion } from 'framer-motion';
-import produce from 'immer';
+import {
+  entriesArrayParser,
+  Entry,
+  flatten,
+  RawGridState,
+} from 'css-grid-template-parser';
 import React from 'react';
 import { use100vh } from 'react-div-100vh';
-import { Flex } from 'rebass';
-import styled from 'styled-components/macro';
+import styled, { useTheme } from 'styled-components/macro';
 import { layout } from 'styled-system';
 import useSWR, { mutate } from 'swr';
-import If from '../If';
+import {
+  EditorControlStack,
+  EditorControlStackProps,
+} from './EditorControlStack';
 import GridAreas from './GridAreas';
-import { GridEditorControl } from './GridEditorControl';
 export interface GridEditorProps {
   endpoint: string;
-  grid?: GridState;
-  initialData?: GridState;
+  grid?: RawGridState;
+  initialData?: RawGridState;
 }
 
 const GridEditor: React.FC<GridEditorProps> = ({ endpoint, initialData }) => {
-  const { data } = useSWR<GridState, GridState>(endpoint, {
-    initialData,
-    refreshInterval: 0,
-    revalidateOnMount: false,
-  });
   const vp = use100vh();
+  const theme = useTheme();
+
+  const { data } = useSWR<RawGridState, RawGridState>(endpoint);
+  // const idk = React.useMemo(() => createGridState(data), [data]);
+
+  const mutator = (val: Entry[]) => mutate(endpoint, flatten(val), false);
+  if (!data) return <div>loading</div>;
+
+  const controlStackProps = (
+    objKey: GridControlObjKey
+  ): EditorControlStackProps => {
+    const arr = entriesArrayParser(data[objKey]);
+    return {
+      endpoint,
+      objKey,
+      controls: arr,
+      mutator,
+      canDelete: arr.length < 2,
+    };
+  };
 
   return (
-    <Layout height={`calc(${vp}px - 3.75rem)`}>
-      <Box as={motion.aside} className="grid-sidebar">
-        <EditorControlStack objKey="gridTemplateRows" endpoint={endpoint} />
-        <EditorControlStack objKey="gridTemplateColumns" endpoint={endpoint} />
-        <EditorControlStack objKey="gridGap" endpoint={endpoint} />
-      </Box>
+    <Layout>
+      <Sidebar>
+        <EditorControlStack {...controlStackProps('gridTemplateRows')} />
+        <EditorControlStack {...controlStackProps('gridTemplateColumns')} />
+        <EditorControlStack {...controlStackProps('gridGap')} />
+      </Sidebar>
 
-      <Box className="grid-items" height="100%">
-        <GridAreas endpoint={endpoint} />
-      </Box>
-
-      <Box
-        as="section"
-        className="toolbar"
-        height="3.5rem"
-        display="flex"
-        justifyItems="flex-end"
-        justifyContent="flex-end"
-        alignItems="center"
-        // variant="nav"
-      >
-        <Box ml="auto">
-          <Button bg="muted">Code</Button>
-        </Box>
-      </Box>
-
-      <If isTrue={data?.name !== undefined}>
-        {/* <CodeBlock language="json" code={JSON.stringify(data, null, 2)} /> */}
-      </If>
+      <GridAreas
+        className="grid-items"
+        endpoint={endpoint}
+        initialData={data}
+      />
     </Layout>
   );
 };
 
-const motionProps = {
-  initial: { opacity: 0, y: 30, scale: 0.5 },
-  animate: { opacity: 1, y: 0, scale: 1 },
-  exit: { opacity: 0, y: 30 },
-  transition: { duration: 0.25 },
-};
+const Sidebar = styled.aside`
+  display: grid;
+  grid-area: sidebar;
+  grid-template-rows: repeat(3, 1fr) auto;
+  grid-template-columns: 1fr;
+  width: ${({ theme }) => theme.sidebarWidth}px;
+  height: ${({ theme }) => `calc(100vh - ${theme.navbarHeight})`};
+  margin: 0;
+  padding: 0;
+  color: var(--color-text);
+  background-color: var(--color-secondary);
+  border-right-color: var(--color-muted);
+  border-right-width: 1px;
+  border-right-style: solid;
+  padding: var(--space-1);
+  :first-child {
+  }
 
-const EditorControlStack: React.FC<{
-  endpoint: string;
-  objKey: GridControlObjKey;
-  // addEntry: React.MouseEventHandler<HTMLButtonElement>;
-  // gridState: GridState;
-  // setGridState: setGridState;
-}> = ({ objKey, endpoint }) => {
-  const { data, error } = useSWR<GridState>(endpoint, {});
-
-  if (error) return <div>error</div>;
-
-  const addEntry = () => {
-    if (data) {
-      const entries = data?.[objKey];
-      const lastEntry = {
-        ...entries?.slice(-1)[0],
-      };
-
-      mutate(
-        endpoint,
-        produce((draft) => {
-          draft[objKey].push(lastEntry);
-          switch (objKey) {
-            case 'gridTemplateRows':
-              draft.width++;
-              break;
-            case 'gridTemplateColumns':
-              draft.height++;
-            default:
-              break;
-          }
-        }),
-        false
-      );
-
-      // if (!isDirty) setIsDirty(true);
+  section:not(:last-child) {
+    ul {
+      margin-top: var(--space-3);
+      max-height: 30vh;
+      overflow: hidden;
+      overflow-y: auto;
     }
-  };
-
-  return (
-    <div>
-      <Flex flexDirection="column" justifyContent="stretch" padding={1}>
-        <label className="control-label">{prettyControlName(objKey)}</label>
-        {/* Button To Add New GridTemplate Entry */}
-        <If isTrue={objKey !== 'gridGap'}>
-          <Button
-            name={objKey}
-            onClick={addEntry}
-            color="background"
-            bg="green"
-            padding={0}
-            paddingX={2}
-            width="100%"
-            alignSelf="flex-end"
-            css={``}
-          >
-            +
-          </Button>
-        </If>
-      </Flex>
-      <motion.ul>
-        {data?.[objKey].map((item, index) => {
-          return (
-            <Box
-              key={`control-${objKey}-${index}`}
-              as={motion.li}
-              display="flex"
-              alignItems="center"
-              marginTop="-2px"
-              height={'auto'}
-              {...motionProps}
-            >
-              <GridEditorControl
-                endpoint={endpoint}
-                objKey={objKey}
-                index={index}
-                {...item}
-              />
-            </Box>
-          );
-        })}
-      </motion.ul>
-    </div>
-  );
-};
+  }
+`;
 
 const Layout = styled(Box)`
   ${layout};
   display: grid;
   grid-template-areas:
-    'grid-sidebar toolbar'
-    'grid-sidebar grid-items';
+    'sidebar grid'
+    'sidebar grid';
   grid-template-rows: auto 1fr;
   grid-template-columns: auto 1fr;
   width: 100vw;
+  height: ${({ theme }) => `calc(100vh - ${theme.navbarHeight})`};
 
   .toolbar {
     display: flex;
-    grid-area: toolbar;
     justify-content: flex-end;
     padding: var(--space-2);
   }
 
-  aside {
-    grid-area: grid-sidebar;
-    width: 250px;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    overflow-y: auto;
-    color: var(--color-text);
-    background-color: var(--color-secondary);
-    border-right-color: var(--color-muted);
-    border-right-width: 1px;
-    border-right-style: solid;
-    :first-child {
-      padding: var(--space-3);
-    }
-  }
-
   .grid-items {
-    grid-area: grid-items;
+    grid-area: grid;
   }
 
   form {

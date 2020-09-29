@@ -1,21 +1,45 @@
 import theme from '@/lib/theme';
 import React from 'react';
-import { ThemeProvider } from 'styled-components/macro';
-import { SWRConfig } from 'swr';
+import { createGlobalStyle, ThemeProvider } from 'styled-components/macro';
 import useAuth from '../lib/auth/useAuth';
-import { fetcher } from '../lib/fetcher';
-import { AuthModal } from './AuthModal';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { useAnalytics } from '@happykit/analytics';
+import { UserContextProvider } from '../lib/User';
 
 interface ContextProviderProps {
   session?: any;
 }
 const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
-  useAuth();
-  useAnalytics({ publicKey: 'analytics_pub_c0b2081ea0' });
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+  const { user, loading } = useAuth();
+  //console.log('auth: ', auth);
+  return (
+    <ThemeProvider theme={theme}>
+      <GlobalCSS />
+      <UserContextProvider value={user}>{children}</UserContextProvider>
+    </ThemeProvider>
+  );
 };
+
+const GlobalCSS = createGlobalStyle`
+::-webkit-scrollbar {
+      width: 8px; /* 1px wider than Lion. */
+      /* This is more usable for users trying to click it. */
+      background-color: rgba(0, 0, 0, 0);
+      -webkit-border-radius: 100px;
+    }
+    /* hover effect for both scrollbar area, and scrollbar 'thumb' */
+    ::-webkit-scrollbar:hover {
+      background-color: rgba(0, 0, 0, 0.09);
+    }
+
+    /* The scrollbar 'thumb' ...that marque oval shape in a scrollbar */
+    ::-webkit-scrollbar-thumb:vertical {
+      /* This is the EXACT color of Mac OS scrollbars.
+     Yes, I pulled out digital color meter */
+      background: rgba(0, 0, 0, 0.5);
+      -webkit-border-radius: 100px;
+    }
+    ::-webkit-scrollbar-thumb:vertical:active {
+      background: rgba(0, 0, 0, 0.61); /* Some darker color when you click it */
+      -webkit-border-radius: 100px;
+    }`;
 
 export default ContextProvider;

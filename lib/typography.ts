@@ -70,26 +70,29 @@ const typographyTheme: TypographyOptions = {
       overflowX: 'auto',
       textOverflow: 'scroll',
     },
-    '::-webkit-scrollbar': {
-      height: '7px',
-      width: '7px',
-    },
+
     svg: {
       ...styles.svg,
       verticalAlign: 'middle',
     },
-
-    '::-webkit-scrollbar-thumb': {
-      background: 'var(--color-secondary)',
-      borderRadius: 'var(--space-2)',
-    },
-
-    '::-webkit-scrollbar-track': {
-      background: 'var(--color-background)',
-      borderRadius: 'var(--space-2)',
-    },
   }),
   plugins: [new CodePlugin()],
+};
+
+const scrollStyles = {
+  '::-webkit-scrollbar': {
+    height: '7px',
+    width: '7px',
+  },
+  '::-webkit-scrollbar-thumb': {
+    background: 'var(--color-secondary)',
+    borderRadius: 'var(--space-2)',
+  },
+
+  '::-webkit-scrollbar-track': {
+    background: 'var(--color-background)',
+    borderRadius: 'var(--space-2)',
+  },
 };
 
 const typography = new Typography(typographyTheme);

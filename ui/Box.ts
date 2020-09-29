@@ -11,6 +11,7 @@ import {
   GridProps,
   layout,
   LayoutProps,
+  position,
   PositionProps,
   space,
   SpaceProps,
@@ -40,7 +41,8 @@ export const boxComposition = compose(
   space,
   flexbox,
   border,
-  textAlign
+  textAlign,
+  position
 );
 
 const Box = styled(RebassBox)<BoxProps>`
