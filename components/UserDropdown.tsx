@@ -1,11 +1,10 @@
+import Box from '@/ui/Box';
+import Link from '@/ui/Link';
 import React from 'react';
 import Base, { SelectProps } from 'react-dropdown-select';
 import { Image } from 'rebass';
-import styled from 'styled-components/macro';
-import useAuth from '@/lib/auth/useAuth';
 import { Flex } from 'rebass/styled-components';
-import Box from '@/ui/Box';
-import Link from '@/ui/Link';
+import styled from 'styled-components/macro';
 import { useUser } from '../lib/User';
 
 const BaseSelect = (props: SelectProps<{ label: string; path: string }>) => (

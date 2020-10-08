@@ -1,16 +1,14 @@
 // _app.js
-import { colors, space } from '@/lib/theme';
-import App, { AppContext, AppProps } from 'next/app';
-import Head from 'next/head';
-import React from 'react';
-import { RecoilRoot } from 'recoil';
 import ContextProvider from '@/components/ContextProvider';
-import whyDidYouRender from '@welldone-software/why-did-you-render';
-
 import {
   setCssArrayVariables,
   setCssObjectVariables,
 } from '@/lib/setCssVariables';
+import { colors, space } from '@/lib/theme';
+import whyDidYouRender from '@welldone-software/why-did-you-render';
+import App, { AppContext, AppProps } from 'next/app';
+import Head from 'next/head';
+import React from 'react';
 
 if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
   whyDidYouRender(React);

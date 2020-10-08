@@ -1,12 +1,11 @@
 import { Icon } from '@/lib/Icons';
-import { useResetGrid } from '@/store/grid';
 import Button from '@/ui/Button';
 import React from 'react';
 
 const GridEditorResetButton: React.FC = () => {
-  const buttonProps = useResetGrid();
+  const buttonProps = {};
   return (
-    <Button color="secondary" bg="muted" {...(buttonProps as any)}>
+    <Button color="secondary" bg="muted" {...buttonProps}>
       <span>
         Reset Grid
         <Icon size={20} color="code">

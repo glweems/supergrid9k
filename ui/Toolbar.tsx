@@ -1,11 +1,10 @@
 import { motion } from 'framer-motion';
 import React from 'react';
-import { useRecoilState } from 'recoil';
-import { ui } from '../store/ui';
+import { useTheme } from 'styled-components/macro';
 import Box, { BoxProps } from './Box';
 
 const Toolbar: React.FC<BoxProps> = ({ children, ...boxProps }) => {
-  const [{ toolbarHeight }] = useRecoilState(ui);
+  const { toolbarHeight } = useTheme();
   return (
     <Box as={motion.section} height={toolbarHeight} {...boxProps}>
       {children}

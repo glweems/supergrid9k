@@ -1,6 +1,7 @@
 import { InputProps } from '@rebass/forms/styled-components';
+import { RawGridState } from 'css-grid-template-parser';
 import { SelectProps } from '../components/Select';
-import { GridTemplateEntry, RawGridState } from '../store/grid';
+import { GridTemplateEntry } from '../store/grid';
 
 export function replaceItemAtIndex<T = Record<string, unknown>>(
   arr: T[],
@@ -167,8 +168,6 @@ export const defaultGridState: RawGridState = {
       column: { start: 1, end: 2, span: 1 },
     },
   },
-  width: 3,
-  height: 3,
 };
 
 export function omit<T = Record<string, unknown>>(

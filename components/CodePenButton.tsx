@@ -1,8 +1,6 @@
-import React from 'react';
 import Button from '@/ui/Button';
-import { useRecoilValue, useRecoilState } from 'recoil';
+import React from 'react';
 import { Icon, iconButtonCss } from '../lib/Icons';
-import { codePenOptions, grid } from '../store/grid';
 export interface CodePenData {
   title?: string;
   description?: string;
@@ -112,15 +110,3 @@ CodePenButton.defaultProps = {
   className: 'CodePenButton',
   children: 'Create CodePen',
 };
-
-export const SuperGrid9kCodePen: React.FC = () => {
-  const { css, html, ...options } = useRecoilValue(codePenOptions);
-
-  return <CodePenButton {...options} code={{ css, html }} />;
-};
-
-export default function CodePen() {
-  const [gridState] = useRecoilState(grid);
-  if (!gridState) return null;
-  return <SuperGrid9kCodePen />;
-}

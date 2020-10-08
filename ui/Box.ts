@@ -1,3 +1,7 @@
+import {
+  Box as RebassBox,
+  BoxProps as RebassBoxProps,
+} from 'rebass/styled-components';
 import styled from 'styled-components/macro';
 import {
   border,
@@ -19,10 +23,6 @@ import {
   TextAlignProps,
 } from 'styled-system';
 import theme, { SuperGrid9kTheme } from '../lib/theme';
-import {
-  Box as RebassBox,
-  BoxProps as RebassBoxProps,
-} from 'rebass/styled-components';
 
 export type BoxProps = RebassBoxProps &
   SpaceProps &
@@ -30,7 +30,7 @@ export type BoxProps = RebassBoxProps &
   LayoutProps &
   PositionProps &
   FlexboxProps &
-  ColorProps<SuperGrid9kTheme> &
+  ColorProps<Pick<SuperGrid9kTheme, 'colors'>> &
   GridProps &
   TextAlignProps;
 

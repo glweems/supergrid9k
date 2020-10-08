@@ -3,15 +3,18 @@ import { flatten } from 'css-grid-template-parser';
 import { useFormikContext } from 'formik';
 import React from 'react';
 import styled from 'styled-components/macro';
-import { CreateGridAreasArray } from './createGridItems';
+import createGridAreasArray from './createGridItems';
 import { GridState } from './GridState';
 
-interface GridAreasProps extends BoxProps {
-  areas: ReturnType<CreateGridAreasArray>;
-}
+type GridAreasProps = BoxProps;
 
-const GridAreas: React.FC<GridAreasProps> = ({ areas, ...boxProps }) => {
+const GridAreas: React.FC<GridAreasProps> = ({ ...boxProps }) => {
   const { values } = useFormikContext<GridState>();
+
+  const areas = createGridAreasArray(
+    values.gridTemplateRows,
+    values.gridTemplateColumns
+  );
 
   const styleObj = {
     gridTemplateRows: flatten(values.gridTemplateRows),
@@ -44,6 +47,7 @@ const GridItem = styled(Box)`
   border-color: var(--color-primary);
   border-style: solid;
   border-width: 1px;
+
   .select {
     ::after {
       content: '  ';

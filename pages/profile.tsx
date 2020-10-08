@@ -6,9 +6,8 @@ import React from 'react';
 import { Box, Flex, Heading, Image, Text } from 'rebass/styled-components';
 import useSWR from 'swr';
 import GridEditorCard from '@/components/GridEditorCard';
-import useAuth from '@/lib/auth/useAuth';
-import { GridState } from 'css-grid-template-parser';
 import { useUser } from '../lib/User';
+import { GridState } from '../components/GridEditor/GridState';
 
 const ProfilePage: NextComponentType<React.FC> = () => {
   const user = useUser();
@@ -28,8 +27,8 @@ const ProfilePage: NextComponentType<React.FC> = () => {
           </Box>
         </Flex>
         <Tiles columns={[2, null, 4]}>
-          {data?.map((g) => (
-            <GridEditorCard key={g._id} id={g._id} />
+          {data?.map((_, i) => (
+            <GridEditorCard key={i} id={`${i}`} />
           ))}
         </Tiles>
       </Container>

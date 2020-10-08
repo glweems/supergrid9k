@@ -3,9 +3,6 @@ import {
   Entry,
   RawGridState,
 } from 'css-grid-template-parser';
-import { TemplateStringObjKey } from 'css-grid-template-parser/dist/types/types';
-import { EditorControlStackProps } from './EditorControlStack';
-import { removeItemAtIndex } from '../../lib/utils';
 
 export type CodeGenFn = (state?: GridState) => string;
 

@@ -1,46 +1,46 @@
 import Box from '@/ui/Box';
-import { useFormikContext } from 'formik';
+import Button from '@/ui/Button';
+import { FormikProvider, useFormik } from 'formik';
 import React from 'react';
 import styled from 'styled-components/macro';
 import { layout } from 'styled-system';
-import Button from '@/ui/Button';
-import createGridAreasArray from './createGridItems';
 import { EditorControlStack } from './EditorControlStack';
 import GridAreas from './GridAreas';
 import { GridState } from './GridState';
 export interface GridEditorProps {
-  endpoint: string;
-  initialValues?: GridState;
-  test?: GridState;
+  initialValues: GridState;
 }
-const GridEditor: React.FC<GridEditorProps> = () => {
-  const formik = useFormikContext<GridState>();
-
-  const areas = createGridAreasArray(
-    formik.values.gridTemplateRows,
-    formik.values.gridTemplateColumns
-  );
+const GridEditor: React.FC<GridEditorProps> = ({ initialValues }) => {
+  const formikBag = useFormik<GridState>({
+    initialValues,
+    onSubmit: (values, helper) => {
+      console.log('helper: ', helper);
+      console.log(values);
+    },
+  });
 
   return (
-    <Layout>
-      <Sidebar>
-        <EditorControlStack name="gridTemplateRows" />
-        <EditorControlStack name="gridTemplateColumns" />
-        <EditorControlStack name="gridGap" />
-        <Button
-          disabled={formik.dirty}
-          color={formik.dirty ? 'primary' : 'secondary'}
-        >
-          Save
-        </Button>
-      </Sidebar>
+    <FormikProvider value={formikBag}>
+      <Layout>
+        <Sidebar>
+          <EditorControlStack name="gridTemplateRows" />
+          <EditorControlStack name="gridTemplateColumns" />
+          <EditorControlStack name="gridGap" />
+          <Button
+            disabled={formikBag.dirty}
+            color={formikBag.dirty ? 'primary' : 'secondary'}
+          >
+            Save
+          </Button>
+        </Sidebar>
 
-      <GridAreas className="grid-items" areas={areas} />
+        <GridAreas className="grid-items" />
 
-      {/*   <button type="submit" onClick={formik.handleSubmit}>
+        {/*   <button type="submit" onClick={formik.handleSubmit}>
         submit
       </button> */}
-    </Layout>
+      </Layout>
+    </FormikProvider>
   );
 };
 
@@ -52,20 +52,17 @@ const Sidebar = styled.aside`
   width: ${({ theme }) => theme.sidebarWidth}px;
   height: ${({ theme }) => `calc(100vh - ${theme.navbarHeight})`};
   margin: 0;
-  padding: 0;
+  padding: var(--space-1);
   color: var(--color-text);
   background-color: var(--color-secondary);
   border-right-color: var(--color-muted);
   border-right-width: 1px;
   border-right-style: solid;
-  padding: var(--space-1);
-  :first-child {
-  }
 
   section:not(:last-child) {
     ul {
-      margin-top: var(--space-3);
       max-height: 30vh;
+      margin-top: var(--space-3);
       overflow: hidden;
       overflow-y: auto;
     }
@@ -81,8 +78,8 @@ const Layout = styled(Box)`
   grid-template-rows: auto 1fr;
   grid-template-columns: auto 1fr;
   width: 100vw;
-};
-toolbar {
+
+  .toolbar {
     display: flex;
     justify-content: flex-end;
     padding: var(--space-2);
@@ -95,13 +92,6 @@ toolbar {
   form {
     margin: 0;
   } /* max-width: 100vw; */
-
-  /* Input */
-  @supports selector(:) {
-    button:focus {
-      outline: none;
-    }
-  }
 `;
 
 Layout.displayName = 'GridEditorLayout';

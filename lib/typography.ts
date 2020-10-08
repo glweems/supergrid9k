@@ -75,6 +75,7 @@ const typographyTheme: TypographyOptions = {
       ...styles.svg,
       verticalAlign: 'middle',
     },
+    ...scrollStyles,
   }),
   plugins: [new CodePlugin()],
 };
