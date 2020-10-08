@@ -21,6 +21,7 @@
     "envalid": "^6.0.2",
     "firebase": "^7.20.0",
     "firebase-admin": "^9.1.1",
+    "formik": "^2.1.6",
     "framer-motion": "^2.6.10",
     "immer": "^7.0.9",
     "js-cookie": "^2.2.1",
@@ -31,7 +32,6 @@
     "next-cookies": "^2.0.3",
     "pageres": "^5.2.1",
     "polished": "^3.6.5",
-    "prettier": "prettier/prettier",
     "prism-react-renderer": "^1.1.1",
     "react": "^16.13.1",
     "react-clipboard.js": "^2.0.16",
@@ -57,9 +57,7 @@
     "typescript": "^4.1.0-beta",
     "typography": "^0.16.19",
     "typography-plugin-code": "^0.16.19",
-    "use-debounce": "^5.0.0",
-    "use-immer": "^0.4.1",
-    "validator": "^13.1.17"
+    "use-debounce": "^5.0.0"
   },
   "scripts": {
     "dev": "next",
@@ -134,6 +132,7 @@
     "eslint-plugin-react-hooks": "^4.1.2",
     "husky": "^4.2.5",
     "jest-styled-components": "^7.0.3",
+    "prettier": "prettier/prettier",
     "pretty-quick": "^3.0.2",
     "react-dev-utils": "^10.2.1",
     "react-test-renderer": "^16.13.1",

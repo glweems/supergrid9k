@@ -1,60 +1,54 @@
 import Box, { BoxProps } from '@/ui/Box';
-import {
-  entriesArrayParser,
-  makeGridAreas,
-  RawGridState,
-  template,
-} from 'css-grid-template-parser';
+import { flatten } from 'css-grid-template-parser';
+import { useFormikContext } from 'formik';
 import React from 'react';
 import styled from 'styled-components/macro';
-import useSWR from 'swr';
+import { CreateGridAreasArray } from './createGridItems';
+import { GridState } from './GridState';
 
 interface GridAreasProps extends BoxProps {
-  endpoint: string;
-  initialData: RawGridState;
+  areas: ReturnType<CreateGridAreasArray>;
 }
-const GridAreas: React.FC<GridAreasProps> = ({
-  endpoint,
-  initialData,
-  ...boxProps
-}) => {
-  const { data, error } = useSWR<RawGridState, RawGridState>(endpoint, {
-    revalidateOnMount: true,
-    revalidateOnFocus: false,
-    refreshInterval: 0,
-    initialData,
-  });
 
-  const [areasState, setAreasState] = React.useState(makeGridAreas(data));
+const GridAreas: React.FC<GridAreasProps> = ({ areas, ...boxProps }) => {
+  const { values } = useFormikContext<GridState>();
 
-  const gridTemplateAreas = template({
-    width: entriesArrayParser(data['gridTemplateRows']).length,
-    height: entriesArrayParser(data['gridTemplateColumns']).length,
-    areas: data.areas,
-  });
-
-  if (error) return <div>error</div>;
+  const styleObj = {
+    gridTemplateRows: flatten(values.gridTemplateRows),
+    gridTemplateColumns: flatten(values.gridTemplateColumns),
+    gap: flatten(values.gridGap),
+  };
 
   return (
-    <GridProperties {...boxProps}>
-      {areasState?.map((area, index) => (
-        <Box
-          key={'item' + index}
-          bg="primary"
-          height="100%"
-          width="100%"
-          style={area.style}
-        >
-          {area?.name}
-        </Box>
+    <GridProperties {...boxProps} style={styleObj}>
+      {areas.map(({ id, ...area }) => (
+        <GridItem
+          key={id}
+          bg="secondary"
+          gridRow={area.rowStart}
+          gridColumn={area.columnStart}
+        />
       ))}
     </GridProperties>
   );
 };
+
 const GridProperties = styled(Box)`
   display: grid;
   grid-area: grid;
-  height: ${({ theme }) => `calc(100vh - ${theme.navbarHeight})`};
+  height: 100%;
+  padding: var(--space-4);
+`;
+
+const GridItem = styled(Box)`
+  border-color: var(--color-primary);
+  border-style: solid;
+  border-width: 1px;
+  .select {
+    ::after {
+      content: '  ';
+    }
+  }
 `;
 
 export default GridAreas;

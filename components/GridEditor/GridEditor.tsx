@@ -1,63 +1,45 @@
-import { GridControlObjKey } from '@/store/grid';
 import Box from '@/ui/Box';
-import {
-  entriesArrayParser,
-  Entry,
-  flatten,
-  RawGridState,
-} from 'css-grid-template-parser';
+import { useFormikContext } from 'formik';
 import React from 'react';
-import { use100vh } from 'react-div-100vh';
-import styled, { useTheme } from 'styled-components/macro';
+import styled from 'styled-components/macro';
 import { layout } from 'styled-system';
-import useSWR, { mutate } from 'swr';
-import {
-  EditorControlStack,
-  EditorControlStackProps,
-} from './EditorControlStack';
+import Button from '@/ui/Button';
+import createGridAreasArray from './createGridItems';
+import { EditorControlStack } from './EditorControlStack';
 import GridAreas from './GridAreas';
+import { GridState } from './GridState';
 export interface GridEditorProps {
   endpoint: string;
-  grid?: RawGridState;
-  initialData?: RawGridState;
+  initialValues?: GridState;
+  test?: GridState;
 }
+const GridEditor: React.FC<GridEditorProps> = () => {
+  const formik = useFormikContext<GridState>();
 
-const GridEditor: React.FC<GridEditorProps> = ({ endpoint, initialData }) => {
-  const vp = use100vh();
-  const theme = useTheme();
-
-  const { data } = useSWR<RawGridState, RawGridState>(endpoint);
-  // const idk = React.useMemo(() => createGridState(data), [data]);
-
-  const mutator = (val: Entry[]) => mutate(endpoint, flatten(val), false);
-  if (!data) return <div>loading</div>;
-
-  const controlStackProps = (
-    objKey: GridControlObjKey
-  ): EditorControlStackProps => {
-    const arr = entriesArrayParser(data[objKey]);
-    return {
-      endpoint,
-      objKey,
-      controls: arr,
-      mutator,
-      canDelete: arr.length < 2,
-    };
-  };
+  const areas = createGridAreasArray(
+    formik.values.gridTemplateRows,
+    formik.values.gridTemplateColumns
+  );
 
   return (
     <Layout>
       <Sidebar>
-        <EditorControlStack {...controlStackProps('gridTemplateRows')} />
-        <EditorControlStack {...controlStackProps('gridTemplateColumns')} />
-        <EditorControlStack {...controlStackProps('gridGap')} />
+        <EditorControlStack name="gridTemplateRows" />
+        <EditorControlStack name="gridTemplateColumns" />
+        <EditorControlStack name="gridGap" />
+        <Button
+          disabled={formik.dirty}
+          color={formik.dirty ? 'primary' : 'secondary'}
+        >
+          Save
+        </Button>
       </Sidebar>
 
-      <GridAreas
-        className="grid-items"
-        endpoint={endpoint}
-        initialData={data}
-      />
+      <GridAreas className="grid-items" areas={areas} />
+
+      {/*   <button type="submit" onClick={formik.handleSubmit}>
+        submit
+      </button> */}
     </Layout>
   );
 };
@@ -99,9 +81,8 @@ const Layout = styled(Box)`
   grid-template-rows: auto 1fr;
   grid-template-columns: auto 1fr;
   width: 100vw;
-  height: ${({ theme }) => `calc(100vh - ${theme.navbarHeight})`};
-
-  .toolbar {
+};
+toolbar {
     display: flex;
     justify-content: flex-end;
     padding: var(--space-2);

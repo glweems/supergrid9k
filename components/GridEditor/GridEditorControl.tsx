@@ -1,97 +1,42 @@
 import { Icon } from '@/lib/Icons';
-import { gridGapUnits, gridUnits, removeItemAtIndex } from '@/lib/utils';
+import { gridGapUnits, gridUnits } from '@/lib/utils';
 import { GridControlObjKey } from '@/store/grid';
 import Button from '@/ui/Button';
 import { Input } from '@rebass/forms/styled-components';
-import {
-  auditEntry,
-  Entry,
-  flatten,
-  GridState,
-} from 'css-grid-template-parser';
-import produce from 'immer';
+import { Entry } from 'css-grid-template-parser';
+import { useField } from 'formik';
 import React from 'react';
 import styled from 'styled-components/macro';
-import useSWR, { mutate } from 'swr';
 import Box from '../../ui/Box';
 import If from '../If';
 import Select from '../Select';
 export interface GridEditorControlProps extends Entry {
   objKey: GridControlObjKey;
   index: number;
-  endpoint: string;
   canDelete: boolean;
-  entries: Entry[];
+  handleChange: any;
+  onDelete: any;
+  isGap: boolean;
 }
 
 export const GridEditorControl: React.FC<GridEditorControlProps> = ({
   objKey,
   index,
-  endpoint,
   amount,
   unit,
   canDelete,
-  entries,
+  handleChange,
+  isGap,
 }) => {
-  const { data, error } = useSWR<GridState>(endpoint, {
-    refreshInterval: 0,
-    revalidateOnMount: false,
-    revalidateOnFocus: false,
-  });
-  const isGap = objKey === 'gridGap';
-
-  const [state, setState] = React.useState<Entry>({ amount, unit });
-
-  if (error) return <div>error</div>;
-
-  const updateGrid = ({ amount, unit }) => {
-    const newData = entries
-      .map((obj, i) => {
-        if (i === index) return `${amount}${unit}`;
-        return `${obj.amount}${obj.unit}`;
-      })
-      .join(' ');
-
-    return mutate(endpoint, { ...data, [objKey]: newData }, false);
-  };
-
-  const handleChange: React.ChangeEventHandler<
-    HTMLInputElement | HTMLSelectElement
-  > = (event) => {
-    const { name, value } = event.target;
-
-    const newVal = auditEntry({ ...state, [name]: value });
-    setState(newVal);
-
-    updateGrid(newVal);
-
-    // if (!isDirty) setIsDirty(true);
-  };
-
-  const handleDelete: React.MouseEventHandler<HTMLButtonElement> = () => {
-    const newData = removeItemAtIndex(entries, index);
-    console.log('newData: ', newData);
-    const obj = { ...data, [objKey]: flatten(newData) };
-    console.log('obj: ', obj);
-    mutate(
-      endpoint,
-      produce((draft) => {
-        draft[objKey] = flatten(newData);
-      }),
-      false
-    );
-  };
-
-  if (!data) return <div>loading</div>;
-
+  const [unitField] = useField(`${objKey}.${index}.unit`);
   return (
     <InputGroup className="input-group">
-      <If isTrue={state.unit !== 'auto'}>
+      <If isTrue={unit !== 'auto'}>
         <Input
+          name={`${objKey}.${index}.amount`}
           className="form-control"
           size="8"
-          name="amount"
-          value={state.amount}
+          value={amount}
           onChange={handleChange}
           type="number"
           min="0"
@@ -101,18 +46,20 @@ export const GridEditorControl: React.FC<GridEditorControlProps> = ({
 
       <Box className="input-group-append" bg="bg">
         <Select
-          className="btn btn-outline-secondary"
-          name="unit"
+          name={`${objKey}.${index}.unit`}
+          className="btn btn-outline-secondary Select"
           width={75}
-          value={state?.unit}
+          value={unit}
           onChange={handleChange}
-          options={isGap ? gridGapUnits : gridUnits}
+          options={objKey === 'gridGap' ? gridGapUnits : gridUnits}
+          {...unitField}
         />
 
         <If isTrue={!isGap}>
           <Button
+            name={`${objKey}.${index}.delete`}
             className="btn btn-outline-secondary"
-            onClick={handleDelete}
+            // onClick={handleDelete}
             disabled={canDelete}
           >
             <div>
@@ -331,6 +278,9 @@ const InputGroup = styled.div`
     border-radius: 0 !important;
     border-width: 0 !important;
     outline: none !important;
+  }
+  .Select {
+    margin: 3em !important;
   }
 `;
 /* <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" style="background-clip: padding-box; background-color: rgb(255, 255, 255); border: 1px solid rgb(206, 212, 218); border-top-left-radius: 0px; border-top-right-radius: 0.25rem; border-bottom-right-radius: 0.25rem; border-bottom-left-radius: 0px; box-sizing: border-box; color: rgb(73, 80, 87); display: block; flex: 1 1 auto; font-size: 1rem; font-weight: 400; height: calc(1.5em + 2px + 0.75rem); line-height: 1.5; margin: 0px; min-width: 0px; overflow: visible; padding: 0.375rem 0.75rem; position: relative; transition-duration: 0.15s, 0.15s; transition-property: border-color, box-shadow; transition-timing-function: ease-in-out, ease-in-out; width: 1%;">

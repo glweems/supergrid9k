@@ -1,6 +1,6 @@
 import { InputProps } from '@rebass/forms/styled-components';
 import { SelectProps } from '../components/Select';
-import { GridState, GridTemplateEntry, RawGridState } from '../store/grid';
+import { GridTemplateEntry, RawGridState } from '../store/grid';
 
 export function replaceItemAtIndex<T = Record<string, unknown>>(
   arr: T[],
@@ -54,6 +54,7 @@ export function templateGenerator<T extends Record<string, unknown>>(
  * @example prettyName("gridTemplateRows") // returns "Grid Rows"
  */
 export function prettyControlName(name: string): string {
+  if (!name) return '';
   return name
     .split('grid')
     .join('')

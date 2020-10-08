@@ -10,7 +10,7 @@ export interface SelectProps<T = string> extends RebassSelectProps {
 
 const Select: FC<SelectProps> = ({ options, style, ...props }) => {
   return (
-    <RebassSelect {...props}>
+    <RebassSelect className="Select" {...props}>
       {options?.map((option, index) => (
         <option key={`${props.name}-${option}-${index}`} value={option}>
           {option}
