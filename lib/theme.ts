@@ -1,10 +1,11 @@
 import { useContext } from 'react';
-import { ThemeContext } from 'styled-components';
+import { css, ThemeContext } from 'styled-components';
 
 export const colors = {
   primary: '#3578e5',
   secondary: '#242526',
   background: '#18191a',
+  bg: '#18191a',
   code: '#292c3d',
   text: '#fff',
   muted: '#f6f6f9',
@@ -18,14 +19,43 @@ export const colors = {
   dark: '#272822',
 };
 
-export const space = [0, 4, 8, 16, 32, 64];
+export const space: [number, number, number, number, number, number] = [
+  0,
+  4,
+  8,
+  16,
+  32,
+  64,
+];
 
 export const defaultFont =
   'system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"';
 
-const theme = {
-  colors: { ...colors, control: colors.code, bg: colors.background },
-  navbarHeight: '3.75rem',
+export interface SuperGrid9kTheme {
+  colors: typeof colors;
+  navbarHeight: string;
+  toolbarHeight: string;
+  sidebarWidth: number;
+  space: typeof space;
+  fonts: Record<string, string>;
+  fontSizes: [
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number
+  ];
+  fontWeights: Record<string, number>;
+  [key: string]: any;
+}
+
+const theme: SuperGrid9kTheme = {
+  colors: colors,
+  navbarHeight: '4rem',
   toolbarHeight: '3.5rem',
   sidebarWidth: 300,
   space,
@@ -103,10 +133,10 @@ const theme = {
     },
   },
   buttons: {
-    base: {
-      color: 'background',
-      bg: 'primary',
-      borderRadius: 'default',
+    base: css``,
+    secondary: {
+      variant: 'buttons.base',
+      color: 'pink',
     },
     primary: {
       fontSize: 2,
@@ -154,8 +184,6 @@ const theme = {
     },
   },
 };
-
-export type SuperGrid9kTheme = typeof theme;
 
 export function useTheme() {
   const context = useContext(ThemeContext);

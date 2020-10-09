@@ -1,9 +1,12 @@
-import Box, { BoxProps } from '@/ui/Box';
-import { flatten } from 'css-grid-template-parser';
+import { Box, BoxProps } from '@primer/components';
+import { Entry, flatten } from 'css-grid-template-parser';
 import { useFormikContext } from 'formik';
+import { transparentize } from 'polished';
 import React from 'react';
 import styled from 'styled-components/macro';
-import createGridAreasArray from './createGridItems';
+import { variant } from 'styled-system';
+import theme from '../../lib/theme';
+import createGridAreasArray, { CreateGridAreasArray } from './createGridItems';
 import { GridState } from './GridState';
 
 type GridAreasProps = BoxProps;
@@ -11,10 +14,7 @@ type GridAreasProps = BoxProps;
 const GridAreas: React.FC<GridAreasProps> = ({ ...boxProps }) => {
   const { values } = useFormikContext<GridState>();
 
-  const areas = createGridAreasArray(
-    values.gridTemplateRows,
-    values.gridTemplateColumns
-  );
+  const areas = values.items();
 
   const styleObj = {
     gridTemplateRows: flatten(values.gridTemplateRows),
@@ -24,13 +24,8 @@ const GridAreas: React.FC<GridAreasProps> = ({ ...boxProps }) => {
 
   return (
     <GridProperties {...boxProps} style={styleObj}>
-      {areas.map(({ id, ...area }) => (
-        <GridItem
-          key={id}
-          bg="secondary"
-          gridRow={area.rowStart}
-          gridColumn={area.columnStart}
-        />
+      {areas.map((area) => (
+        <GridItem key={area.id} {...area} />
       ))}
     </GridProperties>
   );
@@ -43,16 +38,95 @@ const GridProperties = styled(Box)`
   padding: var(--space-4);
 `;
 
-const GridItem = styled(Box)`
-  border-color: var(--color-primary);
-  border-style: solid;
-  border-width: 1px;
+export type GridItemProps = {
+  id: string;
+  row: Entry;
+  column: Entry;
+  rowStart: number;
+  columnStart: number;
+};
 
-  .select {
-    ::after {
-      content: '  ';
+export function GridItem({ id, ...area }: GridItemProps) {
+  const formik = useFormikContext<GridState>();
+  const [variant, setVariant] = React.useState<GridItemDivVariant>('default');
+
+  const handleMouseEnter = () => {
+    switch (variant) {
+      case 'default':
+        setVariant('hover');
+        break;
+
+      default:
+        break;
     }
-  }
+  };
+  const handleMouseLeave = () => {
+    switch (variant) {
+      case 'hover':
+        setVariant('default');
+        break;
+
+      default:
+        // setVariant('default');
+        break;
+    }
+  };
+  const handleClick = () => {
+    switch (variant) {
+      case 'hover':
+        setVariant('default');
+        switch (formik.values.selected) {
+          case id:
+            // formik.setFieldValue('selected', null);
+            formik.setFieldValue('areas', {
+              ...formik.values.areas,
+              temp: `${formik.values.selected}.${area.rowStart + 1}.${
+                area.columnStart + 1
+              }`,
+            });
+            break;
+
+          default:
+            formik.setFieldValue('selected', id);
+            break;
+        }
+        break;
+
+      default:
+        setVariant('selected');
+    }
+  };
+
+  return (
+    <GridItemDiv
+      key={id}
+      variant={variant}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
+      // gridRow={area.rowStart}
+      // gridColumn={area.columnStart}
+    />
+  );
+}
+type GridItemDivVariant = 'default' | 'hover' | 'selected';
+const GridItemDiv = styled.div<{ variant: GridItemDivVariant }>`
+  border-style: dashed;
+  border-width: 2px;
+
+  ${variant<unknown, GridItemDivVariant>({
+    key: 'variant',
+    variants: {
+      default: {
+        borderColor: 'var(--color-primary)',
+      },
+      hover: {
+        borderColor: 'var(--color-purple)',
+        backgroundColor: transparentize(0.75, theme.colors.purple),
+      },
+      selected: { borderColor: 'var(--color-yellow)' },
+    },
+  })}
 `;
 
 export default GridAreas;

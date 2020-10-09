@@ -12,6 +12,7 @@
     "create"
   ],
   "dependencies": {
+    "@primer/components": "^20.1.0",
     "@rebass/forms": "^4.0.6",
     "@rebass/layout": "^4.0.6",
     "axios": "^0.20.0",
@@ -31,7 +32,7 @@
     "next-cookies": "^2.0.3",
     "polished": "^4.0.1",
     "prism-react-renderer": "^1.1.1",
-    "react": "^17.0.0-rc.3",
+    "react": "^16.13.1",
     "react-clipboard.js": "^2.0.16",
     "react-div-100vh": "^0.5.2",
     "react-dnd": "^11.1.3",

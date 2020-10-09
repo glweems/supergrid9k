@@ -20,7 +20,7 @@ const IndexPage: NextPage<{ data: RawGridState }> = ({
 
   return (
     <Div100vh>
-      <Navbar headingProps={{ color: '#fff', fontWeight: 'bold' }} />
+      <Navbar />
       <GridEditor initialValues={gridState} />
     </Div100vh>
   );

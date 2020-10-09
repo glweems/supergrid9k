@@ -1,7 +1,5 @@
 import syntaxTheme from '@/lib/syntaxTheme';
-import Box, { BoxProps } from '@/ui/Box';
-import Button from '@/ui/Button';
-import { motion } from 'framer-motion';
+import { Box, BoxProps, ButtonOutline, Text } from '@primer/components';
 import Highlight, {
   defaultProps,
   Language,
@@ -16,12 +14,16 @@ export interface CodeBlockProps extends BoxProps {
   code: string;
   language: string;
   theme?: PrismTheme;
+  comment?: string;
+  canCopy?: boolean;
 }
 
 const CodeBlock: FC<CodeBlockProps> = ({
   code,
   language,
   theme,
+  comment,
+  canCopy,
   ...boxProps
 }) => {
   return (
@@ -33,6 +35,8 @@ const CodeBlock: FC<CodeBlockProps> = ({
     >
       {(renderProps) => (
         <CodeBody
+          canCopy={canCopy}
+          comment={comment}
           language={language}
           {...renderProps}
           code={code}
@@ -44,8 +48,10 @@ const CodeBlock: FC<CodeBlockProps> = ({
 };
 interface CodeBodyProps extends RenderProps {
   code: string;
+  comment?: string;
   boxProps: BoxProps;
   language: string;
+  canCopy?: boolean;
 }
 
 const CodeBody: FC<CodeBodyProps> = ({
@@ -57,6 +63,8 @@ const CodeBody: FC<CodeBodyProps> = ({
   getTokenProps,
   code,
   boxProps,
+  comment,
+  canCopy,
 }) => {
   const [showCopy, setShowCopy] = React.useState(false);
   const [copyText, setCopyText] = React.useState('Copy');
@@ -75,70 +83,55 @@ const CodeBody: FC<CodeBodyProps> = ({
       onMouseLeave={mouseHandler}
       {...boxProps}
     >
-      <If
-        isTrue={showCopy}
-        motionProps={{
-          initial: { opacity: 0, x: -5 },
-          animate: { opacity: 1, x: -5 },
-          exit: { opacity: 0, x: 30 },
-        }}
-      >
-        <Clipboard
-          data-clipboard-text={code}
-          component={CopyButton}
-          onSuccess={handleCopySuccess}
-        >
-          {copyText}
-        </Clipboard>
+      <If isTrue={canCopy}>
+        <If isTrue={showCopy}>
+          <Clipboard
+            data-clipboard-text={code}
+            component={CopyButton}
+            onSuccess={handleCopySuccess}
+          >
+            {copyText}
+          </Clipboard>
+        </If>
       </If>
-      <Box as={motion.pre} className={className} style={style} {...boxProps}>
-        <code>
-          {tokens?.map((line, i) => (
-            <div
-              key={`token-${i}-${language}`}
-              {...getLineProps({ line, key: i })}
-            >
-              {line.map((token, key) => (
-                <span key={key} {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </code>
+
+      <Box className={className}>
+        <pre style={style}>
+          {comment && (
+            <Text marginBottom={'5px'} color="grey">
+              {'//'}
+              {comment}
+            </Text>
+          )}
+          <code>
+            {tokens?.map((line, i) => (
+              <div
+                key={`token-${i}-${language}`}
+                {...getLineProps({ line, key: i })}
+              >
+                {line.map((token, key) => (
+                  <span key={key} {...getTokenProps({ token, key })} />
+                ))}
+              </div>
+            ))}
+          </code>
+        </pre>
       </Box>
     </CodeContainer>
   );
 };
 
-const CopyButton = styled(Button)`
+const CopyButton = styled(ButtonOutline)`
   position: absolute;
   top: 4px;
   right: 4px;
-  display: inline-block;
-  align-items: flex-start;
-  margin: 0em;
-  padding: 0.4rem 0.5rem;
-  color: var(--color-light);
-  font: 400 13.3333px 'Arial', sans-serif;
-  letter-spacing: normal;
-  text-align: center;
-  text-transform: none;
-  text-indent: 0px;
-  text-shadow: none;
-  word-spacing: normal;
-  background: rgba(0, 0, 0, 0.3);
-  border: none;
-  border-color: var(--color-code);
-  border-style: solid;
-  border-width: 2px;
-  text-rendering: auto;
-  border-radius: var(--space-2);
-  border-image: initial;
-  outline: none;
-  cursor: pointer;
   transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out,
     bottom 0.2s ease-in-out;
   appearance: button;
 `;
+CopyButton.defaultProps = {
+  variant: 'small',
+};
 const CodeContainer = styled.div<{ showCopy: boolean }>`
   position: relative;
   height: inherit;
@@ -147,6 +140,7 @@ const CodeContainer = styled.div<{ showCopy: boolean }>`
 CodeBlock.defaultProps = {
   theme: syntaxTheme,
   className: 'CodeBlock',
+  canCopy: true,
 };
 
 export default CodeBlock;

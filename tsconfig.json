@@ -20,6 +20,12 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
+      "@lib/*": ["./lib/*"],
+      "@components/*": ["./components/*"],
+      "@store/*": ["./store/*"],
+      "@models/*": ["./models/*"],
+      "@ui/*": ["./ui/*"],
+      // old shitty
       "@/lib/*": ["lib/*"],
       "@/components/*": ["components/*"],
       "@/store/*": ["store/*"],
@@ -27,6 +33,6 @@
       "@/ui/*": ["ui/*"]
     }
   },
-  "exclude": ["node_modules"],
-  "include": ["**/*.ts", "**/*.tsx"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }

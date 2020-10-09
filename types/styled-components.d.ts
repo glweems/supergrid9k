@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { SuperGrid9kTheme } from '../lib/theme';
 
-declare module 'styled-components' {
+declare module 'styled-components/macro' {
   export interface DefaultTheme extends SuperGrid9kTheme {}
 
   export function createGlobalStyle<P extends object = {}>(

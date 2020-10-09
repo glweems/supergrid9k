@@ -1,16 +1,11 @@
 import { Entry } from 'css-grid-template-parser';
+import { GridItemProps } from './GridAreas';
 import { GridState } from './GridState';
 
 export type CreateGridAreasArray = (
   rows: GridState['gridTemplateRows'],
   columns: GridState['gridTemplateColumns']
-) => {
-  id: string;
-  row: Entry;
-  column: Entry;
-  rowStart: number;
-  columnStart: number;
-}[];
+) => GridItemProps[];
 
 const createGridAreasArray: CreateGridAreasArray = (
   rows: GridState['gridTemplateRows'],

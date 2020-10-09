@@ -1,13 +1,14 @@
 import { Icon } from '@/lib/Icons';
 import { gridGapUnits, gridUnits, prettyControlName } from '@/lib/utils';
 import { GridControlObjKey } from '@/store/grid';
-import Button from '@/ui/Button';
 import {
-  Input,
-  InputProps,
-  Select,
-  SelectProps,
-} from '@rebass/forms/styled-components';
+  Box,
+  ButtonPrimary,
+  FormGroup,
+  TextInput,
+  TextInputProps,
+} from '@primer/components';
+import { Select, SelectProps } from '@rebass/forms/styled-components';
 import { Unit } from 'css-grid-template-parser';
 import {
   FieldArray,
@@ -16,30 +17,14 @@ import {
   useFormikContext,
 } from 'formik';
 import React from 'react';
-import { Flex, FlexProps } from 'rebass';
 import styled from 'styled-components/macro';
 import If from '../If';
 import { GridState } from './GridState';
 
-type AmountFieldProps = FieldHookConfig<string> & InputProps;
-const AmountField: React.FC<AmountFieldProps> = (props) => {
-  const [field] = useField(props);
-  return <Input {...field} {...props} />;
-};
-type SelectFieldProps = FieldHookConfig<string> & SelectProps;
-
-const SelectField: React.FC<SelectFieldProps> = (props) => {
-  const [field] = useField(props);
-  return <Select {...field} {...props} />;
-};
 export interface EditorControlStackProps {
   name: GridControlObjKey;
+  maxHeight?: React.CSSProperties['maxHeight'];
 }
-const flexProps: FlexProps = {
-  flexDirection: 'column',
-  justifyContent: 'stretch',
-  padding: 1,
-};
 export const EditorControlStack: React.FC<EditorControlStackProps> = (
   props
 ) => {
@@ -65,72 +50,91 @@ export const EditorControlStack: React.FC<EditorControlStackProps> = (
         };
 
         return (
-          <Flex {...flexProps}>
-            <label className="control-label">{prettyControlName(name)}</label>
-            <div>
-              <If isTrue={!isGap}>
-                <Button name={name} onClick={handleAdd} width="100%">
-                  +
-                </Button>
-              </If>
-              <Ul>
-                {values[name].map(({ amount, unit }, index) => {
-                  const step = getStep(name, unit);
-                  return (
-                    <li key={`${name}[${index}]`}>
-                      <InputGroup>
-                        <If isTrue={unit !== 'auto'}>
-                          <AmountField
-                            name={`${name}[${index}].amount`}
-                            type="number"
-                            value={unit === 'auto' ? '' : amount}
-                            className="form-control"
-                            disabled={unit === 'auto'}
-                            min={0}
-                            step={step}
-                          />
-                        </If>
-                        <div className="input-group-append">
-                          <SelectField
-                            name={`${name}[${index}].unit`}
+          <FormGroup margin={0}>
+            <FormGroup.Label className="control-label">
+              {prettyControlName(name)}
+            </FormGroup.Label>
+
+            <If isTrue={!isGap}>
+              <ButtonPrimary
+                name={name}
+                onClick={handleAdd}
+                width="100%"
+                marginBottom={4}
+              >
+                +
+              </ButtonPrimary>
+            </If>
+
+            <Ul>
+              {values[name].map(({ amount, unit }, index) => {
+                const step = getStep(name, unit);
+                return (
+                  <Box as="li" key={`${name}[${index}]`}>
+                    <InputGroup>
+                      <If isTrue={unit !== 'auto'}>
+                        <AmountField
+                          name={`${name}[${index}].amount`}
+                          type="number"
+                          value={unit === 'auto' ? '' : amount}
+                          className="form-control"
+                          disabled={unit === 'auto'}
+                          min={0}
+                          step={step}
+                        />
+                      </If>
+                      <div className="input-group-append">
+                        <SelectField
+                          name={`${name}[${index}].unit`}
+                          className="btn btn-outline-secondary"
+                          width={75}
+                        >
+                          {options.map((option, optionIndex) => (
+                            <option key={`${option}[${optionIndex}]`}>
+                              {option}
+                            </option>
+                          ))}
+                        </SelectField>
+                        <If isTrue={!isGap}>
+                          <button
+                            name={`${index}.remove`}
                             className="btn btn-outline-secondary"
-                            width={75}
+                            onClick={handleRemove}
+                            disabled={canDelete}
                           >
-                            {options.map((option, optionIndex) => (
-                              <option key={`${option}[${optionIndex}]`}>
-                                {option}
-                              </option>
-                            ))}
-                          </SelectField>
-                          <If isTrue={!isGap}>
-                            <button
-                              name={`${index}.remove`}
-                              className="btn btn-outline-secondary"
-                              onClick={handleRemove}
-                              disabled={canDelete}
-                            >
-                              <div>
-                                <Icon size={26}>
-                                  <path
-                                    fillRule="evenodd"
-                                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
-                                  />
-                                </Icon>
-                              </div>
-                            </button>
-                          </If>
-                        </div>
-                      </InputGroup>
-                    </li>
-                  );
-                })}
-              </Ul>
-            </div>
-          </Flex>
+                            <div>
+                              <Icon size={26}>
+                                <path
+                                  fillRule="evenodd"
+                                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+                                />
+                              </Icon>
+                            </div>
+                          </button>
+                        </If>
+                      </div>
+                    </InputGroup>
+                  </Box>
+                );
+              })}
+            </Ul>
+          </FormGroup>
         );
       }}
     />
   );
+};
+
+type AmountFieldProps = FieldHookConfig<string> & TextInputProps;
+const AmountField: React.FC<AmountFieldProps> = (props) => {
+  const [field] = useField(props);
+  return <TextInput {...field} {...props} />;
+};
+type SelectFieldProps = FieldHookConfig<string> & SelectProps;
+
+const SelectField: React.FC<SelectFieldProps> = (props) => {
+  const [field] = useField(props);
+  return <Select {...field} {...props} />;
 };
 
 const InputGroup = styled.div`
@@ -335,9 +339,7 @@ const InputGroup = styled.div`
 
 const Ul = styled.ul`
   height: auto;
-  max-height: 22vh;
   overflow-y: auto;
-  margin-top: var(--space-3);
   padding-right: var(--space-2);
 `;
 function getStep(name: GridControlObjKey, unit: Unit) {

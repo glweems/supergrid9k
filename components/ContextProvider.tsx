@@ -1,9 +1,9 @@
-import theme from '@/lib/theme';
+// import theme from '@/lib/theme';
 import React from 'react';
 import { createGlobalStyle, ThemeProvider } from 'styled-components/macro';
 import useAuth from '../lib/auth/useAuth';
 import { UserContextProvider } from '../lib/User';
-
+import { theme, BaseStyles } from '@primer/components';
 interface ContextProviderProps {
   session?: any;
 }
@@ -11,10 +11,11 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
   const { user } = useAuth();
   //console.log('auth: ', auth);
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalCSS />
-      <UserContextProvider value={user}>{children}</UserContextProvider>
-    </ThemeProvider>
+    <BaseStyles>
+      <ThemeProvider theme={theme}>
+        <UserContextProvider value={user}>{children}</UserContextProvider>
+      </ThemeProvider>
+    </BaseStyles>
   );
 };
 

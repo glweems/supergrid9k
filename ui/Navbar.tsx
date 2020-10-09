@@ -1,55 +1,61 @@
 import Box from '@/ui/Box';
+import Link from 'next/link';
 import React from 'react';
-import { BoxProps, Flex, FlexProps, Heading } from 'rebass/styled-components';
-import { useTheme } from 'styled-components/macro';
+import { Flex } from 'rebass/styled-components';
+import styled, { useTheme } from 'styled-components';
 import UserDropdown from '../components/UserDropdown';
 import { LogoIcon } from '../lib/Icons';
 import { useUser } from '../lib/User';
-import Link from './Link';
-
-interface NavbarProps {
-  title?: React.ReactText | React.ReactNode;
-  flexProps?: FlexProps;
-  boxProps?: BoxProps;
-  Heading?: React.FC<any>;
-  headingProps?: any;
-}
-
-const Navbar: React.FC<NavbarProps> = ({
-  title,
-  children,
-  flexProps,
-  boxProps,
-  headingProps,
-}) => {
+import { Header, StyledOcticon } from '@primer/components';
+const Navbar: React.FC = () => {
   const user = useUser();
   const { navbarHeight } = useTheme();
   return (
-    <Flex as="header" {...flexProps} height={navbarHeight}>
-      <Heading p={2} fontWeight="bold" {...headingProps}>
-        <Box display="flex" alignItems="center" alignContent="center">
-          <LogoIcon />
-          {title}
-        </Box>
-      </Heading>
-      <Box as="nav" {...boxProps}>
-        {children}
-      </Box>
+    <Header>
+      <Header.Item href="/" as={Link}>
+        <Header.Link fontSize={2}>
+          <StyledOcticon
+            icon={() => (
+              <div>
+                <LogoIcon />
+              </div>
+            )}
+            size={32}
+            mr={2}
+          />
+          <span>GitHub</span>
+        </Header.Link>
+      </Header.Item>
+      <nav>
+        <Link href="/">
+          <Flex
+            css={`
+              place-items: center;
+            `}
+          >
+            <Box as="h3" mx={3}></Box>
+          </Flex>
+        </Link>
+      </nav>
 
       <Box>{user ? <UserDropdown /> : <Link href="/auth">login</Link>}</Box>
-    </Flex>
+    </Header>
   );
 };
 
-Navbar.defaultProps = {
-  title: <Link href="/">Super Grid 9K</Link>,
-  flexProps: {
-    px: 2,
-    color: 'text',
-    bg: 'secondary',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-};
+const Headers = styled.header`
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  height: ${({ theme }) => theme.navbarHeight};
+  min-height: 4rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--color-primary);
+  box-shadow: rgba(0, 0, 0, 0.05) 0 0.5rem 1rem,
+    rgba(0, 0, 0, 0.1) 0 -1px 0 inset;
+`;
 
 export default Navbar;
