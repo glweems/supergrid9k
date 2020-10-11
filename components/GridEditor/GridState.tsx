@@ -1,10 +1,10 @@
+import { GridItemProps } from '@components/GridEditor/GridAreas';
 import {
   entriesArrayParser,
   Entry,
   RawGridState,
+  template,
 } from 'css-grid-template-parser';
-import createGridAreasArray from '@components/GridEditor/createGridItems';
-import { GridItemProps } from '@components/GridEditor/GridAreas';
 export type CodeGenFn = (state?: GridState) => string;
 
 export class GridState {
@@ -16,7 +16,7 @@ export class GridState {
   gridTemplateColumns: Entry[];
   gridGap: Entry[];
   code: Record<string, CodeGenFn>;
-  selected: null | GridItemProps['id'];
+  selected: null | GridItemProps;
 
   constructor(args: RawGridState) {
     this.name = args.name;
@@ -30,12 +30,31 @@ export class GridState {
     this.selected = null;
   }
 
-  items(state = this) {
-    const { gridTemplateRows, gridTemplateColumns } = state;
-    return createGridAreasArray(gridTemplateRows, gridTemplateColumns);
+  gridTemplateAreas() {
+    return template({
+      width: this.gridTemplateRows.length,
+      height: this.gridTemplateColumns?.length,
+      areas: this.areas,
+    });
+  }
+
+  items() {
+    return this.gridTemplateAreas()
+      .replace(/["]+/g, '')
+      .split('\n')
+      .flatMap((rowStr, rowStart) =>
+        rowStr.split(' ').map((name, colStart) => ({
+          name,
+          row: [rowStart + 1, rowStart + 2],
+          column: [colStart + 1, colStart + 2],
+          styleObj: { bg: 'blue.5' },
+        }))
+      );
   }
 }
-/*  removeEntry(objKey: TemplateStringObjKey, index: number) {
+
+/*
+  removeEntry(objKey: TemplateStringObjKey, index: number) {
     removeItemAtIndex(this[objKey], index);
   }
 
@@ -63,7 +82,7 @@ export class GridState {
 
   editEntryValue(name: string, value) {
     const [objKey, index, key] = name.split('.');
-    console.log('objKey, index, key: ', objKey, index, key);
+
     this[objKey][index][key] = value;
   }
 

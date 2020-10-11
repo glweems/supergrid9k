@@ -1,31 +1,57 @@
-import { Box, BoxProps } from '@primer/components';
-import { Entry, flatten } from 'css-grid-template-parser';
+import {
+  BorderBox,
+  Box,
+  BoxProps,
+  Button,
+  ButtonGroup,
+  FormGroup,
+  TextInput,
+} from '@primer/components';
+import {
+  Entry,
+  flatten,
+  rect,
+  template,
+  track,
+} from 'css-grid-template-parser';
 import { useFormikContext } from 'formik';
+import { values } from 'lodash';
 import { transparentize } from 'polished';
 import React from 'react';
 import styled from 'styled-components/macro';
 import { variant } from 'styled-system';
 import theme from '../../lib/theme';
-import createGridAreasArray, { CreateGridAreasArray } from './createGridItems';
+import If from '../If';
+import { GridItem } from './GridItem';
 import { GridState } from './GridState';
 
 type GridAreasProps = BoxProps;
 
 const GridAreas: React.FC<GridAreasProps> = ({ ...boxProps }) => {
-  const { values } = useFormikContext<GridState>();
-
-  const areas = values.items();
+  const formik = useFormikContext<GridState>();
+  const { gridTemplateRows, gridTemplateColumns, temp } = formik.values;
+  const areas = formik.values.items();
 
   const styleObj = {
-    gridTemplateRows: flatten(values.gridTemplateRows),
-    gridTemplateColumns: flatten(values.gridTemplateColumns),
-    gap: flatten(values.gridGap),
+    gridTemplateRows: flatten(gridTemplateRows),
+    gridTemplateColumns: flatten(gridTemplateColumns),
+    gap: flatten(formik.values.gridGap),
+    gridTemplateAreas: formik.values.gridTemplateAreas(),
   };
-
   return (
     <GridProperties {...boxProps} style={styleObj}>
+      <If isTrue={temp}>
+        <BorderBox
+          padding={3}
+          css={`
+            grid-area: temp;
+          `}
+        >
+          <TempArea />
+        </BorderBox>
+      </If>
       {areas.map((area) => (
-        <GridItem key={area.id} {...area} />
+        <GridItem key={[...area.row, ...area.column].join('/')} {...area} />
       ))}
     </GridProperties>
   );
@@ -38,79 +64,10 @@ const GridProperties = styled(Box)`
   padding: var(--space-4);
 `;
 
-export type GridItemProps = {
-  id: string;
-  row: Entry;
-  column: Entry;
-  rowStart: number;
-  columnStart: number;
-};
+export type GridItemProps = ReturnType<GridState['items']>[number];
 
-export function GridItem({ id, ...area }: GridItemProps) {
-  const formik = useFormikContext<GridState>();
-  const [variant, setVariant] = React.useState<GridItemDivVariant>('default');
-
-  const handleMouseEnter = () => {
-    switch (variant) {
-      case 'default':
-        setVariant('hover');
-        break;
-
-      default:
-        break;
-    }
-  };
-  const handleMouseLeave = () => {
-    switch (variant) {
-      case 'hover':
-        setVariant('default');
-        break;
-
-      default:
-        // setVariant('default');
-        break;
-    }
-  };
-  const handleClick = () => {
-    switch (variant) {
-      case 'hover':
-        setVariant('default');
-        switch (formik.values.selected) {
-          case id:
-            // formik.setFieldValue('selected', null);
-            formik.setFieldValue('areas', {
-              ...formik.values.areas,
-              temp: `${formik.values.selected}.${area.rowStart + 1}.${
-                area.columnStart + 1
-              }`,
-            });
-            break;
-
-          default:
-            formik.setFieldValue('selected', id);
-            break;
-        }
-        break;
-
-      default:
-        setVariant('selected');
-    }
-  };
-
-  return (
-    <GridItemDiv
-      key={id}
-      variant={variant}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onClick={handleClick}
-      // gridRow={area.rowStart}
-      // gridColumn={area.columnStart}
-    />
-  );
-}
-type GridItemDivVariant = 'default' | 'hover' | 'selected';
-const GridItemDiv = styled.div<{ variant: GridItemDivVariant }>`
+export type GridItemDivVariant = 'default' | 'hover' | 'selected';
+export const GridItemDiv = styled.div<{ variant: GridItemDivVariant }>`
   border-style: dashed;
   border-width: 2px;
 
@@ -130,3 +87,40 @@ const GridItemDiv = styled.div<{ variant: GridItemDivVariant }>`
 `;
 
 export default GridAreas;
+
+const TempArea: React.FunctionComponent<any> = () => {
+  const formik = useFormikContext<GridState>();
+  const [name, setName] = React.useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void =>
+    setName(e.currentTarget.value);
+
+  function handleCancel() {
+    formik.setFieldValue('temp', null);
+  }
+  function handleSave() {
+    formik.setFieldValue(`areas.${name}`, formik.values.temp);
+    handleCancel();
+  }
+  return (
+    <FormGroup color="white">
+      <FormGroup.Label>Area Name</FormGroup.Label>
+      <TextInput
+        name="temp.name"
+        placeholder="div"
+        value={name}
+        onChange={handleChange}
+        color="text.grayLight"
+        bg="bg.grayLight"
+      />
+      <ButtonGroup>
+        <Button onClick={handleSave} variant="small">
+          Save
+        </Button>
+        <Button onClick={handleCancel} variant="small">
+          Cancel
+        </Button>
+      </ButtonGroup>
+    </FormGroup>
+  );
+};

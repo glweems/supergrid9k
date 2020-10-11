@@ -13,6 +13,7 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
   return (
     <BaseStyles>
       <ThemeProvider theme={theme}>
+        <GlobalCSS />
         <UserContextProvider value={user}>{children}</UserContextProvider>
       </ThemeProvider>
     </BaseStyles>

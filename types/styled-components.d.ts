@@ -1,10 +1,9 @@
-/* eslint-disable */
-import { SuperGrid9kTheme } from '../lib/theme';
-
+import { theme } from '@primer/components';
+type Theme = typeof theme;
 declare module 'styled-components/macro' {
-  export interface DefaultTheme extends SuperGrid9kTheme {}
+  export type DefaultTheme = Theme;
 
-  export function createGlobalStyle<P extends object = {}>(
+  export function createGlobalStyle<P extends Record<string, any>>(
     first:
       | TemplateStringsArray
       | CSSObject

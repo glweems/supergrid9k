@@ -10,10 +10,9 @@ interface TabsProps {
 
 const Tabs: FC<TabsProps> = ({ initialTab, tabs }) => {
   const router = useRouter();
-  const [state, setState] = React.useState<keyof TabsProps['tabs']>(() => {
-    if (router.query.tag) return router.query.tag as string;
-    return initialTab ? initialTab : Object.keys(tabs)[0];
-  });
+  const [state, setState] = React.useState<keyof TabsProps['tabs']>(
+    (router?.query?.tab as string) ?? initialTab ?? Object.keys(tabs)[0]
+  );
   const handleClick = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -28,18 +27,17 @@ const Tabs: FC<TabsProps> = ({ initialTab, tabs }) => {
     <React.Fragment>
       <ButtonGroup display="flex">
         {Object.keys(tabs).map((str) => (
-          <ButtonOutline
-            as={str === router.query.tab ? ButtonOutline : Button}
+          <Button
             key={str}
             name={str}
             onClick={handleClick}
             style={{ flex: 1 }}
           >
             {capitalize(str)}
-          </ButtonOutline>
+          </Button>
         ))}
       </ButtonGroup>
-      {tabs[state]}
+      {tabs?.[state]}
     </React.Fragment>
   );
 };

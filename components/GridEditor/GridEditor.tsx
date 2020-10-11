@@ -77,6 +77,10 @@ const GridEditor: React.FC<GridEditorProps> = ({ initialValues }) => {
                       language="json"
                       code={JSON.stringify(
                         {
+                          gridTemplateAreas: formikBag.values
+                            .gridTemplateAreas()
+                            .split('\n')
+                            .join(' '),
                           selected: formikBag.values.selected,
                           areas: formikBag.values.areas,
                         },
@@ -89,7 +93,7 @@ const GridEditor: React.FC<GridEditorProps> = ({ initialValues }) => {
                     canCopy={false}
                     comment="code"
                     language="json"
-                    code={JSON.stringify(formikBag.values.items(), null, 2)}
+                    code={JSON.stringify(formikBag.values, null, 2)}
                   />
                 </Box>
               ),
