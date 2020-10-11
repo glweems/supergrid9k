@@ -1,6 +1,6 @@
 import { theme } from '@primer/components';
 type Theme = typeof theme;
-declare module 'styled-components/macro' {
+declare module 'styled-components' {
   export type DefaultTheme = Theme;
 
   export function createGlobalStyle<P extends Record<string, any>>(

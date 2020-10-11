@@ -4,6 +4,7 @@ import {
   Entry,
   RawGridState,
   template,
+  track,
 } from 'css-grid-template-parser';
 export type CodeGenFn = (state?: GridState) => string;
 
@@ -31,25 +32,40 @@ export class GridState {
   }
 
   gridTemplateAreas() {
-    return template({
+    const str = template({
       width: this.gridTemplateRows.length,
       height: this.gridTemplateColumns?.length,
       areas: this.areas,
     });
+    console.log('str: ', str);
+    return str;
   }
 
   items() {
-    return this.gridTemplateAreas()
+    const items = this.gridTemplateAreas()
       .replace(/["]+/g, '')
       .split('\n')
       .flatMap((rowStr, rowStart) =>
-        rowStr.split(' ').map((name, colStart) => ({
-          name,
-          row: [rowStart + 1, rowStart + 2],
-          column: [colStart + 1, colStart + 2],
-          styleObj: { bg: 'blue.5' },
-        }))
+        rowStr.split(' ').map((name, colStart) => {
+          const row = track(rowStart + 1, rowStart + 2);
+          const column = track(colStart + 1, colStart + 2);
+          const gridArea = [row.start, column.start, row.end, column.end].join(
+            ' / '
+          );
+
+          return { name, gridArea, row, column };
+        })
       );
+    // .filter((obj) => obj.name === '.');
+
+    return [
+      ...items,
+      ...Object.entries(this.areas).map(([key, val]) => ({
+        ...val,
+        name: key,
+        gridArea: key,
+      })),
+    ];
   }
 }
 

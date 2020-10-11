@@ -40,18 +40,8 @@ const GridAreas: React.FC<GridAreasProps> = ({ ...boxProps }) => {
   };
   return (
     <GridProperties {...boxProps} style={styleObj}>
-      <If isTrue={temp}>
-        <BorderBox
-          padding={3}
-          css={`
-            grid-area: temp;
-          `}
-        >
-          <TempArea />
-        </BorderBox>
-      </If>
-      {areas.map((area) => (
-        <GridItem key={[...area.row, ...area.column].join('/')} {...area} />
+      {areas.map((area, i) => (
+        <GridItem key={`area-${i}`} {...area} />
       ))}
     </GridProperties>
   );
@@ -87,40 +77,3 @@ export const GridItemDiv = styled.div<{ variant: GridItemDivVariant }>`
 `;
 
 export default GridAreas;
-
-const TempArea: React.FunctionComponent<any> = () => {
-  const formik = useFormikContext<GridState>();
-  const [name, setName] = React.useState('');
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void =>
-    setName(e.currentTarget.value);
-
-  function handleCancel() {
-    formik.setFieldValue('temp', null);
-  }
-  function handleSave() {
-    formik.setFieldValue(`areas.${name}`, formik.values.temp);
-    handleCancel();
-  }
-  return (
-    <FormGroup color="white">
-      <FormGroup.Label>Area Name</FormGroup.Label>
-      <TextInput
-        name="temp.name"
-        placeholder="div"
-        value={name}
-        onChange={handleChange}
-        color="text.grayLight"
-        bg="bg.grayLight"
-      />
-      <ButtonGroup>
-        <Button onClick={handleSave} variant="small">
-          Save
-        </Button>
-        <Button onClick={handleCancel} variant="small">
-          Cancel
-        </Button>
-      </ButtonGroup>
-    </FormGroup>
-  );
-};
