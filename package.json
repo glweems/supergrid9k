@@ -40,7 +40,7 @@
     "prism-react-renderer": "^1.1.1",
     "react": "^17.0.0-rc.1",
     "react-clipboard.js": "^2.0.16",
-    "react-div-100vh": "^0.5.0",
+    "react-div-100vh": "^0.5.2",
     "react-dom": "^16.13.1",
     "react-draggable": "^4.4.3",
     "react-dropdown-select": "^4.5.1",
