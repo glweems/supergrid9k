@@ -49,7 +49,7 @@
     "react-id-generator": "^3.0.1",
     "react-is": "^16.13.1",
     "react-modal": "^3.11.2",
-    "react-query": "^2.14.1",
+    "react-query": "^2.23.0",
     "react-query-devtools": "^2.4.5",
     "react-typography": "^0.16.19",
     "react-use": "^15.3.4",
