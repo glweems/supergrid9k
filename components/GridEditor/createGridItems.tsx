@@ -1,6 +1,5 @@
-import { Entry } from 'css-grid-template-parser';
-import { GridItemProps } from './GridAreas';
-import { GridState } from './GridState';
+import { GridState } from '../../css-grid-template-parser/GridState';
+import { GridItemProps } from './GridItem';
 
 export type CreateGridAreasArray = (
   rows: GridState['gridTemplateRows'],

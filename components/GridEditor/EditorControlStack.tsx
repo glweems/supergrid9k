@@ -19,7 +19,7 @@ import {
 import React from 'react';
 import styled from 'styled-components/macro';
 import If from '../If';
-import { GridState } from './GridState';
+import { GridState } from '../../css-grid-template-parser/GridState';
 
 export interface EditorControlStackProps {
   name: GridControlObjKey;

@@ -1,6 +1,6 @@
 import { template } from 'css-grid-template-parser';
 import { CSSProperties } from 'react';
-import { GridState } from '../components/GridEditor/GridState';
+import { GridState } from '../css-grid-template-parser/GridState';
 import { GridControlUnit } from '../lib/utils';
 
 export type GridTemplateEntry = {

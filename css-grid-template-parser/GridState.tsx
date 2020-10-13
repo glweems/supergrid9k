@@ -1,4 +1,3 @@
-import { GridItemProps } from '@components/GridEditor/GridAreas';
 import {
   entriesArrayParser,
   Entry,
@@ -6,6 +5,7 @@ import {
   template,
   track,
 } from 'css-grid-template-parser';
+import { GridItemProps } from '../components/GridEditor/GridItem';
 export type CodeGenFn = (state?: GridState) => string;
 
 export class GridState {
@@ -18,7 +18,10 @@ export class GridState {
   gridGap: Entry[];
   code: Record<string, CodeGenFn>;
   selected: null | GridItemProps;
-  editor: Record<string, unknown>;
+  editor: {
+    gridArea: null | keyof GridState['areas'];
+    sidebarWidth: React.CSSProperties['width'];
+  };
 
   constructor(args: RawGridState) {
     this.name = args.name;
@@ -30,6 +33,10 @@ export class GridState {
     this.gridGap = entriesArrayParser(args.gridGap);
     this.code = { html: () => '' };
     this.selected = null;
+    this.editor = {
+      gridArea: null,
+      sidebarWidth: '300px',
+    };
   }
 
   gridTemplateAreas() {

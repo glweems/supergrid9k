@@ -3,7 +3,7 @@ import Navbar from '@/ui/Navbar';
 import { RawGridState } from 'css-grid-template-parser';
 import { GetServerSideProps, NextPage } from 'next';
 import React from 'react';
-import { GridState } from '../components/GridEditor/GridState';
+import { GridState } from '../css-grid-template-parser/GridState';
 import { fetcher } from '../lib/fetcher';
 
 const endpoint = '/api/grid/template';

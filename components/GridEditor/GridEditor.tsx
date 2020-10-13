@@ -3,14 +3,16 @@ import { FormikProvider, useFormik } from 'formik';
 import React from 'react';
 import styled from 'styled-components/macro';
 import { layout } from 'styled-system';
+import { GridState } from '../../css-grid-template-parser/GridState';
 import CodeBlock from '../CodeBlock';
 import Tabs from '../Tabs';
 import { EditorControlStack } from './EditorControlStack';
 import GridAreas from './GridAreas';
-import { GridState } from './GridState';
+
 export interface GridEditorProps {
   initialValues: GridState;
 }
+
 const GridEditor: React.FC<GridEditorProps> = ({ initialValues }) => {
   const formikBag = useFormik<GridState>({
     initialValues,
@@ -22,7 +24,7 @@ const GridEditor: React.FC<GridEditorProps> = ({ initialValues }) => {
   return (
     <FormikProvider value={formikBag}>
       <Layout>
-        <Sidebar>
+        <Sidebar sidebarWidth={formikBag.values.editor.sidebarWidth}>
           <Tabs
             tabs={{
               controls: (
@@ -38,7 +40,6 @@ const GridEditor: React.FC<GridEditorProps> = ({ initialValues }) => {
                       bottom: 1rem;
                       right: 0;
                       z-index: 1000;
-                      /* background-color: var(--color-secondary); */
                       width: 100%;
                       padding: 0.25rem;
                     `}
@@ -77,10 +78,7 @@ const GridEditor: React.FC<GridEditorProps> = ({ initialValues }) => {
                       language="json"
                       code={JSON.stringify(
                         {
-                          gridTemplateAreas: formikBag.values
-                            .gridTemplateAreas()
-                            .split('\n')
-                            .join(' '),
+                          gridTemplateAreas: formikBag.values.gridTemplateAreas(),
                           selected: formikBag.values.selected,
                           areas: formikBag.values.areas,
                         },
@@ -110,14 +108,14 @@ const GridEditor: React.FC<GridEditorProps> = ({ initialValues }) => {
     </FormikProvider>
   );
 };
-
-const Sidebar = styled.aside`
+type SidebarProps = Pick<GridState['editor'], 'sidebarWidth'>;
+const Sidebar = styled.aside<SidebarProps>`
   position: relative;
   display: flex;
   flex-direction: column;
   grid-area: sidebar;
   align-content: center;
-  width: ${({ theme }) => theme.sidebarWidth}px;
+  width: ${(props) => props && props.sidebarWidth};
   height: 100vh;
   max-height: calc(100vh - 4rem);
   margin: 0;

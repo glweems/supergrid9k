@@ -66,7 +66,7 @@ function getRows(
   return rows;
 }
 
-export function getRowsConfig(areas: string[], current = 0, rows = '') {}
+// export function getRowsConfig(areas: string[], current = 0, rows = '') {}
 
 /**
  *

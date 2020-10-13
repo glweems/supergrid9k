@@ -11,11 +11,40 @@
     "layout",
     "create"
   ],
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "ts-jest"
+    },
+    "testEnvironment": "node",
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/test/",
+      "/.next/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    },
+    "collectCoverageFrom": [
+      "./*.{js,ts}"
+    ]
+  },
   "dependencies": {
     "@primer/components": "^20.2.0",
     "@rebass/forms": "^4.0.6",
     "@rebass/layout": "^4.0.6",
     "axios": "^0.20.0",
+    "babel-jest": "^26.5.2",
     "clipboard": "^2.0.6",
     "colors": "^1.4.0",
     "envalid": "^6.0.2",
@@ -23,6 +52,7 @@
     "firebase-admin": "^9.2.0",
     "formik": "^2.2.0",
     "framer-motion": "^2.9.1",
+    "jest": "^26.5.3",
     "js-cookie": "^2.2.1",
     "lodash": "^4.17.20",
     "mongoose": "^5.10.9",
@@ -38,13 +68,16 @@
     "react-dropdown-select": "^4.5.2",
     "react-error-boundary": "^3.0.2",
     "react-firebaseui": "^4.1.0",
+    "react-json-view": "^1.19.1",
     "react-typography": "^0.16.19",
     "react-use": "^15.3.4",
     "rebass": "^4.0.7",
+    "recoil": "^0.0.13",
     "styled-components": "^5.2.0",
     "styled-system": "^5.1.5",
     "swr": "^0.3.5",
-    "typescript": "^4.1.0-dev.20201012",
+    "ts-jest": "^26.4.1",
+    "typescript": "^4.1.0-dev.20201013",
     "typography": "^0.16.19",
     "typography-plugin-code": "^0.16.19",
     "use-debounce": "^5.0.1"
@@ -59,7 +92,7 @@
     "lint:style": "stylelint --ignore-path .gitignore \"./**/*.{ts,tsx}\"",
     "lint": "npm run lint:js && npm run lint:style",
     "lint:fix": "npm run format && npm run lint:js --fix && npm run lint:style",
-    "test": "react-scripts test",
+    "test": "jest",
     "test:all": "set NODE_ENV=test && react-scripts test && npm run lint"
   },
   "husky": {
@@ -84,6 +117,7 @@
     "styled-components": "^5"
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.10.4",
     "@testing-library/dom": "^7.24.5",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.0.4",

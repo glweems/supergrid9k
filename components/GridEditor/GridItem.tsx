@@ -1,126 +1,71 @@
-import { Button, ButtonGroup, FormGroup, TextInput } from '@primer/components';
-import { track } from 'css-grid-template-parser';
+import { Box, BoxProps } from '@primer/components';
 import { useFormikContext } from 'formik';
 import React, { useState } from 'react';
-import styled from 'styled-components';
-import { variant } from 'styled-system';
-import { GridItemProps } from './GridAreas';
-import { GridState } from './GridState';
+import { GridState, Track, areaFromGridItems } from 'css-grid-template-parser';
+import { GridItemInner } from './GridItemInner';
+
+export type GridItemProps = {
+  name: string;
+  gridArea: string;
+  row: Track;
+  column: Track;
+  index: number;
+};
 
 export function GridItem(area: GridItemProps) {
   const formik = useFormikContext<GridState>();
-  const { selected } = formik.values;
-  const [variant, setVariant] = useState<GridItemDivVariant>('default');
+
+  const { setFieldValue, values } = formik;
+  const { selected } = values;
+  const [boxProps, setboxProps] = useState<BoxProps>({ bg: 'blue.5' });
+  // const [variant, setVariant] = useState<GridItemDivVariant>('default');
+
+  const handleClick = () => {
+    if (values?.editor?.gridArea) return;
+
+    if (!selected) {
+      setboxProps({ bg: 'yellow.5' });
+      formik.setFieldValue('selected', area);
+    }
+
+    if (selected) {
+      // If clicking on edit anchor set editing false
+      if (area.gridArea === selected?.gridArea) {
+        setFieldValue('selected', null);
+        setboxProps({ bg: 'blue.5' });
+      }
+
+      const newAreaRaw = areaFromGridItems(selected, area);
+      console.log('newAreaRaw: ', newAreaRaw);
+
+      setFieldValue('areas.temp', newAreaRaw);
+      setFieldValue('selected', null);
+      setFieldValue('editor.gridArea', 'temp');
+    }
+  };
+
   const handleMouseEnter = () => {
-    if (selected && variant === 'default') setVariant('target');
+    if (selected && area.gridArea !== selected?.gridArea) {
+      setboxProps({ bg: 'yellow.5' });
+      // setResizing(true);
+
+      // formik.setFieldValue('areas.temp', );
+    }
   };
   const handleMouseLeave = () => {
-    if (variant === 'target') setVariant('default');
-  };
-  const handleClick = () => {
-    if (!selected) {
-      formik.setFieldValue('selected', area);
-      variant !== 'selected' && setVariant('selected');
-    }
-
-    if (variant === 'selected' && selected) {
-      if (formik.values.selected.gridArea === area.gridArea) {
-        return () => {
-          formik.setFieldValue('selected', null);
-          setVariant('default');
-        };
-      }
-    }
-
-    if (variant === 'target') {
-      const obj = {
-        row: track(selected.row.start, area.row.end),
-        column: track(selected.column.start, area.column.end),
-      };
-      formik.setFieldValue('areas.temp', obj);
-      setVariant('default');
-      formik.setFieldValue('selected', null);
-    }
-
-    // throttle(() => formik.setFieldValue(`areas.temp`, area), 200);
+    if (area.gridArea !== selected?.gridArea) setboxProps({ bg: 'blue.5' });
   };
 
   return (
-    <GridItemDiv
+    <Box
       style={{ gridArea: area.gridArea }}
-      variant={variant}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}
-      // style={styleObj}
+      bg={boxProps.bg}
+      padding={2}
     >
-      {area.gridArea}
-    </GridItemDiv>
+      <GridItemInner {...area} />
+    </Box>
   );
 }
-
-const TempArea: React.FunctionComponent<any> = () => {
-  const formik = useFormikContext<GridState>();
-  const [name, setName] = React.useState('');
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void =>
-    setName(e.currentTarget.value);
-
-  function handleCancel() {
-    formik.setFieldValue('areas.temp', null);
-  }
-  function handleSave() {
-    formik.setFieldValue(`areas.${name}`, {
-      ...formik.values.areas.temp,
-      name,
-    });
-    handleCancel();
-  }
-  return (
-    <GridItemDiv variant="editing">
-      <FormGroup color="white">
-        <FormGroup.Label>Area Name</FormGroup.Label>
-        <TextInput
-          name="temp.name"
-          placeholder="div"
-          value={name}
-          onChange={handleChange}
-          color="text.grayLight"
-          bg="bg.grayLight"
-        />
-        <ButtonGroup>
-          <Button onClick={handleSave} variant="small">
-            Save
-          </Button>
-          <Button onClick={handleCancel} variant="small">
-            Cancel
-          </Button>
-        </ButtonGroup>
-      </FormGroup>
-    </GridItemDiv>
-  );
-};
-export type GridItemDivVariant =
-  | 'default'
-  | 'hover'
-  | 'selected'
-  | 'target'
-  | 'editing';
-
-export const GridItemDiv = styled.div<{ variant: GridItemDivVariant }>`
-  border-style: solid;
-  border-width: 2px;
-  ${variant({
-    key: 'variant',
-    variants: {
-      default: {
-        borderColor: 'blue.4',
-      },
-      hover: {
-        bg: 'blue.7',
-      },
-      selected: { bg: 'yellow.5' },
-      target: { bg: 'red.5' },
-    },
-  })};
-`;

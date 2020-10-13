@@ -1,35 +1,19 @@
-import {
-  BorderBox,
-  Box,
-  BoxProps,
-  Button,
-  ButtonGroup,
-  FormGroup,
-  TextInput,
-} from '@primer/components';
-import {
-  Entry,
-  flatten,
-  rect,
-  template,
-  track,
-} from 'css-grid-template-parser';
+import { Box, BoxProps } from '@primer/components';
+import { flatten } from 'css-grid-template-parser';
 import { useFormikContext } from 'formik';
-import { values } from 'lodash';
 import { transparentize } from 'polished';
 import React from 'react';
 import styled from 'styled-components/macro';
 import { variant } from 'styled-system';
+import { GridState } from '../../css-grid-template-parser/GridState';
 import theme from '../../lib/theme';
-import If from '../If';
 import { GridItem } from './GridItem';
-import { GridState } from './GridState';
 
 type GridAreasProps = BoxProps;
 
 const GridAreas: React.FC<GridAreasProps> = ({ ...boxProps }) => {
   const formik = useFormikContext<GridState>();
-  const { gridTemplateRows, gridTemplateColumns, temp } = formik.values;
+  const { gridTemplateRows, gridTemplateColumns } = formik.values;
   const areas = formik.values.items();
 
   const styleObj = {
@@ -40,8 +24,8 @@ const GridAreas: React.FC<GridAreasProps> = ({ ...boxProps }) => {
   };
   return (
     <GridProperties {...boxProps} style={styleObj}>
-      {areas.map((area, i) => (
-        <GridItem key={`area-${i}`} {...area} />
+      {areas.map((area, index) => (
+        <GridItem key={`area-${index}`} {...area} index={index} />
       ))}
     </GridProperties>
   );
@@ -53,8 +37,6 @@ const GridProperties = styled(Box)`
   height: 100%;
   padding: var(--space-4);
 `;
-
-export type GridItemProps = ReturnType<GridState['items']>[number];
 
 export type GridItemDivVariant = 'default' | 'hover' | 'selected';
 export const GridItemDiv = styled.div<{ variant: GridItemDivVariant }>`
