@@ -1,20 +1,64 @@
-import { RawGridState } from 'css-grid-template-parser';
+import { GridState } from 'css-grid-template-parser';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
 
-const defaultGridState: RawGridState = {
-  name: 'Template',
-  gridTemplateColumns: '1fr 1fr 1fr',
-  gridTemplateRows: '1fr 1fr 1fr',
-  gridGap: '10px 10px',
-  useCssRepeatFn: false,
-  gridContainerClassName: 'grid',
-  areas: {},
+export interface AppConfig {
+  name: string;
+  grid: GridState;
+}
+
+// useCssRepeatFn: false,
+// gridContainerClassName: 'grid',
+
+const json: AppConfig = {
+  name: 'Grid',
+  grid: {
+    areas: {},
+    rows: [
+      {
+        amount: 1,
+        unit: 'fr',
+      },
+      {
+        amount: 1,
+        unit: 'fr',
+      },
+      {
+        amount: 1,
+        unit: 'fr',
+      },
+    ],
+    columns: [
+      {
+        amount: 1,
+        unit: 'fr',
+      },
+      {
+        amount: 1,
+        unit: 'fr',
+      },
+      {
+        amount: 1,
+        unit: 'fr',
+      },
+    ],
+    gap: {
+      rowGap: {
+        amount: 10,
+        unit: 'px',
+      },
+      columnGap: {
+        amount: 10,
+        unit: 'px',
+      },
+    },
+  },
 };
 
-const json = defaultGridState;
-const handler = nc<NextApiRequest, NextApiResponse>().get(async (_req, res) => {
-  res.status(200).json(json);
-});
+const handler = nc<NextApiRequest, NextApiResponse<AppConfig>>().get(
+  async (_req, res) => {
+    res.status(200).json(json);
+  }
+);
 
 export default handler;

@@ -14,9 +14,10 @@ export {
   transformTemplateEntry,
   transformTemplateStr,
 } from './entriesArrayParser';
+export { default as groupRepeatedUnits } from './groupRepeatedUnits';
 export { default as flatten } from './flatten';
 export { default as grid } from './grid';
-export { GridState } from './GridState';
+export type { GridState } from './GridState';
 export { area, rect, track } from './primitives';
 export { default as template } from './template';
 export { default as templateStringParser } from './templateStringParser';

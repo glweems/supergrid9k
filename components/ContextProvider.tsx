@@ -4,6 +4,7 @@ import { createGlobalStyle, ThemeProvider } from 'styled-components/macro';
 import useAuth from '../lib/auth/useAuth';
 import { UserContextProvider } from '../lib/User';
 import { theme, BaseStyles } from '@primer/components';
+import { RecoilRoot } from 'recoil';
 interface ContextProviderProps {
   session?: any;
 }

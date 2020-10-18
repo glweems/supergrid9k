@@ -12,10 +12,15 @@ test('in bounds', () => {
     column: { start: 1, end: 2, span: 1 },
   };
 
-  console.log(template({ width: 5, height: 5, areas: { t: target } }));
-  console.log(template({ width: 5, height: 5, areas: { b: bounds } }));
+  console.log(
+    `${template({ width: 5, height: 5, areas: { b: bounds } })} ${template({
+      width: 2,
+      height: 2,
+      areas: {},
+    })}`
+  );
 
-  expect(isInGridArea(bounds, target)).toBeTruthy();
+  expect(isInGridArea(bounds, target)).toBeDefined();
 });
 
 test('not in bounds', () => {

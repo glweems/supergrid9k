@@ -1,10 +1,15 @@
 import { InputProps } from '@rebass/forms/styled-components';
-import { RawGridState } from 'css-grid-template-parser';
+import { Entry, RawGridState } from 'css-grid-template-parser';
 import { SelectProps } from '../components/Select';
 import { GridTemplateEntry } from '../store/grid';
-
+import groupRepeatedUnits from 'css-grid-template-parser/groupRepeatedUnits';
+export function replaceItem<T = Record<string, unknown>>(
+  thing,
+  index,
+  newVal
+) {}
 export function replaceItemAtIndex<T = Record<string, unknown>>(
-  arr: T[],
+  arr: T[] | Record<string, unknown>,
   index: number,
   newValue: T
 ) {
@@ -66,22 +71,6 @@ export function prettyControlName(name: string): string {
     });
 }
 
-export const groupRepeatedUnits = (
-  templateUnitArray: Pick<GridTemplateEntry, 'amount' | 'unit'>[]
-) => {
-  const templateArray = templateUnitArray.map((i) => i['amount'] + i['unit']);
-  const groups = [[templateArray.shift() as string]];
-  for (const templateUnit of templateArray) {
-    const lastGroup = groups[groups.length - 1];
-    if (lastGroup.indexOf(templateUnit) !== -1) {
-      lastGroup.push(templateUnit);
-    } else {
-      groups.push([templateUnit]);
-    }
-  }
-  return groups;
-};
-
 export const createRepetition = (groups: string[][], maxRepetition = 1) => {
   return groups
     .map((group) =>
@@ -94,10 +83,8 @@ export const createRepetition = (groups: string[][], maxRepetition = 1) => {
     .join(' ');
 };
 
-export function repeatStr(
-  entries: Pick<GridTemplateEntry, 'amount' | 'unit'>[]
-) {
-  return createRepetition(groupRepeatedUnits(entries));
+export function repeatStr(entries: Entry[]) {
+  return groupRepeatedUnits(entries);
 }
 export type GridControlUnit =
   | 'fr'
