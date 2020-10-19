@@ -1,26 +1,20 @@
 import Navbar from '@/ui/Navbar';
-import { BorderBox, Box, Grid } from '@primer/components';
-import { GetServerSideProps, NextPage } from 'next';
-import React, { FC, memo } from 'react';
-import Div100Vh from 'react-div-100vh';
+import { BorderBox, Grid } from '@primer/components';
 import {
-  selector,
-  selectorFamily,
-  useRecoilState,
-  useRecoilValue,
-} from 'recoil';
-import {
-  flatten,
   GridState,
   groupRepeatedUnits,
   template,
   track,
 } from 'css-grid-template-parser';
+import { GetServerSideProps, NextPage } from 'next';
+import React, { FC, memo } from 'react';
+import Div100Vh from 'react-div-100vh';
+import { selector, useRecoilState, useRecoilValue } from 'recoil';
 import GridControls from '../Grid/GridControls';
+import GridGapControls from '../Grid/GridGapControls';
 import { gridState } from '../Grid/gridState';
 import { fetcher } from '../lib/fetcher';
 import { AppConfig } from './api/grid/template';
-import { repeatStr } from '../lib/utils';
 export const getServerSideProps: GetServerSideProps = async () => {
   const data = await fetcher<AppConfig>('/api/grid/template');
   return { props: data };
@@ -38,10 +32,11 @@ const GridEditor: FC<{ data: GridState }> = memo(({ data }) => {
   const [grid, setGridState] = useRecoilState(gridState);
   if (!grid) setGridState(data);
   return (
-    <Grid gridTemplateColumns="auto 1fr">
+    <Grid gridTemplateColumns="auto 1fr" height="calc(100% -  4rem)">
       <Grid gridTemplateColumns="1fr" padding={2} bg="bg.gray">
         <GridControls id="rows" />
         <GridControls id="columns" />
+        <GridGapControls />
       </Grid>
       <GridAreas />
     </Grid>
@@ -53,7 +48,7 @@ const gridCssState = selector({
   get: ({ get }) => {
     const grid = get(gridState);
     if (!grid) return;
-    console.log('grid: ', grid);
+
     const { rows, columns, areas, gap } = grid;
     const rowGap = `${gap.rowGap.amount}${gap.rowGap.unit}`;
     const columnGap = `${gap.columnGap.amount}${gap.columnGap.unit}`;
@@ -74,7 +69,6 @@ const gridCssState = selector({
 const gridAreasState = selector({
   key: 'gridAreas',
   get: ({ get }) => {
-    const grid = get(gridState);
     const css = get(gridCssState);
     const items = css?.gridTemplateAreas
       .replace(/["]+/g, '')
@@ -96,7 +90,7 @@ const gridAreasState = selector({
 
 const GridAreas: FC = (props) => {
   const gridCss = useRecoilValue(gridCssState);
-  console.log('gridCss: ', gridCss);
+
   const gridAreas = useRecoilValue(gridAreasState);
   return (
     <Grid style={gridCss}>

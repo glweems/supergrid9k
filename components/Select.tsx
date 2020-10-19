@@ -2,32 +2,27 @@ import {
   BorderBox,
   BorderBoxProps,
   Box,
+  ButtonProps,
   ButtonOutline,
 } from '@primer/components';
 import Octicon, { ChevronDownIcon } from '@primer/octicons-react';
 import React, { ChangeEvent, ChangeEventHandler, FC, memo } from 'react';
-import { ButtonProps } from '../ui/Button';
 
-export interface SelectProps<T = string>
-  extends ButtonProps,
-    Omit<
-      React.SelectHTMLAttributes<HTMLSelectElement>,
-      keyof ButtonProps | 'children' | 'variant' | 'as'
-    > {
-  options: T[];
-}
+// eslint-disable-next-line prettier/prettier
+export type SelectProps<T = string> = React.SelectHTMLAttributes<
+  HTMLSelectElement
+> &
+  ButtonProps & {
+    options: T[];
+  };
 
 const Select: FC<SelectProps> = memo(({ options, style, ...props }) => {
   return (
     <ButtonOutline
       as="select"
-      paddingRight={2}
       width="70px"
+      sx={{ paddingRight: 2 }}
       css={`
-        /* color: #ffffff; */
-        /* padding-right: 30px; */
-        /* font-size: 14px; */
-        /* border-color: blue; */
         position: relative;
         -moz-appearance: none;
         -webkit-appearance: none;
@@ -49,6 +44,7 @@ const Select: FC<SelectProps> = memo(({ options, style, ...props }) => {
           no-repeat;
         background-position: right 5px top 50%;
       `}
+      {...props}
     >
       {options?.map((option, index) => (
         <option key={`${props.name}.${option}.${index}`} value={option}>
