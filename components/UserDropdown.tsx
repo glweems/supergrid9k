@@ -1,5 +1,5 @@
-import Box from '@/ui/Box';
-import Link from '@/ui/Link';
+import Box from '@ui/Box';
+import Link from '@ui/Link';
 import React from 'react';
 import Base, { SelectProps } from 'react-dropdown-select';
 import { Image } from 'rebass';

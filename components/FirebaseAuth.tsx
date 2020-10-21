@@ -1,6 +1,6 @@
-import initFirebase from '@/lib/auth/initFirebase';
-import mapUserData from '@/lib/auth/mapUserData';
-import { setUserCookie } from '@/lib/auth/userCookies';
+import initFirebase from '@lib/auth/initFirebase';
+import mapUserData from '@lib/auth/mapUserData';
+import { setUserCookie } from '@lib/auth/userCookies';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import React, { useEffect, useState } from 'react';

@@ -1,4 +1,4 @@
-import syntaxTheme from '@/lib/syntaxTheme';
+import syntaxTheme from '@lib/syntaxTheme';
 import { Box, BoxProps, ButtonOutline, Text } from '@primer/components';
 import Highlight, {
   defaultProps,

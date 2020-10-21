@@ -1,4 +1,5 @@
 import {
+  Box,
   ButtonOutline,
   CircleOcticon,
   Flex,
@@ -8,7 +9,7 @@ import { capitalize } from 'lodash';
 import React, { FC, memo } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { PlusIcon } from '../lib/Icons';
-import { GridControlsKey } from '../pages';
+import { GridControlsKey } from './GridAreas';
 import { GridControlProperties } from './GridControlProperties';
 import { gridControlsState } from './gridState';
 
@@ -31,9 +32,11 @@ const GridControls: FC<GridControlsProps> = memo(({ id }) => {
           </ButtonOutline>
         </Flex>
       </FormGroup.Label>
-      {controls?.map((_control, index) => (
-        <GridControlProperties key={id + index} id={`${id}.${index}`} />
-      ))}
+      <Box sx={{ maxHeight: '200px', overflowY: 'auto' }}>
+        {controls?.map((_control, index) => (
+          <GridControlProperties key={id + index} id={`${id}.${index}`} />
+        ))}
+      </Box>
     </FormGroup>
   );
 });

@@ -1,17 +1,16 @@
-import Box from '@/ui/Box';
 import Link from 'next/link';
 import React from 'react';
-import { Flex } from 'rebass/styled-components';
 import styled, { useTheme } from 'styled-components';
 import UserDropdown from '../components/UserDropdown';
 import { LogoIcon } from '../lib/Icons';
 import { useUser } from '../lib/User';
-import { Header, StyledOcticon } from '@primer/components';
+import { Header, StyledOcticon, Flex, Box } from '@primer/components';
+
 const Navbar: React.FC = () => {
   const user = useUser();
   const { navbarHeight } = useTheme();
   return (
-    <Header>
+    <Header sx={{ height: navbarHeight }}>
       <Header.Item href="/" as={Link}>
         <Header.Link fontSize={2}>
           <StyledOcticon

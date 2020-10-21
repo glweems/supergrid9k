@@ -1,6 +1,6 @@
-import { Icon } from '@/lib/Icons';
-import { gridGapUnits, gridUnits, prettyControlName } from '@/lib/utils';
-import { GridControlObjKey } from '@/store/grid';
+import { Icon } from '@lib/Icons';
+import { gridGapUnits, gridUnits, prettyControlName } from '@lib/utils';
+import { GridControlObjKey } from '@store/grid';
 import {
   Box,
   ButtonPrimary,

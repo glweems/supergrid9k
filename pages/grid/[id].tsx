@@ -1,5 +1,5 @@
-import { fetcher } from '@/lib/fetcher';
-import Navbar from '@/ui/Navbar';
+import { fetcher } from '@lib/fetcher';
+import Navbar from '@ui/Navbar';
 import { GetServerSideProps } from 'next';
 import React from 'react';
 import Div100vh from 'react-div-100vh';

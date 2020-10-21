@@ -1,4 +1,4 @@
-import { grid } from '@/store/grid';
+import { grid } from '@store/grid';
 import { Input } from '@rebass/forms/styled-components';
 import React from 'react';
 import { useRecoilState } from 'recoil';

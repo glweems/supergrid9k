@@ -1,5 +1,5 @@
-import { Icon } from '@/lib/Icons';
-import Button from '@/ui/Button';
+import { Icon } from '@lib/Icons';
+import Button from '@ui/Button';
 import React from 'react';
 
 const GridEditorResetButton: React.FC = () => {

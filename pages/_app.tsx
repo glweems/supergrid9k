@@ -1,10 +1,10 @@
 // _app.js
-import ContextProvider from '@/components/ContextProvider';
+import ContextProvider from '@components/ContextProvider';
 import {
   setCssArrayVariables,
   setCssObjectVariables,
-} from '@/lib/setCssVariables';
-import { colors, space } from '@/lib/theme';
+} from '@lib/setCssVariables';
+import { colors, space } from '@lib/theme';
 import whyDidYouRender from '@welldone-software/why-did-you-render';
 import App, { AppContext, AppProps } from 'next/app';
 import Head from 'next/head';

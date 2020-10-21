@@ -1,11 +1,11 @@
 import { ButtonOutline, Flex, TextInput } from '@primer/components';
-import { GrabberIcon, XCircleFillIcon } from '@primer/octicons-react';
+import { XCircleFillIcon } from '@primer/octicons-react';
 import React, { memo } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import Select from '../components/Select';
 import { gridUnits } from '../lib/utils';
 import { useShiftKeyPressed } from '../ui/useShftKeyPressed';
-import { selectedControlState, gridControlState } from './gridState';
+import { gridControlState, selectedControlState } from './gridState';
 
 export const GridControlProperties = memo(({ id }: { id: string }) => {
   const { canDelete, ...control } = useRecoilValue(gridControlState(id));
@@ -42,7 +42,7 @@ export const GridControlProperties = memo(({ id }: { id: string }) => {
     >
       <ButtonOutline
         disabled={canDelete}
-        onMouseDown={(e) => setControl(null)}
+        onMouseDown={() => setControl(null)}
         sx={{ border: 'none' }}
       >
         <XCircleFillIcon />

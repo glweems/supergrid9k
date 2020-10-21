@@ -1,9 +1,9 @@
-import Grid from '@/models/Grid';
+import Grid from '@models/Grid';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
-import { dbMiddleware } from '@/lib/apiHelpers';
-import authMiddleware from '@/lib/auth/authMiddleware';
-import { SuperGrid9kUser } from '@/lib/auth/mapUserData';
+import { dbMiddleware } from '@lib/apiHelpers';
+import authMiddleware from '@lib/auth/authMiddleware';
+import { SuperGrid9kUser } from '@lib/auth/mapUserData';
 export interface AuthApiRequest extends NextApiRequest {
   user?: SuperGrid9kUser;
 }

@@ -1,8 +1,8 @@
 import { CSSProp } from 'styled-components/macro';
-import { SuperGrid9kTheme } from '../lib/theme';
+import { MyTheme } from '../lib/theme';
 
 declare module 'react' {
   interface Attributes {
-    css?: CSSProp<SuperGrid9kTheme>;
+    css?: CSSProp<MyTheme>;
   }
 }

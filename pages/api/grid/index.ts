@@ -1,5 +1,5 @@
-import { dbMiddleware } from '@/lib/apiHelpers';
-import Grid from '@/models/Grid';
+import { dbMiddleware } from '@lib/apiHelpers';
+import Grid from '@models/Grid';
 import { NextApiResponse } from 'next';
 import nc from 'next-connect';
 import { AuthApiRequest } from './[id]';

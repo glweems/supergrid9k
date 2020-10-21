@@ -2,7 +2,7 @@ import { atom, selectorFamily } from 'recoil';
 import { GridState } from '../css-grid-template-parser/GridState';
 import { Entry } from '../css-grid-template-parser/types';
 import { removeItemAtIndex, replaceItemAtIndex } from '../lib/utils';
-import { GridControlsKey } from '../pages/index';
+import { GridControlsKey } from './GridAreas';
 
 export const gridState = atom<GridState | null>({
   key: 'gridState',
@@ -26,10 +26,8 @@ export const selectedControlState = atom<string[]>({
   default: [],
 });
 
-export const gridControlState = selectorFamily<
-  Entry & { canDelete: boolean },
-  string
->({
+type GridControlState = Entry & { canDelete: boolean };
+export const gridControlState = selectorFamily<GridControlState, string>({
   key: 'gridControlState',
   get: (id) => ({ get }) => {
     const [key, index] = id.split('.');
@@ -37,7 +35,7 @@ export const gridControlState = selectorFamily<
     const control = stack[index];
     return { ...control, canDelete: stack.length <= 1 };
   },
-  set: (id) => ({ set, get }, newValue) => {
+  set: (id) => ({ set }, newValue) => {
     const [key, index] = id.split('.');
     if (newValue === null)
       return set(gridState, (prev) => ({

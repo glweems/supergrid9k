@@ -1,4 +1,4 @@
-import { GridAreaState } from '@/store/grid';
+import { GridAreaState } from '@store/grid';
 import { motion } from 'framer-motion';
 import React from 'react';
 import Box from '../../ui/Box';

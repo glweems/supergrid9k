@@ -1,7 +1,9 @@
-import { theme } from '@primer/components';
-type Theme = typeof theme;
+import { Theme } from './theme';
 declare module 'styled-components' {
-  export type DefaultTheme = Theme;
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  export interface DefaultTheme extends Theme {}
+
+  export function useTheme(): DefaultTheme;
 
   export function createGlobalStyle<P extends Record<string, any>>(
     first:

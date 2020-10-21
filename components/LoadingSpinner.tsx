@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import React from 'react';
-import Box, { BoxProps } from '@/ui/Box';
+import Box, { BoxProps } from '@ui/Box';
 
 const loadingContainer = {
   width: '2rem',
