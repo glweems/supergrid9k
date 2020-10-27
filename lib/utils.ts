@@ -1,6 +1,6 @@
 import { InputProps } from '@rebass/forms/styled-components';
 import { Entry, RawGridState } from 'css-grid-template-parser';
-import { SelectProps } from '../components/Select';
+import { SelectProps } from '@components/Select';
 import { GridTemplateEntry } from '../store/grid';
 import groupRepeatedUnits from 'css-grid-template-parser/groupRepeatedUnits';
 export function replaceItem<T = Record<string, unknown>>(

@@ -1,14 +1,13 @@
 import { atom, selectorFamily } from 'recoil';
-import { GridState } from '../css-grid-template-parser/GridState';
-import { Entry } from '../css-grid-template-parser/types';
-import { removeItemAtIndex, replaceItemAtIndex } from '../lib/utils';
-import { GridControlsKey } from './GridAreas';
+import { GridState, Entry } from 'css-grid-template-parser';
+import { removeItemAtIndex, replaceItemAtIndex } from '@lib/utils';
+import { GridControlId } from './GridControlId';
 
 export const gridState = atom<GridState | null>({
   key: 'gridState',
   default: null,
 });
-export const gridControlsState = selectorFamily<Entry[], GridControlsKey>({
+export const gridControlsState = selectorFamily<Entry[], GridControlId>({
   key: 'gridControls',
   get: (id) => ({ get }) => {
     return get(gridState)?.[id];
@@ -27,6 +26,7 @@ export const selectedControlState = atom<string[]>({
 });
 
 type GridControlState = Entry & { canDelete: boolean };
+
 export const gridControlState = selectorFamily<GridControlState, string>({
   key: 'gridControlState',
   get: (id) => ({ get }) => {
@@ -42,7 +42,6 @@ export const gridControlState = selectorFamily<GridControlState, string>({
         ...prev,
         [key]: removeItemAtIndex(prev[key], Number(index)),
       }));
-
     return set(gridState, (prev) => ({
       ...prev,
       [key]: replaceItemAtIndex(prev[key], Number(index), newValue),

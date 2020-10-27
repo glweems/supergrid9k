@@ -140,7 +140,7 @@ const CodeContainer = styled.div<{ showCopy: boolean }>`
 CodeBlock.defaultProps = {
   theme: syntaxTheme,
   className: 'CodeBlock',
-  canCopy: true,
+  canCopy: false,
 };
 
 export default CodeBlock;

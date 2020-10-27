@@ -1,8 +1,8 @@
 import { GridAreaState } from '@store/grid';
 import { motion } from 'framer-motion';
 import React from 'react';
-import Box from '../../ui/Box';
-import Button from '../../ui/Button';
+import Box from '@ui/Box';
+import Button from '@ui/Button';
 
 const GridEditorItem: React.FC<GridAreaState> = () => {
   return (

@@ -1,13 +1,13 @@
 import { ButtonOutline, Flex, TextInput } from '@primer/components';
 import { XCircleFillIcon } from '@primer/octicons-react';
-import React, { memo } from 'react';
+import React from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import Select from '../components/Select';
 import { gridUnits } from '../lib/utils';
 import { useShiftKeyPressed } from '../ui/useShftKeyPressed';
 import { gridControlState, selectedControlState } from './gridState';
 
-export const GridControlProperties = memo(({ id }: { id: string }) => {
+export const GridControlProperties = ({ id }: { id: string }) => {
   const { canDelete, ...control } = useRecoilValue(gridControlState(id));
   const [selectedIds, setSelectedIds] = useRecoilState(selectedControlState);
   const setControl = useSetRecoilState(gridControlState(id));
@@ -18,7 +18,7 @@ export const GridControlProperties = memo(({ id }: { id: string }) => {
     if (e.target === e.currentTarget)
       setControl((prev) => ({
         ...prev,
-        [e.currentTarget.name]: [e.currentTarget.value],
+        [e.currentTarget.name]: e.currentTarget.value,
       }));
   };
   const isSelected = selectedIds.includes(id);
@@ -63,5 +63,4 @@ export const GridControlProperties = memo(({ id }: { id: string }) => {
       />
     </Flex>
   );
-});
-GridControlProperties.displayName = 'GridControlProperties';
+};

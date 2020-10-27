@@ -3,7 +3,7 @@ import Navbar from '@ui/Navbar';
 import { GetServerSideProps } from 'next';
 import React from 'react';
 import Div100vh from 'react-div-100vh';
-import CodeBlock from '../../components/CodeBlock';
+import CodeBlock from '@components/CodeBlock';
 import { GridState } from '../../css-grid-template-parser/GridState';
 
 export const getServerSideProps: GetServerSideProps = async (req) => {

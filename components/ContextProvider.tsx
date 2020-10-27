@@ -1,11 +1,11 @@
 // import theme from '@lib/theme';
 import React from 'react';
 import { createGlobalStyle, ThemeProvider } from 'styled-components/macro';
-import useAuth from '../lib/auth/useAuth';
-import { UserContextProvider } from '../lib/User';
+import useAuth from '@lib/auth/useAuth';
+import { UserContextProvider } from '@lib/User';
 import { BaseStyles } from '@primer/components';
 import { RecoilRoot } from 'recoil';
-import theme from '../lib/theme';
+import theme from '@lib/theme';
 interface ContextProviderProps {
   session?: any;
 }

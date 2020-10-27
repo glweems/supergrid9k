@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, LinkProps } from 'rebass/styled-components';
-import { Icon } from '../lib/Icons';
+import { Icon } from '@lib/Icons';
 
 type GithubButtonProps = LinkProps;
 const GithubButton: React.FC<GithubButtonProps> = ({ children, ...props }) => (

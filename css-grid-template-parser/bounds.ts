@@ -82,3 +82,31 @@ export function minRowEnd(grid: Grid): number {
 export function maxRowEnd(grid: Grid): number {
   return find(Math.max, 'row', 'end', grid);
 }
+/**
+ *
+ * @param grid
+ */
+export function sizes(grid: Grid) {
+  return {
+    row: {
+      start: {
+        min: minRowStart(grid),
+        max: maxRowStart(grid),
+      },
+      end: {
+        min: minRowEnd(grid),
+        max: maxRowEnd(grid),
+      },
+    },
+    column: {
+      start: {
+        min: minColumnStart(grid),
+        max: maxColumnStart(grid),
+      },
+      end: {
+        min: minColumnEnd(grid),
+        max: maxColumnEnd(grid),
+      },
+    },
+  };
+}

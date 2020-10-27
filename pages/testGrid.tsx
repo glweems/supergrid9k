@@ -20,11 +20,11 @@ import {
   useSetRecoilState,
 } from 'recoil';
 import { gridState } from '../Grid';
-import { fetcher } from '../lib/fetcher';
-import { PlusIcon } from '../lib/Icons';
-import { replaceItemAtIndex } from '../lib/utils';
-import Navbar from '../ui/Navbar';
-import { useShiftKeyPressed } from '../ui/useShftKeyPressed';
+import { fetcher } from '@lib/fetcher';
+import { PlusIcon } from '@lib/Icons';
+import { replaceItemAtIndex } from '@lib/utils';
+import Navbar from '@ui/Navbar';
+import { useShiftKeyPressed } from '@ui/useShftKeyPressed';
 import { AppConfig } from './api/grid/template';
 
 export const getServerSideProps: GetServerSideProps = async () => {

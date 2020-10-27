@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components/macro';
-import theme from '../lib/theme';
+import theme from '@lib/theme';
 export interface ControlProps {
   control?: 'gridGap';
 }

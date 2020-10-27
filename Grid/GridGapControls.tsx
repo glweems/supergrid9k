@@ -3,8 +3,8 @@ import { Entry, GridState } from 'css-grid-template-parser';
 import { startCase } from 'lodash';
 import React, { FC, memo } from 'react';
 import { selectorFamily, useRecoilValue, useSetRecoilState } from 'recoil';
-import Select from '../components/Select';
-import { gridGapUnits } from '../lib/utils';
+import Select from '@components/Select';
+import { gridGapUnits } from '@lib/utils';
 import { gridState } from './gridState';
 
 const gridGapState = selectorFamily<Entry, keyof GridState['gap']>({
@@ -39,7 +39,7 @@ const GridGapControls = () => {
 
 GridGapControls.displayName = 'GridGapControls';
 
-const GridGapControl: FC<{ id: keyof GridState['gap'] }> = memo(({ id }) => {
+const GridGapControl: FC<{ id: keyof GridState['gap'] }> = ({ id }) => {
   const gridGap = useRecoilValue(gridGapState(id));
   const setGridGap = useSetRecoilState(gridGapState(id));
   return (
@@ -76,7 +76,7 @@ const GridGapControl: FC<{ id: keyof GridState['gap'] }> = memo(({ id }) => {
       </div>
     </Grid>
   );
-});
+};
 
 GridGapControl.displayName = 'GridGapControl';
 export default GridGapControls;

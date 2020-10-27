@@ -22,7 +22,7 @@ import {
   textAlign,
   TextAlignProps,
 } from 'styled-system';
-import theme, { SuperGrid9kTheme } from '../lib/theme';
+import theme, { SuperGrid9kTheme } from '@lib/theme';
 
 export type BoxProps = RebassBoxProps &
   SpaceProps &

@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import React from 'react';
 import styled, { useTheme } from 'styled-components';
-import UserDropdown from '../components/UserDropdown';
-import { LogoIcon } from '../lib/Icons';
-import { useUser } from '../lib/User';
+import UserDropdown from '@components/UserDropdown';
+import { LogoIcon } from '@lib/Icons';
+import { useUser } from '@lib/User';
 import { Header, StyledOcticon, Flex, Box } from '@primer/components';
 
 const Navbar: React.FC = () => {
@@ -11,19 +11,21 @@ const Navbar: React.FC = () => {
   const { navbarHeight } = useTheme();
   return (
     <Header sx={{ height: navbarHeight }}>
-      <Header.Item href="/" as={Link}>
-        <Header.Link fontSize={2}>
-          <StyledOcticon
-            icon={() => (
-              <div>
-                <LogoIcon />
-              </div>
-            )}
-            size={32}
-            mr={2}
-          />
-          <span>GitHub</span>
-        </Header.Link>
+      <Header.Item>
+        <Link href="/">
+          <Header.Link fontSize={2}>
+            <StyledOcticon
+              icon={() => (
+                <div>
+                  <LogoIcon />
+                </div>
+              )}
+              size={32}
+              mr={2}
+            />
+            <span>GitHub</span>
+          </Header.Link>
+        </Link>
       </Header.Item>
       <nav>
         <Link href="/">

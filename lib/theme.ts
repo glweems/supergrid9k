@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { DefaultTheme, ThemeContext } from 'styled-components';
+import { Theme } from '../types/theme';
 export const colors = {
   bodytext: '#24292e',
   black: '#1b1f23',
@@ -195,7 +196,7 @@ export const space: number[] = [0, 4, 8, 16, 32, 64];
 export const defaultFont =
   'system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"';
 
-const theme: DefaultTheme = {
+const theme: DefaultTheme & Theme = {
   navbarHeight: '4rem',
   sidebarWidth: 300,
   toolbarHeight: '3.5rem',
@@ -454,7 +455,12 @@ const theme: DefaultTheme = {
     },
   },
 };
-
+type ElementType<T = Colors> = T extends ReadonlyArray<infer U>
+  ? ElementType<keyof U[keyof T]>
+  : T;
+type Color = ElementType<Colors>;
+type Colors = typeof colors;
+type FromSomeIndex<K extends string> = { [key in K]: keyof Colors[] };
 export type MyTheme = typeof theme & Record<string, any>;
 
 export function useTheme() {

@@ -3,7 +3,6 @@ import { selector } from 'recoil';
 import { gridState } from './gridState';
 import { gridCssState } from './gridCssState';
 import { GridAreaObject } from './GridAreas';
-
 export const gridAreasState = selector<GridAreaObject[]>({
   key: 'gridAreas',
   get: ({ get }) => {
@@ -15,6 +14,8 @@ export const gridAreasState = selector<GridAreaObject[]>({
       .replace(/["]+/g, '')
       .split('\n')
       .flatMap((rowStr, rowStart) => {
+        console.log('rowStr: ', rowStr);
+
         return rowStr
           .split(' ')
           .map((name, colStart) => ({

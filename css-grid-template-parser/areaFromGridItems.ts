@@ -1,5 +1,5 @@
 import { track } from 'css-grid-template-parser';
-import { GridItemProps } from '../components/GridEditor/GridItem';
+import { GridItemProps } from '@components/GridEditor/GridItem';
 
 export default function areaFromGridItems(
   areaStart: GridItemProps,

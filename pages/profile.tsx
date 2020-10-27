@@ -6,7 +6,7 @@ import React from 'react';
 import { Box, Flex, Heading, Image, Text } from 'rebass/styled-components';
 import useSWR from 'swr';
 import GridEditorCard from '@components/GridEditorCard';
-import { useUser } from '../lib/User';
+import { useUser } from '@lib/User';
 import { GridState } from '../css-grid-template-parser/GridState';
 
 const ProfilePage: NextComponentType<React.FC> = () => {

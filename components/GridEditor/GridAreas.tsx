@@ -6,7 +6,7 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import { variant } from 'styled-system';
 import { GridState } from '../../css-grid-template-parser/GridState';
-import theme from '../../lib/theme';
+import theme from '@lib/theme';
 import { GridItem } from './GridItem';
 
 type GridAreasProps = BoxProps;

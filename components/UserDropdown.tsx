@@ -5,7 +5,7 @@ import Base, { SelectProps } from 'react-dropdown-select';
 import { Image } from 'rebass';
 import { Flex } from 'rebass/styled-components';
 import styled from 'styled-components/macro';
-import { useUser } from '../lib/User';
+import { useUser } from '@lib/User';
 
 const BaseSelect = (props: SelectProps<{ label: string; path: string }>) => (
   <Base<{ label: string; path: string }> {...props} />

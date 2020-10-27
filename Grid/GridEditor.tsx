@@ -1,8 +1,9 @@
-import { Grid } from '@primer/components';
+import { Box, Grid } from '@primer/components';
 import { GridState } from 'css-grid-template-parser';
 import React, { FC } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { useTheme } from 'styled-components';
+import CodeBlock from '../components/CodeBlock';
 import { GridAreas } from './GridAreas';
 import GridControls from './GridControls';
 import GridGapControls from './GridGapControls';
@@ -25,8 +26,13 @@ export const GridEditor: FC<{ data: GridState }> = ({ data }) => {
         <GridGapControls />
       </Grid>
       <GridAreas />
+      <State />
     </Grid>
   );
+};
+const State = () => {
+  const state = useRecoilValue(gridState);
+  return <CodeBlock language="json" code={JSON.stringify(state, null, 2)} />;
 };
 
 GridEditor.displayName = 'GridEditor';

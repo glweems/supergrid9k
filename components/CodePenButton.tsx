@@ -1,6 +1,6 @@
 import Button from '@ui/Button';
 import React from 'react';
-import { Icon, iconButtonCss } from '../lib/Icons';
+import { Icon, iconButtonCss } from '@lib/Icons';
 export interface CodePenData {
   title?: string;
   description?: string;
