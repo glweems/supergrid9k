@@ -34,7 +34,7 @@
     "js-cookie": "^2.2.1",
     "micro-redirect": "^1.0.2",
     "mongoose": "^5.10.4",
-    "next": "^9.5.3",
+    "next": "^10.0.0",
     "next-cookies": "^2.0.3",
     "polished": "^3.6.5",
     "prism-react-renderer": "^1.1.1",
