@@ -1,12 +1,19 @@
-import { atom, selectorFamily } from 'recoil';
-import { GridState, Entry } from 'css-grid-template-parser';
 import { removeItemAtIndex, replaceItemAtIndex } from '@lib/utils';
+import { Entry, GridState } from 'css-grid-template-parser/types';
+import { atom, selectorFamily } from 'recoil';
 import { GridControlId } from './GridControlId';
-
 export const gridState = atom<GridState | null>({
   key: 'gridState',
   default: null,
 });
+
+export type GridHistoryState = [initialState: GridState, ...args: GridState[]];
+
+export const gridHistoryState = atom<GridHistoryState | null>({
+  key: 'gridHistory',
+  default: null,
+});
+
 export const gridControlsState = selectorFamily<Entry[], GridControlId>({
   key: 'gridControls',
   get: (id) => ({ get }) => {

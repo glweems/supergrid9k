@@ -3,7 +3,7 @@ import BorderBox from '@primer/components/lib/BorderBox';
 import Grid from '@primer/components/lib/Grid';
 import Text from '@primer/components/lib/Text';
 import { Area, GridState, track, Track } from 'css-grid-template-parser';
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import {
   atom,
   atomFamily,
@@ -13,7 +13,7 @@ import {
   useSetRecoilState,
 } from 'recoil';
 import styled from 'styled-components';
-import { editingAreaState, GridAreaInner } from './GridAreaInner';
+import { GridAreaInner } from './GridAreaInner';
 import { gridAreasState } from './gridAreasState';
 import { gridCssState } from './gridCssState';
 import { gridState } from './gridState';
@@ -104,24 +104,43 @@ const tempAreaState = selectorFamily<Area, SelectedIds>({
   },
 });
 
-const GridArea: FC<GridAreaProps> = ({ index }) => {
+export const currentEditingAreaNameState = atom<string>({
+  key: 'currenEditingAreaName',
+  default: null,
+});
+
+const GridArea: FC<GridAreaProps> = ({ index, style }) => {
   const { row, column, gridArea } = useRecoilValue(selectedAreaState(index));
-  const isEditing = gridArea === 'temp';
+  const isArea = gridArea !== '.';
+  const [editName, setEditName] = useRecoilState(currentEditingAreaNameState);
+  const isDisabled = !!editName && editName !== gridArea;
   const selectedIds = useRecoilValue(selectedElementIdsState);
   const [start, end] = selectedIds;
   const hasStarted = typeof start === 'number';
   const startArea = useRecoilValue(selectedAreaState(start));
   const endArea = useRecoilValue(selectedAreaState(end));
-  const isChildArea =
-    (row?.start > startArea?.row?.start && index <= end) ||
-    (column?.end > endArea?.column?.end && index <= end);
-  const [editingState, setEditingState] = useRecoilState(editingAreaState);
+  const isChildArea = useMemo(
+    () => () =>
+      (row?.start > startArea?.row?.start && index <= end) ||
+      (column?.end > endArea?.column?.end && index <= end),
+    [
+      column?.end,
+      end,
+      endArea?.column?.end,
+      index,
+      row?.start,
+      startArea?.row?.start,
+    ]
+  );
+
+  /*   ; */
   const setSelectedIds = useSetRecoilState(selectedElementIdsState);
   const isSelected = useRecoilValue(isSelectedState(index));
   const tempArea = useRecoilValue(tempAreaState([start, end]));
-  const setGridState = useSetRecoilState(gridState);
+  const [grid, setGrid] = useRecoilState(gridState);
 
   const handlePointerDown: Handler = (_e) => {
+    if (editName) return;
     switch (start) {
       case undefined:
         return setSelectedIds([index]);
@@ -132,22 +151,20 @@ const GridArea: FC<GridAreaProps> = ({ index }) => {
     }
   };
   const handlePointerEnter: Handler = (_e) => {
+    if (editName) return;
     if (hasStarted) return setSelectedIds(([start]) => [start, index]);
   };
 
   const handlePointerUp: Handler = (_e) => {
+    if (editName) return;
     if (typeof start === 'number' && typeof end === 'number') {
-      setGridState((prev) => ({
+      setGrid((prev) => ({
         ...prev,
         areas: { ...prev.areas, temp: tempArea },
       }));
-      if (gridArea === 'temp') setEditingState({ name: gridArea });
+      setEditName('temp');
     }
     setSelectedIds([]);
-  };
-
-  const handleClick: Handler = (_e): void => {
-    return null;
   };
 
   return (
@@ -158,13 +175,16 @@ const GridArea: FC<GridAreaProps> = ({ index }) => {
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
       onPointerEnter={handlePointerEnter}
-      onClick={handleClick}
       gridArea={gridArea}
       hasStarted={hasStarted}
       isAreaChild={isChildArea}
+      isDisabled={isDisabled}
+      style={style}
     >
       {isChildArea && <Text color="black">child</Text>}
-      <GridAreaInner index={index} />
+      {gridArea}
+      {isArea ? 'isArea' : 'notArea'}
+      <GridAreaInner index={index} gridArea={gridArea} />
     </GridAreaStyled>
   );
 };
@@ -190,8 +210,10 @@ const GridAreaStyled = styled<FC<GridAreaStyledProps>>(
     index,
     isAreaChild,
     hasStarted,
+    isDisabled,
   }) => ({
     gridArea,
+    opacity: isDisabled ? 0.75 : 1,
     backgroundColor: selectedIds.includes(index)
       ? theme.colors.green[4]
       : hasStarted

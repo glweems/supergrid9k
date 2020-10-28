@@ -8,6 +8,7 @@ import { useShiftKeyPressed } from '../ui/useShftKeyPressed';
 import { gridControlState, selectedControlState } from './gridState';
 
 export const GridControlProperties = ({ id }: { id: string }) => {
+  console.log('id: ', id);
   const { canDelete, ...control } = useRecoilValue(gridControlState(id));
   const [selectedIds, setSelectedIds] = useRecoilState(selectedControlState);
   const setControl = useSetRecoilState(gridControlState(id));
