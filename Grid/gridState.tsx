@@ -1,7 +1,8 @@
 import { removeItemAtIndex, replaceItemAtIndex } from '@lib/utils';
 import { Entry, GridState } from 'css-grid-template-parser/types';
 import { atom, selectorFamily } from 'recoil';
-import { GridControlId } from './GridControlId';
+import { GridControlId, GridControlObjKey } from './GridControlId';
+import { SelectedControlId } from './typedString';
 export const gridState = atom<GridState | null>({
   key: 'gridState',
   default: null,
@@ -27,7 +28,7 @@ export const gridControlsState = selectorFamily<Entry[], GridControlId>({
   },
 });
 
-export const selectedControlState = atom<string[]>({
+export const selectedControlState = atom<SelectedControlId[]>({
   key: 'selectedControlState',
   default: [],
 });

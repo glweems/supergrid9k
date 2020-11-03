@@ -12,10 +12,10 @@ export function matchingArea(
   column: number
 ) {
   return (area: string) =>
-    areas[area].row.start <= row + 1 &&
-    areas[area].row.end > row + 1 &&
-    areas[area].column.start <= column + 1 &&
-    areas[area].column.end > column + 1;
+    areas?.[area]?.row?.start <= row + 1 &&
+    areas?.[area]?.row?.end > row + 1 &&
+    areas?.[area]?.column?.start <= column + 1 &&
+    areas?.[area]?.column?.end > column + 1;
 }
 /**
  * Gets columns

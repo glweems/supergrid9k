@@ -128,6 +128,7 @@ const CopyButton = styled(ButtonOutline)`
   transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out,
     bottom 0.2s ease-in-out;
   appearance: button;
+  pointer-events: none;
 `;
 CopyButton.defaultProps = {
   variant: 'small',
@@ -141,6 +142,7 @@ CodeBlock.defaultProps = {
   theme: syntaxTheme,
   className: 'CodeBlock',
   canCopy: false,
+  style: { pointerEvents: 'none' },
 };
 
 export default CodeBlock;

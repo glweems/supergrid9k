@@ -1,12 +1,10 @@
-import { BorderBoxProps } from '@primer/components';
+import { BorderBoxProps, BoxProps } from '@primer/components';
 import BorderBox from '@primer/components/lib/BorderBox';
-import Grid from '@primer/components/lib/Grid';
 import Text from '@primer/components/lib/Text';
 import { Area, GridState, track, Track } from 'css-grid-template-parser';
-import React, { FC, useMemo } from 'react';
+import React, { FC, memo, useMemo } from 'react';
 import {
   atom,
-  atomFamily,
   selectorFamily,
   useRecoilState,
   useRecoilValue,
@@ -14,69 +12,27 @@ import {
 } from 'recoil';
 import styled from 'styled-components';
 import { GridAreaInner } from './GridAreaInner';
-import { gridAreasState } from './gridAreasState';
-import { gridCssState } from './gridCssState';
 import { gridState } from './gridState';
 
-export const GridAreas: FC = () => {
-  const gridCss = useRecoilValue(gridCssState);
+export type GridAreaObject = BoxProps &
+  Area & {
+    gridArea: string;
+    name: string;
+  };
 
-  const gridAreas = useRecoilValue(gridAreasState);
-  return (
-    <Grid style={gridCss}>
-      {gridAreas?.map((area, i) => {
-        return <GridArea key={i} {...area} index={i} />;
-      })}
-    </Grid>
-  );
-};
-GridAreas.displayName = 'GridAreas';
-export type GridAreaObject = {
-  gridArea: string;
-  row: Track;
-  column: Track;
-  index?: number;
-};
 type GridAreaProps = BorderBoxProps & GridAreaObject;
-/**
- * An atomFamily that stores the states for all Elements.
- *
- * https://recoiljs.org/docs/api-reference/utils/atomFamily
- */
-export const elementState = atomFamily<BorderBoxProps, number>({
-  key: 'element',
-  default: {
-    borderColor: 'blue.6',
-    borderWidth: '2px',
-    color: 'bg.grayLight',
-    bg: 'blue.4',
-  },
-});
 
-/**
- * An atom that stores which Element is currently selectedIds.
- */
 export const selectedElementIdsState = atom<SelectedIds>({
   key: 'selectedElementId',
   default: [],
 });
 
-/**
- * A selector that returns the selectedIds Element's state.
- */
 export const selectedAreaState = selectorFamily<GridAreaObject, number>({
   key: 'selectedElement',
   get: (id) => ({ get }) => {
-    // const ids = get(selectedElementIdsState);
     return get(gridAreasState)?.[id];
   },
 });
-/**
- * A selectorFamily that returns true if the provided
- * Element is currently selectedIds.
- *
- * https://recoiljs.org/docs/api-reference/utils/selectorFamily
- */
 
 export const isSelectedState = selectorFamily({
   key: 'isSelected',
@@ -109,8 +65,10 @@ export const currentEditingAreaNameState = atom<string>({
   default: null,
 });
 
-const GridArea: FC<GridAreaProps> = ({ index, style }) => {
-  const { row, column, gridArea } = useRecoilValue(selectedAreaState(index));
+const GridArea: FC<GridAreaProps> = ({ index }) => {
+  const { style, name, row, column, gridArea } = useRecoilValue(
+    selectedAreaState(index)
+  );
   const isArea = gridArea !== '.';
   const [editName, setEditName] = useRecoilState(currentEditingAreaNameState);
   const isDisabled = !!editName && editName !== gridArea;
@@ -179,12 +137,11 @@ const GridArea: FC<GridAreaProps> = ({ index, style }) => {
       hasStarted={hasStarted}
       isAreaChild={isChildArea}
       isDisabled={isDisabled}
-      style={style}
+      {...style}
     >
-      {isChildArea && <Text color="black">child</Text>}
-      {gridArea}
-      {isArea ? 'isArea' : 'notArea'}
-      <GridAreaInner index={index} gridArea={gridArea} />
+      {editName === name && (
+        <GridAreaInner index={index} gridArea={gridArea} name={name} />
+      )}
     </GridAreaStyled>
   );
 };
@@ -211,30 +168,20 @@ const GridAreaStyled = styled<FC<GridAreaStyledProps>>(
     isAreaChild,
     hasStarted,
     isDisabled,
+    zIndex,
   }) => ({
     gridArea,
     opacity: isDisabled ? 0.75 : 1,
-    backgroundColor: selectedIds.includes(index)
-      ? theme.colors.green[4]
-      : hasStarted
-      ? '#fff'
-      : theme.colors.blue[4],
-    borderColor: selectedIds.includes(index)
-      ? theme.colors.green[5]
-      : theme.colors.blue[5],
-    ':hover': {
-      backgroundColor: hasStarted && !isSelected && theme.colors.yellow[2],
-      borderColor: hasStarted && !isSelected && theme.colors.yellow[5],
-    },
-    userSelect: 'none',
+    // userSelect: 'none',
+    zIndex,
   })
 );
 
 GridAreaStyled.defaultProps = {
-  borderColor: 'blue.6',
+  borderColor: 'blackfade25',
   borderWidth: '2px',
-  color: 'bg.grayLight',
-  bg: 'blue.4',
+  color: 'blackfade15',
+  bg: 'blackfade15',
   borderRadius: 0,
 };
 

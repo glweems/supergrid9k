@@ -1,10 +1,14 @@
 import { useContext } from 'react';
 import { DefaultTheme, ThemeContext } from 'styled-components';
 import { Theme } from '../types/theme';
-export const colors = {
-  bodytext: '#24292e',
-  black: '#1b1f23',
-  white: '#fff',
+
+type ColorProps = '';
+type ColorArrayIndex = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+// type GrayColor = `gray.${ColorArrayIndex}`
+export type ArrayColorProps = {
+  [K in keyof typeof arrayColors]: `${K}.${ColorArrayIndex}`
+}
+const arrayColors = {
   gray: [
     '#fafbfc',
     '#f6f8fa',
@@ -101,6 +105,15 @@ export const colors = {
     '#99306f',
     '#6d224f',
   ],
+};
+
+
+
+export const colors = {
+  ...arrayColors,
+  bodytext: '#24292e',
+  black: '#1b1f23',
+  white: '#fff',
   blackfade15: 'rgba(27, 31, 35, 0.15)',
   blackfade20: 'rgba(27, 31, 35, 0.20)',
   blackfade30: 'rgba(27,31,35,0.3)',
@@ -191,7 +204,21 @@ export const colors = {
   dark: '#272822', */
 };
 
-export const space: number[] = [0, 4, 8, 16, 32, 64];
+export const space= [
+    '0',
+    '4px',
+    '8px',
+    '16px',
+    '24px',
+    '32px',
+    '40px',
+    '48px',
+    '64px',
+    '80px',
+    '96px',
+    '112px',
+    '128px',
+  ]
 
 export const defaultFont =
   'system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"';
@@ -240,21 +267,7 @@ const theme: DefaultTheme & Theme = {
     large: '1012px',
     xlarge: '1280px',
   },
-  space: [
-    '0',
-    '4px',
-    '8px',
-    '16px',
-    '24px',
-    '32px',
-    '40px',
-    '48px',
-    '64px',
-    '80px',
-    '96px',
-    '112px',
-    '128px',
-  ],
+  space,
   buttons: {
     default: {
       color: {

@@ -1,14 +1,19 @@
 import { ButtonOutline, Flex, TextInput } from '@primer/components';
 import { XCircleFillIcon } from '@primer/octicons-react';
-import React from 'react';
+import React, { FC } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import Select from '../components/Select';
-import { gridUnits } from '../lib/utils';
-import { useShiftKeyPressed } from '../ui/useShftKeyPressed';
-import { gridControlState, selectedControlState } from './gridState';
+import Select from '@components/Select';
+import { gridUnits } from '@lib/utils';
+import { useShiftKeyPressed } from '@ui/useShftKeyPressed';
+import {
+  gridControlState,
+  SelectedControlId,
+  selectedControlState,
+} from './gridState';
 
-export const GridControlProperties = ({ id }: { id: string }) => {
-  console.log('id: ', id);
+export const GridControlProperties: FC<{ id: SelectedControlId }> = ({
+  id,
+}) => {
   const { canDelete, ...control } = useRecoilValue(gridControlState(id));
   const [selectedIds, setSelectedIds] = useRecoilState(selectedControlState);
   const setControl = useSetRecoilState(gridControlState(id));
@@ -39,6 +44,9 @@ export const GridControlProperties = ({ id }: { id: string }) => {
           // Otherwise, make this one the only selected element
           return [id];
         });
+      }}
+      onMouseLeave={() => {
+        if (!shiftKeyPressed) setSelectedIds([]);
       }}
     >
       <ButtonOutline

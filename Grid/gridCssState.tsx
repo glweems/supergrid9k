@@ -14,7 +14,9 @@ export const gridCssState = selector({
     const gridObj = {
       width: columns.length,
       height: rows.length,
-      areas,
+      areas: Object.fromEntries(
+        Object.entries(areas).map(([key, val]) => [val.name, val])
+      ),
     };
     return {
       gridTemplateRows: groupRepeatedUnits(rows),

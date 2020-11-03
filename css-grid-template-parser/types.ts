@@ -1,10 +1,14 @@
+import { BoxProps } from '@primer/components';
+
 export interface Track {
   start: number;
   end: number;
   span: number;
 }
 
-export interface Area {
+export interface Area extends BoxProps {
+  gridArea?: string;
+  name?: string;
   row: Track;
   column: Track;
 }
