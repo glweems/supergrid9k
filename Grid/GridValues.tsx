@@ -36,13 +36,14 @@ export const GridAreas: FC = () => {
   const [grid] = useRecoilState(gridState);
   return (
     <Grid ref={constraintsRef} style={gridCss}>
-      {entries?.map(([row, column], index) => {
+      {entries?.map(([row, column, gridArea], index) => {
         return (
           <TemplateEntry
             key={`[${row}].${column}`}
             row={row}
             column={column}
             index={index}
+            gridArea={gridArea}
           />
         );
       })}

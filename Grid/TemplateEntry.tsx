@@ -1,136 +1,120 @@
 import { BorderBoxProps } from '@primer/components';
 import BorderBox from '@primer/components/lib/BorderBox';
-import { track } from 'css-grid-template-parser';
-import React, { FC, useEffect, useMemo, useState } from 'react';
-import {
-  atom,
-  useRecoilState,
-  useRecoilValue,
-  useSetRecoilState,
-} from 'recoil';
+import React, { FC, useMemo, useState } from 'react';
+import { atom, useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import CodeBlock from '../components/CodeBlock';
 import {
-  areaState,
-  entryState,
   selectedAreaNameState,
   selectedAreasState,
   shouldHighlight,
 } from './gridAreasState';
-import gridAreaStr from '../css-grid-template-parser/gridAreaStr';
-import { gridState, selectedControlState } from './gridState';
-import gridAreaStrToObj from '../css-grid-template-parser/gridAreaStringToObj';
+import { selectedControlState } from './gridState';
 import { GridAreaStr } from './typedString';
 
-const dragStatusState = atom({ key: 'dragStatus', default: null });
 const selectedIndexState = atom<number>({
   key: 'selectedAreaIndex',
   default: null,
 });
 
-export const TemplateEntry = ({ row: rowNum, column: columnNum, index }) => {
-  const row = useMemo(() => track(rowNum, rowNum + 1), [rowNum]);
-  const column = useMemo(() => track(columnNum, columnNum + 1), [columnNum]);
-  const [state, setState] = useRecoilState(entryState([rowNum, columnNum]));
-
+export const TemplateEntry = ({
+  row: rowNum,
+  column: columnNum,
+  index,
+  gridArea,
+}) => {
   const [selectedIndex, setSelectedIndex] = useRecoilState(selectedIndexState);
   const propertyIds = useRecoilValue(selectedControlState);
   const [selectedAreaName, setSelectedAreaName] = useRecoilState(
     selectedAreaNameState
   );
-  const [selectedArea, setSelectedArea] = useRecoilState(selectedAreasState);
-  const setArea = useSetRecoilState(areaState(selectedAreaName));
+  const [selection, setSelectedArea] = useRecoilState(selectedAreasState);
 
   const highlight = useMemo(
     () => shouldHighlight(rowNum, columnNum, propertyIds),
     [columnNum, propertyIds, rowNum]
   );
-  const gridArea = useMemo(() => gridAreaStr({ row, column }), [column, row]);
   const [dragging, setDragging] = useState(false);
-  const [status, setStatus] = useRecoilState(dragStatusState);
+  const css = useMemo(
+    () =>
+      selectedIndex === index
+        ? diffAreaString(gridArea, selectedAreaName)
+        : gridArea,
+    [gridArea, index, selectedAreaName, selectedIndex]
+  );
 
-  useEffect(() => {
-    if (highlight && !selectedArea)
-      setState((prev) => ({ ...prev, bg: 'purple.1' }));
-    else
-      setState((prev) => ({
-        ...prev,
-        bg: selectedArea ? 'transparent' : 'gray.1',
-      }));
-  }, [row, propertyIds, setState, state.bg, highlight, selectedArea]);
+  const handleMouseDown = () => {
+    setDragging(true);
+    if (!selection) setSelectedArea([gridArea]);
+    setSelectedAreaName(gridArea);
+    setSelectedIndex(index);
+  };
+  const handlePointerEnter = () => {
+    if (dragging) {
+      if (selectedAreaName !== gridArea) setSelectedAreaName(css);
+      if (selection && selection[1] !== gridArea) {
+        setSelectedArea(([start]) => {
+          return [start, gridArea];
+        });
+      }
+    }
+  };
+  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>): void => {
+    if (e.target == e.currentTarget)
+      if (dragging) {
+        setDragging(false);
+        setSelectedAreaName(null);
+        setSelectedIndex(null);
+        setSelectedArea(null);
+      }
+  };
 
   return (
     <TemplateEntryStyled
       index={index}
-      status={status}
+      dragging={dragging}
       highlight={highlight}
-      gridArea={gridArea}
+      gridArea={css}
       selectedIndex={selectedIndex}
-      selectedArea={selectedAreaName}
-      onMouseDown={() => {
-        if (status === '') {
-          setSelectedArea((prev) => [gridArea]);
-          setStatus('dragging');
-          setSelectedAreaName(gridArea);
-          setSelectedIndex(index);
-        }
-      }}
-      onMouseEnter={() => {
-        if (selectedArea)
-          switch (status) {
-            case 'dragging':
-              setSelectedArea(([start]) => [start, gridArea]);
-
-              setSelectedAreaName(gridArea);
-              break;
-
-            default:
-              break;
-          }
-      }}
-      onMouseUp={() => {
-        setDragging(false);
-        setStatus('');
-        setSelectedAreaName(null);
-        setSelectedIndex(null);
-      }}
-
-      // onClick={handleClick}
-    ></TemplateEntryStyled>
+      selectedAreaName={selectedAreaName}
+      onMouseDown={handleMouseDown}
+      onMouseEnter={handlePointerEnter}
+      onMouseUp={handlePointerUp}
+    >
+      {selection}
+    </TemplateEntryStyled>
   );
 };
 type TemplateEntryStyledProps = BorderBoxProps & {
   index: number;
-  status: string;
+  dragging: boolean;
   gridArea: GridAreaStr;
   selectedIndex: number;
-  selectedArea: [start: GridAreaStr, end?: GridAreaStr];
+  selectedAreaName: GridAreaStr;
+  selection?: [start: GridAreaStr, end?: GridAreaStr];
   highlight: ReturnType<typeof shouldHighlight>;
 };
 const TemplateEntryStyled = styled<FC<TemplateEntryStyledProps>>(BorderBox)(
   ({
     index,
-    status,
     highlight,
     gridArea,
-    selectedArea,
     selectedIndex,
+    // selectedAreaName,
     theme: { colors },
   }) => ({
     userSelect: 'none',
     position: 'relative',
     display: 'flex',
     justifyContent: 'space-between',
-    gridArea:
-      selectedIndex === index
-        ? diffAreaString(gridArea, selectedArea)
-        : (gridArea as string),
+    gridArea: gridArea as string,
+    zIndex: index !== selectedIndex ? 1000 : 10,
+    borderColor: 'black',
     backgroundColor:
       highlight !== null
         ? highlight === 'rows'
           ? colors.purple[2]
           : colors.yellow[2]
-        : selectedIndex === index
+        : index === selectedIndex
         ? colors.blue[3]
         : 'transparent',
   })
@@ -141,7 +125,11 @@ function diffAreaString(prev: GridAreaStr, current: GridAreaStr) {
   /* ------0     1    2  */
   const [crs, ccs, cre, cce] = current?.split(' / ');
 
-  if (crs >= prs && pcs >= ccs) return [crs, ccs, pre, pce].join(' / ');
-
-  return [prs, pcs, cre, cce].join(' / ');
+  if (prs === crs)
+    return [
+      prs <= crs ? prs : crs,
+      pcs <= ccs ? pcs : ccs,
+      pre >= cre ? pre : cre,
+      pce >= cce ? pce : cce,
+    ].join(' / ');
 }

@@ -4,8 +4,8 @@ import { Area } from 'css-grid-template-parser';
 import { omit } from 'lodash';
 import { atom, atomFamily, selector, selectorFamily } from 'recoil';
 import { gridCssState } from './gridCssState';
-import { gridState, SelectedControlId } from './gridState';
-import { GridAreaStr } from './typedString';
+import { gridState } from './gridState';
+import { GridAreaStr, SelectedControlId } from './typedString';
 
 export const gridAreasArrayState = selector<string[]>({
   key: 'gridAreas',
@@ -16,35 +16,29 @@ export const gridAreasArrayState = selector<string[]>({
   },
 });
 
-export const gridEntriesState = selector({
+export const gridEntriesState = selector<[number, number, GridAreaStr][]>({
   key: 'griedEntries',
   get: ({ get }) => {
-    const grid = get(gridState);
-
-    if (!grid) return;
-    const { rows, columns } = grid;
-    const gridObj = {
-      width: columns.length,
-      height: rows.length,
-    };
-
-    const entries = new Array(gridObj.height).map((_, rowIndex) => {
-      return [];
-    });
-
-    return get(gridCssState)
+    return (get(gridCssState)
       ?.gridTemplateAreas.replace(/["]+/g, '')
       .split('\n')
-      .flatMap(
-        (rowStr, rowStart) =>
-          rowStr.split(' ').reduce((pV, cV, cI) => {
-            return [...pV, [rowStart + 1, cI + 1]];
-          }, [])
-        // .filter(([, , str]) => str === '.')
-      );
+      .flatMap((rowStr, rowStart) =>
+        rowStr.split(' ').reduce((pV, _cV, cI) => {
+          const row = rowStart + 1;
+          const col = cI + 1;
+
+          return [
+            ...pV,
+            [
+              rowStart + 1,
+              cI + 1,
+              [row, col, row + 1, col + 1].join(' / ') as GridAreaStr,
+            ],
+          ];
+        }, [])
+      ) as unknown) as [number, number, GridAreaStr][];
   },
 });
-
 export const areaState = selectorFamily<Area, string>({
   key: 'area',
   get: (name) => ({ get }) => {
