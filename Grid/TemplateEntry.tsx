@@ -28,12 +28,12 @@ export const TemplateEntry = ({
     selectedAreaNameState
   );
   const [selection, setSelectedArea] = useRecoilState(selectedAreasState);
+  const [dragging, setDragging] = useState(false);
 
   const highlight = useMemo(
     () => shouldHighlight(rowNum, columnNum, propertyIds),
     [columnNum, propertyIds, rowNum]
   );
-  const [dragging, setDragging] = useState(false);
   const css = useMemo(
     () =>
       selectedIndex === index
@@ -42,32 +42,25 @@ export const TemplateEntry = ({
     [gridArea, index, selectedAreaName, selectedIndex]
   );
 
-  const handleMouseDown = () => {
-    setDragging(true);
-    if (!selection) setSelectedArea([gridArea]);
-    setSelectedAreaName(gridArea);
-    setSelectedIndex(index);
-  };
-  const handlePointerEnter = () => {
-    if (dragging) {
-      if (selectedAreaName !== gridArea) setSelectedAreaName(css);
-      if (selection && selection[1] !== gridArea) {
-        setSelectedArea(([start]) => {
-          return [start, gridArea];
-        });
-      }
+  const handleDown = () => {
+    if (!dragging) {
+      setSelectedArea([gridArea]);
+      setSelectedAreaName(gridArea);
+      setSelectedIndex(index);
     }
   };
-  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>): void => {
-    if (e.target == e.currentTarget)
-      if (dragging) {
-        setDragging(false);
-        setSelectedAreaName(null);
-        setSelectedIndex(null);
-        setSelectedArea(null);
-      }
-  };
+  const handleEnter = () => {
+    if (selection && !dragging) {
+      setSelectedArea(([start]) => [start, gridArea]);
 
+      setSelectedAreaName(gridArea);
+    }
+  };
+  const handleUp = () => {
+    setDragging(false);
+    setSelectedAreaName(null);
+    setSelectedIndex(null);
+  };
   return (
     <TemplateEntryStyled
       index={index}
@@ -76,9 +69,9 @@ export const TemplateEntry = ({
       gridArea={css}
       selectedIndex={selectedIndex}
       selectedAreaName={selectedAreaName}
-      onMouseDown={handleMouseDown}
-      onMouseEnter={handlePointerEnter}
-      onMouseUp={handlePointerUp}
+      onMouseDown={handleDown}
+      onMouseEnter={handleEnter}
+      onMouseUp={handleUp}
     >
       {selection}
     </TemplateEntryStyled>
@@ -94,14 +87,7 @@ type TemplateEntryStyledProps = BorderBoxProps & {
   highlight: ReturnType<typeof shouldHighlight>;
 };
 const TemplateEntryStyled = styled<FC<TemplateEntryStyledProps>>(BorderBox)(
-  ({
-    index,
-    highlight,
-    gridArea,
-    selectedIndex,
-    // selectedAreaName,
-    theme: { colors },
-  }) => ({
+  ({ index, highlight, gridArea, selectedIndex, theme: { colors } }) => ({
     userSelect: 'none',
     position: 'relative',
     display: 'flex',
@@ -125,11 +111,10 @@ function diffAreaString(prev: GridAreaStr, current: GridAreaStr) {
   /* ------0     1    2  */
   const [crs, ccs, cre, cce] = current?.split(' / ');
 
-  if (prs === crs)
-    return [
-      prs <= crs ? prs : crs,
-      pcs <= ccs ? pcs : ccs,
-      pre >= cre ? pre : cre,
-      pce >= cce ? pce : cce,
-    ].join(' / ');
+  return [
+    prs <= crs ? prs : crs,
+    pcs <= ccs ? pcs : ccs,
+    pre >= cre ? pre : cre,
+    pce >= cce ? pce : cce,
+  ].join(' / ');
 }
