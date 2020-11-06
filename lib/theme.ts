@@ -2,13 +2,7 @@ import { useContext } from 'react';
 import { DefaultTheme, ThemeContext } from 'styled-components';
 import { Theme } from '../types/theme';
 
-type ColorProps = '';
-type ColorArrayIndex = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
-// type GrayColor = `gray.${ColorArrayIndex}`
-export type ArrayColorProps = {
-  [K in keyof typeof arrayColors]: `${K}.${ColorArrayIndex}`
-}
-const arrayColors = {
+export const arrayColors = {
   gray: [
     '#fafbfc',
     '#f6f8fa',
@@ -107,8 +101,6 @@ const arrayColors = {
   ],
 };
 
-
-
 export const colors = {
   ...arrayColors,
   bodytext: '#24292e',
@@ -204,21 +196,21 @@ export const colors = {
   dark: '#272822', */
 };
 
-export const space= [
-    '0',
-    '4px',
-    '8px',
-    '16px',
-    '24px',
-    '32px',
-    '40px',
-    '48px',
-    '64px',
-    '80px',
-    '96px',
-    '112px',
-    '128px',
-  ]
+export const space = [
+  '0',
+  '4px',
+  '8px',
+  '16px',
+  '24px',
+  '32px',
+  '40px',
+  '48px',
+  '64px',
+  '80px',
+  '96px',
+  '112px',
+  '128px',
+];
 
 export const defaultFont =
   'system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"';

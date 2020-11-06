@@ -1,6 +1,6 @@
-import { Icon } from '@lib/Icons';
-import { gridGapUnits, gridUnits, prettyControlName } from '@lib/utils';
-import { GridControlObjKey } from '@store/grid';
+import { Icon } from '@/lib/Icons';
+import { gridGapUnits, gridUnits, prettyControlName } from '@/lib/utils';
+import { GridControlObjKey } from '@/store/grid';
 import {
   Box,
   ButtonPrimary,
@@ -19,7 +19,7 @@ import {
 import React from 'react';
 import styled from 'styled-components/macro';
 import If from '../If';
-import { GridState } from '../../css-grid-template-parser/GridState';
+import { GridState } from './GridState';
 
 export interface EditorControlStackProps {
   name: GridControlObjKey;
@@ -28,7 +28,7 @@ export interface EditorControlStackProps {
 export const EditorControlStack: React.FC<EditorControlStackProps> = (
   props
 ) => {
-  const { name } = props;
+  const { name, maxHeight } = props;
   const { values } = useFormikContext<GridState>();
 
   const isGap = name === 'gridGap';
@@ -54,19 +54,12 @@ export const EditorControlStack: React.FC<EditorControlStackProps> = (
             <FormGroup.Label className="control-label">
               {prettyControlName(name)}
             </FormGroup.Label>
-
             <If isTrue={!isGap}>
-              <ButtonPrimary
-                name={name}
-                onClick={handleAdd}
-                width="100%"
-                marginBottom={4}
-              >
+              <ButtonPrimary name={name} onClick={handleAdd} width="100%">
                 +
               </ButtonPrimary>
             </If>
-
-            <Ul>
+            <Box as="ul" maxHeight={maxHeight} overflow="auto">
               {values[name].map(({ amount, unit }, index) => {
                 const step = getStep(name, unit);
                 return (
@@ -117,7 +110,7 @@ export const EditorControlStack: React.FC<EditorControlStackProps> = (
                   </Box>
                 );
               })}
-            </Ul>
+            </Box>
           </FormGroup>
         );
       }}
@@ -137,7 +130,7 @@ const SelectField: React.FC<SelectFieldProps> = (props) => {
   return <Select {...field} {...props} />;
 };
 
-const InputGroup = styled.div`
+co nst InputGroup = styled.div`
   button,
   select {
     border-radius: 0;
@@ -339,7 +332,9 @@ const InputGroup = styled.div`
 
 const Ul = styled.ul`
   height: auto;
+  max-height: 22vh;
   overflow-y: auto;
+  margin-top: var(--space-3);
   padding-right: var(--space-2);
 `;
 function getStep(name: GridControlObjKey, unit: Unit) {

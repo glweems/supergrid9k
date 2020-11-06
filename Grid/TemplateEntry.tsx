@@ -2,7 +2,8 @@ import { BorderBoxProps } from '@primer/components';
 import BorderBox from '@primer/components/lib/BorderBox';
 import React, { FC, useMemo, useState } from 'react';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import theme from '../lib/theme';
 import {
   selectedAreaNameState,
   selectedAreasState,
@@ -16,12 +17,7 @@ const selectedIndexState = atom<number>({
   default: null,
 });
 
-export const TemplateEntry = ({
-  row: rowNum,
-  column: columnNum,
-  index,
-  gridArea,
-}) => {
+export const TemplateEntry = ({ row, column, index, gridArea }) => {
   const [selectedIndex, setSelectedIndex] = useRecoilState(selectedIndexState);
   const propertyIds = useRecoilValue(selectedControlState);
   const [selectedAreaName, setSelectedAreaName] = useRecoilState(
@@ -30,11 +26,12 @@ export const TemplateEntry = ({
   const [selection, setSelectedArea] = useRecoilState(selectedAreasState);
   const [dragging, setDragging] = useState(false);
 
-  const highlight = useMemo(
-    () => shouldHighlight(rowNum, columnNum, propertyIds),
-    [columnNum, propertyIds, rowNum]
-  );
-  const css = useMemo(
+  const highlight = useMemo(() => shouldHighlight(row, column, propertyIds), [
+    column,
+    propertyIds,
+    row,
+  ]);
+  const gridAreaDisplayed = useMemo(
     () =>
       selectedIndex === index
         ? diffAreaString(gridArea, selectedAreaName)
@@ -66,7 +63,7 @@ export const TemplateEntry = ({
       index={index}
       dragging={dragging}
       highlight={highlight}
-      gridArea={css}
+      gridArea={gridAreaDisplayed}
       selectedIndex={selectedIndex}
       selectedAreaName={selectedAreaName}
       onMouseDown={handleDown}
@@ -86,8 +83,21 @@ type TemplateEntryStyledProps = BorderBoxProps & {
   selection?: [start: GridAreaStr, end?: GridAreaStr];
   highlight: ReturnType<typeof shouldHighlight>;
 };
+
+const draggingStyle = css({
+  backgroundColor: theme.colors.red[3],
+  borderColor: theme.colors.red[5],
+});
+
 const TemplateEntryStyled = styled<FC<TemplateEntryStyledProps>>(BorderBox)(
-  ({ index, highlight, gridArea, selectedIndex, theme: { colors } }) => ({
+  ({
+    index,
+    highlight,
+    dragging,
+    gridArea,
+    selectedIndex,
+    theme: { colors },
+  }) => ({
     userSelect: 'none',
     position: 'relative',
     display: 'flex',

@@ -1,5 +1,7 @@
 {
   "typescript.tsdk": "/Users/glweems/repos/supergrid9k/node_modules/typescript/lib",
-  "god.tsconfig": "./tsconfig.json",
-  "python.pythonPath": "/usr/local/opt/python@3.8/bin/python3.8"
+  "python.pythonPath": "/usr/local/opt/python@3.8/bin/python3.8",
+  "workbench.list.multiSelectModifier": "alt",
+  "workbench.view.alwaysShowHeaderActions": true,
+  "debug.toolBarLocation": "docked"
 }

@@ -9,9 +9,9 @@ import Octicon, { ChevronDownIcon } from '@primer/octicons-react';
 import React, { ChangeEvent, ChangeEventHandler, FC, memo } from 'react';
 
 // eslint-disable-next-line prettier/prettier
-export type SelectProps<T = string> = React.SelectHTMLAttributes<
-  HTMLSelectElement
-> &
+export type SelectProps<
+  T = string
+> = React.SelectHTMLAttributes<HTMLSelectElement> &
   ButtonProps & {
     options: T[];
   };
