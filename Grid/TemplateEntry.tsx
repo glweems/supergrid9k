@@ -2,8 +2,7 @@ import { BorderBoxProps } from '@primer/components';
 import BorderBox from '@primer/components/lib/BorderBox';
 import React, { FC, useMemo, useState } from 'react';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
-import styled, { css } from 'styled-components';
-import theme from '../lib/theme';
+import styled from 'styled-components';
 import {
   selectedAreaNameState,
   selectedAreasState,
@@ -84,20 +83,8 @@ type TemplateEntryStyledProps = BorderBoxProps & {
   highlight: ReturnType<typeof shouldHighlight>;
 };
 
-const draggingStyle = css({
-  backgroundColor: theme.colors.red[3],
-  borderColor: theme.colors.red[5],
-});
-
 const TemplateEntryStyled = styled<FC<TemplateEntryStyledProps>>(BorderBox)(
-  ({
-    index,
-    highlight,
-    dragging,
-    gridArea,
-    selectedIndex,
-    theme: { colors },
-  }) => ({
+  ({ index, highlight, gridArea, selectedIndex, theme: { colors } }) => ({
     userSelect: 'none',
     position: 'relative',
     display: 'flex',
@@ -118,7 +105,6 @@ const TemplateEntryStyled = styled<FC<TemplateEntryStyledProps>>(BorderBox)(
 
 function diffAreaString(prev: GridAreaStr, current: GridAreaStr) {
   const [prs, pcs, pre, pce] = prev?.split(' / ');
-  /* ------0     1    2  */
   const [crs, ccs, cre, cce] = current?.split(' / ');
 
   return [

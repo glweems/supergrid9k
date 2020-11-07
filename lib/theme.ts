@@ -460,12 +460,7 @@ const theme: DefaultTheme & Theme = {
     },
   },
 };
-type ElementType<T = Colors> = T extends ReadonlyArray<infer U>
-  ? ElementType<keyof U[keyof T]>
-  : T;
-type Color = ElementType<Colors>;
-type Colors = typeof colors;
-type FromSomeIndex<K extends string> = { [key in K]: keyof Colors[] };
+
 export type MyTheme = typeof theme & Record<string, any>;
 
 export function useTheme() {
