@@ -27,7 +27,7 @@
     "colors": "^1.4.0",
     "cookie-session": "^1.4.0",
     "envalid": "^6.0.2",
-    "firebase": "^7.20.0",
+    "firebase": "^8.0.1",
     "firebase-admin": "^9.1.1",
     "framer-motion": "^2.6.10",
     "isomorphic-unfetch": "^3.0.0",
