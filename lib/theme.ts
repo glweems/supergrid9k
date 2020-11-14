@@ -103,6 +103,7 @@ export const arrayColors = {
 
 export const colors = {
   ...arrayColors,
+  focus: '#d53a42',
   bodytext: '#24292e',
   black: '#1b1f23',
   white: '#fff',

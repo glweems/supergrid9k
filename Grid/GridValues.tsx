@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { color } from 'styled-system';
 import If from '../components/If';
@@ -13,7 +13,7 @@ export const GridAreas: FC = () => {
   const gridCss = useRecoilValue(gridCssState);
   const areas = useRecoilValue(gridAreasArrayState);
   const entries = useRecoilValue(gridEntriesState);
-  const [newArea, setNewArea] = useRecoilState(newAreaState);
+  const newArea = useRecoilValue(newAreaState);
 
   return (
     <GridValuesDiv {...gridCss}>

@@ -1,10 +1,6 @@
 // _app.js
 import ContextProvider from '@components/ContextProvider';
-import {
-  setCssArrayVariables,
-  setCssObjectVariables,
-} from '@lib/setCssVariables';
-import { colors, space } from '@lib/theme';
+import { fucker } from '@lib/setCssVariables';
 import whyDidYouRender from '@welldone-software/why-did-you-render';
 import App, { AppContext, AppProps } from 'next/app';
 import Head from 'next/head';
@@ -27,11 +23,12 @@ class MyApp extends App<AppProps<{ dehydratedState: any }>> {
   }
 
   render() {
-    setCssObjectVariables(colors, 'color');
-    setCssArrayVariables(
-      space.map((val) => `${val}px`),
-      'space'
-    );
+    fucker();
+    // setCssObjectVariables(colors, 'color');
+    // setCssArrayVariables(
+    //   space.map((val) => `${val}px`),
+    //   'space'
+    // );
     const { Component, pageProps } = this.props;
     return (
       <React.Fragment>

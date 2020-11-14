@@ -67,6 +67,7 @@ export interface Color {
 }
 
 export interface ThemeColors {
+  focus: string;
   bodytext: string;
   black: string;
   white: string;

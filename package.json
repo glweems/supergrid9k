@@ -43,6 +43,7 @@
     "react-error-boundary": "^3.0.2",
     "react-firebaseui": "^4.1.0",
     "react-json-view": "^1.19.1",
+    "react-keydown": "^1.9.12",
     "react-typography": "^0.16.19",
     "react-use": "^15.3.4",
     "react-use-dimensions": "^1.2.1",

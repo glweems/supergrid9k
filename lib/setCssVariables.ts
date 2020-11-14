@@ -20,3 +20,10 @@ export function setCssArrayVariables(
       );
     });
 }
+
+export function fucker() {
+  typeof document !== 'undefined' &&
+    document.addEventListener('gesturestart', (e) => e.preventDefault());
+  typeof document !== 'undefined' &&
+    document.addEventListener('gesturechange', (e) => e.preventDefault());
+}

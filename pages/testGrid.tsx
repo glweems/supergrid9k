@@ -1,3 +1,5 @@
+import { fetcher } from '@lib/fetcher';
+import { PlusIcon } from '@lib/Icons';
 import {
   BorderBox,
   Box,
@@ -8,6 +10,8 @@ import {
   Grid,
   TextInput,
 } from '@primer/components';
+import Navbar from '@ui/Navbar';
+import { useShiftKeyPressed } from '@ui/useShftKeyPressed';
 import { Entry, GridState } from 'css-grid-template-parser';
 import { capitalize } from 'lodash';
 import { GetServerSideProps, NextPage } from 'next';
@@ -20,11 +24,6 @@ import {
   useSetRecoilState,
 } from 'recoil';
 import { gridState } from '../Grid';
-import { fetcher } from '@lib/fetcher';
-import { PlusIcon } from '@lib/Icons';
-import { replaceItemAtIndex } from '@lib/utils';
-import Navbar from '@ui/Navbar';
-import { useShiftKeyPressed } from '@ui/useShftKeyPressed';
 import { AppConfig } from './api/grid/template';
 
 export const getServerSideProps: GetServerSideProps = async () => {
