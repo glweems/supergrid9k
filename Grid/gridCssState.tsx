@@ -24,6 +24,7 @@ export const gridCssState = selector({
       gridTemplateAreas: template(gridObj),
       rowGap,
       columnGap,
+      bg: 'bg.grayDark',
     };
   },
 });

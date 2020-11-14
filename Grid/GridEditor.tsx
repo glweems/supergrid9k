@@ -1,15 +1,14 @@
-import { Box, ButtonOutline, Flex, Grid } from '@primer/components';
+import { Box, Grid } from '@primer/components';
 import { GridState } from 'css-grid-template-parser';
 import React, { FC } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { useTheme } from 'styled-components';
 import CodeBlock from '../components/CodeBlock';
 import { GridAreas } from './GridValues';
 import GridControls from './GridControls';
 import GridGapControls from './GridGapControls';
 import { gridHistoryState, gridState } from './gridState';
-import { HistoryIcon } from '@primer/octicons-react';
-import { selectedAreasState } from './gridAreasState';
+import ResetButton from './ResetButton';
 
 export const GridEditor: FC<{ data: GridState }> = ({ data }) => {
   const [grid, setGridState] = useRecoilState(gridState);
@@ -47,35 +46,6 @@ export const GridEditor: FC<{ data: GridState }> = ({ data }) => {
   );
 };
 
-const ResetButton = () => {
-  const setGridState = useSetRecoilState(gridState);
-  const setSelectedArea = useSetRecoilState(selectedAreasState);
-  const history = useRecoilValue(gridHistoryState);
-  const handleClick = (
-    _e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ): void => {
-    setGridState(history[0]);
-    setSelectedArea(null);
-  };
-  return (
-    <ButtonOutline
-      sx={{
-        borderColor: 'red.1',
-        color: 'red.5',
-        width: '100%',
-        ':hover': { backgroundColor: 'red.5' },
-      }}
-      onClick={handleClick}
-    >
-      <Flex alignItems="center" justifyContent="center">
-        <HistoryIcon />
-        <Box as="span" ml={2}>
-          Reset
-        </Box>
-      </Flex>
-    </ButtonOutline>
-  );
-};
 const State = () => {
   const state = useRecoilValue(gridState);
   return <CodeBlock language="json" code={JSON.stringify(state, null, 2)} />;

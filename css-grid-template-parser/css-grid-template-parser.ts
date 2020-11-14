@@ -26,7 +26,7 @@ export type {
   Entry,
   Grid,
   GridStateJson,
-  RawGridState,
+  GridState,
   Rect,
   Track,
   Unit,

@@ -2,7 +2,7 @@ import { GridAreaStr } from '../Grid/typedString';
 import { track } from './primitives';
 import { Area } from './types';
 
-export default function gridAreaStrToObj(gridArea: GridAreaStr): Area {
+export default function gridAreaStrToObj(gridArea: string): Area {
   const [rowStart, columnStart, rowEnd, columnEnd] = gridArea.split(' / ');
 
   return {

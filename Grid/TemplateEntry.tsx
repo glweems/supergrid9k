@@ -1,116 +1,115 @@
-import { BorderBoxProps } from '@primer/components';
-import BorderBox from '@primer/components/lib/BorderBox';
-import React, { FC, useMemo, useState } from 'react';
+import { Absolute, BorderBoxProps } from '@primer/components';
+import { transparentize } from 'polished';
+import React, { FC, memo, useMemo } from 'react';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import {
-  selectedAreaNameState,
-  selectedAreasState,
-  shouldHighlight,
-} from './gridAreasState';
+import { randomColor } from '../lib/random';
+import { diffAreaString, newAreaState } from './CreatingArea';
+import { shouldHighlight } from './gridAreasState';
 import { selectedControlState } from './gridState';
-import { GridAreaStr } from './typedString';
 
-const selectedIndexState = atom<number>({
-  key: 'selectedAreaIndex',
-  default: null,
+type TemplateEntryProps = {
+  row: number;
+  column: number;
+  index: number;
+  gridArea: string;
+};
+
+export const templateState = atom({
+  key: 'template',
+  default: { dragging: false },
 });
 
-export const TemplateEntry = ({ row, column, index, gridArea }) => {
-  const [selectedIndex, setSelectedIndex] = useRecoilState(selectedIndexState);
+const TemplateEntry: FC<TemplateEntryProps> = ({
+  row,
+  column,
+  index,
+  gridArea,
+}) => {
+  const [state, setState] = useRecoilState(templateState);
   const propertyIds = useRecoilValue(selectedControlState);
-  const [selectedAreaName, setSelectedAreaName] = useRecoilState(
-    selectedAreaNameState
-  );
-  const [selection, setSelectedArea] = useRecoilState(selectedAreasState);
-  const [dragging, setDragging] = useState(false);
 
   const highlight = useMemo(() => shouldHighlight(row, column, propertyIds), [
     column,
     propertyIds,
     row,
   ]);
-  const gridAreaDisplayed = useMemo(
-    () =>
-      selectedIndex === index
-        ? diffAreaString(gridArea, selectedAreaName)
-        : gridArea,
-    [gridArea, index, selectedAreaName, selectedIndex]
-  );
 
-  const handleDown = () => {
-    if (!dragging) {
-      setSelectedArea([gridArea]);
-      setSelectedAreaName(gridArea);
-      setSelectedIndex(index);
-    }
-  };
-  const handleEnter = () => {
-    if (selection && !dragging) {
-      setSelectedArea(([start]) => [start, gridArea]);
+  const [newArea, setNewArea] = useRecoilState(newAreaState);
 
-      setSelectedAreaName(gridArea);
-    }
+  const down = () => {
+    setState({ dragging: true });
+    setNewArea({
+      editing: true,
+      dragging: true,
+      gridArea: diffAreaString(gridArea, gridArea),
+      bg: transparentize(0.25, randomColor()),
+    });
   };
-  const handleUp = () => {
-    setDragging(false);
-    setSelectedAreaName(null);
-    setSelectedIndex(null);
+  const enter = () => {
+    // if (!newArea) return;
+    if (state.dragging)
+      setNewArea((prev) => ({
+        ...prev,
+        gridArea: diffAreaString(prev.gridArea, gridArea),
+      }));
+  };
+  const up = (): void => {
+    if (state.dragging) {
+      setNewArea((prev) => ({
+        ...prev,
+        gridArea: diffAreaString(prev.gridArea, gridArea),
+        dragging: false,
+      }));
+    }
+    setState((prev) => ({ dragging: false }));
   };
   return (
     <TemplateEntryStyled
       index={index}
-      dragging={dragging}
       highlight={highlight}
-      gridArea={gridAreaDisplayed}
-      selectedIndex={selectedIndex}
-      selectedAreaName={selectedAreaName}
-      onMouseDown={handleDown}
-      onMouseEnter={handleEnter}
-      onMouseUp={handleUp}
+      gridArea={gridArea}
+      onPointerDown={down}
+      onPointerEnter={enter}
+      onPointerUp={up}
+      dragging={state.dragging}
     >
-      {selection}
+      <Absolute position="absolute" bottom={0} right="50%">
+        <span>{row}</span>
+      </Absolute>
+      <Absolute position="absolute" bottom="50%" right={0}>
+        <span>{column}</span>
+      </Absolute>
     </TemplateEntryStyled>
   );
 };
+export default memo(TemplateEntry);
+
 type TemplateEntryStyledProps = BorderBoxProps & {
   index: number;
+  gridArea: string;
   dragging: boolean;
-  gridArea: GridAreaStr;
-  selectedIndex: number;
-  selectedAreaName: GridAreaStr;
-  selection?: [start: GridAreaStr, end?: GridAreaStr];
+  selection?: [start: string, end?: string];
   highlight: ReturnType<typeof shouldHighlight>;
 };
 
-const TemplateEntryStyled = styled<FC<TemplateEntryStyledProps>>(BorderBox)(
-  ({ index, highlight, gridArea, selectedIndex, theme: { colors } }) => ({
+const TemplateEntryStyled = styled.div<TemplateEntryStyledProps>(
+  ({ dragging, highlight, gridArea, theme: { colors } }) => ({
+    // pointerEvents: dragging ? 'none' : 'auto',
     userSelect: 'none',
     position: 'relative',
     display: 'flex',
+    zIndex: highlight !== null ? 100 : dragging ? 100 : 1,
     justifyContent: 'space-between',
     gridArea: gridArea as string,
-    zIndex: index !== selectedIndex ? 1000 : 10,
+    borderWidth: '2px',
+    borderStyle: dragging ? 'dotted' : 'dashed',
     borderColor: 'black',
     backgroundColor:
       highlight !== null
         ? highlight === 'rows'
-          ? colors.purple[2]
+          ? colors.purple[1]
           : colors.yellow[2]
-        : index === selectedIndex
-        ? colors.blue[3]
         : 'transparent',
   })
 );
-
-function diffAreaString(prev: GridAreaStr, current: GridAreaStr) {
-  const [prs, pcs, pre, pce] = prev?.split(' / ');
-  const [crs, ccs, cre, cce] = current?.split(' / ');
-
-  return [
-    prs <= crs ? prs : crs,
-    pcs <= ccs ? pcs : ccs,
-    pre >= cre ? pre : cre,
-    pce >= cce ? pce : cce,
-  ].join(' / ');
-}

@@ -23,6 +23,16 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
 };
 
 const GlobalCSS = createGlobalStyle`
+html,body{
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow:hidden;
+  user-select:none;
+
+}
+
   ::-webkit-scrollbar {
     width: 8px; /* 1px wider than Lion. */
     /* This is more usable for users trying to click it. */

@@ -60,7 +60,7 @@ export default function grid(tpl: string): Grid {
   const lines: Array<string> = getTpl(tpl);
   const width: number = getRow(lines[0]).length;
   const height: number = lines.length;
-  const areas: { [key: string]: Area } = lines.reduce(reduceLines, {});
+  const areas: Record<string, Area> = lines.reduce(reduceLines, {});
 
   return { width, height, areas };
 }

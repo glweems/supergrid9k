@@ -1,41 +1,22 @@
-import {
-  Button,
-  ButtonGroup,
-  ButtonOutline,
-  TextInput,
-} from '@primer/components';
-import BorderBox from '@primer/components/lib/BorderBox';
-import Grid from '@primer/components/lib/Grid';
-import { camelCase } from 'lodash';
-import dynamic from 'next/dynamic';
-import React, { FC, Fragment, useRef, useState } from 'react';
-import {
-  useRecoilState,
-  useRecoilValue,
-  useResetRecoilState,
-  useSetRecoilState,
-} from 'recoil';
+import React, { FC } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import {
-  areaState,
-  gridAreasArrayState,
-  gridEntriesState,
-  selectedAreasState,
-} from './gridAreasState';
+import { color } from 'styled-system';
+import If from '../components/If';
+import CreatingArea, { newAreaState } from './CreatingArea';
+import GridArea from './GridArea';
+import { gridAreasArrayState, gridEntriesState } from './gridAreasState';
 import { gridCssState } from './gridCssState';
-import { gridState } from './gridState';
-import { TemplateEntry } from './TemplateEntry';
+import TemplateEntry from './TemplateEntry';
 
 export const GridAreas: FC = () => {
-  const constraintsRef = useRef(null);
   const gridCss = useRecoilValue(gridCssState);
-
   const areas = useRecoilValue(gridAreasArrayState);
   const entries = useRecoilValue(gridEntriesState);
+  const [newArea, setNewArea] = useRecoilState(newAreaState);
 
-  const [grid] = useRecoilState(gridState);
   return (
-    <Grid ref={constraintsRef} style={gridCss}>
+    <GridValuesDiv {...gridCss}>
       {entries?.map(([row, column, gridArea], index) => {
         return (
           <TemplateEntry
@@ -50,100 +31,29 @@ export const GridAreas: FC = () => {
       {areas?.map((area, index) => (
         <GridArea key={`[${area}].${index}`} name={area} />
       ))}
-    </Grid>
+
+      <If isTrue={newArea}>
+        <CreatingArea />
+      </If>
+    </GridValuesDiv>
   );
 };
 
-const GridArea: FC<{ name: string }> = ({ name: initialName }) => {
-  const area = useRecoilValue(areaState(initialName));
-  const setArea = useSetRecoilState(areaState(initialName));
-  const resetArea = useResetRecoilState(areaState(initialName));
-  const [name, setName] = useState(initialName);
-  const [grid, setGrid] = useRecoilState(gridState);
-  const [selectedArea, setSelectedArea] = useRecoilState(selectedAreasState);
-  const handleCancel = () => setSelectedArea(null);
-  const handleDelete = () => {
-    setSelectedArea(null);
-    setArea(null);
-  };
-  const isEditing = initialName === selectedArea;
-  const handleSave = () => {
-    setArea({ ...area, name: camelCase(name) });
-    setSelectedArea(null);
-  };
-  return (
-    <BorderBox
-      style={{
-        gridArea: [
-          area.row.start,
-          area.column.start,
-          area.row.end,
-          area.column.end,
-        ].join(' / '),
-        position: 'relative',
-        zIndex: 100,
-        display: 'flex',
-        placeContent: 'center',
-        placeItems: 'center',
-      }}
-      bg={area?.bg ?? 'blue.5'}
-    >
-      <AreaNameInput
-        value={name}
-        onChange={(e) => setName(e.currentTarget.value)}
-        disabled={!isEditing}
-        autoComplete="off"
-      />
-
-      <ButtonGroup sx={{ position: 'absolute', top: '1rem', right: '1rem' }}>
-        {isEditing ? (
-          <Fragment>
-            <ButtonOutline
-              variant="small"
-              onClick={handleSave}
-              sx={{ color: 'green.5', ':hover': { bg: 'green.5' } }}
-            >
-              save
-            </ButtonOutline>
-            <ButtonOutline onClick={handleCancel} variant="small">
-              cancel
-            </ButtonOutline>
-            <ButtonOutline
-              onClick={handleDelete}
-              variant="small"
-              sx={{ color: 'red.5', ':hover': { bg: 'red.5' } }}
-            >
-              delete
-            </ButtonOutline>
-          </Fragment>
-        ) : (
-          <Button
-            variant="small"
-            onClick={() => {
-              if (!isEditing) setSelectedArea(initialName);
-            }}
-          >
-            edit
-          </Button>
-        )}
-      </ButtonGroup>
-    </BorderBox>
-  );
+type GridValuesDivProps = {
+  gridTemplateRows: string;
+  gridTemplateColumns: string;
+  gridTemplateAreas: string;
+  rowGap: string;
+  columnGap: string;
+  bg: string;
 };
 
-const AreaNameInput = styled(TextInput)`
-  z-index: 3000;
-  color: ${(props) =>
-    props.disabled
-      ? props.theme.colors.accent.blue
-      : props.theme.colors.text.grayDark};
-  font-weight: bold;
-  text-align: center;
-  background: ${(props) =>
-    props.disabled ? 'transparent' : props.theme.colors.bg.grayLight};
-  ${(props) => props && props.disabled && `border: none;box-shadow: none;`};
+const GridValuesDiv = styled.div<GridValuesDivProps>`
+  ${color};
+  display: grid;
+  grid-template-areas: ${(props) => props.gridTemplateAreas};
+  grid-template-rows: ${(props) => props.gridTemplateRows};
+  grid-template-columns: ${(props) => props.gridTemplateColumns};
+  gap: ${(props) => [props.rowGap, props.columnGap].join(' ')};
+  background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIj48ZGVmcz48cGF0dGVybiBpZD0icGF0dGVybiIgd2lkdGg9IjI1IiBoZWlnaHQ9IjI1IiB2aWV3Qm94PSIwIDAgNDAsNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSgzMDYpIj48cmVjdCBpZD0icGF0dGVybi1iYWNrZ3JvdW5kIiB3aWR0aD0iNDAwJSIgaGVpZ2h0PSI0MDAlIiBmaWxsPSJyZ2JhKDM2LCA0MSwgNDYsMSkiPjwvcmVjdD4gPHBhdGggZmlsdGVyPSJ1cmwoI2ZpbHRlcjFwYXR0ZXJuKSIgZmlsbD0icmdiYSg4OCwgOTYsIDEwNiwwLjE4KSIgZD0iCiAgICAgICAgICAgICAgICAgIE0wIDE5IGgxMCB2LTIwIGggLTEwIHogCiAgICAgICAgICAgICAgICAgIE0yMCAxOSBoMTAgdi0yMCBoIC0xMCB6CiAgICAgICAgICAgICAgICAgIE0wIDU5IGgxMCB2LTIwIGggLTEwIHogCiAgICAgICAgICAgICAgICAgIE0yMCA1OSBoMTAgdi0yMCBoIC0xMCB6CiAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgIj48L3BhdGg+PHBhdGggZmlsbD0icmdiYSgzNiwgNDEsIDQ2LDEpIiBkPSJNMTAgMjAgaDEwIHYtNiBoIC0xMCB6IE0zMCAyMCBoMTAgdi02IGggLTEwIHoiPjwvcGF0aD48L3BhdHRlcm4+IDxmaWx0ZXIgaWQ9ImZpbHRlcjFwYXR0ZXJuIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9IjAuMDEgMC40NSIgbnVtT2N0YXZlcz0iMiIgcmVzdWx0PSJyZXN1bHQxIj48L2ZlVHVyYnVsZW5jZT48ZmVEaXNwbGFjZW1lbnRNYXAgaW4yPSJyZXN1bHQxIiBzY2FsZT0iMTciIHJlc3VsdD0icmVzdWx0MiIgeENoYW5uZWxTZWxlY3Rvcj0iUiIgaW49IlNvdXJjZUdyYXBoaWMiIHlDaGFubmVsU2VsZWN0b3I9IkciPjwvZmVEaXNwbGFjZW1lbnRNYXA+PGZlQ29tcG9zaXRlIGluMj0icmVzdWx0MiIgaW49IlNvdXJjZUdyYXBoaWMiIG9wZXJhdG9yPSJhdG9wIiByZXN1bHQ9ImNvbXBvc2l0ZUdyYXBoaWMiPjwvZmVDb21wb3NpdGU+PGZlT2Zmc2V0IGluPSJjb21wb3NpdGVHcmFwaGljIiByZXN1bHQ9ImZiU291cmNlR3JhcGhpYyIgZHg9Ii0xLjciPjwvZmVPZmZzZXQ+PC9maWx0ZXI+IDwvZGVmcz4gPHJlY3QgZmlsbD0idXJsKCNwYXR0ZXJuKSIgaGVpZ2h0PSIxMDAlIiB3aWR0aD0iMTAwJSI+PC9yZWN0Pjwvc3ZnPg==');
 `;
-AreaNameInput.defaultProps = {
-  variant: 'small',
-};
-GridAreas.displayName = 'GridAreas';

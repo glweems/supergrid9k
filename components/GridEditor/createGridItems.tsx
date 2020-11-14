@@ -1,4 +1,4 @@
-import { GridState } from '../../css-grid-template-parser/GridState';
+import { GridState } from 'css-grid-template-parser';
 import { GridItemProps } from './GridItem';
 
 export type CreateGridAreasArray = (

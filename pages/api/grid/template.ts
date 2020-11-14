@@ -14,14 +14,14 @@ const json: AppConfig = {
   name: 'Grid',
   grid: {
     areas: {
-      // div: {
-      //   row: track(1, 3),
-      //   column: track(1, 2),
-      // },
-      // span: {
-      //   row: track(3, 5),
-      //   column: track(2, 5),
-      // },
+      /* div: {
+        row: track(1, 2),
+        column: track(1, 2),
+      },
+      span: {
+        row: track(2, 5),
+        column: { ...track(2, 5), bg: 'red.1' },
+      }, */
     },
     rows: [
       {

@@ -1,7 +1,7 @@
 import { AnimatePresence, HTMLMotionProps, motion } from 'framer-motion';
 import React from 'react';
 interface IfProps {
-  isTrue?: boolean | null;
+  isTrue?: unknown;
   fallback?: any;
   motionProps?: HTMLMotionProps<'div'>;
   animated?: boolean;

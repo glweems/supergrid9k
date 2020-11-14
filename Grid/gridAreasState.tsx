@@ -1,5 +1,3 @@
-import { CommonProps } from '@primer/components';
-import { CSSSelectorObject, SystemStyleObject } from '@styled-system/css';
 import { Area } from 'css-grid-template-parser';
 import { omit } from 'lodash';
 import { atom, atomFamily, selector, selectorFamily } from 'recoil';
@@ -16,7 +14,7 @@ export const gridAreasArrayState = selector<string[]>({
   },
 });
 
-export const gridEntriesState = selector<[number, number, GridAreaStr][]>({
+export const gridEntriesState = selector<[number, number, string][]>({
   key: 'griedEntries',
   get: ({ get }) => {
     return (get(gridCssState)
@@ -26,17 +24,19 @@ export const gridEntriesState = selector<[number, number, GridAreaStr][]>({
         rowStr.split(' ').reduce((pV, _cV, cI) => {
           const row = rowStart + 1;
           const col = cI + 1;
+          const lastArea = rowStart % pV.length;
+          console.log('lastArea: ', lastArea);
 
           return [
             ...pV,
             [
               rowStart + 1,
               cI + 1,
-              [row, col, row + 1, col + 1].join(' / ') as GridAreaStr,
+              [row, col, row + 1, col + 1].join(' / ') as string,
             ],
           ];
         }, [])
-      ) as unknown) as [number, number, GridAreaStr][];
+      ) as unknown) as [number, number, string][];
   },
 });
 export const areaState = selectorFamily<Area, string>({
@@ -75,14 +75,12 @@ export const entryState = atomFamily<Area, [row: number, column: number]>({
   },
 });
 
-export const selectedAreaNameState = atom<GridAreaStr>({
+export const selectedAreaNameState = atom<string>({
   key: 'selectedAreaName',
   default: null,
 });
 
-export const selectedAreasState = atom<
-  [start: GridAreaStr, end?: GridAreaStr] | null
->({
+export const selectedAreasState = atom<[start: string, end?: string] | null>({
   key: 'selectedAreasName',
   default: null,
 });

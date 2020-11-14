@@ -1,13 +1,13 @@
-import { InputProps } from '@rebass/forms/styled-components';
-import { Entry, RawGridState } from 'css-grid-template-parser';
 import { SelectProps } from '@components/Select';
-import { GridTemplateEntry } from '../store/grid';
+import { InputProps } from '@rebass/forms/styled-components';
+import { Entry } from 'css-grid-template-parser';
 import groupRepeatedUnits from 'css-grid-template-parser/groupRepeatedUnits';
 export function replaceItem<T = Record<string, unknown>>(
   thing,
   index,
   newVal
 ) {}
+
 export function replaceItemAtIndex<T = Record<string, unknown>>(
   arr: T[] | Record<string, unknown>,
   index: number,
@@ -124,9 +124,7 @@ export const defaultSelectProps: SelectProps = {
   options: gridUnits,
 };
 
-export function dataToCss(
-  entries: Pick<GridTemplateEntry, 'amount' | 'unit'>[]
-) {
+export function dataToCss(entries: Pick<Entry, 'amount' | 'unit'>[]) {
   return entries
     ?.map(({ amount, unit }) => `${amount}${unit}`)
     .toString()
@@ -135,27 +133,12 @@ export function dataToCss(
 }
 
 export function createCssString(
-  entries: Pick<GridTemplateEntry, 'amount' | 'unit'>[],
+  entries: Pick<Entry, 'amount' | 'unit'>[],
   repeat = false
 ): string {
   if (repeat) return repeatStr(entries);
   return dataToCss(entries);
 }
-
-export const defaultGridState: RawGridState = {
-  name: 'Template',
-  gridTemplateColumns: '1fr 1fr 1fr',
-  gridTemplateRows: '1fr 1fr 1fr',
-  gridGap: '10px 10px',
-  useCssRepeatFn: false,
-  gridContainerClassName: 'grid',
-  areas: {
-    one: {
-      row: { start: 1, end: 2, span: 1 },
-      column: { start: 1, end: 2, span: 1 },
-    },
-  },
-};
 
 export function omit<T = Record<string, unknown>>(
   obj: T,
@@ -166,4 +149,8 @@ export function omit<T = Record<string, unknown>>(
     delete newObj[key];
   });
   return newObj;
+}
+
+export function isDivideBy(number: number, a: number, b: number) {
+  return number % a === 0 && number % b === 0;
 }

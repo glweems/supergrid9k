@@ -6,11 +6,10 @@ export interface Track {
   span: number;
 }
 
-export interface Area extends BoxProps {
-  gridArea?: string;
-  name?: string;
+export interface Area {
   row: Track;
   column: Track;
+  bg?: string;
 }
 
 export interface Rect {

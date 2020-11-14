@@ -1,13 +1,30 @@
 import { Area, Rect, Track } from './types';
-
-export function track(start: number, end: number): Track {
-  return {
+/**
+ * track
+ * @param start number
+ * @param end number
+ */
+export function track(start: number, end?: number): Track {
+  if (!end) return { start, end: start, span: 1 };
+  const track: Track = {
     start,
     end,
     span: end - start,
   };
+  return track;
 }
-
+/**
+ * area
+ * @param rect Rect
+ * @example
+ // returns { row: { start: 1, end: 1, span: 1 } }
+ area({
+  x: 1,
+  y: 1,
+  height: 1,
+  width: 1,
+});
+ */
 export function area(rect: Rect): Area {
   const { x = 0, y = 0, width = 0, height = 0 } = rect;
   return {
