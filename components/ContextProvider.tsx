@@ -1,6 +1,4 @@
-import useAuth from '@lib/auth/useAuth';
 import theme from '@lib/theme';
-import { UserContextProvider } from '@lib/User';
 import { BaseStyles } from '@primer/components';
 import React from 'react';
 import { createGlobalStyle, ThemeProvider } from 'styled-components/macro';
@@ -8,13 +6,12 @@ interface ContextProviderProps {
   session?: any;
 }
 const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
-  const { user } = useAuth();
   //console.log('auth: ', auth);
   return (
     <BaseStyles>
       <ThemeProvider theme={theme}>
         <GlobalCSS />
-        <UserContextProvider value={user}>{children}</UserContextProvider>
+        {children}
       </ThemeProvider>
     </BaseStyles>
   );
