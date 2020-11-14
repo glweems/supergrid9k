@@ -3,11 +3,13 @@
     "allowJs": true,
     "alwaysStrict": true,
     "esModuleInterop": true,
+    // "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "lib": ["dom", "esnext"],
-    "module": "esnext",
+    "lib": ["ES2019", "dom"],
+    "module": "commonjs",
+    "target": "ES2019",
     "moduleResolution": "node",
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
@@ -16,17 +18,19 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": false,
-    "target": "esnext",
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
-      "@/lib/*": ["lib/*"],
-      "@/components/*": ["components/*"],
-      "@/store/*": ["store/*"],
-      "@/models/*": ["models/*"],
-      "@/ui/*": ["ui/*"]
+      "css-grid-template-parser": [
+        "./css-grid-template-parser/css-grid-template-parser"
+      ],
+      "@lib/*": ["./lib/*"],
+      "@components/*": ["./components/*"],
+      "@store/*": ["./store/*"],
+      "@models/*": ["./models/*"],
+      "@ui/*": ["./ui/*"]
     }
   },
-  "exclude": ["node_modules"],
-  "include": ["**/*.ts", "**/*.tsx"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }

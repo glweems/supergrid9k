@@ -1,60 +1,47 @@
+import UserDropdown from '@components/UserDropdown';
+import { LogoIcon } from '@lib/Icons';
+import { useUser } from '@lib/User';
+import { Box, Flex, Header, StyledOcticon } from '@primer/components';
+import Link from 'next/link';
 import React from 'react';
-import NextLink from 'next/link';
+import { useTheme } from 'styled-components';
 
-import { Box, BoxProps, Flex, FlexProps, Heading, Link } from 'rebass/styled-components';
-import { useUser } from '../store/auth';
-import UserDropdown from '../components/UserDropdown';
-
-interface NavbarProps {
-  title?: React.ReactText | React.ReactNode;
-  flexProps?: FlexProps;
-  boxProps?: BoxProps;
-  Heading?: React.FC<any>;
-  headingProps?: any;
-}
-
-const Navbar: React.FC<NavbarProps> = ({ title, children, flexProps, boxProps, headingProps }) => {
+const Navbar: React.FC = () => {
   const user = useUser();
-
+  const { navbarHeight } = useTheme();
   return (
-    <Flex as="header" {...flexProps}>
-      <Box>
-        {title && (
-          <Heading p={2} fontWeight="bold" {...headingProps}>
-            {title}
-          </Heading>
-        )}
-      </Box>
-      <Box as="nav" {...boxProps}>
-        {children}
-      </Box>
+    <Header sx={{ height: navbarHeight }}>
+      <Header.Item>
+        <Link href="/">
+          <Header.Link fontSize={2}>
+            <StyledOcticon
+              icon={() => (
+                <div>
+                  <LogoIcon />
+                </div>
+              )}
+              size={32}
+              mr={2}
+            />
+            <span>GitHub</span>
+          </Header.Link>
+        </Link>
+      </Header.Item>
+      <nav>
+        <Link href="/">
+          <Flex
+            css={`
+              place-items: center;
+            `}
+          >
+            <Box as="h3" mx={3}></Box>
+          </Flex>
+        </Link>
+      </nav>
 
-      <Box>
-        {user ? (
-          <UserDropdown />
-        ) : (
-          <Link as={NextLink} href="/auth">
-            login
-          </Link>
-        )}
-      </Box>
-    </Flex>
+      <Box>{user ? <UserDropdown /> : <Link href="/auth">login</Link>}</Box>
+    </Header>
   );
-};
-
-Navbar.defaultProps = {
-  title: (
-    <Link as={NextLink} href="/">
-      Super Grid 9K
-    </Link>
-  ),
-  flexProps: {
-    px: 2,
-    color: 'text',
-    bg: 'secondary',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
 };
 
 export default Navbar;

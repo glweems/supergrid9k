@@ -1,6 +1,6 @@
+import { SuperGrid9kUser } from '@lib/auth/mapUserData';
 import Mongoose, { Model, model, Schema } from 'mongoose';
 import validator from 'validator';
-import { SuperGrid9kUser } from '../lib/auth/mapUserData';
 import { GridSchema } from './Grid';
 
 const UserSchema = new Schema(
@@ -11,7 +11,11 @@ const UserSchema = new Schema(
       unique: true,
       min: [3, 'Username too short'],
     },
-    email: { type: String, required: [true, 'Email missing'], validate: (str) => validator.isEmail(str) },
+    email: {
+      type: String,
+      required: [true, 'Email missing'],
+      validate: (str) => validator.isEmail(str),
+    },
     tbn: { type: String },
     bio: { type: String, required: false, default: '' },
     grids: {
@@ -22,6 +26,7 @@ const UserSchema = new Schema(
   { timestamps: true, validateBeforeSave: true }
 );
 
-const UserModel: Model<Mongoose.Document & SuperGrid9kUser> = Mongoose.models.User || model('User', UserSchema);
+const UserModel: Model<Mongoose.Document & SuperGrid9kUser> =
+  Mongoose.models.User || model('User', UserSchema);
 
 export default UserModel;

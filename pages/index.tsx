@@ -1,25 +1,25 @@
-import { NextPage } from 'next';
+import { fetcher } from '@lib/fetcher';
+import Navbar from '@ui/Navbar';
+import { GetServerSideProps, NextPage } from 'next';
 import React from 'react';
-import Div100vh from 'react-div-100vh';
-import ContextProvider from '../components/ContextProvider';
+import Div100Vh from 'react-div-100vh';
+import { GridEditor } from '../Grid/GridEditor';
+import { AppConfig } from './api/grid/template';
 
-import GridEditor from '../components/GridEditor/GridEditor';
-import { defaultGridState } from '../lib/utils';
-import Navbar from '../ui/Navbar';
+export const getServerSideProps: GetServerSideProps = async () => {
+  const data = await fetcher<AppConfig>('/api/grid/template');
+  return { props: data };
+};
 
-const IndexPage: NextPage = () => {
-  const initialState = {
-    ...defaultGridState,
-    initialState: defaultGridState,
-  };
+const IndexPage: NextPage<AppConfig> = ({ grid }) => {
   return (
-    <ContextProvider>
-      <Div100vh>
-        <Navbar headingProps={{ color: '#fff', fontWeight: 'bold' }} />
-        <GridEditor grid={initialState} />
-      </Div100vh>
-    </ContextProvider>
+    <Div100Vh>
+      <Navbar />
+      <GridEditor data={grid} />
+    </Div100Vh>
   );
 };
+
+IndexPage.displayName = 'IndexPage';
 
 export default IndexPage;

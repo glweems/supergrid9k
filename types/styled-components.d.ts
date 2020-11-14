@@ -1,11 +1,15 @@
-/* eslint-disable */
-import { SuperGrid9kTheme } from '../lib/theme';
-
+import { Theme } from './theme';
 declare module 'styled-components' {
-  export interface DefaultTheme extends SuperGrid9kTheme {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  export interface DefaultTheme extends Theme {}
 
-  export function createGlobalStyle<P extends object = {}>(
-    first: TemplateStringsArray | CSSObject | InterpolationFunction<ThemedStyledProps<P, DefaultTheme>>,
+  export function useTheme(): DefaultTheme;
+
+  export function createGlobalStyle<P extends Record<string, any>>(
+    first:
+      | TemplateStringsArray
+      | CSSObject
+      | InterpolationFunction<ThemedStyledProps<P, DefaultTheme>>,
     ...interpolations: Array<Interpolation<ThemedStyledProps<P, DefaultTheme>>>
   ): GlobalStyleComponent<P, DefaultTheme>;
 }

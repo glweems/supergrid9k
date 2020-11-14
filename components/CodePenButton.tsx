@@ -1,8 +1,6 @@
 import React from 'react';
-import { Button } from 'rebass/styled-components';
-import { useRecoilValue, useRecoilState } from 'recoil';
-import { Icon, iconButtonCss } from '../lib/Icons';
-import { codePenOptions, grid } from '../store/grid';
+import { Icon, iconButtonCss } from '@lib/Icons';
+import Button from '@primer/components/lib/Button';
 export interface CodePenData {
   title?: string;
   description?: string;
@@ -33,7 +31,12 @@ export interface CodePenData {
    * "alert('test');"
    */
   js?: string;
-  js_pre_processor?: 'none' | 'coffeescript' | 'babel' | 'livescript' | 'typescript';
+  js_pre_processor?:
+    | 'none'
+    | 'coffeescript'
+    | 'babel'
+    | 'livescript'
+    | 'typescript';
   /**
    * "loading"
    */
@@ -59,12 +62,28 @@ interface CodePenButtonProps extends Omit<CodePenData, 'html' | 'css' | 'js'> {
   buttonStyle?: React.CSSProperties;
 }
 
-const CodePenButton: React.FC<CodePenButtonProps> = ({ children, className, code, buttonStyle, ...config }) => {
+const CodePenButton: React.FC<CodePenButtonProps> = ({
+  children,
+  className,
+  code,
+  buttonStyle,
+  ...config
+}) => {
   const values = JSON.stringify({ ...config, ...code });
   return (
-    <form action="https://codepen.io/pen/define" method="POST" target="_blank" className={className}>
+    <form
+      action="https://codepen.io/pen/define"
+      method="POST"
+      target="_blank"
+      className={className}
+    >
       <input type="hidden" name="data" value={values} />
-      <Button variant="outline" color="text" style={buttonStyle} css={iconButtonCss as any} type="submit">
+      <Button
+        color="text"
+        style={buttonStyle}
+        css={iconButtonCss as any}
+        type="submit"
+      >
         <Icon viewBox="0 0 1792 1792">
           <path
             d="M216 1169l603 402v-359l-334-223zm-62-144l193-129-193-129v258zm819 546l603-402-269-180-334 223v359zm-77-493l272-182-272-182-272 182zm-411-275l334-223v-359l-603 402zm960 93l193 129v-258zm-138-93l269-180-603-402v359zm485-180v546q0 41-34 64l-819 546q-21 13-43 13t-43-13l-819-546q-34-23-34-64v-546q0-41 34-64l819-546q21-13 43-13t43 13l819 546q34 23 34 64z"
@@ -90,15 +109,3 @@ CodePenButton.defaultProps = {
   className: 'CodePenButton',
   children: 'Create CodePen',
 };
-
-export const SuperGrid9kCodePen: React.FC = () => {
-  const { css, html, ...options } = useRecoilValue(codePenOptions);
-
-  return <CodePenButton {...options} code={{ css, html }} />;
-};
-
-export default function CodePen() {
-  const [gridState] = useRecoilState(grid);
-  if (!gridState) return null;
-  return <SuperGrid9kCodePen />;
-}

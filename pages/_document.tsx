@@ -2,8 +2,8 @@ import Document, { DocumentContext, DocumentProps } from 'next/document';
 import React from 'react';
 import { GoogleFont, TypographyStyle } from 'react-typography';
 import { ServerStyleSheet } from 'styled-components/macro';
-import typography from '@/lib/typography';
-import validateEnv from '@/lib/validateEnv';
+import typography from '@lib/typography';
+import validateEnv from '@lib/validateEnv';
 
 validateEnv();
 
@@ -19,7 +19,8 @@ export default class MyDocument extends Document<MyDocumentProps> {
     try {
       ctx.renderPage = () =>
         originalRenderPage({
-          enhanceApp: (App) => (props) => sheet.collectStyles(<App {...props} />),
+          enhanceApp: (App) => (props) =>
+            sheet.collectStyles(<App {...props} />),
         });
 
       const initialProps = await Document.getInitialProps(ctx);

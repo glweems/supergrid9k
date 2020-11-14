@@ -1,4 +1,4 @@
-import FirebaseAuth from '@/components/FirebaseAuth';
+import FirebaseAuth from '@components/FirebaseAuth';
 import React from 'react';
 import Div100vh from 'react-div-100vh';
 export default function IndexPage() {
@@ -8,6 +8,3 @@ export default function IndexPage() {
     </Div100vh>
   );
 }
-// <Navbar title="super grid 9k" />
-
-// <GridEditor grid={} />

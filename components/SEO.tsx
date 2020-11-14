@@ -10,7 +10,14 @@ export type SEOProps = {
   keywords?: string[];
 };
 
-const SEO: React.FC<SEOProps> = ({ title, description, image, article, keywords, children }) => {
+const SEO: React.FC<SEOProps> = ({
+  title,
+  description,
+  image,
+  article,
+  keywords,
+  children,
+}) => {
   const seo = {
     title: title || packageJson.name,
     description: description || packageJson.description,
@@ -28,7 +35,9 @@ const SEO: React.FC<SEOProps> = ({ title, description, image, article, keywords,
 
       {seo.title && <meta property="og:title" content={seo.title} />}
 
-      {seo.description && <meta property="og:description" content={seo.description} />}
+      {seo.description && (
+        <meta property="og:description" content={seo.description} />
+      )}
 
       {keywords && <meta name="keywords" content={keywords.toString()} />}
 
@@ -38,7 +47,9 @@ const SEO: React.FC<SEOProps> = ({ title, description, image, article, keywords,
 
       {seo.title && <meta name="twitter:title" content={seo.title} />}
 
-      {seo.description && <meta name="twitter:description" content={seo.description} />}
+      {seo.description && (
+        <meta name="twitter:description" content={seo.description} />
+      )}
 
       {seo.image && <meta name="twitter:image" content={seo.image} />}
 

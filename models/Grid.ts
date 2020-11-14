@@ -10,6 +10,10 @@ const GridTemplateEntrySchema = new Schema(
 
 export const GridSchema = new Schema(
   {
+    name: {
+      type: String,
+      default: 'Template',
+    },
     gridTemplateRows: [GridTemplateEntrySchema],
     gridTemplateColumns: [GridTemplateEntrySchema],
     gridGap: [GridTemplateEntrySchema],
