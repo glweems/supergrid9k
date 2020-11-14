@@ -1,12 +1,5 @@
-import {
-  BorderBox,
-  BorderBoxProps,
-  Box,
-  ButtonProps,
-  ButtonOutline,
-} from '@primer/components';
-import Octicon, { ChevronDownIcon } from '@primer/octicons-react';
-import React, { ChangeEvent, ChangeEventHandler, FC, memo } from 'react';
+import { ButtonOutline, ButtonProps } from '@primer/components';
+import React, { FC, memo } from 'react';
 
 // eslint-disable-next-line prettier/prettier
 export type SelectProps<

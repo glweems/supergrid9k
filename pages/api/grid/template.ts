@@ -1,4 +1,4 @@
-import { GridState, track } from 'css-grid-template-parser';
+import { GridState } from 'css-grid-template-parser';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
 
@@ -6,23 +6,13 @@ export interface AppConfig {
   name: string;
   grid: GridState;
 }
-
-// useCssRepeatFn: false,
-// gridContainerClassName: 'grid',
+/* TODO - useCssRepeatFn: false,  */
+/* TODO - gridContainerClassName: 'grid', */
 
 const json: AppConfig = {
   name: 'Grid',
   grid: {
-    areas: {
-      /* div: {
-        row: track(1, 2),
-        column: track(1, 2),
-      },
-      span: {
-        row: track(2, 5),
-        column: { ...track(2, 5), bg: 'red.1' },
-      }, */
-    },
+    areas: {},
     rows: [
       {
         amount: 1,

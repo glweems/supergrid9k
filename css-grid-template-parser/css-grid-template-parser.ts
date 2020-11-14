@@ -19,8 +19,6 @@ export { default as flatten } from './flatten';
 export { default as grid } from './grid';
 export { area, rect, track } from './primitives';
 export { default as template } from './template';
-export { default as templateStringParser } from './templateStringParser';
-export { default as areaFromGridItems } from './areaFromGridItems';
 export type {
   Area,
   Entry,

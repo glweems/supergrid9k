@@ -1,11 +1,9 @@
-// import theme from '@lib/theme';
-import React from 'react';
-import { createGlobalStyle, ThemeProvider } from 'styled-components/macro';
 import useAuth from '@lib/auth/useAuth';
+import theme from '@lib/theme';
 import { UserContextProvider } from '@lib/User';
 import { BaseStyles } from '@primer/components';
-import { RecoilRoot } from 'recoil';
-import theme from '@lib/theme';
+import React from 'react';
+import { createGlobalStyle, ThemeProvider } from 'styled-components/macro';
 interface ContextProviderProps {
   session?: any;
 }
@@ -24,10 +22,10 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
 
 const GlobalCSS = createGlobalStyle`
 html,body{
+  width: 100%;
+  height: 100%;
   margin: 0;
   padding: 0;
-  height: 100%;
-  width: 100%;
   overflow:hidden;
   user-select:none;
 

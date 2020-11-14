@@ -7,7 +7,7 @@ import {
   FormGroup,
 } from '@primer/components';
 import { capitalize } from 'lodash';
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { GridControlId, GridControlObjKey } from './GridControlId';
 import { GridControlProperties } from './GridControlProperties';
@@ -45,4 +45,4 @@ const GridControls: FC<GridControlsProps> = ({ id }) => {
 };
 
 GridControls.displayName = 'GridControls';
-export default GridControls;
+export default memo(GridControls);

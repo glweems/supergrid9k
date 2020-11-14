@@ -1,12 +1,12 @@
+import { Entry } from 'css-grid-template-parser';
 import { GridControlUnit } from './utils';
-import { GridTemplateEntry } from '../store/grid';
 
 /**
  * Grids template parser
  * @param str string
  * @returns GridTemplateEntry[]
  */
-export default function gridTemplateParser(str: string): GridTemplateEntry[] {
+export default function gridTemplateParser(str: string): Entry[] {
   if (!str) return [];
   const arr = str?.split(' ');
   return arr?.map((val) => {

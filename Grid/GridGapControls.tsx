@@ -1,10 +1,10 @@
+import Select from '@components/Select';
+import { gridGapUnits } from '@lib/utils';
 import { Box, FormGroup, Grid, TextInput } from '@primer/components';
 import { Entry, GridState } from 'css-grid-template-parser';
 import { startCase } from 'lodash';
 import React, { FC, memo } from 'react';
 import { selectorFamily, useRecoilValue, useSetRecoilState } from 'recoil';
-import Select from '@components/Select';
-import { gridGapUnits } from '@lib/utils';
 import { gridState } from './gridState';
 
 const gridGapState = selectorFamily<Entry, keyof GridState['gap']>({
@@ -79,4 +79,4 @@ const GridGapControl: FC<{ id: keyof GridState['gap'] }> = ({ id }) => {
 };
 
 GridGapControl.displayName = 'GridGapControl';
-export default GridGapControls;
+export default memo(GridGapControls);

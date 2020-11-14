@@ -7,7 +7,7 @@ const typographyTheme: TypographyOptions = {
   baseLineHeight: 1.78,
   headerFontFamily: defaultFont.split(','),
   bodyFontFamily: defaultFont.split(','),
-  bodyColor: colors.text,
+  bodyColor: colors.text.white,
   headerWeight: 700,
   bodyWeight: 300,
   boldWeight: 700,

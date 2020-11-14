@@ -1,5 +1,5 @@
 import { InputProps } from '@rebass/forms/styled-components';
-import { GridTemplateEntry } from '../store/grid';
+import { Entry } from 'css-grid-template-parser';
 import { GridControlUnit } from './utils';
 
 export function getInputProps(
@@ -109,8 +109,8 @@ export function getInputProps(
 export default function getAllowedEntry(
   name: string,
   value: string,
-  entry: GridTemplateEntry
-): GridTemplateEntry {
+  entry: Entry
+): Entry {
   switch (value) {
     case 'fr': {
       return {

@@ -5,15 +5,9 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import Select from '@components/Select';
 import { gridUnits } from '@lib/utils';
 import { useShiftKeyPressed } from '@ui/useShftKeyPressed';
-import {
-  gridControlState,
-  SelectedControlId,
-  selectedControlState,
-} from './gridState';
+import { gridControlState, selectedControlState } from './gridState';
 
-export const GridControlProperties: FC<{ id: SelectedControlId }> = ({
-  id,
-}) => {
+export const GridControlProperties: FC<{ id: string }> = ({ id }) => {
   const { canDelete, ...control } = useRecoilValue(gridControlState(id));
   const [selectedIds, setSelectedIds] = useRecoilState(selectedControlState);
   const setControl = useSetRecoilState(gridControlState(id));

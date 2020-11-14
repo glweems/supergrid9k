@@ -15,7 +15,7 @@ export const gridCssState = selector({
       width: columns.length,
       height: rows.length,
       areas: Object.fromEntries(
-        Object.entries(areas).map(([key, val]) => [val.name, val])
+        Object.entries(areas).map(([key, val]) => [key, val])
       ),
     };
     return {

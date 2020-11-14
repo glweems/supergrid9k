@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, ButtonOutline } from '@primer/components';
+import { Button, ButtonGroup } from '@primer/components';
 import { capitalize } from 'lodash';
 import { useRouter } from 'next/router';
 import React, { FC } from 'react';

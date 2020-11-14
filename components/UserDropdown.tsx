@@ -1,4 +1,4 @@
-import Box from '@ui/Box';
+import Box from '@primer/components/lib/Box';
 import Link from '@ui/Link';
 import React from 'react';
 import Base, { SelectProps } from 'react-dropdown-select';
@@ -6,6 +6,7 @@ import { Image } from 'rebass';
 import { Flex } from 'rebass/styled-components';
 import styled from 'styled-components/macro';
 import { useUser } from '@lib/User';
+import BorderBox from '@primer/components/lib/BorderBox';
 
 const BaseSelect = (props: SelectProps<{ label: string; path: string }>) => (
   <Base<{ label: string; path: string }> {...props} />
@@ -49,9 +50,9 @@ const UserDropdown = () => {
         },
       ]}
       itemRenderer={({ item }) => (
-        <Box border={1}>
+        <BorderBox>
           <Link href={item.path}>{item.label}</Link>
-        </Box>
+        </BorderBox>
       )}
     />
   );

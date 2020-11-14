@@ -2,17 +2,8 @@ import { SelectProps } from '@components/Select';
 import { InputProps } from '@rebass/forms/styled-components';
 import { Entry } from 'css-grid-template-parser';
 import groupRepeatedUnits from 'css-grid-template-parser/groupRepeatedUnits';
-export function replaceItem<T = Record<string, unknown>>(
-  thing,
-  index,
-  newVal
-) {}
 
-export function replaceItemAtIndex<T = Record<string, unknown>>(
-  arr: T[] | Record<string, unknown>,
-  index: number,
-  newValue: T
-) {
+export function replaceItemAtIndex<T>(arr: T[], index: number, newValue: T) {
   return [...arr?.slice(0, index), newValue, ...arr?.slice(index + 1)];
 }
 

@@ -1,5 +1,3 @@
-import { BoxProps } from '@primer/components';
-
 export interface Track {
   start: number;
   end: number;

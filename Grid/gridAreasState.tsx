@@ -3,7 +3,6 @@ import { omit } from 'lodash';
 import { atom, atomFamily, selector, selectorFamily } from 'recoil';
 import { gridCssState } from './gridCssState';
 import { gridState } from './gridState';
-import { GridAreaStr, SelectedControlId } from './typedString';
 
 export const gridAreasArrayState = selector<string[]>({
   key: 'gridAreas',
@@ -88,7 +87,7 @@ export const selectedAreasState = atom<[start: string, end?: string] | null>({
 export function shouldHighlight(
   row: number,
   column: number,
-  selectedIds: SelectedControlId[],
+  selectedIds: string[],
   _hover?: 'rows' | 'columns' | 'delete'
 ) {
   let highlight: 'rows' | 'columns' = null;
@@ -100,15 +99,3 @@ export function shouldHighlight(
   });
   return highlight;
 }
-/* {
-          const area: Area = {
-            row: track(rowStart + 1, rowStart + 2),
-            column: track(colStart + 1, colStart + 2),
-          };
-
-          return {
-            ...area,
-            name,
-            gridArea: gridAreaStr(area),
-            style: { zIndex: 1 },
-          }; */

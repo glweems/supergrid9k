@@ -8,6 +8,3 @@ export default function IndexPage() {
     </Div100vh>
   );
 }
-// <Navbar title="super grid 9k" />
-
-// <GridEditor grid={} />

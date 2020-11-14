@@ -1,10 +1,4 @@
-import {
-  Entry,
-  GridState,
-  RawGridState,
-  TemplateStringObjKey,
-  Unit,
-} from './types';
+import { Entry, GridStateJson, TemplateStringObjKey, Unit } from './types';
 
 export function auditEntry({ amount, unit }: Entry): Entry {
   const returnAmt = amount === '' ? 1 : amount;
@@ -51,7 +45,7 @@ export function transformTemplateStr(str?: string): Entry {
  * @returns array parser
  */
 export default function entriesArrayParser(
-  str?: RawGridState[TemplateStringObjKey]
+  str?: GridStateJson[TemplateStringObjKey]
 ): Entry[] {
   if (!str) return [];
   const arr = String(str)?.split(' ');

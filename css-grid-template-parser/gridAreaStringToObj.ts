@@ -1,4 +1,3 @@
-import { GridAreaStr } from '../Grid/typedString';
 import { track } from './primitives';
 import { Area } from './types';
 
