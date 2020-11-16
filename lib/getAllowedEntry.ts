@@ -1,10 +1,13 @@
-import { InputProps } from '@rebass/forms/styled-components';
 import { Entry } from 'css-grid-template-parser';
+import { InputHTMLAttributes } from 'react';
 import { GridControlUnit } from './utils';
 
 export function getInputProps(
   unit: GridControlUnit
-): [InputProps['value'], InputProps] {
+): [
+  InputHTMLAttributes<HTMLInputElement>['value'],
+  InputHTMLAttributes<HTMLInputElement>
+] {
   switch (unit) {
     case 'fr':
       return [

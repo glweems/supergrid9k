@@ -18,15 +18,7 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
 };
 
 const GlobalCSS = createGlobalStyle`
-html,body{
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow:hidden;
-  user-select:none;
 
-}
 
   ::-webkit-scrollbar {
     width: 8px; /* 1px wider than Lion. */

@@ -1,5 +1,3 @@
-import { SelectProps } from '@components/Select';
-import { InputProps } from '@rebass/forms/styled-components';
 import { Entry } from 'css-grid-template-parser';
 import groupRepeatedUnits from 'css-grid-template-parser/groupRepeatedUnits';
 
@@ -97,23 +95,7 @@ export const gridUnits: GridControlUnit[] = [
   'auto',
 ];
 
-export type GridTemplateUnit = typeof gridUnits[number];
-
 export const gridGapUnits = ['px', 'rem', 'em', 'vh', 'vw'];
-
-export const defaultInputProps: InputProps = {
-  disabled: false,
-  type: 'number',
-  min: 0,
-  autoComplete: 'off',
-  step: 0.25,
-};
-
-export const defaultSelectProps: SelectProps = {
-  name: 'unit',
-  disabled: false,
-  options: gridUnits,
-};
 
 export function dataToCss(entries: Pick<Entry, 'amount' | 'unit'>[]) {
   return entries

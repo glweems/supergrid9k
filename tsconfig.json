@@ -21,9 +21,7 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
-      "css-grid-template-parser": [
-        "./css-grid-template-parser/css-grid-template-parser"
-      ],
+      "css-grid-template-parser": ["./css-grid-template-parser/index.ts"],
       "@lib/*": ["./lib/*"],
       "@components/*": ["./components/*"],
       "@store/*": ["./store/*"],

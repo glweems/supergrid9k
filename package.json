@@ -13,23 +13,19 @@
   ],
   "dependencies": {
     "@primer/components": "^20.3.0",
-    "@primer/octicons-react": "^11.0.0",
-    "@rebass/forms": "^4.0.6",
-    "@rebass/layout": "^4.0.6",
+    "@primer/octicons-react": "^11.1.0",
     "@styled-system/css": "^5.1.5",
     "axios": "^0.21.0",
     "babel-jest": "^26.6.3",
     "clipboard": "^2.0.6",
     "colors": "^1.4.0",
     "envalid": "^6.0.2",
-    "firebase": "^8.0.1",
-    "firebase-admin": "^9.3.0",
     "formik": "^2.2.5",
     "framer-motion": "^2.9.4",
     "jest": "^26.6.3",
     "js-cookie": "^2.2.1",
     "lodash": "^4.17.20",
-    "mongoose": "^5.10.13",
+    "mongoose": "^5.10.14",
     "next": "^10.0.1",
     "next-connect": "^0.9.1",
     "next-cookies": "^2.0.3",
@@ -39,15 +35,12 @@
     "react-clipboard.js": "^2.0.16",
     "react-div-100vh": "^0.5.6",
     "react-dom": "^17.0.1",
-    "react-dropdown-select": "^4.6.1",
     "react-error-boundary": "^3.0.2",
     "react-firebaseui": "^4.1.0",
     "react-json-view": "^1.19.1",
-    "react-keydown": "^1.9.12",
     "react-typography": "^0.16.19",
     "react-use": "^15.3.4",
     "react-use-dimensions": "^1.2.1",
-    "rebass": "^4.0.7",
     "recoil": "^0.1.2",
     "styled-components": "^5.2.1",
     "styled-system": "^5.1.5",
@@ -56,7 +49,34 @@
     "typescript": "^4.1.1-rc",
     "typography": "^0.16.19",
     "typography-plugin-code": "^0.16.19",
-    "use-debounce": "^5.0.4"
+    "use-debounce": "^5.1.0"
+  },
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "ts-jest"
+    },
+    "testEnvironment": "node",
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/test/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    },
+    "collectCoverageFrom": [
+      "src/*.{js,ts}"
+    ]
   },
   "scripts": {
     "dev": "next",
@@ -95,7 +115,7 @@
   "devDependencies": {
     "@babel/preset-typescript": "^7.12.1",
     "@testing-library/dom": "^7.26.6",
-    "@testing-library/jest-dom": "^5.11.5",
+    "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.1.2",
     "@testing-library/react-hooks": "^3.4.2",
     "@testing-library/user-event": "^12.2.2",
@@ -111,8 +131,8 @@
     "@types/styled-components": "^5.1.4",
     "@types/styled-system": "^5.1.10",
     "@types/typography": "^0.16.3",
-    "@typescript-eslint/eslint-plugin": "4.7.0",
-    "@typescript-eslint/parser": "4.7.0",
+    "@typescript-eslint/eslint-plugin": "4.8.0",
+    "@typescript-eslint/parser": "4.8.0",
     "@welldone-software/why-did-you-render": "^5.0.0",
     "babel-eslint": "10.1.0",
     "babel-plugin-macros": "^2.8.0",

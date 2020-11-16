@@ -1,39 +1,27 @@
-import { Absolute, Button, ButtonGroup } from '@primer/components';
+import { motion } from 'framer-motion';
 import { camelCase } from 'lodash';
-import React, {
-  FC,
-  memo,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { FC, useCallback, useRef, useState } from 'react';
 import {
   atom,
   useRecoilValue,
   useResetRecoilState,
   useSetRecoilState,
 } from 'recoil';
-import styled from 'styled-components';
 import gridAreaStrToObj from '../css-grid-template-parser/gridAreaStringToObj';
 import { AreaNameInput, NamedAreaDiv } from './GridArea';
 import { gridState } from './gridState';
 import { templateState } from './TemplateEntry';
 const CreatingArea: FC = () => {
-  const inputReference = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const newArea = useRecoilValue(newAreaState);
 
   const reset = useResetRecoilState(newAreaState);
   const setGrid = useSetRecoilState(gridState);
   const [name, setName] = useState('');
-  const temp = useRecoilValue(templateState);
+  const temp = useResetRecoilState(templateState);
 
-  useEffect(() => {
-    if (!temp.dragging) (inputReference?.current as any)?.focus();
-  }, [newArea.dragging, temp.dragging]);
-
-  const handleSave = useCallback((): void => {
+  const handleSave = (): void => {
     setGrid((prev) => ({
       ...prev,
       areas: {
@@ -45,7 +33,8 @@ const CreatingArea: FC = () => {
       },
     }));
     reset();
-  }, [name, newArea.bg, newArea.gridArea, reset, setGrid]);
+    temp();
+  };
 
   const handleChange = useCallback((e) => {
     setName(e.target.value);
@@ -53,39 +42,40 @@ const CreatingArea: FC = () => {
 
   return (
     <CreatingAreaDiv
-      gridArea={newArea.gridArea}
-      bg={newArea.bg}
-      isEditing={newArea.editing}
+      gridArea={newArea?.gridArea}
+      bg={newArea?.bg}
+      isEditing={newArea?.editing}
     >
       <AreaNameInput
+        ref={inputRef}
         onKeyDown={(e) => {
           if (e.key === 'Enter') handleSave();
-          if (e.key === 'Escape') reset();
+          if (e.key === 'Escape') {
+            reset();
+            temp();
+          }
         }}
-        ref={inputReference}
-        autoFocus={true}
         placeholder="Name"
         name="name"
         value={name}
         onChange={handleChange}
       />
-      <Absolute top={2} right={2}>
+    </CreatingAreaDiv>
+  );
+}; /* <Absolute top={2} right={2}>
         <ButtonGroup>
           <Button onClick={handleSave} disabled={!name}>
             Save
           </Button>
           <Button onClick={reset}>Discard</Button>
         </ButtonGroup>
-      </Absolute>
-    </CreatingAreaDiv>
-  );
-};
+      </Absolute> */
 
-const CreatingAreaDiv = styled(NamedAreaDiv)``;
+const CreatingAreaDiv = motion.custom(NamedAreaDiv);
 
 CreatingArea.displayName = 'CreatingArea';
 
-export default memo(CreatingArea);
+export default CreatingArea;
 
 type NewArea = {
   gridArea: string;
