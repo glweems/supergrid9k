@@ -2,10 +2,10 @@ import { grid } from '../../css-grid-template-parser';
 
 test('should parse the area template', () => {
   const template = `
-    "a a . b"
-    "a a . b"
-    'a a . b'
-  `;
+      "a a . b"
+      "a a . b"
+      'a a . b'
+    `;
 
   const test = grid(template);
   const expected = {
