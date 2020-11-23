@@ -1,8 +1,8 @@
 import Select from '@components/Select';
 import { gridGapUnits } from '@lib/utils';
-import { Box, FormGroup, Grid, TextInput } from '@primer/components';
+import { Grid } from '@primer/components';
+import { GrabberIcon } from '@primer/octicons-react';
 import { Entry, GridState } from 'css-grid-template-parser';
-import { startCase } from 'lodash';
 import React, { FC, memo } from 'react';
 import { selectorFamily, useRecoilValue, useSetRecoilState } from 'recoil';
 import { gridState } from './gridState';
@@ -27,13 +27,13 @@ const gridGapState = selectorFamily<Entry, keyof GridState['gap']>({
 
 const GridGapControls = () => {
   return (
-    <FormGroup bg="bg.grayLight">
-      <FormGroup.Label fontWeight="bold" fontSize="16px">
+    <div>
+      <label>
         <span>Grid Gap</span>
-      </FormGroup.Label>
+      </label>
       <GridGapControl id="rowGap" />
       <GridGapControl id="columnGap" />
-    </FormGroup>
+    </div>
   );
 };
 
@@ -43,37 +43,46 @@ const GridGapControl: FC<{ id: keyof GridState['gap'] }> = ({ id }) => {
   const gridGap = useRecoilValue(gridGapState(id));
   const setGridGap = useSetRecoilState(gridGapState(id));
   return (
-    <Grid gridTemplateColumns="1fr 1fr" gridTemplateRows="1fr 1fr">
-      <Box style={{ gridArea: '1 / 1 / 2 / 3' }}>{startCase(id)}</Box>
+    <Grid
+      gridTemplateColumns="auto auto auto"
+      padding={2}
+      justifyContent="start"
+      alignItems="start"
+      // style={style}
+      // onPointerEnter={onEnter}
+      // onPointerLeave={onLeave}
+      gridGap="0 0.5rem"
+    >
       <div>
-        <TextInput
-          name="amount"
-          type="number"
-          autoComplete="off"
-          value={gridGap?.amount}
-          onChange={(event) => {
-            if (event.target === event.currentTarget)
-              return setGridGap({
-                ...gridGap,
-                [event.currentTarget.name]: event.currentTarget.value,
-              });
-          }}
-        />
+        <GrabberIcon />
       </div>
-      <div>
-        <Select
-          name="unit"
-          value={gridGap?.unit}
-          options={gridGapUnits}
-          onChange={(event) => {
-            if (event.target === event.currentTarget)
-              setGridGap({
-                ...gridGap,
-                [event.currentTarget.name]: event.currentTarget.value,
-              });
-          }}
-        />
-      </div>
+
+      <input
+        name="amount"
+        type="number"
+        autoComplete="off"
+        value={gridGap?.amount}
+        onChange={(event) => {
+          if (event.target === event.currentTarget)
+            return setGridGap({
+              ...gridGap,
+              [event.currentTarget.name]: event.currentTarget.value,
+            });
+        }}
+      />
+      <Select
+        name="unit"
+        className="btn"
+        value={gridGap?.unit}
+        options={gridGapUnits}
+        onChange={(event) => {
+          if (event.target === event.currentTarget)
+            setGridGap({
+              ...gridGap,
+              [event.currentTarget.name]: event.currentTarget.value,
+            });
+        }}
+      />
     </Grid>
   );
 };

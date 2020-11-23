@@ -23,8 +23,6 @@ export const gridEntriesState = selector<[number, number, string][]>({
         rowStr.split(' ').reduce((pV, _cV, cI) => {
           const row = rowStart + 1;
           const col = cI + 1;
-          const lastArea = rowStart % pV.length;
-          console.log('lastArea: ', lastArea);
 
           return [
             ...pV,
@@ -43,9 +41,8 @@ export const areaState = selectorFamily<Area, string>({
   get: (name) => ({ get }) => {
     return get(gridState)?.areas[name];
   },
-
   set: (name) => ({ set }, newValue) => {
-    if (!newValue)
+    if (newValue === null)
       return set(gridState, (prev) => ({
         ...prev,
         areas: omit(prev.areas, name),

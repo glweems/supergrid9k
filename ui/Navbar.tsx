@@ -1,28 +1,28 @@
 import { LogoIcon } from '@lib/Icons';
-import { Header, StyledOcticon } from '@primer/components';
+import { colors } from '@lib/theme';
 import Link from 'next/link';
 import React from 'react';
-import { useTheme } from 'styled-components';
+import styled from 'styled-components';
 
 const Navbar: React.FC = () => {
-  const { navbarHeight } = useTheme();
   return (
-    <Header sx={{ height: navbarHeight }}>
-      <Header.Item>
-        <Link href="/">
-          <StyledOcticon
-            icon={() => (
-              <div>
-                <LogoIcon />
-              </div>
-            )}
-            size={32}
-            mr={2}
-          />
-        </Link>
-      </Header.Item>
+    <Header>
+      <Link href="/">
+        <span>
+          <LogoIcon />
+          Super Grid 9K
+        </span>
+      </Link>
     </Header>
   );
 };
+
+const Header = styled.header`
+  display: flex;
+  place-items: center;
+  height: ${(props) => props.theme.navbarHeight};
+  background-color: ${colors.base};
+  border-bottom: 4px solid ${colors.baseShade};
+`;
 
 export default Navbar;

@@ -1,7 +1,11 @@
+import { transparentize } from 'polished';
 import { PrismTheme } from 'prism-react-renderer';
 
 const syntaxTheme: PrismTheme = {
-  plain: { color: '#bfc7d5', backgroundColor: '#292d3e' },
+  plain: {
+    color: '#bfc7d5',
+    backgroundColor: transparentize(0.524, '#292d3e'),
+  },
   styles: [
     {
       types: ['comment', 'unit'],

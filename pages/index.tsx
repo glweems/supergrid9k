@@ -3,7 +3,7 @@ import Navbar from '@ui/Navbar';
 import { GetServerSideProps, NextPage } from 'next';
 import React from 'react';
 import Div100Vh from 'react-div-100vh';
-import { GridEditor } from '../Grid/GridEditor';
+import GridEditor from '../Grid/GridEditor';
 import { AppConfig } from './api/grid/template';
 
 export const getServerSideProps: GetServerSideProps = async () => {

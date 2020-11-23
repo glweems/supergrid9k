@@ -1,15 +1,10 @@
 // _app.js
 import ContextProvider from '@components/ContextProvider';
 import { fucker } from '@lib/setCssVariables';
-import whyDidYouRender from '@welldone-software/why-did-you-render';
 import App, { AppContext, AppProps } from 'next/app';
 import Head from 'next/head';
 import React from 'react';
 import { RecoilRoot } from 'recoil';
-
-if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
-  whyDidYouRender(React);
-}
 
 class MyApp extends App<AppProps<{ dehydratedState: any }>> {
   static async getInitialProps({ Component, ctx }: AppContext) {

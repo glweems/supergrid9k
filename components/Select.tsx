@@ -1,7 +1,6 @@
-import { ButtonOutline, ButtonProps } from '@primer/components';
-import React, { FC, memo } from 'react';
+import { ButtonProps } from '@primer/components';
+import React, { FC } from 'react';
 
-// eslint-disable-next-line prettier/prettier
 export type SelectProps<
   T = string
 > = React.SelectHTMLAttributes<HTMLSelectElement> &
@@ -9,18 +8,16 @@ export type SelectProps<
     options: T[];
   };
 
-const Select: FC<SelectProps> = memo(({ options, style, ...props }) => {
+const Select: FC<SelectProps> = ({ options, style, ...props }) => {
   return (
-    <ButtonOutline
-      as="select"
-      width="70px"
-      sx={{ paddingRight: 2 }}
+    <select
       css={`
+        width: 80px;
         position: relative;
         -moz-appearance: none;
         -webkit-appearance: none;
         appearance: none;
-        background: ${(props) => props.theme.colors.bg.grayLight}
+        background: ${(props) => props.theme.colors.baseGlare}
           url("data:image/svg+xml;utf8,<svg
         xmlns='http://www.w3.org/2000/svg'
         viewBox='0 0 16 16'
@@ -44,8 +41,9 @@ const Select: FC<SelectProps> = memo(({ options, style, ...props }) => {
           {option}
         </option>
       ))}
-    </ButtonOutline>
+    </select>
   );
-});
+};
+
 Select.displayName = 'Select';
 export default Select;

@@ -3,11 +3,12 @@ import { transparentize } from 'polished';
 import React, { FC, memo, useMemo } from 'react';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
+import gridAreaStrToObj from '../css-grid-template-parser/gridAreaStringToObj';
 import { randomColor } from '../lib/random';
-import { newAreaState } from './CreatingArea';
+import diffAreaObjects from './diffAreaObjects';
 import diffAreaString from './diffAreaString';
 import { shouldHighlight } from './gridAreasState';
-import { selectedControlState } from './gridState';
+import { gridState, selectedControlState } from './gridState';
 
 type TemplateEntryProps = {
   row: number;
@@ -27,42 +28,59 @@ const TemplateEntry: FC<TemplateEntryProps> = ({
   index,
   gridArea,
 }) => {
+  const [grid, setGrid] = useRecoilState(gridState);
   const [state, setState] = useRecoilState(templateState);
   const propertyIds = useRecoilValue(selectedControlState);
-
+  const newAreaObj = useMemo(() => gridAreaStrToObj(gridArea), [gridArea]);
   const highlight = useMemo(() => shouldHighlight(row, column, propertyIds), [
     column,
     propertyIds,
     row,
   ]);
 
-  const [newArea, setNewArea] = useRecoilState(newAreaState);
-
   const down = () => {
     setState({ dragging: true, editing: true });
-    setNewArea({
-      dragging: true,
-      gridArea,
-      bg: transparentize(0.25, randomColor()),
-    });
+
+    setGrid((prev) => ({
+      ...prev,
+      areas: {
+        ...prev.areas,
+        temp: { ...newAreaObj, bg: transparentize(0.25, randomColor()) },
+      },
+    }));
   };
+
   const enter = () => {
-    // if (!newArea) return;
-    if (newArea && state.dragging && state.editing)
-      setNewArea((prev) => ({
+    if (!state.dragging) return;
+    if (grid.areas.temp)
+      setGrid((prev) => ({
         ...prev,
-        gridArea: diffAreaString(prev.gridArea, gridArea),
+        areas: {
+          ...prev.areas,
+          temp: { ...diffAreaObjects(prev.areas.temp, newAreaObj) },
+        },
       }));
   };
 
   const up = (): void => {
-    setNewArea((prev) => ({
-      ...prev,
-      gridArea: diffAreaString(prev.gridArea, gridArea),
-      dragging: false,
-      editing: false,
-    }));
-    setState((prev) => ({ ...prev, dragging: false, editing: false }));
+    if (state.dragging && grid.areas.temp) {
+      setGrid((prev) => ({
+        ...prev,
+        areas: {
+          ...prev.areas,
+          temp: {
+            ...gridAreaStrToObj(
+              diffAreaString(
+                `${grid.areas.temp.row.start} / ${grid.areas.temp.column.start} / ${grid.areas.temp.row.end} / ${grid.areas.temp.column.end}`,
+                gridArea
+              )
+            ),
+            bg: transparentize(0.25, randomColor()),
+          },
+        },
+      }));
+      setState({ dragging: false, editing: false });
+    }
   };
   return (
     <TemplateEntryStyled
@@ -70,15 +88,19 @@ const TemplateEntry: FC<TemplateEntryProps> = ({
       highlight={highlight}
       gridArea={gridArea}
       onPointerDown={down}
-      onPointerEnter={enter}
+      onPointerOver={enter}
       onPointerUp={up}
+      onTouchStart={down}
+      onTouchMove={enter}
+      onTouchEnd={up}
+      onTouchStartCapture={enter}
       {...state}
     >
       <Absolute position="absolute" bottom={0} right="50%">
-        <span>{row}</span>
+        <span>{row === grid.rows.length && row}</span>
       </Absolute>
       <Absolute position="absolute" bottom="50%" right={0}>
-        <span>{column}</span>
+        <span>{column === grid.columns.length && column}</span>
       </Absolute>
     </TemplateEntryStyled>
   );
@@ -108,7 +130,7 @@ const TemplateEntryStyled = styled.div<TemplateEntryStyledProps>(
     backgroundColor:
       highlight !== null
         ? highlight === 'rows'
-          ? transparentize(0.75, colors.purple[5])
+          ? transparentize(0.5, colors.blue[5])
           : transparentize(0.75, colors.yellow[5])
         : 'transparent',
   })
