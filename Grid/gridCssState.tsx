@@ -22,8 +22,7 @@ export const gridCssState = selector({
       gridTemplateRows: groupRepeatedUnits(rows),
       gridTemplateColumns: groupRepeatedUnits(columns),
       gridTemplateAreas: template(gridObj),
-      rowGap,
-      columnGap,
+      gridGap: [rowGap, columnGap].join(' '),
       bg: 'bg.grayDark',
     };
   },

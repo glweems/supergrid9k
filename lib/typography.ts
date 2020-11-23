@@ -1,17 +1,22 @@
 import Typography, { TypographyOptions } from 'typography';
 import CodePlugin from 'typography-plugin-code';
-import theme, { colors, defaultFont } from './theme';
+import syntaxTheme from './syntaxTheme';
+import theme, { colors } from './theme';
 
 const typographyTheme: TypographyOptions = {
   scaleRatio: 2,
   baseLineHeight: 1.78,
-  headerFontFamily: defaultFont.split(','),
-  bodyFontFamily: defaultFont.split(','),
+  headerFontFamily: ['Inter'],
+  bodyFontFamily: ['Sora'],
   bodyColor: colors.text.white,
   headerWeight: 700,
   bodyWeight: 300,
   boldWeight: 700,
   includeNormalize: true,
+  googleFonts: [
+    { name: 'Inter', styles: ['400', '600', '700'] },
+    { name: 'Sora', styles: ['400', '600', '700'] },
+  ],
   overrideStyles: (_, __, styles) => ({
     body: { minHeight: '100vh' },
     '#__next': {
@@ -20,7 +25,7 @@ const typographyTheme: TypographyOptions = {
     html: {
       ...styles.html,
       color: 'var(--color-text)',
-      backgroundColor: theme.colors.bg,
+      backgroundColor: theme.colors.baseGlare,
       overflow: 'auto',
       overflowX: 'hidden',
     },
@@ -69,6 +74,7 @@ const typographyTheme: TypographyOptions = {
     pre: {
       overflowX: 'auto',
       textOverflow: 'scroll',
+      padding: '0.75rem',
     },
 
     svg: {
@@ -86,12 +92,12 @@ const scrollStyles = {
     width: '7px',
   },
   '::-webkit-scrollbar-thumb': {
-    background: 'var(--color-secondary)',
+    background: '#1c202b',
     borderRadius: 'var(--space-2)',
   },
 
   '::-webkit-scrollbar-track': {
-    background: 'var(--color-background)',
+    background: syntaxTheme.plain.backgroundColor,
     borderRadius: 'var(--space-2)',
   },
 };

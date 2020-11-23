@@ -1,55 +1,48 @@
-import { Absolute, Button, ButtonGroup } from '@primer/components';
+import { camelCase, omit } from 'lodash';
 import React, { FC, memo, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import gridAreaStr from '../css-grid-template-parser/gridAreaStr';
 import { areaState } from './gridAreasState';
+import { gridState } from './gridState';
 
 export const GridArea: FC<{ name: string }> = ({ name: initialName }) => {
+  const setGrid = useSetRecoilState(gridState);
   const area = useRecoilValue(areaState(initialName));
   const setArea = useSetRecoilState(areaState(initialName));
+  const [name, setName] = useState(() =>
+    initialName === 'temp' ? '' : initialName
+  );
+  const bg = area?.bg ?? 'blue.5';
 
+  // const func = useDebounce(handleChange);
   const handleDelete = () => {
     setArea(null);
   };
-  const initialBg = area?.bg ?? 'blue.5';
 
   const gridArea = gridAreaStr(area);
-  const [state, setState] = useState({
-    editing: false,
-    name: initialName,
-    bg: area.bg,
-  });
-  const handleChange = (e) =>
-    setState((prev) => ({
-      ...prev,
-      name: e.target.value,
-    }));
-  return (
-    <NamedAreaDiv bg={state.bg} gridArea={gridArea}>
-      <AreaNameInput value={state.name} onChange={handleChange} />
 
-      <Absolute top={2} right={2}>
-        {!state.editing ? (
-          <Button
-            onClick={() => setState((prev) => ({ ...prev, editing: true }))}
-          >
-            edit
-          </Button>
-        ) : (
-          <ButtonGroup>
-            <Button>Save</Button>
-            <Button
-              onClick={() =>
-                setState({ editing: false, name: initialName, bg: initialBg })
-              }
-            >
-              Cancel
-            </Button>
-            <Button onClick={handleDelete}>Delete</Button>
-          </ButtonGroup>
-        )}
-      </Absolute>
+  const handleSave = () => {
+    return setGrid((prev) => ({
+      ...prev,
+      areas: { ...omit(prev.areas, initialName), [name]: { ...area, bg } },
+    }));
+  };
+
+  const handleChange = (e) => setName(camelCase(e.currentTarget.value));
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter') handleSave();
+    if (e.key === 'Escape') handleDelete();
+  };
+
+  return (
+    <NamedAreaDiv bg={bg} gridArea={gridArea}>
+      <AreaNameInput
+        value={name}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+        placeholder="name"
+      />
     </NamedAreaDiv>
   );
 };
@@ -58,10 +51,9 @@ type NamedAreaDivProps = {
   isEditing?: boolean;
   bg: string;
 };
+
 export const NamedAreaDiv = styled.div<NamedAreaDivProps>`
   position: relative;
-  /* z-index: 12; */
-  /* z-index: ${(props) => (props.isEditing ? 1000 : 1)}; */
   display: flex;
   grid-area: ${(props) => props.gridArea};
   place-content: center;
@@ -69,6 +61,10 @@ export const NamedAreaDiv = styled.div<NamedAreaDivProps>`
   background-color: ${({ bg }) => bg};
   button {
     z-index: 1000;
+  }
+  :focus {
+    outline: 4px dashed ${({ theme }) => theme.colors.focus};
+    outline-offset: -4px;
   }
 `;
 
@@ -90,9 +86,6 @@ export const AreaNameInput = styled.input`
     outline-offset: -4px;
   }
 `;
-AreaNameInput.defaultProps = {
-  // variant: 'small',
-};
 
 GridArea.displayName = 'GridArea';
 export default memo(GridArea);

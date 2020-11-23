@@ -1,16 +1,12 @@
-import { PlusIcon } from '@lib/Icons';
-import {
-  Box,
-  ButtonOutline,
-  CircleOcticon,
-  Flex,
-  FormGroup,
-} from '@primer/components';
+import theme from '@lib/theme';
+import { PlusIcon } from '@primer/octicons-react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { capitalize } from 'lodash';
 import React, { FC, memo } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { GridControlId, GridControlObjKey } from './GridControlId';
-import { GridControlProperties } from './GridControlProperties';
+import styled from 'styled-components';
+import { GridControlObjKey } from './GridControlId';
+import GridControlProperties from './GridControlProperties';
 import { gridControlsState } from './gridState';
 
 type GridControlsProps = {
@@ -20,29 +16,37 @@ type GridControlsProps = {
 const GridControls: FC<GridControlsProps> = ({ id }) => {
   const controls = useRecoilValue(gridControlsState(id));
   const setControls = useSetRecoilState(gridControlsState(id));
-  const handleAdd = (_e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-    setControls(controls);
+  const handleAdd = () => setControls(controls);
   return (
-    <FormGroup bg="bg.grayLight">
-      <FormGroup.Label fontWeight="bold" fontSize="16px">
-        <Flex justifyContent="space-between" alignItems="center">
-          <span>Grid Template {capitalize(id)}</span>
-          <ButtonOutline onClick={handleAdd} variant="small">
-            <CircleOcticon icon={PlusIcon} size={20} />
-          </ButtonOutline>
-        </Flex>
-      </FormGroup.Label>
-      <Box sx={{ maxHeight: '200px', overflowY: 'auto' }}>
+    <GridControlStyles>
+      <legend>
+        <span>Grid Template {capitalize(id)}</span>
+        <button
+          className="btn-green fullwidth"
+          style={{ marginTop: theme.space[3] }}
+          onClick={handleAdd}
+        >
+          <PlusIcon /> {id}
+        </button>
+      </legend>
+      <AnimatePresence>
         {controls?.map((_control, index) => (
-          <GridControlProperties
+          <motion.div
             key={`${id}.${index}`}
-            id={`${id}.${index}` as GridControlId}
-          />
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+          >
+            <GridControlProperties
+              id={`${id as GridControlObjKey}.${index as number}`}
+            />
+          </motion.div>
         ))}
-      </Box>
-    </FormGroup>
+      </AnimatePresence>
+    </GridControlStyles>
   );
 };
 
+const GridControlStyles = styled.fieldset``;
 GridControls.displayName = 'GridControls';
 export default memo(GridControls);

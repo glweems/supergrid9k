@@ -1,6 +1,7 @@
+import { transparentize } from 'polished';
 import { useContext } from 'react';
-import { DefaultTheme, ThemeContext } from 'styled-components';
-import { Theme } from '../types/theme';
+import { createGlobalStyle, css, ThemeContext } from 'styled-components';
+import syntaxTheme from './syntaxTheme';
 
 export const arrayColors = {
   gray: [
@@ -104,7 +105,12 @@ export const arrayColors = {
 export const colors = {
   ...arrayColors,
   focus: '#d53a42',
+  base: '#393d3f',
+  baseGlare: '#474e52',
   bodytext: '#24292e',
+  baseShade: '#2f3233',
+  dark: '#000',
+  boxShadow: '0 10px 15px -3px rgba(0,0,0,.15), 0 4px 6px -2px rgba(0,0,0,.06)',
   black: '#1b1f23',
   white: '#fff',
   blackfade15: 'rgba(27, 31, 35, 0.15)',
@@ -214,10 +220,10 @@ export const space = [
 ];
 
 export const defaultFont =
-  'system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"';
+  'Inter,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"';
 
-const theme: DefaultTheme & Theme = {
-  navbarHeight: '4rem',
+const theme = {
+  navbarHeight: '44px',
   sidebarWidth: 300,
   toolbarHeight: '3.5rem',
   borderWidths: [0, '1px'],
@@ -225,7 +231,7 @@ const theme: DefaultTheme & Theme = {
   colors,
   fonts: {
     normal:
-      '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',
+      'Sora, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',
     mono:
       'SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace',
   },
@@ -469,5 +475,99 @@ export function useTheme() {
 
   return context;
 }
+
+const btn = css`
+  select {
+    text-indent: 10px;
+  }
+
+  button,
+  input,
+  select,
+  textarea,
+  .Select {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 4px;
+    overflow: hidden !important;
+    color: #ccc;
+    text-align: center;
+    background: ${colors.baseGlare};
+    border-color: ${colors.dark};
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 4px;
+    box-shadow: 0 2px 0 0 ${colors.baseShade};
+    cursor: pointer;
+    text-decoration-skip: ink;
+    &:hover {
+      border-color: ${colors.blue[5]};
+    }
+    &:focus {
+      outline: 2px dashed ${colors.focus};
+      outline-offset: -2px;
+    }
+  }
+
+  .btn-green {
+    color: ${colors.white};
+    background: ${colors.green[5]};
+    box-shadow: 0 2px 0 0 ${colors.green[8]};
+  }
+
+  .btn-red {
+    color: ${colors.white};
+    background: ${colors.red[5]};
+    box-shadow: 0 2px 0 0 ${colors.red[8]};
+  }
+
+  .fullwidth {
+    width: 100%;
+  }
+`;
+
+export const GlobalCSS = createGlobalStyle`
+  ${btn};
+  *,
+  *:before,
+  *:after {
+    box-sizing: border-box;
+  }
+
+  label {
+    display: flex;
+    place-items: center;
+    input {
+      margin-right: ${theme.space[2]};
+    }
+  }
+  ::-webkit-scrollbar {
+    width: 8px; /* 1px wider than Lion. */
+    /* This is more usable for users trying to click it. */
+    background-color: ${syntaxTheme.plain.backgroundColor};
+  }
+  /* hover effect for both scrollbar area, and scrollbar 'thumb' */
+  ::-webkit-scrollbar:hover {
+    background-color: ${transparentize(
+      0.24,
+      syntaxTheme.plain.backgroundColor
+    )};
+  }
+
+  /* The scrollbar 'thumb' ...that marque oval shape in a scrollbar */
+  ::-webkit-scrollbar-thumb:vertical {
+    /* This is the EXACT color of Mac OS scrollbars.
+     Yes, I pulled out digital color meter */
+    background: #1c202b;
+  }
+  ::-webkit-scrollbar-thumb:vertical:active {
+    background: #1c202b;
+  }
+`;
+
+export type Theme = typeof theme;
 
 export default theme;

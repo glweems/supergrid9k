@@ -1,49 +1,66 @@
-import { Box, Grid } from '@primer/components';
+import theme, { colors } from '@lib/theme';
 import { GridState } from 'css-grid-template-parser';
-import React, { FC } from 'react';
-import { useRecoilState } from 'recoil';
-import { useTheme } from 'styled-components';
-import CodeBlock from '../components/CodeBlock';
-import GridControls from './GridControls';
-import GridGapControls from './GridGapControls';
+import { AnimateSharedLayout } from 'framer-motion';
+import React, { FC, memo } from 'react';
+import { useMedia } from 'react-use';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import styled from 'styled-components';
+import CodeSection from './CodeSection';
+import GridActions, { OptionsState, optionsState } from './GridActions';
 import { gridHistoryState, gridState } from './gridState';
 import { GridAreas } from './GridValues';
-import ResetButton from './ResetButton';
+import Sidebar from './Sidebar';
 
-export const GridEditor: FC<{ data: GridState }> = ({ data }) => {
+const GridEditor: FC<{ data: GridState }> = ({ data }) => {
   const [grid, setGridState] = useRecoilState(gridState);
   const [gridHistory, setGridHistory] = useRecoilState(gridHistoryState);
-  const { sidebarWidth, navbarHeight } = useTheme();
+  const { showCode, showSidebar } = useRecoilValue(optionsState);
+  const isMobile = useMedia('(min-width: 480px)');
   if (!grid) setGridState(data);
   if (!gridHistory) setGridHistory([data]);
+
   return (
-    <Grid
-      gridTemplateColumns="auto 1fr"
-      maxHeight="calc(100vh -  4rem)"
-      height="100vh"
-      overflow="hidden"
-    >
-      <Grid
-        gridTemplateColumns="1fr"
-        padding={2}
-        bg="bg.gray"
-        width={sidebarWidth + 'px'}
-        maxHeight={`calc(100vh - ${navbarHeight})`}
-        overflowY="auto"
-      >
-        <GridControls id="rows" />
-        <GridControls id="columns" />
-        <GridGapControls />
-        <div>
-          <ResetButton />
-        </div>
-        <Box>
-          <CodeBlock language="json" code={JSON.stringify(grid, null, 3)} />
-        </Box>
-      </Grid>
-      <GridAreas />
-    </Grid>
+    <GridEditorStyles showCode={showCode}>
+      <AnimateSharedLayout>
+        {showSidebar && <Sidebar isMobile={isMobile} className="Sidebar" />}
+        <GridAreas className="GridAreas" />
+        <GridActions className="GridActions" />
+        {showCode && <CodeSection className="code" />}
+      </AnimateSharedLayout>
+    </GridEditorStyles>
   );
 };
+const GridEditorStyles = styled.div<Pick<OptionsState, 'showCode'>>`
+  display: grid;
+  grid-template:
+    'sidebar areas code' 1fr
+    'sidebar areas code' 1fr
+    'actions actions actions' ${theme.navbarHeight} / auto 1fr auto;
+  height: 100%;
+  max-height: ${({ theme: { navbarHeight } }) =>
+    `calc(100vh - ${navbarHeight})`};
+  overflow: hidden;
+
+  .Sidebar {
+    grid-area: sidebar;
+    background: ${colors.base};
+    border: 4px solid ${colors.baseShade};
+    box-shadow: ${colors.boxShadow};
+  }
+
+  .GridActions {
+    grid-area: actions;
+  }
+
+  .GridAreas {
+    grid-area: areas;
+    overflow: hidden;
+  }
+  .code {
+    grid-area: code;
+    background: ${colors.base};
+  }
+`;
 
 GridEditor.displayName = 'GridEditor';
+export default memo(GridEditor);
