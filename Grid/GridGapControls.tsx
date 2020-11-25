@@ -1,10 +1,11 @@
 import Select from '@components/Select';
+import theme from '@lib/theme';
 import { gridGapUnits } from '@lib/utils';
-import { Grid } from '@primer/components';
 import { GrabberIcon } from '@primer/octicons-react';
 import { Entry, GridState } from 'css-grid-template-parser';
 import React, { FC, memo } from 'react';
 import { selectorFamily, useRecoilValue, useSetRecoilState } from 'recoil';
+import { gridPropertiesStyles } from './GridControlProperties';
 import { gridState } from './gridState';
 
 const gridGapState = selectorFamily<Entry, keyof GridState['gap']>({
@@ -43,15 +44,14 @@ const GridGapControl: FC<{ id: keyof GridState['gap'] }> = ({ id }) => {
   const gridGap = useRecoilValue(gridGapState(id));
   const setGridGap = useSetRecoilState(gridGapState(id));
   return (
-    <Grid
-      gridTemplateColumns="auto auto auto"
-      padding={2}
-      justifyContent="start"
-      alignItems="start"
+    <div
+      style={{
+        ...gridPropertiesStyles,
+        gridTemplateColumns: 'auto repeat(2,1fr) 3ch',
+      }}
       // style={style}
       // onPointerEnter={onEnter}
       // onPointerLeave={onLeave}
-      gridGap="0 0.5rem"
     >
       <div>
         <GrabberIcon />
@@ -63,27 +63,24 @@ const GridGapControl: FC<{ id: keyof GridState['gap'] }> = ({ id }) => {
         autoComplete="off"
         value={gridGap?.amount}
         onChange={(event) => {
-          if (event.target === event.currentTarget)
-            return setGridGap({
-              ...gridGap,
-              [event.currentTarget.name]: event.currentTarget.value,
-            });
+          return setGridGap({
+            ...gridGap,
+            [event.currentTarget.name]: event.currentTarget.value,
+          });
         }}
       />
       <Select
         name="unit"
-        className="btn"
         value={gridGap?.unit}
         options={gridGapUnits}
         onChange={(event) => {
-          if (event.target === event.currentTarget)
-            setGridGap({
-              ...gridGap,
-              [event.currentTarget.name]: event.currentTarget.value,
-            });
+          setGridGap({
+            ...gridGap,
+            [event.currentTarget.name]: event.currentTarget.value,
+          });
         }}
       />
-    </Grid>
+    </div>
   );
 };
 

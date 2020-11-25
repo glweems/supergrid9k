@@ -12,7 +12,6 @@ const Select: FC<SelectProps> = ({ options, style, ...props }) => {
   return (
     <select
       css={`
-        width: 80px;
         position: relative;
         -moz-appearance: none;
         -webkit-appearance: none;

@@ -504,9 +504,10 @@ const btn = css`
     cursor: pointer;
     text-decoration-skip: ink;
     &:hover {
-      border-color: ${colors.blue[5]};
+      border-color: ${colors.focus};
     }
     &:focus {
+      border-color: ${colors.dark};
       outline: 2px dashed ${colors.focus};
       outline-offset: -2px;
     }
@@ -522,6 +523,15 @@ const btn = css`
     color: ${colors.white};
     background: ${colors.red[5]};
     box-shadow: 0 2px 0 0 ${colors.red[8]};
+  }
+
+  .close-btn {
+    width: 26px;
+    height: 26px;
+    margin: ${space[1]};
+    padding: ${space[1]};
+    border: 2px solid ${colors.dark};
+    border-radius: 2rem;
   }
 
   .fullwidth {

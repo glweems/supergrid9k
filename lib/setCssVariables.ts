@@ -21,7 +21,7 @@ export function setCssArrayVariables(
     });
 }
 
-export function fucker() {
+export function guestersEventListeners() {
   typeof document !== 'undefined' &&
     document.addEventListener('gesturestart', (e) => e.preventDefault());
   typeof document !== 'undefined' &&

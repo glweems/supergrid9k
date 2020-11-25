@@ -1,10 +1,9 @@
 import Select from '@components/Select';
-import { colors } from '@lib/theme';
+import theme, { colors } from '@lib/theme';
 import { gridUnits } from '@lib/utils';
-import { Grid } from '@primer/components';
 import { GrabberIcon, XIcon } from '@primer/octicons-react';
 import { useShiftKeyPressed } from '@ui/useShftKeyPressed';
-import React, { FC, memo, useCallback } from 'react';
+import React, { CSSProperties, FC, memo, useCallback } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { GridControlObjKey } from './GridControlId';
 import { gridControlState, selectedControlState } from './gridState';
@@ -29,7 +28,7 @@ const GridControlProperties: FC<{
     [setControl]
   );
   const isSelected = selectedIds.includes(id);
-  const style = isSelected
+  const style: CSSProperties = isSelected
     ? id.split('.').includes('rows')
       ? {
           background: colors.yellow[4],
@@ -43,60 +42,64 @@ const GridControlProperties: FC<{
 
   const onEnter = useCallback(() => {
     setSelectedIds((ids) => {
-      // Do nothing if the element is already selected
       if (isSelected) return ids;
-
-      // Add this element to the selection if shift is pressed
       if (shiftKeyPressed) return [...ids, id];
-
-      // Otherwise, make this one the only selected element
       return [id];
     });
   }, [id, isSelected, setSelectedIds, shiftKeyPressed]);
+
   const onLeave = useCallback(() => {
     if (!shiftKeyPressed) setSelectedIds([]);
   }, [setSelectedIds, shiftKeyPressed]);
+
   return (
-    <Grid
-      gridTemplateColumns="auto repeat(3, 1fr)"
-      padding={2}
-      style={style}
-      justifyContent="start"
+    <div
+      style={{ ...gridPropertiesStyles, ...style }}
+      css={`
+        &:focus,
+        :focus-within {
+          outline: 4px dashed ${colors.focus};
+          outline-offset: 4px;
+        }
+      `}
       onPointerEnter={onEnter}
       onPointerLeave={onLeave}
-      gridGap="0 0.5rem"
     >
       <div>
         <GrabberIcon />
       </div>
 
       <input
-        className="btn"
         autoComplete="off"
         name="amount"
         type="number"
         value={control.amount}
         onChange={handleChange}
-        css={`
-          width: 100px;
-        `}
       />
       <Select
-        className="btn"
         name="unit"
         value={control.unit}
         onChange={handleChange}
         options={gridUnits}
       />
       <button
-        className="btn"
+        className="close-btn"
         disabled={canDelete}
         onMouseDown={() => setControl(null)}
       >
-        <XIcon />
+        <XIcon size={28} />
       </button>
-    </Grid>
+    </div>
   );
+};
+
+export const gridPropertiesStyles: CSSProperties = {
+  display: 'grid',
+  gridTemplateColumns: 'auto repeat(2, 1fr) auto',
+  padding: theme.space[2],
+  alignItems: 'center',
+  justifyContent: 'start',
+  columnGap: theme.space[2],
 };
 
 export default memo(GridControlProperties);
