@@ -38,9 +38,9 @@ export const gridControlState = selectorFamily<GridControlState, string>({
   key: 'gridControlState',
   get: (id) => ({ get }) => {
     const [key, index] = id.split('.');
-    const stack = get(gridState)[key];
-    const control = stack[index];
-    return { ...control, canDelete: stack.length <= 1 };
+    const stack = get(gridState)?.[key];
+    const control = stack?.[index];
+    return control;
   },
   set: (id) => ({ set }, newValue) => {
     const [key, index] = id.split('.');
