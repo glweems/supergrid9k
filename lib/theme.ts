@@ -550,7 +550,7 @@ export const GlobalCSS = createGlobalStyle`
   label {
     display: flex;
     place-items: center;
-    input {
+    * {
       margin-right: ${theme.space[2]};
     }
   }

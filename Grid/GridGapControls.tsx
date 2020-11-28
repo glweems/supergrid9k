@@ -1,5 +1,4 @@
 import Select from '@components/Select';
-import theme from '@lib/theme';
 import { gridGapUnits } from '@lib/utils';
 import { GrabberIcon } from '@primer/octicons-react';
 import { Entry, GridState } from 'css-grid-template-parser';

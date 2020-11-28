@@ -1,6 +1,5 @@
 // _app.js
 import ContextProvider from '@components/ContextProvider';
-import { guestersEventListeners } from '@lib/setCssVariables';
 import { colors } from '@lib/theme';
 import App, { AppContext, AppProps } from 'next/app';
 import Head from 'next/head';
@@ -19,7 +18,7 @@ class MyApp extends App<AppProps<{ dehydratedState: any }>> {
   }
 
   render() {
-    guestersEventListeners();
+    // guestersEventListeners();
     // setCssObjectVariables(colors, 'color');
     // setCssArrayVariables(
     //   space.map((val) => `${val}px`),

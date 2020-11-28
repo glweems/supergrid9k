@@ -1,7 +1,7 @@
 import Document, { DocumentContext, DocumentProps } from 'next/document';
 import React from 'react';
 import { GoogleFont, TypographyStyle } from 'react-typography';
-import { ServerStyleSheet } from 'styled-components/macro';
+import { ServerStyleSheet } from 'styled-components';
 import typography from '@lib/typography';
 import validateEnv from '@lib/validateEnv';
 
