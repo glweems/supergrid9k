@@ -1,23 +1,19 @@
 // _app.js
 import ContextProvider from '@components/ContextProvider';
-import { analytics, initGA } from '@lib/analytics';
-// import { initGA } from '@lib/analytics';
+import SEO from '@components/SEO';
+import { analytics } from '@lib/analytics';
 import { colors } from '@lib/theme';
 import App, { AppContext, AppProps } from 'next/app';
 import React from 'react';
-import Helmet from 'react-helmet';
 import { RecoilRoot } from 'recoil';
-
+import pkg from '../package.json';
 /* Using react-helmet onChangeClientState */
 let previousTitle;
 const handlePageView = (newState) => {
   if (previousTitle !== newState.title) {
     console.log(`react-helmet onChangeClientState "${newState.title}"`);
     // Run page view!
-    analytics.page({ title: newState.title }, () => {
-      console.log('Page callback from CustomHelmet');
-    });
-    // set previousTitle
+    analytics.page({ title: newState.title });
     previousTitle = newState.title;
   }
 };
@@ -34,22 +30,27 @@ class MyApp extends App<AppProps<{ dehydratedState: any }>> {
   }
 
   componentDidMount() {
-    console.log('hi');
+    analytics.page(
+      {
+        title: this.props.pageProps.name,
+        path: this.props.router.asPath,
+      },
+      () => {
+        console.log(this.props);
+      }
+    );
   }
 
   render() {
-    initGA();
-    // guestersEventListeners();
-    // setCssObjectVariables(colors, 'color');
-    // setCssArrayVariables(
-    //   space.map((val) => `${val}px`),
-    //   'space'
-    // );
     const { Component, pageProps } = this.props;
     return (
       <React.Fragment>
-        <Helmet onChangeClientState={handlePageView}>
-          <title>Super Grid 9K</title>
+        <SEO
+          image="/public/supergrid9k.png"
+          onChangeClientState={handlePageView}
+          defaultTitle="Super Grid 9K"
+          keywords={pkg.keywords}
+        >
           <link
             rel="apple-touch-icon"
             sizes="57x57"
@@ -123,7 +124,7 @@ class MyApp extends App<AppProps<{ dehydratedState: any }>> {
           <meta name="msapplication-TileColor" content={colors.focus} />
           <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
           <meta name="theme-color" content={colors.focus} />
-        </Helmet>
+        </SEO>
 
         <ContextProvider>
           <RecoilRoot>
