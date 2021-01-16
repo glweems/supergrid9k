@@ -7,6 +7,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import cssState from './cssState';
 import { optionsState } from './GridActions';
 import { Handle } from './Handle';
+import CodePenButton from '@components/CodePenButton';
 
 export const CodeSection = ({ className }) => {
   const [{ width: initialWidth, useCssRepeatFn }, setOptions] = useRecoilState(
@@ -56,6 +57,7 @@ export const CodeSection = ({ className }) => {
               {code?.css && <CodeBlock language="css" code={code.css} />}
               {code?.html && <CodeBlock language="html" code={code.html} />}
             </Fragment>
+            <CodePenButton code={code} />
           </motion.div>
         </AnimatePresence>
       </Resizable>

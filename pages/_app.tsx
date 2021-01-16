@@ -1,10 +1,26 @@
 // _app.js
 import ContextProvider from '@components/ContextProvider';
+import { analytics, initGA } from '@lib/analytics';
+// import { initGA } from '@lib/analytics';
 import { colors } from '@lib/theme';
 import App, { AppContext, AppProps } from 'next/app';
-import Head from 'next/head';
 import React from 'react';
+import Helmet from 'react-helmet';
 import { RecoilRoot } from 'recoil';
+
+/* Using react-helmet onChangeClientState */
+let previousTitle;
+const handlePageView = (newState) => {
+  if (previousTitle !== newState.title) {
+    console.log(`react-helmet onChangeClientState "${newState.title}"`);
+    // Run page view!
+    analytics.page({ title: newState.title }, () => {
+      console.log('Page callback from CustomHelmet');
+    });
+    // set previousTitle
+    previousTitle = newState.title;
+  }
+};
 
 class MyApp extends App<AppProps<{ dehydratedState: any }>> {
   static async getInitialProps({ Component, ctx }: AppContext) {
@@ -17,7 +33,12 @@ class MyApp extends App<AppProps<{ dehydratedState: any }>> {
     return { pageProps };
   }
 
+  componentDidMount() {
+    console.log('hi');
+  }
+
   render() {
+    initGA();
     // guestersEventListeners();
     // setCssObjectVariables(colors, 'color');
     // setCssArrayVariables(
@@ -27,7 +48,7 @@ class MyApp extends App<AppProps<{ dehydratedState: any }>> {
     const { Component, pageProps } = this.props;
     return (
       <React.Fragment>
-        <Head>
+        <Helmet onChangeClientState={handlePageView}>
           <title>Super Grid 9K</title>
           <link
             rel="apple-touch-icon"
@@ -102,7 +123,8 @@ class MyApp extends App<AppProps<{ dehydratedState: any }>> {
           <meta name="msapplication-TileColor" content={colors.focus} />
           <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
           <meta name="theme-color" content={colors.focus} />
-        </Head>
+        </Helmet>
+
         <ContextProvider>
           <RecoilRoot>
             <Component {...pageProps} />

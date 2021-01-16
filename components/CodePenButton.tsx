@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC, ReactNode } from 'react';
 import { Icon, iconButtonCss } from '@lib/Icons';
 import Button from '@primer/components/lib/Button';
 export interface CodePenData {
@@ -55,21 +55,26 @@ export interface CodePenData {
   js_external?: string;
 }
 
-interface CodePenButtonProps extends Omit<CodePenData, 'html' | 'css' | 'js'> {
+interface CodePenButtonProps {
+  options?: Omit<CodePenData, 'html' | 'css' | 'js'>;
   code?: Pick<CodePenData, 'html' | 'css' | 'js'>;
   children?: React.ReactNode;
   className?: string;
   buttonStyle?: React.CSSProperties;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  icon?: ReactNode;
 }
 
-const CodePenButton: React.FC<CodePenButtonProps> = ({
+const CodePenButton: FC<CodePenButtonProps> = ({
   children,
   className,
   code,
   buttonStyle,
-  ...config
+  onClick,
+  icon,
+  options,
 }) => {
-  const values = JSON.stringify({ ...config, ...code });
+  const config = JSON.stringify({ ...options, ...code });
   return (
     <form
       action="https://codepen.io/pen/define"
@@ -77,35 +82,45 @@ const CodePenButton: React.FC<CodePenButtonProps> = ({
       target="_blank"
       className={className}
     >
-      <input type="hidden" name="data" value={values} />
+      <input type="hidden" name="data" value={config} />
       <Button
+        id={CodePenButton.displayName}
         color="text"
         style={buttonStyle}
         css={iconButtonCss as any}
         type="submit"
+        onClick={onClick}
       >
-        <Icon viewBox="0 0 1792 1792">
-          <path
-            d="M216 1169l603 402v-359l-334-223zm-62-144l193-129-193-129v258zm819 546l603-402-269-180-334 223v359zm-77-493l272-182-272-182-272 182zm-411-275l334-223v-359l-603 402zm960 93l193 129v-258zm-138-93l269-180-603-402v359zm485-180v546q0 41-34 64l-819 546q-21 13-43 13t-43-13l-819-546q-34-23-34-64v-546q0-41 34-64l819-546q21-13 43-13t43 13l819 546q34 23 34 64z"
-            fill="#fff"
-          />
-        </Icon>
+        {icon}
 
-        <div>{children}</div>
+        <div style={{ paddingLeft: '5px' }}>{children}</div>
       </Button>
     </form>
   );
 };
 
 CodePenButton.defaultProps = {
-  title: 'Super Grid 9k Creation',
-  description: `Created With Super Grid 9k!\nCreate your at https://supergrid9k.dev`,
-  tags: ['SuperGrid9k', 'css', 'grid', 'cssgrid', 'css-grid'],
-  head: `<meta name="viewport" content="width=device-width, initial-scale=1">\n<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata:400,400i,700">`,
-  css_external: 'https://supergrid9k.dev/codepen.css',
-  editors: '110',
-  layout: 'right',
-  css_starter: 'normalize',
+  options: {
+    title: 'Super Grid 9k Creation',
+    description: `Created With Super Grid 9k!\nCreate your at https://supergrid9k.dev`,
+    tags: ['SuperGrid9k', 'css', 'grid', 'cssgrid', 'css-grid'],
+    head: `<meta name="viewport" content="width=device-width, initial-scale=1">\n<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata:400,400i,700">`,
+    css_external: 'https://supergrid9k.dev/codepen.css',
+    editors: '110',
+    layout: 'right',
+    css_starter: 'normalize',
+  },
   className: 'CodePenButton',
   children: 'Create CodePen',
+  buttonStyle: { backgroundColor: '#2c303a', color: '#fff' },
+  onClick: (e) => console.log(`${e.currentTarget.id} Clicked`),
+  icon: (
+    <Icon viewBox="0 0 1792 1792">
+      <path d="M216 1169l603 402v-359l-334-223zm-62-144l193-129-193-129v258zm819 546l603-402-269-180-334 223v359zm-77-493l272-182-272-182-272 182zm-411-275l334-223v-359l-603 402zm960 93l193 129v-258zm-138-93l269-180-603-402v359zm485-180v546q0 41-34 64l-819 546q-21 13-43 13t-43-13l-819-546q-34-23-34-64v-546q0-41 34-64l819-546q21-13 43-13t43 13l819 546q34 23 34 64z" />
+    </Icon>
+  ),
 };
+
+CodePenButton.displayName = 'CodePenButton';
+
+export default CodePenButton;
