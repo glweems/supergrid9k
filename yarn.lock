@@ -4588,7 +4588,7 @@ find-versions@^4.0.0:
   dependencies:
     semver-regex "^3.1.2"
 
-firebaseui@^4.1.0:
+firebaseui@^4.7.1:
   version "4.7.1"
   resolved "https://registry.yarnpkg.com/firebaseui/-/firebaseui-4.7.1.tgz#8e0303d9f733e16b0bfbfa24001ab8bd4bc98038"
   integrity sha512-wDdo3LLnh9sV1dDKyNgn4M7cKecILosvqvtQE1SUum/R+eXLdN1q1ZRKZ2Lp6ZyP0XDAHrotssS4vJNh4OdwuQ==
@@ -8306,12 +8306,12 @@ react-fast-compare@^3.1.1:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.0.tgz#641a9da81b6a6320f270e89724fb45a0b39e43bb"
   integrity sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==
 
-react-firebaseui@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/react-firebaseui/-/react-firebaseui-4.1.0.tgz#fbd8381432b53b58ce56ee86df81e2a6e40af7b6"
-  integrity sha512-Y5pAom+W6/R5xZeF4xdvYiP7tObo7GDGWra1Pf2td+FxhtXtGQXQTKdW5Rs4js5zIuN0A3fApZzO+3sa1MHl9Q==
+react-firebaseui@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/react-firebaseui/-/react-firebaseui-4.2.0.tgz#13846381daefe31b90af98854f3e79e82d4f81ba"
+  integrity sha512-KRWfQn7iJMMAcB1zmMrpo5PJ7CBrLW6NXvdEJ/N+SFZUs7ANvC3g8LzgYwsBHUr1OR1MQtGosV7dyQSmYtKyOA==
   dependencies:
-    firebaseui "^4.1.0"
+    firebaseui "^4.7.1"
 
 react-ga@^3.3.0:
   version "3.3.0"
