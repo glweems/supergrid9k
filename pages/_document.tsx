@@ -24,6 +24,7 @@ export default class MyDocument extends Document<MyDocumentProps> {
         });
 
       const initialProps = await Document.getInitialProps(ctx);
+
       return {
         ...initialProps,
         styles: (
