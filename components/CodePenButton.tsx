@@ -1,6 +1,6 @@
-import React, { FC, ReactNode } from 'react';
 import { Icon, iconButtonCss } from '@lib/Icons';
-import Button from '@primer/components/lib/Button';
+import React, { FC, ReactNode } from 'react';
+
 export interface CodePenData {
   title?: string;
   description?: string;
@@ -83,7 +83,7 @@ const CodePenButton: FC<CodePenButtonProps> = ({
       className={className}
     >
       <input type="hidden" name="data" value={config} />
-      <Button
+      <button
         id={CodePenButton.displayName}
         color="text"
         style={buttonStyle}
@@ -94,7 +94,7 @@ const CodePenButton: FC<CodePenButtonProps> = ({
         {icon}
 
         <div style={{ paddingLeft: '5px' }}>{children}</div>
-      </Button>
+      </button>
     </form>
   );
 };

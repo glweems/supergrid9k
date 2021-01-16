@@ -1,14 +1,14 @@
-import { Head } from 'next/document';
 import React from 'react';
+import { Helmet, HelmetProps } from 'react-helmet';
 import packageJson from '../package.json';
 
-export type SEOProps = {
+export interface SEOProps extends HelmetProps {
   title?: string;
   description?: string;
   image?: string;
   article?: boolean;
   keywords?: string[];
-};
+}
 
 const SEO: React.FC<SEOProps> = ({
   title,
@@ -17,6 +17,7 @@ const SEO: React.FC<SEOProps> = ({
   article,
   keywords,
   children,
+  ...props
 }) => {
   const seo = {
     title: title || packageJson.name,
@@ -26,7 +27,7 @@ const SEO: React.FC<SEOProps> = ({
   };
 
   return (
-    <Head>
+    <Helmet title={seo.title} onChangeClientState={props.onChangeClientState}>
       <meta name="description" content={seo.description} />
 
       {seo.url && <meta property="og:url" content={seo.url} />}
@@ -54,7 +55,7 @@ const SEO: React.FC<SEOProps> = ({
       {seo.image && <meta name="twitter:image" content={seo.image} />}
 
       {children}
-    </Head>
+    </Helmet>
   );
 };
 
