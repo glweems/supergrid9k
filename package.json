@@ -47,7 +47,7 @@
     "react-firebaseui": "^4.1.0",
     "react-ga": "^3.3.0",
     "react-helmet": "^6.1.0",
-    "react-hook-form": "^6.14.1",
+    "react-hook-form": "^6.14.2",
     "react-json-view": "^1.19.1",
     "react-resizable": "^1.11.0",
     "react-sortable-hoc": "^1.11.0",
