@@ -33,7 +33,7 @@
     "js-cookie": "^2.2.1",
     "lodash": "^4.17.20",
     "mongoose": "^5.11.12",
-    "next": "^10.0.5",
+    "next": "^13.5.4",
     "next-connect": "^0.9.1",
     "next-cookies": "^2.0.3",
     "polished": "^4.0.5",
