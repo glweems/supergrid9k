@@ -12,7 +12,7 @@
     "create"
   ],
   "dependencies": {
-    "@analytics/google-analytics": "^0.5.2",
+    "@analytics/google-analytics": "^1.0.1",
     "@popmotion/popcorn": "^0.4.4",
     "@primer/components": "^23.0.1",
     "@primer/octicons-react": "^11.2.0",
@@ -33,7 +33,7 @@
     "js-cookie": "^2.2.1",
     "lodash": "^4.17.20",
     "mongoose": "^5.11.12",
-    "next": "^10.0.5",
+    "next": "^10.0.7",
     "next-connect": "^0.9.1",
     "next-cookies": "^2.0.3",
     "polished": "^4.0.5",
@@ -48,7 +48,7 @@
     "react-ga": "^3.3.0",
     "react-helmet": "^6.1.0",
     "react-hook-form": "^6.14.1",
-    "react-json-view": "^1.19.1",
+    "react-json-view": "^1.20.2",
     "react-resizable": "^1.11.0",
     "react-sortable-hoc": "^1.11.0",
     "react-typography": "^0.16.19",
