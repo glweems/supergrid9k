@@ -12,7 +12,7 @@
     "create"
   ],
   "dependencies": {
-    "@analytics/google-analytics": "^0.5.2",
+    "@analytics/google-analytics": "^1.0.1",
     "@popmotion/popcorn": "^0.4.4",
     "@primer/components": "^23.0.1",
     "@primer/octicons-react": "^11.2.0",
